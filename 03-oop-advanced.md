@@ -70,6 +70,31 @@ new Child();
 
 Only **one** child object is created. Parent instance variables are initialized via `super()`.
 
+### Parent Reference Cannot Call Child-Only Methods
+
+```java
+class Parent {
+    void m1() { System.out.println("Parent m1"); }
+}
+
+class Child extends Parent {
+    void m2() { System.out.println("Child m2"); }
+}
+
+Parent p = new Parent();
+p.m1();  // works — Parent's own method
+
+Child c = new Child();
+c.m1();  // works — inherited from Parent
+c.m2();  // works — Child's own method
+
+Parent ref = new Child();
+ref.m1();  // works — inherited / overridden
+// ref.m2();  // Error — Parent reference cannot see Child-only method
+```
+
+The reference type determines which methods are **visible**; the actual object type determines which **implementation** runs.
+
 ### Static Members and Inheritance
 - Parent static variables/methods are **callable** via child's class name
 - Parent instance variables/methods are callable via child's object
@@ -135,6 +160,8 @@ class Calculator {
 - Same method name, different parameter list
 - Return type **alone** is insufficient for overloading
 - Resolved at **compile time** based on method signature
+- The compiler builds a **method table** containing all method signatures — used at compile time to resolve which overload to call
+- Overloading and overriding are **not applicable to variables** — only to methods
 
 ### Runtime Polymorphism — Method Overriding
 
@@ -171,6 +198,30 @@ a.sound();             // Dog's sound() is called — dynamic dispatch
 
 This enables writing flexible, polymorphic code — swap implementations without changing calling code. Core to Spring Boot's `@Service` beans and interface-based DI.
 
+### Constructor Overriding — Not Possible
+
+Constructors are **NOT inherited** and therefore **cannot be overridden**.
+
+- Each class defines its own constructor(s)
+- `super()` calls the parent constructor but that is not overriding — it is chaining
+- Overriding requires inheritance; since constructors are not inherited, overriding has no meaning here
+
+```java
+class Parent {
+    Parent() { System.out.println("Parent constructor"); }
+}
+
+class Child extends Parent {
+    Child() {
+        super();  // calls Parent constructor — this is chaining, NOT overriding
+        System.out.println("Child constructor");
+    }
+    // There is no way to "override" Parent() in Child — constructors are never overridden
+}
+```
+
+> **Interview key point:** Can constructors be overridden? **No** — constructors are not inherited, so they cannot be overridden. This is one of the most important and commonly asked OOP interview questions.
+
 ---
 
 ## `final` Keyword
@@ -195,6 +246,12 @@ class Child extends Parent {
 
 `String` is a `final` class — that's why strings are immutable and can't be subclassed.
 
+**Inheritance error with `final` class:**
+```java
+final class Parent { }
+class Child extends Parent { }  // Error: Cannot inherit from final class
+```
+
 ---
 
 ## Object Class
@@ -212,6 +269,7 @@ obj.toString()     // string representation — override for meaningful logging
 obj.equals(other)  // value equality — override along with hashCode()
 obj.hashCode()     // integer hash — must be consistent with equals()
 obj.getClass()     // returns runtime Class object
+obj.clone()        // field-for-field copy — requires class to implement Cloneable
 ```
 
 **Best practice:** When you override `equals()`, always override `hashCode()` too — required for correct behavior in `HashMap`, `HashSet`.
@@ -331,6 +389,7 @@ class Airplane implements Flyable {
 - An interface can extend multiple interfaces
 - Java 8+: `default` and `static` methods (with body) allowed
 - Java 9+: `private` methods allowed in interface
+- Interfaces do **not** have `Object` as their parent class (unlike regular classes) — they have no implicit parent
 
 ### Class → Interface Relationships
 ```
@@ -504,11 +563,36 @@ class UserController {
 - **Easy testing** — mock the interface: `Mockito.mock(UserService.class)`
 - **Multiple implementations** — `CachedUserService`, `ReadOnlyUserService` — swap without changing callers
 
+**Constructor-based loose coupling (simple example):**
+```java
+interface Engine { void start(); }
+
+class DieselEngine implements Engine {
+    public void start() { System.out.println("Diesel engine started"); }
+}
+
+class Car {
+    private Engine engine;
+    Car(Engine engine) { this.engine = engine; } // inject any Engine
+    void drive() { engine.start(); }
+}
+
+// Usage
+Car car = new Car(new DieselEngine());
+car.drive();
+// Swap engine without changing Car — same principle as Spring constructor injection
+```
+
 ---
 
 ## Inner Classes
 
 A class defined **inside another class**.
+
+**Key relationship notes:**
+- Outer and inner classes are **not in a parent-child relationship** — both independently extend `Object`
+- Outer class has **one** `this` pointer (its own instance)
+- Non-static inner class has **two** `this` pointers: `this` (own instance) and `Outer.this` (the enclosing outer instance)
 
 ### 1. Normal (Non-Static) Inner Class
 ```java
@@ -518,7 +602,8 @@ class Outer {
     class Inner {
         // static members NOT allowed in regular inner class
         void show() {
-            System.out.println(x);  // can access outer class member directly
+            System.out.println(x);          // outer instance variable via Outer.this
+            System.out.println(Outer.this.x); // explicit outer reference
         }
     }
 }
@@ -564,6 +649,11 @@ Flyable f = new Flyable() {  // anonymous class implementing Flyable
 };
 f.fly();
 ```
+
+**Important notes:**
+- The compiler generates a class named `Outer$1` (or `Demo$1`) for the anonymous class internally
+- The **object of the original interface/class is NOT created** — only the anonymous inner class object is created (the anonymous class extends/implements it)
+- Anonymous inner classes cannot be reused; they exist only at that point in the code
 
 Commonly replaced by **lambda expressions** (Java 8+) for functional interfaces (single-method interfaces).
 
@@ -713,3 +803,41 @@ Method hiding applies to static methods — child redefines a static method with
 
 **Q: `this()` vs `super()`?**
 `this()` calls another constructor in the same class (chaining). `super()` calls the parent class constructor. Both must be first line in constructor — they can't coexist in the same constructor.
+
+**Q: Can constructors be overridden?**
+No — and this is a very important interview point. Constructors are not inherited by child classes, so they cannot be overridden. `super()` calls the parent constructor but that is constructor chaining, not overriding. Overriding requires inheritance; constructors don't qualify.
+
+**Q: Why override `equals()`?**
+The default `equals()` from `Object` compares references (memory addresses). Override it to compare by value — e.g., two `User` objects should be equal if they have the same `id`, regardless of which heap address they occupy. Always override `hashCode()` together with `equals()` for correct `HashMap`/`HashSet` behavior.
+
+**Q: What is the constructor execution order in inheritance?**
+Parent constructor always runs first, then child constructor. The compiler implicitly inserts `super()` as the first line of every constructor. If the parent class has no no-arg constructor, the child must explicitly call the correct `super(parameterized)` constructor.
+
+**Q: How does polymorphism help in microservices?**
+Plug-and-play implementations: define service contracts as interfaces, swap implementations without changing callers (e.g., different `PaymentGateway` for test, staging, prod). Enables better scalability — new implementations can be added without modifying existing code. Core to Spring Boot's DI: swap the bean (`@Primary`, `@Qualifier`) and no service code changes.
+
+**Q: Why prefer interface over abstract class?**
+- Interfaces enable **multiple inheritance** (a class can implement many)
+- Interfaces enforce **loose coupling** — callers depend on contract, not implementation
+- Interfaces are better for defining **capabilities** (Flyable, Serializable) vs. shared state
+- Abstract class is appropriate when shared **state** or **concrete logic** is needed across related classes
+- In Spring Boot: always define service contracts as interfaces so they can be mocked in tests and swapped at runtime
+
+**Q: Give a project example that uses both encapsulation AND composition.**
+> In an `OrderService`, the private fields (`orderId`, `totalAmount`, `status`) are **encapsulation** — data is hidden and only accessible via methods. The `OrderService` holding a reference to `PaymentGateway paymentGateway` (injected, not extended) is **composition** — the order service HAS-A payment gateway. This is common in Spring Boot: `@Service` classes inject `@Component` collaborators rather than inheriting from them.
+
+**Q: What is method hiding? Show an example.**
+> Method hiding applies to `static` methods. When a subclass defines a static method with the same signature as the parent, it does not override it — it hides it. The method called depends on the **reference type**, not the object type.
+> ```java
+> class A { static void show() { System.out.println("A"); } }
+> class B extends A { static void show() { System.out.println("B"); } }
+>
+> A obj = new B();
+> obj.show(); // prints "A" — static method of reference type A is called
+> ```
+
+**Q: Can marker interfaces be useful in frameworks?**
+> Yes. `java.util.RandomAccess` is a JDK marker interface: `ArrayList` implements it, `LinkedList` does not. The `Collections.binarySearch()` method checks `instanceof RandomAccess` at runtime to choose the optimal search algorithm. Spring uses similar marker patterns internally (e.g., `BeanFactoryAware`, `ApplicationContextAware`).
+
+**Q: How do interfaces help with unit testing in Spring Boot?**
+> Interfaces allow test classes to swap the real implementation for a mock without changing any consuming code. For example, `UserService` interface with `UserServiceImpl` — in tests, you inject `MockUserService` or use Mockito to mock `UserService`. Without the interface, you'd be forced to test through the concrete class and all its dependencies (database, network, etc.).

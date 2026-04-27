@@ -78,6 +78,21 @@ try {
 - `finally` → **always executes**, even after `return`, `break`, or `continue`
 - Does NOT run on JVM crash or `System.exit()` call
 
+**Multiple catch blocks — catch specific before general:**
+```java
+try {
+    int[] arr = new int[5];
+    arr[10] = 100; // ArrayIndexOutOfBoundsException
+} catch (ArrayIndexOutOfBoundsException e) {
+    System.out.println("Array index error: " + e.getMessage());
+} catch (Exception e) {
+    System.out.println("General error: " + e.getMessage());
+} finally {
+    System.out.println("Always runs");
+}
+```
+> Rule: Always catch specific exceptions before general ones — compiler enforces this.
+
 ---
 
 ## throw vs throws
@@ -118,6 +133,15 @@ try (
 ) {
     // use conn and ps
 }  // both closed automatically in reverse order
+```
+
+**Scanner with try-with-resources:**
+```java
+try (Scanner scanner = new Scanner(System.in)) {
+    System.out.print("Enter name: ");
+    String name = scanner.nextLine();
+    System.out.println("Hello, " + name);
+} // scanner.close() called automatically
 ```
 
 **Why better than `finally`:**
@@ -174,6 +198,29 @@ class UserNotFoundException extends RuntimeException {
     }
 }
 ```
+
+**Generic base business exception (common microservices pattern):**
+```java
+// Base for all business exceptions in the application
+public class BusinessException extends RuntimeException {
+    private final String errorCode;
+
+    public BusinessException(String message, String errorCode) {
+        super(message);
+        this.errorCode = errorCode;
+    }
+
+    public String getErrorCode() { return errorCode; }
+}
+
+// Specific exceptions extend the base
+public class OrderNotFoundException extends BusinessException {
+    public OrderNotFoundException(Long id) {
+        super("Order not found: " + id, "ORDER_NOT_FOUND");
+    }
+}
+```
+> Using a base `BusinessException` lets `@ControllerAdvice` catch all business errors in one handler.
 
 **When to use which:**
 - **Checked** → caller can meaningfully recover (e.g., `FileNotFoundException` → retry with different path)
@@ -419,3 +466,13 @@ Almost always — runs after try/catch even with `return`, `break`, `continue`. 
 
 **Q: How does `@ControllerAdvice` help?**
 Centralizes exception-to-response mapping. Instead of try-catch in every controller method, you define exception handlers once. Spring catches unhandled exceptions thrown from any controller and routes them to the matching `@ExceptionHandler` — consistent HTTP status codes and error body format across all endpoints.
+
+**Q: How do you standardize error responses in microservices?**
+> Use `@ControllerAdvice` with `@ExceptionHandler` methods that return a consistent `ErrorResponse` DTO (with `timestamp`, `status`, `message`, `errorCode`). All services in the platform use the same DTO structure so the API gateway and frontend always get predictable error shapes regardless of which microservice threw the exception.
+
+**Q: Does `finally` always run?**
+> Almost always — yes. `finally` runs even if an exception is thrown or a `return` statement is hit in the `try` block. The only cases where `finally` does NOT run:
+> - `System.exit()` is called
+> - The JVM crashes (e.g., `OutOfMemoryError` at the wrong moment)
+> - The thread is killed forcibly
+> In practice, treat `finally` as always running — use it for resource cleanup.

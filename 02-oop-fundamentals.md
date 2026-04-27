@@ -41,6 +41,12 @@ class Car {
 - `default` (no modifier) — accessible within the same package only
 - Inner classes additionally support `private` and `static`
 
+**Top-level classes cannot be `private` or `static`:**
+```java
+private class Car { }  // Error: modifier private not allowed here
+static class Car { }   // Error: modifier static not allowed here
+```
+
 ---
 
 ## Object
@@ -70,6 +76,8 @@ Important methods inherited from `Object`:
 - `toString()` — string representation; override for logging
 - `finalize()` — called by GC before destruction (deprecated in modern Java)
 - `getClass()` — returns runtime class info
+- `clone()` — creates a field-for-field copy (requires implementing `Cloneable`)
+- `intern()` — (String-specific) returns the canonical string from the string pool
 
 ---
 
@@ -157,6 +165,22 @@ void modifyObject(User u) {
     u.name = "Jay";    // DOES affect — modifying object via copied reference
     u = new User();    // does NOT affect caller's reference
 }
+```
+
+---
+
+## Immutable Objects
+
+An **immutable object** is one whose state **cannot be changed** after creation.
+
+- `String` is the most common example — once created, its value never changes; operations like `concat()` return a new object
+- To create an immutable class: make all fields `private final`, no setters, initialize via constructor only
+- Benefits: thread-safe (no synchronization needed), safe to share across methods and caches
+
+```java
+// String is immutable — every "modification" creates a new object
+String s = "Hello";
+s = s.concat(" World");  // does NOT change original; s now points to a new object
 ```
 
 ---
@@ -323,10 +347,37 @@ Memory breakdown:
 - `Demo` object → **Heap**
 - Variable `x = 10` → inside heap (part of the object)
 
+**Thread safety:**
+- **Heap** — shared across all threads (objects and static variables accessible by all threads)
+- **Stack** — thread-specific; each thread has its own stack (local variables are never shared)
+
 **What happens when a method is called:**
 1. JVM pushes a new **stack frame** for the method
 2. Local variables, parameters, and the return address go into this frame
 3. When method returns, frame is **popped** and memory freed automatically
+
+### Full Java Execution Flow
+
+```
+MyClass.java  →  (javac compiler)  →  MyClass.class (bytecode)
+                                              ↓
+                                     JVM loads class
+                                              ↓
+                                  Stack frame for main() created
+                                              ↓
+                              Objects allocated on heap via `new`
+                                              ↓
+                              References stored in stack frames
+                                              ↓
+                        Method calls → new stack frames pushed/popped
+```
+
+1. `.java` source file compiled by `javac` into `.class` bytecode
+2. JVM's Class Loader loads the `.class` file into Method Area
+3. Static block executes once (class initialization)
+4. JVM creates a stack frame for `main()`
+5. `new` allocates objects on heap; references stored on stack
+6. Method calls push/pop frames; program runs via Execution Engine (Interpreter + JIT)
 
 ---
 
@@ -682,6 +733,19 @@ Spring injects the dependency via constructor. Advantages: `final` field (immuta
 
 **Q: Why use composition over inheritance?**
 Inheritance creates tight coupling (child bound to parent's internals). Composition allows behavior swapping (different implementations at runtime), easier testing (mock dependencies), and avoids the fragile base class problem. In microservices: services composed of repositories + clients are easier to evolve independently.
+
+**Q: What is an immutable object?**
+An object whose state cannot be changed after creation. `String` is the canonical example — every "modification" produces a new object. Benefits: inherently thread-safe, safe to cache and share. Implemented by making all fields `private final` and providing no setters.
+
+**Q: Give an OOP example from your Spring Boot project.**
+`UserService` (class/bean) has `private final UserRepository userRepository` (encapsulation + composition). `UserRepository` extends `JpaRepository` (inheritance). Controller depends on the `UserService` interface (polymorphism + abstraction). The DI container wires the concrete `UserServiceImpl` at runtime — callers never know the implementation.
+
+**Q: How do you design a service using OOP?**
+- `Controller` → receives HTTP request, delegates to service (single responsibility)
+- `Service` → business logic; depends on repository via interface (abstraction, loose coupling)
+- `Repository` → DB access; Spring Data provides implementation (polymorphism)
+- `DTO` → data transfer; only exposes fields needed for the API contract (encapsulation)
+Each layer is a class with one clear responsibility — classic OOP applied to layered architecture.
 
 **Q: What is middleware?**
 Software layer between components. In Spring Boot: `Filter`, `Interceptor`, `API Gateway` (Spring Cloud), Auth service (JWT/OAuth2).

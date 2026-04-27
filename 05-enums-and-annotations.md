@@ -339,3 +339,31 @@ All three are `@Component` specializations (Spring treats them as beans).
 
 **Q: How do you use enums in your projects?**
 `Role.ADMIN/USER` for authorization checks, `OrderStatus.PENDING/SHIPPED/DELIVERED` in order DTOs, `JobStatus.RUNNING/COMPLETED/FAILED` for async job tracking, `PaymentStatus.SUCCESS/FAILED` in payment responses. Enums ensure valid states — no invalid string values can sneak through at compile time.
+
+**Q: Show an enum with a field and use it in an API response DTO.**
+> ```java
+> public enum OrderStatus {
+>     PENDING("Pending Payment"),
+>     SUCCESS("Payment Completed"),
+>     FAILED("Payment Failed");
+>
+>     private final String message;
+>     OrderStatus(String message) { this.message = message; }
+>     public String getMessage() { return message; }
+> }
+>
+> // DTO
+> public class UserResponse {
+>     private String username;
+>     private OrderStatus status;
+>     // Jackson serializes enum as its name by default: "PENDING", "SUCCESS", "FAILED"
+>     // Use @JsonValue on getMessage() to serialize the display message instead
+> }
+> ```
+
+**Q: Why use enums in APIs instead of plain Strings?**
+> - **Type safety**: `OrderStatus.PENDING` cannot be misspelled; `"PENDIG"` can
+> - **Invalid state prevention**: Frontend and backend share the same enum namespace — impossible to pass an unrecognised value
+> - **IDE support**: Autocomplete and refactoring work on enums; raw strings are invisible to the compiler
+> - **Switch exhaustiveness**: With `switch` on an enum, the compiler warns if a case is missing
+> - **Serialization consistency**: Jackson maps enum names to/from JSON automatically; no manual mapping

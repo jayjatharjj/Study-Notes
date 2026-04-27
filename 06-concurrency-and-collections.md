@@ -1,6 +1,6 @@
-# Java Concurrency — Threads, Synchronization & Collections
+# Java Concurrency — Threads, Synchronization, Executor Framework & Collections
 
-> **Quick Reference:** A thread is the smallest unit of execution inside a process. Java's multithreading model allows concurrent task execution; synchronization prevents race conditions on shared data; the Collections framework provides data structures for all use cases.
+> **Quick Reference:** A thread is the smallest unit of execution inside a process. Java's multithreading model allows concurrent task execution; synchronization prevents race conditions on shared data; the Executor Framework manages thread lifecycle efficiently; the Collections framework provides data structures for all use cases.
 
 ---
 
@@ -330,58 +330,468 @@ Thread B holds Lock 2, waiting for Lock 1
 
 ---
 
-## ExecutorService (Modern Thread Management)
+## Why Modern Thread Management? (Motivation for Executor Framework)
 
-Instead of creating raw threads, use `ExecutorService` to manage a **thread pool** — reuses threads, limits concurrency, handles lifecycle.
+Creating raw threads manually for every task is problematic:
+- **Thread creation cost is high** — each thread allocates stack memory (default ~512KB)
+- **Context switching overhead** — OS must save/restore state on every switch
+- **Hard to control concurrency** — no easy cap on number of threads
+- **Hard to schedule tasks** — no built-in delay/periodic support
+- **Difficult lifecycle management** — no clean shutdown mechanism
+
+**Solution: Executor Framework** — introduced in Java 5 (`java.util.concurrent`).
+
+---
+
+## ThreadGroup (Legacy API)
+
+A `ThreadGroup` groups multiple threads under one logical unit — for bulk management.
 
 ```java
-import java.util.concurrent.*;
+ThreadGroup group = new ThreadGroup("Workers");
 
-ExecutorService executor = Executors.newFixedThreadPool(5);  // 5 threads
+Thread t1 = new Thread(group, () -> System.out.println("Task 1"));
+Thread t2 = new Thread(group, () -> System.out.println("Task 2"));
 
-executor.submit(() -> {
-    System.out.println("Task running in thread pool");
-});
-
-executor.submit(() -> {
-    return "Result from callable";  // Callable — returns a value
-});
-
-executor.shutdown();      // no new tasks; waits for submitted tasks to finish
-executor.shutdownNow();   // tries to stop running tasks immediately
+t1.start();
+t2.start();
 ```
 
-**Types of thread pools:**
-| Factory | When to Use |
-|---|---|
-| `newFixedThreadPool(n)` | Known max concurrency (e.g., n = CPU cores) |
-| `newCachedThreadPool()` | Short-lived bursts of tasks; reuses idle threads |
-| `newSingleThreadExecutor()` | Sequential execution in a dedicated thread |
-| `newScheduledThreadPool(n)` | Delayed or periodic tasks |
+**Common Methods:**
+```java
+group.interrupt();   // interrupt all threads in the group
+group.list();        // print info about all threads in group
+group.activeCount(); // number of active threads
+```
 
-**In Spring Boot:**
-- `@Async` annotation runs method in separate thread (uses Spring's `TaskExecutor`)
-- `CompletableFuture` for async operations with composition
-- `@Scheduled` for periodic tasks
+**Used for:**
+- Managing related threads together
+- Bulk interruption
+- Priority control across a group
+- Monitoring
+
+**Important:** `ThreadGroup` is a **legacy API**. In modern Java, the **Executor Framework** is strongly preferred — it provides all these capabilities and more with a cleaner API.
+
+---
+
+## Why Thread Pools?
+
+Creating a new `Thread` for every task is expensive — thread creation allocates ~1MB of stack space and involves OS-level context switching.
+
+| Without Thread Pool | With Thread Pool |
+|---|---|
+| New thread created per task | Fixed set of reusable worker threads |
+| High memory overhead | Bounded memory usage |
+| OS scheduler overhead per task | Minimal OS scheduling overhead |
+| No task queuing | Built-in task queue |
+| Hard to limit concurrency | Core/max pool size controls concurrency |
+| No lifecycle management | Graceful shutdown built in |
+
+**Thread pool benefits:**
+1. Reuses threads — eliminates creation/destruction cost
+2. Limits concurrency — prevents thread explosion under load
+3. Queues tasks — absorbs bursts gracefully
+4. Provides lifecycle management — `shutdown()`, `awaitTermination()`
+5. Enables monitoring — pool size, queue depth, completed task count
+6. Supports scheduling — delayed and periodic task execution
+
+---
+
+## Executor Framework
+
+The core components of `java.util.concurrent`:
+
+| Type | Purpose |
+|---|---|
+| `Executor` | Basic contract — execute a `Runnable` |
+| `ExecutorService` | Lifecycle management + `submit()` + `Future` support |
+| `ScheduledExecutorService` | Delayed and periodic task execution |
+| `ThreadPoolExecutor` | The customizable core implementation behind the pools |
+| `Executors` | Factory utility class — creates ready-made pools |
+
+---
+
+## Executor Interface
+
+The simplest contract — just execute a task:
 
 ```java
+public interface Executor {
+    void execute(Runnable command);
+}
+
+// Custom minimal executor:
+Executor executor = command -> new Thread(command).start();
+executor.execute(() -> System.out.println("Run"));
+```
+
+In practice, you always use higher-level implementations (`ExecutorService`). `Executor` alone has no lifecycle management.
+
+---
+
+## ExecutorService
+
+Extends `Executor`. Adds lifecycle management, `submit()`, `Future` support, and `invokeAll()`.
+
+```java
+ExecutorService service = Executors.newFixedThreadPool(3);
+
+service.execute(() -> System.out.println("Fire and forget"));  // no return value
+service.submit(() -> System.out.println("Submitted task"));    // returns Future<?>
+service.shutdown();
+```
+
+**Key Methods:**
+
+| Method | Use |
+|---|---|
+| `execute(Runnable)` | Run task — no result, no exception tracking |
+| `submit(Runnable)` | Run task — returns `Future<?>` |
+| `submit(Callable<T>)` | Run task — returns `Future<T>` with result |
+| `shutdown()` | Stop accepting new tasks; waits for running tasks to finish |
+| `shutdownNow()` | Attempts to stop all running tasks immediately |
+| `isShutdown()` | Returns true if shutdown was called |
+| `awaitTermination(time, unit)` | Block until all tasks finish or timeout |
+| `invokeAll(collection)` | Submit all tasks, wait for all to complete |
+
+---
+
+## `execute()` vs `submit()`
+
+```java
+// execute() — fire and forget, void return, uncaught exceptions go to thread's handler
+service.execute(() -> riskyOperation());
+
+// submit() — returns Future; exceptions wrapped inside Future
+Future<?> f = service.submit(() -> riskyOperation());
+try {
+    f.get();  // throws ExecutionException if task threw
+} catch (ExecutionException e) {
+    Throwable cause = e.getCause();  // the actual exception
+}
+```
+
+| | `execute()` | `submit()` |
+|---|---|---|
+| Returns | `void` | `Future` |
+| Exception handling | Uncaught exception handler / lost | Wrapped in `ExecutionException`, retrievable via `Future.get()` |
+| Use when | Fire-and-forget | Need result or exception tracking |
+
+---
+
+## Callable and Future
+
+`Callable<T>` is like `Runnable` but **returns a value** and can **throw checked exceptions**.
+
+```java
+Callable<Integer> task = () -> {
+    Thread.sleep(1000);
+    return 10 + 20;
+};
+
+ExecutorService service = Executors.newFixedThreadPool(2);
+Future<Integer> future = service.submit(task);
+
+// Do other work here while task runs in background...
+
+Integer result = future.get();          // blocks until result is available
+System.out.println("Result: " + result); // 30
+
+// With timeout:
+Integer result2 = future.get(2, TimeUnit.SECONDS);  // throws TimeoutException if too slow
+```
+
+**Future methods:**
+```java
+future.get()                     // block and get result (throws checked exceptions)
+future.get(timeout, unit)        // block with timeout
+future.isDone()                  // check if completed (without blocking)
+future.cancel(mayInterruptIfRunning)  // attempt to cancel
+future.isCancelled()             // check if cancelled
+```
+
+---
+
+## Executors — Factory Class
+
+Creates ready-made thread pools. Each type is backed by `ThreadPoolExecutor` internally.
+
+### 1. `newFixedThreadPool(n)` — Fixed Worker Count
+
+```java
+ExecutorService pool = Executors.newFixedThreadPool(5);
+```
+
+- Fixed number of threads — always exactly `n` workers
+- New tasks queue up in `LinkedBlockingQueue` if all threads are busy
+- **Use when:** max concurrency is known (n = CPU cores for CPU-bound; higher for I/O-bound)
+- **Real use cases:** REST API request handling, parallel batch jobs, DB query execution
+
+### 2. `newSingleThreadExecutor()` — Serial Execution
+
+```java
+ExecutorService pool = Executors.newSingleThreadExecutor();
+```
+
+- Only **one** worker thread — tasks execute one at a time, in submission order
+- If thread dies unexpectedly, a new one is created to replace it
+- **Use when:** tasks must run sequentially (no parallelism)
+- **Real use cases:** payment updates, file writes, audit log entries, queue processing
+
+### 3. `newCachedThreadPool()` — Dynamic Pool
+
+```java
+ExecutorService pool = Executors.newCachedThreadPool();
+```
+
+- Creates new threads as needed; reuses idle threads (idle for 60s are terminated)
+- Thread count is unbounded — can grow very large under load
+- **Use when:** many short-lived async tasks with unpredictable load
+- **Risk:** can create thousands of threads under high load → `OutOfMemoryError`
+- **Real use cases:** brief async tasks, lightweight background work
+
+### 4. `newScheduledThreadPool(n)` — Timed / Periodic Tasks
+
+```java
+ScheduledExecutorService pool = Executors.newScheduledThreadPool(2);
+
+// Run once after a delay
+pool.schedule(
+    () -> System.out.println("Runs after 5 seconds"),
+    5, TimeUnit.SECONDS
+);
+
+// Run repeatedly at fixed rate (starts 0s delay, then every 10s)
+pool.scheduleAtFixedRate(
+    () -> System.out.println("Periodic task"),
+    0, 10, TimeUnit.SECONDS
+);
+
+// Run with fixed delay between end of last run and start of next
+pool.scheduleWithFixedDelay(
+    () -> System.out.println("Fixed delay task"),
+    0, 5, TimeUnit.SECONDS
+);
+```
+
+- **Use when:** retry jobs, health checks, token refresh, cleanup tasks, cron-like polling
+- **Real use cases (your profile):** scheduled reports, notification sending, cache invalidation, async job polling
+
+---
+
+## ThreadPoolExecutor — Customizable Core
+
+The real implementation behind all `Executors` factory methods. Use directly when you need full control.
+
+```java
+ThreadPoolExecutor executor = new ThreadPoolExecutor(
+    2,                          // corePoolSize    — min threads always kept alive
+    4,                          // maxPoolSize     — max threads under high load
+    60,                         // keepAliveTime   — idle threads above core die after 60s
+    TimeUnit.SECONDS,
+    new LinkedBlockingQueue<>(100)  // workQueue   — holds tasks when all core threads busy
+);
+```
+
+### Parameters Explained
+
+| Parameter | Meaning |
+|---|---|
+| `corePoolSize` | Threads always alive even when idle |
+| `maxPoolSize` | Max threads created when queue is full |
+| `keepAliveTime` | Time excess threads (above core) wait before dying |
+| `workQueue` | Queue that holds waiting tasks |
+
+**Execution flow:**
+1. If active threads < `corePoolSize` → create new thread
+2. If active threads >= core → add to queue
+3. If queue full + active threads < max → create new thread
+4. If queue full + max threads reached → apply **rejection policy**
+
+### Rejection Policies
+
+When queue is full AND max thread count reached — what to do with the new task:
+
+| Policy | Behavior |
+|---|---|
+| `AbortPolicy` (default) | Throw `RejectedExecutionException` |
+| `CallerRunsPolicy` | Run the task in the caller's thread (slows down producer) |
+| `DiscardPolicy` | Silently discard the new task |
+| `DiscardOldestPolicy` | Discard the oldest queued task, then retry submission |
+
+```java
+ThreadPoolExecutor executor = new ThreadPoolExecutor(
+    2, 4, 60, TimeUnit.SECONDS,
+    new LinkedBlockingQueue<>(50),
+    new ThreadPoolExecutor.CallerRunsPolicy()  // backpressure on caller
+);
+```
+
+**Production recommendation:** Use `CallerRunsPolicy` — it creates natural backpressure (slows down producers when system is overloaded), rather than silently losing work.
+
+### Why Use `ThreadPoolExecutor` Instead of `Executors`?
+
+`Executors.newFixedThreadPool()` uses an **unbounded** `LinkedBlockingQueue` — under extreme load, millions of tasks can queue up → `OutOfMemoryError`. `ThreadPoolExecutor` lets you bound the queue and define rejection behavior explicitly.
+
+---
+
+## Proper Shutdown
+
+```java
+service.shutdown();  // stop accepting new tasks; complete submitted tasks
+
+// Wait up to 5s for graceful shutdown, then force-stop
+if (!service.awaitTermination(5, TimeUnit.SECONDS)) {
+    service.shutdownNow();  // interrupt running tasks
+}
+```
+
+**Never just abandon an ExecutorService** — threads stay alive (daemon or not) and prevent JVM shutdown.
+
+---
+
+## Spring Boot — Executor Framework Integration
+
+```java
+// @Async — runs method in Spring's async thread pool
 @Service
 class EmailService {
-    @Async                                   // runs in Spring's async executor thread pool
+    @Async
     public CompletableFuture<Void> sendEmail(String to, String subject) {
-        // email logic here — doesn't block caller
+        // email logic — runs in background thread, doesn't block HTTP response
         return CompletableFuture.completedFuture(null);
     }
 }
 
-// Parallel API calls with CompletableFuture
-CompletableFuture<User> userFuture    = CompletableFuture.supplyAsync(() -> userService.get(id));
-CompletableFuture<Order> orderFuture  = CompletableFuture.supplyAsync(() -> orderService.get(id));
+// @Scheduled — periodic task (needs @EnableScheduling on config class)
+@Scheduled(fixedRate = 10000)         // every 10 seconds
+public void refreshCache() { ... }
+
+@Scheduled(cron = "0 0 2 * * *")     // every day at 2 AM
+public void generateDailyReport() { ... }
+
+// Parallel external API calls with CompletableFuture
+CompletableFuture<User>  userFuture  = CompletableFuture.supplyAsync(() -> userService.get(id));
+CompletableFuture<Order> orderFuture = CompletableFuture.supplyAsync(() -> orderService.get(id));
 
 CompletableFuture.allOf(userFuture, orderFuture).join();  // wait for both
 User user   = userFuture.get();
 Order order = orderFuture.get();
+
+// Configure custom thread pool for @Async
+@Configuration
+@EnableAsync
+class AsyncConfig {
+    @Bean
+    public Executor taskExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(5);
+        executor.setMaxPoolSize(20);
+        executor.setQueueCapacity(100);
+        executor.setThreadNamePrefix("async-");
+        executor.initialize();
+        return executor;
+    }
+}
 ```
+
+---
+
+## Interview Coding Question
+
+**"Write a method that takes tasks and performs them in a synchronized way with proper scheduling."**
+
+This means:
+- Accept multiple tasks
+- Ensure no race condition
+- Run tasks sequentially or in controlled order
+- Use a scheduler or queue
+- Thread-safe execution
+- Clean shutdown
+
+### Implementation — Sequential + Scheduled
+
+```java
+import java.util.concurrent.*;
+
+public class TaskScheduler {
+
+    private final ScheduledExecutorService executor =
+        Executors.newSingleThreadScheduledExecutor();
+
+    public void submitTask(Runnable task, int delaySec) {
+        executor.schedule(() -> {
+            synchronized (this) {    // protect any shared state
+                task.run();
+            }
+        }, delaySec, TimeUnit.SECONDS);
+    }
+
+    public void shutdown() {
+        executor.shutdown();
+    }
+}
+
+// Usage:
+TaskScheduler ts = new TaskScheduler();
+ts.submitTask(() -> System.out.println("Task A"), 1);
+ts.submitTask(() -> System.out.println("Task B"), 2);
+ts.shutdown();
+```
+
+**Why this is a strong answer:**
+- `newSingleThreadScheduledExecutor` = ordered sequential execution (no race condition between tasks)
+- `schedule()` = proper timing control
+- `synchronized (this)` = protects any shared state inside the task
+- `shutdown()` = clean lifecycle management
+
+### If Tasks Share a Resource (e.g., bank balance)
+
+```java
+private int balance = 0;
+
+public synchronized void update(int amount) {
+    balance += amount;  // only one thread at a time
+}
+```
+
+### Enterprise-Level Enhancement
+
+Use `ThreadPoolExecutor` with a bounded queue + `CallerRunsPolicy` + monitoring:
+
+```java
+ThreadPoolExecutor executor = new ThreadPoolExecutor(
+    1, 1,              // single thread — serial execution
+    0L, TimeUnit.MILLISECONDS,
+    new LinkedBlockingQueue<>(500),
+    new ThreadPoolExecutor.CallerRunsPolicy()  // backpressure if overwhelmed
+);
+```
+
+---
+
+## What NOT to Say in an Interview
+
+❌ "I will create a `new Thread()` every time a task arrives"
+→ Expensive, uncontrolled, no lifecycle management
+
+❌ "Use `synchronized` everywhere"
+→ Kills concurrency; use only at critical sections
+
+❌ "Use `Thread.sleep()` for scheduling"
+→ Blocking, imprecise; use `ScheduledExecutorService`
+
+❌ "I don't know how to shut down threads"
+→ Always mention `shutdown()` + `awaitTermination()`
+
+---
+
+## Strong Interview Answer Script
+
+> "I would use `ScheduledExecutorService` for timing requirements and `newSingleThreadExecutor` if tasks must run sequentially. If tasks share mutable state, I'd synchronize only the critical section — or better, use `AtomicInteger` / `ConcurrentHashMap` for lock-free access. For production systems I'd use `ThreadPoolExecutor` directly with bounded queues and `CallerRunsPolicy` for backpressure. I'd always configure a clean shutdown with `awaitTermination`."
+
+**Real-world project answer:**
+> "In our microservices, I used `@Async` with a custom `ThreadPoolTaskExecutor` for notification sending and report generation, keeping the HTTP response fast. For scheduled jobs like cache refresh and cleanup, I used `@Scheduled` with cron expressions. For parallel external API calls I used `CompletableFuture.allOf()` to reduce latency."
 
 ---
 
@@ -463,9 +873,9 @@ Map<String, Integer> syncMap = Collections.synchronizedMap(new HashMap<>());
 // Note: iteration still needs external synchronization
 
 // Option 2: java.util.concurrent classes (preferred — better performance)
-Map<String, Integer> concurrentMap  = new ConcurrentHashMap<>();
-List<String>         cowList        = new CopyOnWriteArrayList<>();
-Queue<String>        blockingQueue  = new LinkedBlockingQueue<>();
+Map<String, Integer> concurrentMap   = new ConcurrentHashMap<>();
+List<String>         cowList         = new CopyOnWriteArrayList<>();
+Queue<String>        blockingQueue   = new LinkedBlockingQueue<>();
 Deque<String>        concurrentDeque = new ConcurrentLinkedDeque<>();
 ```
 
@@ -477,61 +887,134 @@ Deque<String>        concurrentDeque = new ConcurrentLinkedDeque<>();
 **`CopyOnWriteArrayList` — when to use:**
 - Thread-safe list where reads vastly outnumber writes
 - Reads: lock-free (very fast). Writes: copy the entire array (expensive)
-- Good for event listener lists, configuration lists that rarely change
+- Good for event listener lists, config lists that rarely change
 
 ---
 
 ## Interview Q&A
 
+**Q: Why not create raw threads for every task?**
+Thread creation is expensive (memory allocation, OS context), uncontrolled (no cap on concurrency), and hard to manage (no lifecycle, no result tracking). Thread pools reuse workers, bound concurrency, queue overflow work, and support clean shutdown.
+
+**Q: What is `ThreadGroup`?**
+Legacy API for grouping threads — bulk interrupt, priority control, monitoring. Rarely used in modern Java. Executor Framework supersedes it for all practical purposes.
+
+**Q: `Executor` vs `ExecutorService`?**
+`Executor` is the base interface — just `execute(Runnable)`, no lifecycle.
+`ExecutorService` extends it — adds `submit()`, `shutdown()`, `invokeAll()`, `Future` support. Always use `ExecutorService` in practice.
+
+**Q: Types of thread pools from `Executors`?**
+- `newFixedThreadPool(n)` — fixed workers, bounded concurrency, queues overflow
+- `newSingleThreadExecutor()` — one worker, serial order, auto-replaces dead thread
+- `newCachedThreadPool()` — dynamic, short-lived tasks, unbounded risk
+- `newScheduledThreadPool(n)` — delayed + periodic tasks
+
+**Q: `execute()` vs `submit()`?**
+`execute()` — void return, exceptions go to uncaught handler (may be lost).
+`submit()` — returns `Future`; exceptions wrapped inside and retrievable via `future.get()`. Prefer `submit()` when you need to track completion or handle exceptions.
+
+**Q: What is `Callable`? How is it different from `Runnable`?**
+`Callable<T>` returns a value (`T`) and can throw checked exceptions. `Runnable` returns void and can't throw checked exceptions. Use `Callable` with `submit()` when you need a result from the task.
+
+**Q: What is `Future`?**
+Represents the pending result of an async computation. `future.get()` blocks until the result is available. Also supports `cancel()`, `isDone()`, `isCancelled()`. For composable async pipelines, use `CompletableFuture`.
+
+**Q: What is `ThreadPoolExecutor`? Why use it directly?**
+The core implementation behind all `Executors` factory pools. Use directly for production because you can: bound the queue size (prevent OOM), set explicit rejection policy, tune core/max pool size independently, and monitor state. `Executors.newFixedThreadPool()` uses unbounded queue — dangerous under high load.
+
+**Q: Rejection policies?**
+- `AbortPolicy` — throw `RejectedExecutionException` (default)
+- `CallerRunsPolicy` — caller's thread runs the task (natural backpressure)
+- `DiscardPolicy` — silently drop the task
+- `DiscardOldestPolicy` — drop oldest queued task, retry submission
+Production: `CallerRunsPolicy` is safest — slows producers rather than losing work.
+
+**Q: How to properly shut down an `ExecutorService`?**
+```java
+service.shutdown();  // stop accepting new tasks
+if (!service.awaitTermination(5, TimeUnit.SECONDS)) {
+    service.shutdownNow();  // force-stop after timeout
+}
+```
+Never abandon it — threads keep the JVM alive and prevent clean shutdown.
+
 **Q: What is a thread?**
 The smallest unit of execution inside a process. A process (Spring Boot app) can have many threads running concurrently — sharing heap memory but each with its own stack. Tomcat creates a thread per HTTP request from its thread pool.
 
-**Q: Why are threads useful?**
-Parallel tasks, better CPU utilization, faster response handling, async processing. In microservices: parallel external API calls, background jobs, async email, scheduled tasks, long-running LLM operations.
-
-**Q: `start()` vs `run()`?**
-`start()` creates a new OS thread and calls `run()` inside it — true concurrency.
-`run()` called directly is just a regular method call in the current thread — no new thread created, no concurrency.
-
-**Q: Why prefer Runnable over extending Thread?**
-Java has single inheritance — extending `Thread` blocks extending any other class. `Runnable` separates the task from the thread mechanism. Better design (single responsibility). Easier to use with `ExecutorService` and lambdas.
-
 **Q: What is a race condition?**
-When multiple threads read-modify-write shared data without synchronization, causing lost updates or inconsistent state. Example: two threads both read `count = 0`, both add 1, both write `count = 1` — expected 2, got 1.
+When multiple threads read-modify-write shared data without synchronization, causing lost updates or inconsistent state. Fix: `synchronized`, atomic classes (`AtomicInteger`), or thread-safe collections.
 
 **Q: What is `synchronized`?**
-Acquires a monitor lock on an object — only one thread enters the critical section at a time. Prevents race conditions but adds serialization overhead (threads wait). Use at method or block level.
+Acquires a monitor lock — only one thread enters the critical section at a time. Prevents race conditions but serializes access (reduces throughput). Use at method or block level.
 
 **Q: `sleep()` vs `wait()`?**
-`sleep()` — pauses current thread; holds any locks; `Thread` class; wakes after time.
+`sleep()` — pauses current thread for fixed time; holds locks; `Thread` class.
 `wait()` — releases the monitor lock; waits until `notify()`; `Object` class; must be inside `synchronized`.
 
 **Q: What is deadlock?**
-Two threads each holding a lock the other needs, waiting forever. Prevention: always acquire locks in same order, use `tryLock()` with timeout, minimize lock scope, prefer immutable objects.
+Two threads each holding a lock the other needs, waiting forever. Prevention: acquire locks in same order, use `tryLock()` with timeout, minimize lock scope, prefer immutable objects.
 
 **Q: `Collection` vs `Collections` vs Collection API?**
-- **Collection (interface):** root of List/Set/Queue hierarchy — not Map
-- **Collections (class):** utility class with static methods: `sort()`, `reverse()`, `synchronizedList()`, etc.
-- **Collection API (framework):** the whole thing — all interfaces, implementations, algorithms, including Map
+- `Collection` (interface): root of List/Set/Queue — not Map
+- `Collections` (class): utility class — `sort()`, `reverse()`, `synchronizedList()`, etc.
+- Collection API (framework): everything — all interfaces, implementations, algorithms, including Map
+
+**Q: Why is `ConcurrentHashMap` better than `synchronizedMap`?**
+`synchronizedMap` locks the entire map — one thread at a time for any key.
+`ConcurrentHashMap` uses bucket-level locking — threads on different keys don't block each other. Much higher throughput under concurrent load.
+
+**Q: What is `volatile`?**
+Ensures reads/writes go directly to main memory — prevents threads from using stale CPU-cached values. Use for simple flags (`volatile boolean running`). Does NOT make compound operations atomic — use `AtomicInteger` for `count++`.
 
 **Q: Where have you used multithreading in backend?**
-- `@Async` for email/SMS/push notifications — main request returns immediately
-- Background report generation — heavy processing offloaded to thread pool
-- `CompletableFuture.allOf()` for parallel API calls to external services
-- `@Scheduled` for periodic cleanup, job processing, cache refresh
-- Long-running LLM inference tasks offloaded to dedicated thread pool
+- `@Async` + custom `ThreadPoolTaskExecutor` for email/SMS/push — keeps HTTP response fast
+- `CompletableFuture.allOf()` for parallel calls to external microservices
+- `@Scheduled` for daily reports, cache refresh, cleanup jobs
+- Long-running LLM inference offloaded to dedicated thread pools
+- `newSingleThreadExecutor` for ordered audit log writes
 
 **Q: How do you handle concurrency in production?**
 - `ExecutorService` / `@Async` instead of raw threads
-- Immutable DTOs passed between layers — no shared mutable state
-- `ConcurrentHashMap` for shared in-memory state (caches, counters)
-- `synchronized` only for small, critical sections
-- DB-level optimistic locking (`@Version` + `OptimisticLockException`) for inventory/balance
-- Stateless services where possible — easier to scale horizontally
+- Immutable DTOs — no shared mutable state between layers
+- `ConcurrentHashMap` for in-memory shared state (caches, counters)
+- `synchronized` only for small critical sections
+- DB optimistic locking (`@Version` + `OptimisticLockException`) for inventory/balance
+- Stateless services — easier horizontal scaling
 
-**Q: Why is `ConcurrentHashMap` better than `synchronizedMap`?**
-`synchronizedMap` acquires a lock on the **entire map** for every operation — one thread at a time for any key.
-`ConcurrentHashMap` uses bucket-level locking — threads working on different keys don't block each other. Much higher throughput under concurrent access — critical for shared caches in high-traffic microservices.
+**Q: Does `Thread.sleep()` release the lock?**
+> **No.** `sleep()` pauses the thread for the specified time but does NOT release any monitor locks (synchronized blocks/methods) the thread holds. Other threads waiting for that lock remain blocked until the sleeping thread wakes up and exits the synchronized block.
+> Compare: `wait()` DOES release the lock — it is designed for inter-thread coordination.
 
-**Q: What is `volatile`?**
-Ensures that reads and writes to a variable go directly to main memory — prevents threads from caching stale values in CPU registers. Use for flags (`volatile boolean running`) that are read/written by multiple threads. Does NOT make compound operations (like `count++`) atomic — use `AtomicInteger` for that.
+**Q: Why should you avoid creating raw `Thread` objects in production code?**
+> Raw threads are unmanaged: no reuse, no size limit, no queue, no lifecycle control. Under load, each request spawning a new thread can exhaust memory (each thread ~1MB stack) or overwhelm the OS scheduler. Thread pools (`ExecutorService`) give you bounded concurrency, task queuing, and graceful shutdown — all missing from manual thread creation.
+
+**Q: Which `Executors` factory method would you use for each scenario?**
+> | Scenario | Pool type |
+> |---|---|
+> | Parallel API calls with known max concurrency | `newFixedThreadPool(n)` |
+> | Scheduled/recurring background jobs | `newScheduledThreadPool(n)` |
+> | Sequential background processing | `newSingleThreadExecutor()` |
+> | Short-lived async tasks (low load) | `newCachedThreadPool()` — but avoid under high load |
+
+**Q: Is `Executors.newFixedThreadPool()` always safe to use?**
+> Not without care. `newFixedThreadPool(n)` uses an **unbounded** `LinkedBlockingQueue` internally — if tasks arrive faster than they complete, the queue grows without limit, eventually causing `OutOfMemoryError`. For production use, prefer `new ThreadPoolExecutor(...)` with an explicit bounded queue and a rejection policy.
+
+**Q: What happens if a task submitted to an `ExecutorService` throws an exception?**
+> - With `execute(Runnable)`: the exception is swallowed silently unless an `UncaughtExceptionHandler` is set. The thread may be replaced, but the error is lost.
+> - With `submit(Callable)`: the exception is captured and wrapped inside the `Future`. It surfaces when you call `future.get()` — thrown as `ExecutionException`. Always wrap `future.get()` in try-catch.
+> ```java
+> Future<?> f = executor.submit(() -> { throw new RuntimeException("boom"); });
+> try {
+>     f.get(); // throws ExecutionException wrapping RuntimeException
+> } catch (ExecutionException e) {
+>     System.out.println("Task failed: " + e.getCause().getMessage());
+> }
+> ```
+
+**Q: How would you design async processing for a high-traffic Spring Boot service?**
+> 1. Use `@Async` with a custom `ThreadPoolTaskExecutor` (bounded pool + bounded queue + named threads)
+> 2. Return `CompletableFuture<T>` from the async method so callers can chain or timeout
+> 3. Set `corePoolSize` to ~CPU cores, `maxPoolSize` to ~2× cores, queue capacity to ~500
+> 4. Use `CallerRunsPolicy` so that under overload the caller thread handles the task (backpressure) rather than dropping it
+> 5. Name threads (e.g., `"async-svc-"`) for observability in thread dumps
+> 6. Monitor queue depth + rejected task count via Actuator metrics

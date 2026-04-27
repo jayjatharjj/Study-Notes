@@ -334,6 +334,25 @@ for (int i = 0; i < 5; i++) {
 
 ---
 
+## Non-Primitive (Reference) Data Types
+
+Non-primitive types store **memory addresses (references)**, not values directly. Their default value is `null`.
+
+| Type | Examples |
+|------|---------|
+| Class | `String`, `Scanner`, user-defined classes |
+| Interface | `List`, `Runnable` |
+| Array | `int[]`, `String[]` |
+
+Unlike primitives, two variables can point to the same object:
+
+```java
+String a = new String("hello");
+String b = a;  // both reference the same heap object
+```
+
+---
+
 ## Arrays
 
 ### What is an Array?
@@ -422,6 +441,22 @@ String s1 = "Java";
 String s3 = new String("Java");  // forces new heap object, bypasses SCP
 System.out.println(s1 == s3);     // false — different addresses
 System.out.println(s1.equals(s3)); // true — same value
+```
+
+### How String Works Internally
+
+- **Java 8 and earlier**: `String` stores characters as `char[]`
+- **Java 9+**: Compact Strings — uses `byte[]` + encoding flag (ISO-8859-1 or UTF-16), saves ~30% heap for ASCII-heavy workloads
+- `String` is a **`final` class** — cannot be subclassed
+- Every operation (concat, replace, etc.) produces a **new object** — the original is untouched
+
+```java
+String s = "hello";
+s.concat(" world");           // new object created, s still points to "hello"
+System.out.println(s);        // hello
+
+String result = s.concat(" world"); // capture the new object
+System.out.println(result);   // hello world
 ```
 
 ### Why String is Immutable
@@ -681,3 +716,18 @@ Each `+=` creates a new String object. 1000 iterations → ~1000 temporary objec
 - String → API request/response payloads, JWT token parsing, Redis keys
 - StringBuilder → constructing JSON logs, SQL query building dynamically
 - SCP behavior → memory optimization awareness in high-load services
+
+**Q: What are non-primitive (reference) data types?**
+> Non-primitive types store memory addresses, not values. Default value is `null`. Examples: `String`, arrays, classes, interfaces. Two reference variables can point to the same object, unlike primitives which always hold an independent copy.
+
+**Q: How does `String` work internally in Java?**
+> In Java 8, `String` uses a `char[]` internally. From Java 9+, it uses a `byte[]` with a coder flag (ISO-8859-1 or UTF-16) — called Compact Strings — which reduces heap usage by ~30% for ASCII-heavy workloads. `String` is a `final` class (cannot be subclassed) and is immutable, so every modification returns a new object.
+
+**Q: What does `String.intern()` do?**
+> `intern()` checks the String Pool for an existing equal string. If found, it returns that pooled reference; if not, it adds the string to the pool and returns it. Reduces heap usage when many duplicate strings exist.
+> ```java
+> String a = new String("hello").intern(); // checks/adds to pool
+> String b = "hello";                       // already in pool
+> System.out.println(a == b); // true
+> ```
+> **JVM tip:** G1GC supports `-XX:+UseStringDeduplication`, which automatically deduplicates `String` objects on the heap — useful in high-load services without any code changes.
