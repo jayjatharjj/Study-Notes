@@ -333,7 +333,7 @@ Thread B holds Lock 2, waiting for Lock 1
 ## Why Modern Thread Management? (Motivation for Executor Framework)
 
 Creating raw threads manually for every task is problematic:
-- **Thread creation cost is high** — each thread allocates stack memory (default ~512KB)
+- **Thread creation cost is high** — each platform thread allocates a dedicated OS stack (~512KB–1MB, depending on OS and the `-Xss` setting; ~1MB on a typical 64-bit JVM)
 - **Context switching overhead** — OS must save/restore state on every switch
 - **Hard to control concurrency** — no easy cap on number of threads
 - **Hard to schedule tasks** — no built-in delay/periodic support
@@ -376,7 +376,9 @@ group.activeCount(); // number of active threads
 
 ## Why Thread Pools?
 
-Creating a new `Thread` for every task is expensive — thread creation allocates ~1MB of stack space and involves OS-level context switching.
+Creating a new platform `Thread` for every task is expensive — each one maps to an OS thread and allocates a dedicated stack (~512KB–1MB, OS/`-Xss`-dependent) plus OS-level context-switching overhead.
+
+> **Version-dependent caveat (Java 21+):** This "threads are expensive → reuse them in a pool" reasoning is true for **platform** threads only. Java 21 **virtual threads** (Project Loom) are extremely cheap (a few hundred bytes of heap, no OS thread per task), which makes thread-per-task practical again and removes the pooling rationale for blocking I/O workloads. See **module 08 — Modern Java** for details.
 
 | Without Thread Pool | With Thread Pool |
 |---|---|

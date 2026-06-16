@@ -296,6 +296,16 @@ HALF_OPEN ──[any failure]──► OPEN
 
 **Multi-instance concern:** Resilience4j state is in-process. Two pods can have different circuit states. This is usually acceptable — eventually both will open/close based on real traffic. If you need global state, use a Redis-backed solution (e.g., Sentinel or a custom adapter). Know this trade-off.
 
+### Bulkhead (Resilience4j)
+
+The plan keeps pairing "bulkhead" with circuit breaker — here's the difference, so you never bluff it. **A circuit breaker stops calls to a failing dependency** (it trips after a failure threshold and short-circuits). **A bulkhead limits how much of your resources any one dependency can consume** — so a slow-but-not-yet-failing dependency can't tie up every thread and take the whole service down with it. Named after a ship's watertight compartments: one floods, the rest stay dry. The classic failure they prevent is *resource exhaustion / cascading failure* — one sluggish downstream (say a 5s LLM provider) accumulates in-flight calls until the shared thread pool is starved and *unrelated* fast endpoints (a quick Postgres read) start timing out too.
+
+Resilience4j gives two flavors:
+- **`Bulkhead` (semaphore isolation)** — a counting semaphore caps the number of *concurrent* calls; the caller's own thread executes the call. Cheap (no extra threads, no context switch), but no timeout isolation — the calling thread blocks until the call returns. Good default for fast, mostly-synchronous dependencies.
+- **`ThreadPoolBulkhead` (thread-pool isolation)** — the call runs in a *dedicated, bounded thread pool* with its own queue. The caller's thread is freed immediately (returns a `CompletableFuture`). Costlier, but it fully contains a slow dependency to its own pool and lets you set a queue/timeout per dependency. Use it for the genuinely slow/risky calls — e.g., isolate the slow LLM-provider calls into their own pool so they can never starve the threads serving fast data queries.
+
+**Bulkhead vs / with circuit breaker:** they're complementary, not either/or. Bulkhead *contains* the blast radius while the dependency is degrading (caps concurrency / isolates threads); the circuit breaker *stops* hammering it once it's clearly failing (trips open). Best practice is to wire both — bulkhead first to bound concurrency, circuit breaker to cut off a dead dependency — alongside `Retry` and `TimeLimiter`. This is the precise, senior version of the Tuesday self-check answer ("how did you stop one slow downstream from cascading into a full outage?"): *bulkhead isolates it, circuit breaker cuts it off.*
+
 ### gRPC vs REST vs Async Messaging (five dimensions)
 
 | Dimension | REST | gRPC | Async Messaging |

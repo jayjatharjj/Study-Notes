@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Overview
 
-This is a documentation-only Java study notes repository — no build system, tests, linters, or dependencies. The content is 7 sequential markdown modules (~5000 lines) covering Java fundamentals through advanced patterns, with a production/interview focus.
+This is a documentation-only Java study notes repository — no build system, tests, linters, or dependencies. The content is 8 sequential markdown modules (~5500 lines) covering Java fundamentals through advanced and modern patterns, with a production/interview focus.
 
 ```
 Study-Notes/
@@ -14,7 +14,8 @@ Study-Notes/
 ├── 04-exception-handling-and-memory.md — Exception hierarchy, try-with-resources, GC, final/finally/finalize
 ├── 05-enums-and-annotations.md         — Enums with methods/fields, built-in and custom annotations
 ├── 06-concurrency-and-collections.md   — Thread creation, synchronization, Executor Framework, Future/Callable
-└── 07-collections.md                   — Full Collections API: List/Set/Queue/Map implementations and algorithms
+├── 07-collections.md                   — Full Collections API: List/Set/Queue/Map implementations and algorithms
+└── 08-modern-java.md                   — Records, sealed types, switch/pattern matching, text blocks, virtual threads, Jakarta/Spring Boot 3
 ```
 
 ## Content Patterns

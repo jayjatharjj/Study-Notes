@@ -243,6 +243,28 @@ Common weak spots to watch:
 - Subarray Sum: forgetting the `{0:1}` seed
 - Longest Repeating: forgetting why you don't shrink maxFreq on window contraction
 
+**DSA Block A2 (40 min) — Bit Manipulation Micro-Block (4 canonical Easy, ~10 min each)**
+
+The week's hash internals lean on bit tricks (the `(h ^ (h >>> 16))` bit-spread, `(n-1) & hash` index, `hash & oldCapacity` resize split) — bit manipulation is the same muscle. These four show up in screens and warm-ups; drill them cold.
+
+- **Problem 9 — Single Number** (LC 136 · Easy)
+  - Pattern: XOR cancels pairs — `a ^ a == 0`, `a ^ 0 == a`, XOR is commutative
+  - Fold the array with `result ^= num`; every duplicate cancels, the lone element survives — O(n) time, O(1) space (beats the obvious HashSet)
+
+- **Problem 10 — Number of 1 Bits** (LC 191 · Easy)
+  - Pattern: `n & (n-1)` drops the lowest set bit
+  - Loop `while (n != 0) { n &= (n - 1); count++; }` — runs once per set bit, not 32 times. Mention `Integer.bitCount()` as the JDK intrinsic but know the trick.
+
+- **Problem 11 — Counting Bits** (LC 338 · Easy)
+  - Pattern: DP on bits — `bits[i] = bits[i >> 1] + (i & 1)`
+  - `i >> 1` is `i` with the lowest bit shaved; add back `(i & 1)` for that bit. Builds the whole 0..n table in O(n) — a clean DP-meets-bits answer.
+
+- **Problem 12 — Missing Number** (LC 268 · Easy)
+  - Pattern: XOR all indices with all values, or Gauss sum
+  - XOR: `result ^= i ^ nums[i]` over the loop, then `^= n` — paired index/value cancel, the missing index remains. Gauss alternative: `n*(n+1)/2 - sum(nums)` (watch overflow). XOR avoids overflow and is the preferred answer.
+
+Self-check: each in ≤10 min, and be ready to articulate "why XOR" (self-inverse, associative) vs the HashSet/sum approaches.
+
 **Core Topic Block B (50 min) — Collections Framework Synthesis + Interview Stress Test**
 
 Synthesis exercise — answer these WITHOUT looking at notes:
@@ -286,6 +308,13 @@ Synthesis exercise — answer these WITHOUT looking at notes:
 - Write-behind (write-back): write to cache immediately, async flush to DB — fast writes, risk of data loss
 - Eviction policies: LRU (most common), LFU (penalizes bursty access), TTL-based
 - Cache stampede / thundering herd: on cold start, 1000 concurrent requests all miss cache and hammer DB. Fix: probabilistic early expiry, single-flight (only one request populates, others wait)
+
+**CDN (concept note):**
+- A CDN is a geographically distributed cache layer at the edge (PoPs near users) — the third tier after in-process and distributed cache, serving content from the closest location to cut RTT
+- **Push vs pull**: pull (origin-pull) — CDN fetches from origin on first miss, caches per TTL, lazy and self-maintaining (the default); push — you proactively upload assets to the CDN, used for large/predictable files where you don't want a first-request miss
+- **Edge caching + TTL/invalidation**: edge nodes cache by TTL (`Cache-Control: max-age`); invalidate before TTL via explicit purge (slow, global propagation lag) or — better — versioned/fingerprinted URLs (`app.a1b2c3.js`) so a new deploy is a new key and the old one just ages out. Prefer cache-busting URLs over purge.
+- **What belongs at the edge**: static assets (JS/CSS/images), and crucially in Smart360's case the pre-signed-S3-URL *responses* and other immutable, cacheable read responses. Do NOT edge-cache per-user/authenticated dynamic responses unless keyed correctly.
+- **Cache-key design**: default key is the URL; widen it deliberately (vary on `Accept-Encoding`, a version query param, or a tenant header) and strip volatile query params (tracking tokens) so they don't fragment the cache and tank the hit rate
 
 **Load Balancing:**
 - Layer 4 (TCP): route by IP/port — fast, no content inspection (AWS NLB)

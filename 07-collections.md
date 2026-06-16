@@ -436,7 +436,7 @@ queue.poll(1, TimeUnit.SECONDS);          // waits up to 1s
 
 1. Backed by a **hash table** — array of buckets; key's `hashCode()` determines bucket
 2. **O(1) average** for get/put/remove — degrades to O(n) if many hash collisions
-3. Java 8+: buckets with >8 entries convert to **Red-Black Trees** (O(log n) worst case)
+3. Java 8+: a bucket with >8 entries converts to a **Red-Black Tree** (O(log n) worst case) — **but only if total table capacity ≥ 64** (`MIN_TREEIFY_CAPACITY`); below that the map just resizes instead of treeifying
 4. **Allows one `null` key and multiple `null` values**; not thread-safe; no guaranteed order
 
 ```java
@@ -953,7 +953,7 @@ Set<String>           concurrentSet  = new ConcurrentSkipListSet<>();
 > `Collection` represents a group of single elements. `Map` stores key-value pairs — it has a fundamentally different contract. Including it under `Collection` would force every `Collection` method to make sense for key-value pairs (e.g., what does `add(element)` mean for a map?). Joshua Bloch (who designed the Collections framework) intentionally kept `Map` as a separate hierarchy.
 
 **Q: How does `HashMap` work internally?**
-> An array of "buckets" (linked lists/trees). On `put(k, v)`: compute `hashCode(k)`, apply bit-spread to get bucket index, walk the bucket for an existing key (using `equals()`), insert or update. Java 8+: when a bucket has >8 entries, it converts to a Red-Black Tree (O(log n) worst case). Load factor 0.75 by default — map resizes (doubles) when 75% full.
+> An array of "buckets" (linked lists/trees). On `put(k, v)`: compute `hashCode(k)`, apply bit-spread to get bucket index, walk the bucket for an existing key (using `equals()`), insert or update. Java 8+: when a bucket has >8 entries, it converts to a Red-Black Tree (O(log n) worst case) — but only if table capacity is already ≥ 64 (`MIN_TREEIFY_CAPACITY`); if capacity is smaller the map resizes instead of treeifying. Load factor 0.75 by default — map resizes (doubles) when 75% full.
 
 **Q: Why is `ConcurrentHashMap` better than `Hashtable` or `synchronizedMap`?**
 > `Hashtable` and `synchronizedMap` lock the **entire map** on every operation — only one thread can read or write at a time. `ConcurrentHashMap` uses bucket-level CAS + synchronized only on individual bins — multiple threads can operate on different buckets simultaneously, giving much higher throughput under concurrent load.
@@ -966,7 +966,7 @@ Set<String>           concurrentSet  = new ConcurrentSkipListSet<>();
 > - **Fail-safe** (`java.util.concurrent` collections): iterates over a snapshot or uses weakly consistent traversal — never throws `ConcurrentModificationException`. Examples: `CopyOnWriteArrayList`, `ConcurrentHashMap`
 
 **Q: What happens if two keys have the same `hashCode()` in a `HashMap`?**
-> They land in the same bucket — a **hash collision**. The bucket stores them as a linked list (Java 7) or tree (Java 8+ when bucket size > 8). `equals()` is used to distinguish keys within the bucket. Performance degrades from O(1) to O(n) for lists or O(log n) for trees. Lesson: always implement a good `hashCode()` with low collision probability.
+> They land in the same bucket — a **hash collision**. The bucket stores them as a linked list (Java 7) or tree (Java 8+ when bucket size > 8 **and** table capacity ≥ 64 — otherwise the map resizes instead of treeifying). `equals()` is used to distinguish keys within the bucket. Performance degrades from O(1) to O(n) for lists or O(log n) for trees. Lesson: always implement a good `hashCode()` with low collision probability.
 
 **Q: How do you iterate a `Map` safely?**
 > ```java

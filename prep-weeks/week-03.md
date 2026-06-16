@@ -220,6 +220,38 @@ Walk into any interview and answer cold questions on Spring IoC/DI, `@Transactio
 - [ ] Re-solve LC 875 (Koko), LC 74 (2D Matrix), LC 78 (Subsets) back-to-back. Goal: clean code, no bugs, first try. Time yourself.
 - [ ] LC 54 — Spiral Matrix (Medium) — bonus if time allows; useful for Amazon/Google rounds.
 
+**Low-Level Design (LLD/OOD) Primer (45 min)**
+
+The rest of this plan is heavy on system design (week 2/4) but has zero *low-level* design. At 2.5 YOE for a product/GCC role, an LLD round — "design these classes, apply SOLID, define your interfaces, make it extensible" — is a realistic gatekeeper. It's not about the right answer; it's about clean responsibilities, interfaces over concretions, and being able to point at *which* principle each choice serves. Keep your 02-oop-fundamentals.md / 03-oop-advanced.md open for the SOLID definitions.
+
+**Walk "Design a Parking Lot" as a class-design exercise (the canonical LLD prompt):**
+
+- [ ] **Entities & responsibilities** — sketch the classes before any code:
+  - `ParkingLot` — top-level aggregate; owns levels, exposes `parkVehicle(Vehicle)` / `unpark(Ticket)`. Single Responsibility: orchestration only, not spot-finding logic.
+  - `Level` — owns a collection of `Spot`s; knows its own availability. Don't let `ParkingLot` reach into spot internals (Law of Demeter).
+  - `Spot` — `{ id, SpotType (COMPACT/LARGE/MOTORCYCLE/EV), boolean occupied }`. `canFit(Vehicle)` lives here.
+  - `Vehicle` hierarchy — abstract `Vehicle` → `Car`, `Truck`, `Motorcycle`, `ElectricCar`. Each declares the spot sizes it can use.
+  - `Ticket` — `{ id, Spot, Vehicle, entryTime, exitTime }`; the handle returned on park and consumed on unpark/pricing.
+- [ ] **Interfaces / abstractions** — code the seams, not the bodies:
+  - `ParkingStrategy` interface — `Spot findSpot(Vehicle v, List<Level> levels)`. Implementations: `NearestFirstStrategy`, `BestFitStrategy`. Inject it into `ParkingLot` rather than hardcoding the search.
+  - `PricingStrategy` interface — `BigDecimal price(Ticket t)`. Implementations: `FlatHourlyPricing`, `TieredByVehicleTypePricing`, `WeekendSurgePricing`.
+- [ ] **Call out the SOLID principle each choice demonstrates** (this is what scores points — say it out loud):
+  - **OCP (Open/Closed)** — the headline. Adding a new `SpotType` or `Vehicle` subtype (say an electric bus, or a valet spot) means a new subclass + a new strategy impl; you do NOT edit `ParkingLot`, `Level`, or existing vehicles. Open for extension, closed for modification.
+  - **DIP (Dependency Inversion)** — `ParkingLot` depends on the `ParkingStrategy` / `PricingStrategy` *interfaces*, injected via constructor, not on concrete classes. High-level policy doesn't depend on low-level detail. (Same pattern as Spring constructor injection you drilled Tuesday/Wednesday — this is DI applied to a design problem.)
+  - **SRP (Single Responsibility)** — pricing logic isn't smeared across `Ticket`; spot-finding isn't inside `ParkingLot`. Each class has one reason to change.
+  - **LSP (Liskov)** — any `Vehicle` subtype is substitutable wherever `Vehicle` is expected; `canFit` checks must not break for a subclass.
+  - **ISP (Interface Segregation)** — keep `ParkingStrategy` and `PricingStrategy` separate small interfaces rather than one fat `ParkingManager` interface a client is forced to implement wholesale.
+- [ ] **Extensibility curveballs to rehearse out loud**: "Now add EV charging spots" (new `SpotType` + `canFit` rule — no edits to existing flow); "now pricing differs on weekends" (new `PricingStrategy` impl); "multiple entry/exit gates with concurrent parking" (where do you put the lock? — ties straight into the concurrency block below: per-`Level` lock or `ConcurrentHashMap` of spot availability, not a single lot-wide `synchronized`).
+
+**Other common LLD prompts to have a class sketch ready for (15-min budget — just name entities + the key strategy interface for each):**
+- [ ] **Elevator system** — `Elevator`, `Request`, `SchedulingStrategy` (SCAN/look algorithm pluggable)
+- [ ] **Vending machine** — classic State pattern (`IdleState`, `HasMoneyState`, `DispensingState`)
+- [ ] **Library management** — `Book`/`BookItem`, `Member`, `Loan`, fine `PricingStrategy`
+- [ ] **Rate limiter as classes** — `RateLimiter` interface with `TokenBucket` / `SlidingWindow` impls (you've built this in Smart360's gateway — frame it as the OO version of that Redis logic)
+- [ ] **Splitwise / expense sharing** — `User`, `Expense`, `Split` hierarchy (`EqualSplit`/`PercentSplit`/`ExactSplit`), `BalanceSheet`
+
+**Self-check (LLD):** Can you, on a whiteboard in <10 min, draw the Parking Lot classes with arrows for "owns" vs "depends-on", and for each of the 5 SOLID letters point to one concrete design decision that honors it?
+
 **Concurrency Block (~3 hr)**
 
 Work through your 06-concurrency-and-collections.md, but push deeper on each topic:

@@ -24,6 +24,8 @@ Companion to [`career-plan-2026.md`](../../career%20planing/career-plan-2026.md)
 
 **After Week 13:** accept best offer (Sept–Oct) → 60-day notice → join Nov–Dec. Target comp ₹14–25 LPA (40–70% jump realistic).
 
+> **Realism note (read this before you treat Sep 13 as a finish line):** The 13-week calendar ends Sep 13, but that's *not* when offers land. Indian product/GCC loops run ~3–6 weeks application→offer, and a 60-day notice adds funnel friction, so offers realistically cluster **late-Sept through late-Oct**. Week 13 means "applications closed / loops in progress," **not "done."** Two practical consequences: (1) In the back-half weeks (11–13), a **scheduled interview always overrides the daily study template** — never miss an interview to tick a DSA box. (2) Given the contested sub-20 LPA band + notice friction, raise your application-volume target from ~25–30 to **~40–60** quality applications across Weeks 9–12, so enough loops are live to produce overlapping offers for leverage.
+
 ### How to use
 1. Each Monday, open that week's file and skim the goal + self-assessment gate first — that's your target.
 2. Tick the daily checklist; log what you actually did.

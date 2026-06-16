@@ -161,6 +161,33 @@ Exit the week able to solve any LeetCode medium graph problem cold in ≤25 min,
   - Rotting Oranges → multi-source BFS with time levels
   - Word Ladder → BFS shortest path on implicit graph
 
+**Trie Block (40 min) — Prefix Trees (3 problems)**
+
+A trie is a graph specialized for prefix queries: each node has children keyed by character plus an `isEnd` flag. This is your **search-product home turf** — autocomplete, typeahead, and prefix indexing are all tries under the hood. Make this an explicit interview talking point given your data/search background.
+
+- [ ] **LC 208 — Implement Trie (Prefix Tree)** (Medium) — the must-know base; target AC in 15 min
+  - Node = `TrieNode[26] children` (or `Map<Character, TrieNode>` for Unicode) + `boolean isEnd`
+  - `insert`/`search`/`startsWith` all walk the chain char by char; `search` requires `isEnd` at the terminal node, `startsWith` does not
+- [ ] **LC 211 — Design Add and Search Words Data Structure** (Medium) — trie + DFS for the `.` wildcard; target AC in 20 min
+  - Plain words insert normally; on search, a `.` means recurse into ALL children at that depth (backtracking DFS), any other char follows the single matching child
+  - Edge case: `.` at the last position still requires a child node whose `isEnd` is true
+- [ ] **LC 1268 — Search Suggestions System** (Medium) — trie OR sorted-array + binary search; target AC in 25 min
+  - Trie approach: at each prefix node, DFS to collect up to 3 lexicographically smallest completions
+  - Alternative: sort products, binary-search the prefix lower bound, take next ≤3 that still match
+  - **Talking point (use this in interviews):** "This is exactly autocomplete/typeahead from my search-product work — in production I'd back it with a trie or an FST (like Lucene's) and bound the suggestion fan-out; the LeetCode version is the in-memory core of that feature."
+- [ ] Note for later: **LC 212 — Word Search II** lives in Week 10 as grid-DFS — when you reach it, revisit it WITH the trie optimization (build a trie of the word list, DFS the grid against the trie so all words are matched in one sweep instead of re-searching the grid per word). That trie-on-grid combo is the senior-signal version of that problem.
+
+**Dijkstra / Weighted-Graph Block (40 min) — Shortest Paths with Weights (3 problems)**
+
+Everything so far has been unweighted (BFS = shortest path). With edge weights, plain BFS breaks; you need Dijkstra. **Relaxation invariant:** once a node is popped from a min-heap of `(dist, node)`, its shortest distance is final — because any other path to it would have to go through a not-yet-finalized node with a strictly larger tentative distance, so it can't be shorter. The min-heap is what guarantees you always finalize the closest unsettled node next (greedy frontier expansion). Caveat: Dijkstra assumes non-negative weights; negative edges need Bellman-Ford.
+
+- [ ] **LC 743 — Network Delay Time** (Medium) — canonical Dijkstra with a min-heap; target AC in 25 min
+  - `PriorityQueue<int[]{dist, node}>`; pop smallest, skip if already finalized, relax neighbors; answer = max finalized distance (or -1 if any node unreachable)
+- [ ] **LC 787 — Cheapest Flights Within K Stops** (Medium) — Bellman-Ford / BFS with a k constraint; target AC in 25 min
+  - Plain Dijkstra is wrong here because the cheapest path may use more stops than allowed; do **k+1 rounds of Bellman-Ford relaxation** over a snapshot of distances (relax from last round's costs only), or level-capped BFS tracking `(node, stops)`
+- [ ] **LC 1631 — Path With Minimum Effort** (Hard) — Dijkstra on a grid; target AC in 30 min — fills the week's gap in hard graph problems
+  - "Distance" is redefined: the cost of a path is the MAX absolute height diff along it (a minimax/bottleneck path); relax with `effort = max(currentEffort, |h[next] - h[cur]|)` and Dijkstra still works because that cost is monotonic along the path. (Union-Find with sorted edges, or binary-search-on-answer + BFS, are valid alternatives — mention them.)
+
 **Core Concept (30 min)**
 - [ ] **Saga Pattern — deep comparison:**
   - **Choreography**:
@@ -206,6 +233,17 @@ Work through these layers:
 - [ ] **Exactly-once guarantee**: can't achieve with external LLM (HTTP call to OpenAI is not transactional); make worker idempotent — check `job_status != 'COMPLETED'` before calling LLM
 - [ ] **Draw the full architecture diagram** (paper or whiteboard): Client → API → DB (jobs + outbox) → Debezium/Scheduler → Kafka → Worker pool → LLM Provider → DB update → SSE push
 
+**Typeahead / Autocomplete System Design (30 min)**
+
+Tuesday you *coded* the trie (LC 208/211/1268); Friday it was a one-line talking point. Now turn it into a real HLD — this is your **search-product home turf**, so own it end to end. The interviewer wants the system around the trie, not the trie.
+
+- [ ] **Frame the scale + latency target first**: read-heavy, billions of queries; suggestions must return in **< 100 ms p99** (it renders on every keystroke, so the budget is brutal). This is the line that forces every decision below.
+- [ ] **Serving path (online)**: Client (debounced keystrokes) → API/edge → **sharded suggestion index** in memory. The trie/FST is too big for one box, so **shard by prefix** (e.g., by first 1–2 chars, or consistent-hash the prefix). Each shard holds the trie + the top-k completions *precomputed at each node* so a lookup is a walk-to-prefix-node-then-read-top-k, not a subtree DFS at request time.
+- [ ] **Top-k ranking**: rank completions by **historical query frequency** (popularity), not lexicographic order — "fac" should surface "facebook" before "facsimile". Store the top-k (k≈5–10) directly on each prefix node so serving is O(prefix length). Optionally blend in recency/personalization as a later layer.
+- [ ] **Offline data pipeline (the part candidates forget)**: query logs → stream/batch aggregation (Kafka → Spark/Flink or a nightly batch) → compute per-prefix frequency counts → **build/refresh the trie or FST** (an FST, like Lucene's, is the compact immutable form) → ship the new index to serving shards via a versioned blob swap (atomic pointer flip, never mutate in place). Refresh cadence: hourly/daily — suggestions don't need to be real-time fresh.
+- [ ] **Cache the hot prefixes**: short prefixes ("a", "fa") are requested enormously more than long ones. Put a Redis/edge cache in front keyed by prefix → top-k list, TTL a few minutes. This is exactly the cache-aside + hot-key reasoning from Week 5; the long tail falls through to the shard.
+- [ ] **Tie to your background (say this out loud)**: "This is the production shape of LC 1268 from my search-product work — the LeetCode version is the in-memory trie core; the real system is the *index-build pipeline*, the frequency ranking, the prefix sharding, and the hot-prefix cache around it."
+
 **GitHub Project Work (75 min)**
 
 Pick ONE of:
@@ -217,6 +255,13 @@ Pick ONE of:
 - [ ] Architecture diagram (even ASCII is fine)
 - [ ] `docker-compose up` runnable in < 5 commands
 - [ ] Link to relevant resume bullet points (Smart360 / WebX / Deep Fathom)
+
+**GitHub profile-polish checklist (concrete — a recruiter lands here first):**
+- [ ] **Pin 3–6 best repos** to your profile (Customize pins) — quality over quantity; these are the only repos most recruiters open
+- [ ] **Add a profile README** (`github.com/<user>/<user>` repo) — 4-5 lines: who you are, the cloud-native + LLM narrative, current focus, contact/LinkedIn. This renders at the top of your profile.
+- [ ] **Prune or archive embarrassing repos** — old coursework, half-finished experiments, anything with no README. Archive (read-only, de-emphasized) rather than delete if you want to keep history; make truly dead ones private.
+- [ ] **One showcase repo aligned to the cloud-native + LLM narrative** — Spring Boot + an LLM-proxy or IaC sample (e.g., the WebX-style provider-routing proxy with circuit breakers, or a Bicep/Terraform IaC module), with a clean README + architecture diagram. This is the repo you screen-share in interviews.
+- [ ] **Tidy commit messages on the showcase repo** — no `wip`/`fix`/`asdf`; use imperative, scoped messages (`feat: add provider failover circuit breaker`). It's the first thing a senior reviewer scrolls.
 
 **Self-Check**
 - [ ] Push the repo. Look at it as a stranger. Would you click "Star"?
@@ -237,6 +282,11 @@ Pick ONE of:
 - [ ] Design "Event-Driven Order Processing System" (no hints): client → order service → Kafka → payment service → inventory service → notification service
   - Must cover: Outbox pattern, idempotency, Saga (choose orchestration or choreography and defend), failure recovery, exactly-once discussion, scaling
   - Time yourself: 5 min clarify requirements, 10 min high-level, 20 min deep dive, 10 min scale + failure modes, 15 min questions/defense
+  - [ ] **Money is special — fold in the idempotent-payment / ledger angle** (payment is the step in this flow where at-least-once delivery hurts most: a retried message must NOT charge twice):
+    - **Idempotency / dedup keys on payment requests**: the client (or order service) generates an **idempotency key** per payment intent; the payment service records it in a `processed_payments(idempotency_key)` table written in the *same DB transaction* as the charge. A duplicate Kafka message → same key → you return the original result instead of charging again. This is the Week-6 idempotent-consumer pattern applied to money.
+    - **Double-entry ledger model**: never store balance as a single mutable column you `UPDATE`. Represent money as an **append-only ledger of immutable entries** — every movement is two rows (a debit and a credit) that sum to zero. Balance is *derived* (sum of entries, or a periodically snapshotted materialized view). This gives you a full audit trail, makes corrections additive (post a reversing entry, never edit history), and means a replayed/duplicate event can't silently corrupt a balance.
+    - **Exactly-once money movement**: you can't get exactly-once across Kafka + the bank/gateway, so make it *effectively-once* — idempotency key on the gateway call (most processors support one), ledger entry keyed by the same idempotency key (unique constraint rejects the dup), and the offset committed only after the ledger write succeeds.
+    - **Why the mutable-column anti-pattern is dangerous**: `UPDATE accounts SET balance = balance - 100` under a retried/concurrent message double-deducts or races; there's no history to reconcile against, and you can't tell *why* a balance is what it is. The ledger makes every cent traceable.
 
 **Mock Interview Session 3: Behavioral (30 min)**
 - [ ] Answer all 5 behavioral questions in the section below as STAR responses, timed 2 min each
@@ -433,7 +483,7 @@ Rate yourself 1–5 on each item after Sunday's mock session:
 
 **Minimum to proceed to Week 7:** All DSA items ≥ 3/5, no system design item below 3/5.
 
-**If any DSA item is 1–2/5:** Revisit that algorithm Monday morning of Week 7 before moving to new material. Graph patterns repeat in Week 7 (Dijkstra, A*, advanced DP on graphs) — gaps here compound.
+**If any DSA item is 1–2/5:** Revisit that algorithm Monday morning of Week 7 before moving to new material. Graph patterns compound — the weighted-graph extensions (Dijkstra, Bellman-Ford with a k-stop constraint, Dijkstra-on-grid) live in the **Dijkstra / Weighted-Graph Block in Friday Jul 24 of THIS week**, so shore up the unweighted BFS/DFS foundations before tackling those.
 
 ---
 

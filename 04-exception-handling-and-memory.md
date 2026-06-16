@@ -350,6 +350,8 @@ System.gc();  // hint to JVM; JVM may or may not comply immediately
 | Shenandoah | Ultra-low pause (Red Hat) | `-XX:+UseShenandoahGC` |
 | Parallel GC | Max throughput (batch jobs) | `-XX:+UseParallelGC` |
 
+**Note on ZGC:** ZGC became production-ready in Java 15 and delivers sub-millisecond, heap-size-independent pauses. JDK 21+ adds **generational ZGC** (`-XX:+UseZGC -XX:+ZGenerational`) — the modern default-capable low-latency collector for large-heap, latency-sensitive services. G1GC remains the JVM default; ZGC is the go-to when pause time matters more than raw throughput.
+
 **JVM flags for Spring Boot services:**
 ```bash
 -XX:+UseG1GC         # G1 GC — good default for microservices
@@ -407,7 +409,7 @@ protected void finalize() throws Throwable {
 - Timing is unpredictable — GC decides when (or if) it runs
 - Object resurrection is possible (bad for GC)
 - Can delay object collection and increase memory pressure
-- Deprecated since Java 9, scheduled for removal in a future JDK
+- Deprecated in Java 9, then **deprecated for removal** in Java 18 (JEP 421)
 - Use `try-with-resources` or explicit `close()` via `AutoCloseable` instead
 
 ### Summary Table
@@ -459,7 +461,7 @@ Most objects are short-lived (created and discarded quickly). Generational GC op
 - `finalize()`: deprecated Object method, called by GC before destruction — avoid; use `try-with-resources` instead
 
 **Q: Why is `finalize()` bad?**
-Execution timing is unpredictable — may never run. Can delay object collection (GC must do extra work). Deprecated since Java 9 for removal. For resource cleanup: use `AutoCloseable` + `try-with-resources` or explicit `close()`.
+Execution timing is unpredictable — may never run. Can delay object collection (GC must do extra work). Deprecated in Java 9 and deprecated for removal in Java 18 (JEP 421). For resource cleanup: use `AutoCloseable` + `try-with-resources` or explicit `close()`.
 
 **Q: `finally` — does it always run?**
 Almost always — runs after try/catch even with `return`, `break`, `continue`. Does NOT run on JVM crash or `System.exit()` call.

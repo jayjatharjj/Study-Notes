@@ -179,10 +179,12 @@ Your realistic achievable band: **₹14–25 LPA** at a product company or GCC, 
 | Jun 17 – Jul 12 | Foundations. **No applications.** Resume + GitHub + deep-dive doc. |
 | Jul 13 – Aug 2 | Core build. Profiles live on LinkedIn/Naukri. |
 | Aug 3 – Aug 9 | **3–5 warm-up applications** (practice reps). |
-| Aug 10 – Aug 30 | **Hard applications to target GCCs/product** (~25–30 total). Interviews begin. |
+| Aug 10 – Aug 30 | **Hard applications to target GCCs/product** (~40–60 total — see realism note). Interviews begin. |
 | Aug 31 – Sep 13 | Interview loops + **negotiation**. Get competing offers. |
 | Sep – Oct | Accept best offer. |
 | ~Sep/Oct + 60 days | **Join new company (Nov–Dec).** |
+
+> **Realism note (timeline + volume):** The 13-week prep calendar ends Sep 13, but that's when *applications close and loops are in progress* — **not** when offers land. Indian product/GCC loops run ~3–6 weeks application→offer, and the 60-day notice adds funnel friction, so realistic offers cluster **late-Sept through late-Oct**. Two adjustments follow: (1) raise the hard-application target from ~25–30 to **~40–60** quality applications (the contested sub-20 LPA band + notice friction means a wider top-of-funnel is needed to get overlapping offers for leverage); (2) in the back-half weeks (11–13), **a scheduled interview always overrides the daily study template** — never skip an interview to keep the study cadence.
 
 ---
 
@@ -192,5 +194,6 @@ Your realistic achievable band: **₹14–25 LPA** at a product company or GCC, 
 - **Quantified impact stories** from your resume are your best interview asset — rehearse them cold.
 - **Apply when sharp, not before.** Warm-ups in late July; real applications mid-Aug onward to ride the Aug–Oct window.
 - **Get competing offers to overlap** for negotiation leverage — realistic target 40–70% jump, ₹14–25 LPA.
+- **Sep 13 is not the finish line.** Loops run 3–6 weeks and the 60-day notice adds friction, so offers realistically land **late-Sept → late-Oct**. Week 13 = "applications closed, loops in progress," not "done." Apply at **~40–60** volume (not 25–30) and let **scheduled interviews override the daily study template** in Weeks 11–13.
 
 *Plan created: 2026-06-05; start date revised to Wed 17 Jun 2026 (whole schedule shifted forward, now ending 13 Sep 2026) on 2026-06-16. Market data: 2026-current, time-sensitive — re-check JobSpeak/benchmarks quarterly.*

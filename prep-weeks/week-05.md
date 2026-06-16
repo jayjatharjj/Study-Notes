@@ -139,6 +139,16 @@ Walk into any interview and fluently answer:
   - **Write-Around**: skip the cache on write, go directly to DB. Cache is populated only on reads (cache-aside style). Good for write-heavy, rarely-re-read data (logs, audit trails).
   - Tie to your projects: your JWT blacklist uses cache-aside (write directly to Redis on logout — that's actually write-through since DB isn't involved). Your S3 URL cache uses write-around (S3 is the source of truth, you only cache on read).
 
+- [ ] **SQL vs NoSQL — a decision framework, not a religion** (the lens the indexing table doesn't give you)
+  - **Start from access patterns, not the data.** The question is never "is my data relational?" — it's "what queries do I run, at what scale, with what consistency?" Relational schema and indexes (above) optimize for *unknown future queries*; NoSQL stores optimize for *known query patterns you design the schema around*.
+  - **When relational (PostgreSQL) still wins — and it usually does:** multi-entity **joins**, ACID **transactions** across rows/tables, **ad-hoc / analytical queries** you didn't plan for, and **strong consistency** by default. This is why Smart360 and Deep Fathom are PostgreSQL — tenant data with RLS, joins across 50 tables, transactional correctness on authorization. Your honest line: "I start with Postgres because it handles ~95% of use cases correctly; I switch a *slice* of the system to NoSQL when a specific access pattern consistently hits relational limits — polyglot, not replacement."
+  - **The NoSQL families and when each fits:**
+    - **Key-value (Redis, DynamoDB)** — O(1) lookup by key, no query flexibility. Fits: cache, sessions, rate-limiter state, JWT blacklist. You already use Redis exactly here.
+    - **Document (MongoDB)** — self-contained JSON aggregates, flexible/evolving schema, no joins. Fits: a product whose shape changes weekly, or a denormalized read-model where one document = one screen.
+    - **Wide-column (Cassandra, HBase)** — massive **write throughput**, **time-series**, partition-key-driven reads of **known query patterns**. Fits: event/audit logs, metrics, IoT/telemetry. You must model the table per query — no ad-hoc filtering.
+    - **Graph (Neo4j)** — cheap **relationship traversal** at many hops. Fits: social graphs, permissions/org hierarchies, recommendation paths. This is the case in the Q9 pointer below: SQL self-joins explode at 4+ hops; a graph DB traverses them natively.
+  - **Polyglot persistence:** real systems mix — Postgres for the transactional core, Redis for ephemeral/hot state, a wide-column or document store for one high-volume access pattern. The skill is drawing the *seam*: which slice goes where, and how you keep them consistent (usually via events/outbox — Week 6).
+
 #### Self-Check (5 min)
 - [ ] Write the Tree Construction (LC 105) signature and base case without looking.
 - [ ] Pick a write strategy for a social media "like count" and justify it.
@@ -282,6 +292,29 @@ Walk into any interview and fluently answer:
 - [ ] **Behavioral prep (20 min)** — write fresh STAR answers for:
   - "Tell me about a time you improved frontend performance." (tie to Vue component optimization, lazy loading, or Pinia store design)
   - "How do you decide between SQL and NoSQL?" (tie to your PostgreSQL choice for relational data + Redis for ephemeral/cache data)
+
+---
+
+## 🎯 Build Your Tiered Target-Company List (30 min — do it this week, not in Week 9)
+
+You don't apply until Week 8+, but the *list* needs to exist now. Right now the plan improvises company names ad hoc when applications start. That's backwards — building a curated, living sheet in Week 5 means your referral outreach (LinkedIn warm-up, "alumni at company" pings) can start warming up weeks before you actually apply. Cold-applying in Week 9 with no relationships is the lowest-yield path; a warm referral at a GCC is 3–5× more likely to convert to a first round.
+
+Create a single living sheet (a tab in your application tracker, or a separate Google Sheet) of **~30–40 companies in 3 tiers**:
+
+- **Tier 1 — Target GCCs (your best odds + cloud-profile fit):** the GCCs that hire heavily at 2–4 YOE and value AWS/Azure + microservices + K8s. This is your highest-probability, highest-comp tier — aim for 12–15 names here. Examples in your band: Walmart Global Tech, Barclays, SAP Labs, Bosch, Société Générale, Deutsche Bank, Wells Fargo, Target, Lowe's, JPMC, Mastercard, Visa, ServiceNow, Nvidia/Adobe GCCs in Pune/Bengaluru/Hyderabad.
+- **Tier 2 — Product mid-tier / Indian unicorns:** product companies where the comp band and engineering bar are strong but the loop is shorter than top-tier. Aim for 10–12 names — Razorpay, Zerodha, PhonePe, Swiggy, Zeta, Postman, Browserstack, Hasura, CRED-adjacent, mid-stage SaaS.
+- **Tier 3 — Warm-up services / mid-size:** the practice-rep companies you hit first in Week 8 to calibrate your interviewing (NOT your target offers). Aim for 8–10 — established services firms and mid-size product shops with a fast cycle.
+
+**Concrete sourcing method (don't guess — mine these):**
+- [ ] **Zinnov / NASSCOM GCC reports** — they publish lists of active GCCs by city and sector. This is the authoritative source for "who actually has a GCC in Pune/Bengaluru/Hyderabad."
+- [ ] **Levels.fyi company directory** — browse by company; gives you the comp bands so you can pre-filter for your ₹14–25 LPA target before you ever apply.
+- [ ] **AmbitionBox** — use the **GCC filter** and the company explorer; cross-check reported salary bands and interview-round structure per company.
+- [ ] **LinkedIn** — for each shortlisted company run two searches: **"alumni at <company>"** (people from your college / past employer — warmest referral path) and **"engineers at <company>"** (filter to your stack — Java/Spring). Note 2–3 names per Tier 1 company to reach out to in Week 6–7.
+- [ ] **Instahyre / Cutshort listings** — browse open roles to confirm a company is actively hiring at your level *right now*, and to surface companies you hadn't thought of.
+
+**Sheet columns:** Company | Tier | City | Has GCC? (Zinnov-confirmed) | Comp band (Levels/AmbitionBox) | Stack match | Referral contact (LinkedIn) | Open role link | Notes. Keep it living — add and prune as you research.
+
+> Why now: referrals take time to warm. A connection request + a genuine note in Week 6, a follow-up in Week 7, then an application in Week 9 converts far better than a cold apply. Building the list in Week 5 is what makes that sequence possible.
 
 ---
 

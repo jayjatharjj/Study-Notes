@@ -389,7 +389,7 @@ class Airplane implements Flyable {
 - An interface can extend multiple interfaces
 - Java 8+: `default` and `static` methods (with body) allowed
 - Java 9+: `private` methods allowed in interface
-- Interfaces do **not** have `Object` as their parent class (unlike regular classes) — they have no implicit parent
+- An interface does **not** *extend* `Object` (unlike every class), but per JLS 9.2 its member set implicitly includes `Object`'s public methods — so a variable of an interface type can still call `toString()`, `equals()`, and `hashCode()`
 
 ### Class → Interface Relationships
 ```

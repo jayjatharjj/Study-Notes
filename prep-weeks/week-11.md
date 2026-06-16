@@ -304,7 +304,16 @@ This is a rehearsal for a system design question framed as: "Design the WebX fea
 - [ ] Log all of this in the tracking sheet — do not rely on memory.
 
 **Block 3 (60 min) — System Design Mock: Tailored to Pipeline Companies**
-- [ ] Pick one system design prompt relevant to a company you're interviewing with. If unsure, use: "Design a rate limiter" or "Design a notification service."
+- [ ] Pick one system design prompt relevant to a company you're interviewing with. Rotate across rounds so you cover breadth — if unsure, pick one of: "Design a rate limiter", "Design a notification service", or **"Design a chat / messaging system"** (pairs directly with the WebSocket/SSE knowledge from the Week 7 real-time collaboration mock and the Week 6 concurrency work — a strong rotation pick if a round leans real-time).
+
+  *Chat / messaging concept note — drive these points if you pick this prompt:*
+  - **WebSocket connection management:** persistent bidirectional WebSocket per client (vs SSE which is unidirectional — contrast this with the WebX SSE choice: chat needs client→server too). Millions of long-lived connections need a connection/gateway layer that maps `userId → (server, connectionId)` in a shared store (Redis), so any backend can find where a recipient is connected. Handle reconnects + heartbeats/ping-pong to detect dead sockets.
+  - **Presence:** online/offline/last-seen via heartbeat TTL keys in Redis (`SETEX presence:userId 30s`); presence fan-out to a user's contacts on change. Accept eventual consistency here — a few seconds of stale "online" is fine.
+  - **Message ordering:** per-conversation monotonic sequence number (or logical/Lamport-style clock), not wall-clock time — clients order by the conversation sequence so messages never appear out of order even with clock skew across senders.
+  - **Delivery / read receipts:** state machine SENT → DELIVERED (recipient's device ACKed) → READ; receipts flow back as their own lightweight messages over the socket and update the sender's UI.
+  - **Group fan-out:** small groups → fan-out-on-write to each member's inbox; large groups/channels → fan-out-on-read (pull) to cap write amplification — the same hybrid trade-off as the Week 10 News Feed HLD; name the connection.
+  - **Message storage:** **wide-column store (Cassandra/HBase)** partitioned by `conversation_id`, clustered by `message_seq` — gives efficient "fetch last N / paginate older" per conversation at write-heavy scale, where a relational DB would struggle. Mention TTL/archival tiering for old messages.
+  - Self-critique: did I cover connection routing (userId→server map), ordering by sequence (not timestamp), the receipt state machine, the small-vs-large group fan-out split, and the wide-column partition/cluster key choice — without prompting?
 - [ ] Whiteboard it on paper, end to end, in 40 minutes.
   - Start with requirements (functional + non-functional). Ask clarifying questions aloud.
   - High-level components → data model → API contract → deep dive on 1 component → failure modes → scaling.

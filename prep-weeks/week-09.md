@@ -201,6 +201,14 @@ Work through it in this order:
 - [ ] Solve **LC 692 – Top K Frequent Words** (Medium). Extension of LC 347 — but now with string comparison for tie-breaking. Use a min-heap with custom comparator: (frequency ASC, word DESC) so the heap root is always the "worst" of the top-k. When heap size > k, pop. O(n log k). This is a clean exercise in writing a custom comparator under pressure.
 - [ ] Review the recurrence / invariant for all four heap problems this week (LC 215, 347, 295, 23) on paper in 10 minutes. If any is fuzzy, solve one example by hand.
 
+**DSA — Design-a-Data-Structure mini-block (30 min)**
+
+Design-DS rounds are high-frequency at product-tier companies and pair naturally with the heap/hashmap composition you've drilled all week — they test whether you can compose primitives (array + hashmap + heap) under an O(1)/O(log n) operation constraint, not just call a library. Do these two; narrate the operation complexity as you go.
+
+- [ ] **LC 380 – Insert Delete GetRandom O(1)** (Medium). The trick is two structures working together: an `ArrayList<Integer>` for the values + a `HashMap<value, index>` mapping each value to its position in the list. `insert`: append to list, record index in map. `getRandom`: index the list at `random.nextInt(size)`. `remove` is the key insight — you cannot remove from the middle of an array in O(1), so **swap the target with the last element**, update the moved element's index in the map, then pop the last slot. All three operations O(1). Common mistake: forgetting to update the map index of the element you swapped into the hole.
+- [ ] **LC 460 – LFU Cache** (Hard). This is the natural step-up from the LRU cache taught in **week 04** — LRU evicts by recency; LFU evicts by *frequency*, breaking ties by recency. Structure: (1) `HashMap<key, Node>` for O(1) lookup; (2) `HashMap<freq, LinkedHashSet<key>>` — the **frequency buckets**, where each bucket holds the keys at that exact frequency in insertion/recency order; (3) a **min-freq pointer** tracking the lowest frequency currently present. On `get`/`put`-hit: remove the key from its current freq bucket, bump it to the `freq+1` bucket; if the emptied bucket was at `minFreq`, increment `minFreq`. On `put` eviction: drop the least-recently-used key from the `minFreq` bucket (the `LinkedHashSet` preserves recency within the tie), and reset `minFreq = 1` on the new insert. All operations O(1). The min-freq pointer is what avoids scanning buckets to find the eviction candidate — state that aloud, it's the signal the interviewer wants.
+- [ ] After both: write the operation complexity table (insert / delete / get / getRandom or evict) and the one-line "why this structure combination" for each. If LFU's bucket bookkeeping felt shaky, re-trace one eviction by hand on paper — it's the part candidates fumble live.
+
 **Core Block (15 min) — Partitioning Strategies Review**
 - [ ] Know the difference between *partitioning* and *sharding* (often used interchangeably, but precisely: partitioning = splitting data within one DB instance across tables/tablespaces; sharding = splitting across separate DB instances/servers).
 - [ ] PostgreSQL table partitioning: `PARTITION BY RANGE (created_at)` for time-series data (logs, events). Each month = one partition. Queries with `WHERE created_at > X` only scan the relevant partition (partition pruning). Connect to your work: "For file metadata, partitioning by `created_at` month would allow dropping old partitions as data ages out."
@@ -283,6 +291,23 @@ This is the most important day of the week. Treat it like a real interview. Get 
 - [ ] Pick any 2 problems you haven't solved this week. Recommended: **LC 355 Design Twitter** (Medium — heap + OOP design) or **LC 264 Ugly Number II** (Medium — heap/DP) + **LC 703 Kth Largest Element in a Stream** (Easy — heap, streaming variant of LC 215).
 - [ ] Timer. No notes. Record complexity and explanation.
 
+**LLD / OOD reframe of LC 355 — "now design the *classes*" (20 min)**
+
+LC 355 as a DSA problem is just a heap merge over follow lists. But a product/GCC interviewer will pivot it into a **low-level design** round: "forget the heap trick — design the *classes* for this." This is your second LLD rep (the first is the parking-lot / OOD exercise in **week 03**). Do it on paper; the goal is clean responsibilities and defensible SOLID choices, not the algorithm.
+
+- [ ] Sketch the class model:
+  - `User` — id, profile; owns no feed logic (avoid the God-object trap).
+  - `Tweet` — id, authorId, content, timestamp; immutable value object.
+  - `FollowGraph` — `follow(followerId, followeeId)`, `unfollow(...)`, `followeesOf(userId)`. Encapsulates the social graph so feed code never touches the raw adjacency structure.
+  - `FeedService` — `postTweet(userId, tweet)`, `getTimeline(userId, limit)`. Orchestrates; depends on `FollowGraph` and a `TimelineMerger` *via interfaces*, not concretes.
+  - `TimelineMerger` (interface) — `merge(List<TweetStream> sources, int limit): List<Tweet>`. The heap-merge from the DSA version is just ONE implementation (`HeapTimelineMerger`); a `ChronologicalMerger` or a future `RankedMerger` can drop in without touching `FeedService`.
+- [ ] **Defend the SOLID / extensibility choices aloud:**
+  - *SRP*: `FollowGraph` owns relationships, `FeedService` owns orchestration, `TimelineMerger` owns ordering — each has one reason to change.
+  - *Open/Closed + DIP*: `FeedService` depends on the `TimelineMerger` *interface*, so swapping chronological → ranked feed (the same candidate-generation-vs-ranking split from the Week 10 News Feed HLD) is a new class, not an edit to existing code.
+  - *Strategy pattern*: `TimelineMerger` is a Strategy — name it; it's the high-signal move.
+  - Mention the bridge to scale: "the in-memory `FollowGraph` is the LLD; at scale this becomes the fan-out-on-write vs fan-out-on-read decision — the interface boundaries stay identical, only the implementation moves behind them."
+- [ ] Self-check: could a new joiner add a "muted accounts" filter or a ranked feed *without modifying* `FeedService`? If not, your boundaries are wrong — fix them.
+
 **Full Mock Interview (90 min)**
 - [ ] Round 1 — DSA (45 min): Partner gives you 2 problems. Narrate your thinking aloud. Ask clarifying questions before coding. State complexity before submitting.
 - [ ] Round 2 — System Design (45 min): One of these prompts (have your partner choose):
@@ -291,6 +316,11 @@ This is the most important day of the week. Treat it like a real interview. Get 
   - "Design a URL shortener at scale."
   - Demonstrate: requirements clarification → capacity estimation → high-level design → deep dives on 2–3 components → failure modes → trade-offs.
 - [ ] After mock: write down 3 things you did well and 3 specific areas to improve. Log them in the tracking sheet under a "Mock Feedback" tab.
+- [ ] **Mock debrief — observability as a design pillar:** review your system-design round with one lens: *did you design the system's observability, or only its happy path?* At GCC level, observability is an SD **deliverable**, not a Spring Actuator ops afterthought. When you design a system, also design how you'd *operate* it:
+  - **The four golden signals** — latency, traffic, errors, saturation. Name them in the design: "I'd expose P50/P95/P99 latency, request rate, error rate, and resource saturation per service." This is the SRE vocabulary interviewers listen for.
+  - **Trace propagation across microservices** — a correlation/trace ID generated at the gateway and propagated on every downstream hop (W3C `traceparent` header / Micrometer Tracing), so one request is followable across all 5 services. Without it, debugging a distributed failure is guesswork.
+  - **SLOs + alerting** — define the SLO ("99.9% of feed loads under 200ms") and alert on *symptoms* (SLO burn rate), not raw CPU. "If error-budget burn exceeds X, page; saturation trends, dashboard only."
+  - Add to your design-round checklist: after failure modes, say one sentence on observability — "here's how I'd know this failure mode is happening in production." That single sentence separates a candidate who *designs* systems from one who only *draws* them.
 
 **Applications Block (90 min)**
 - [ ] Final push: get to 15 applications total if not there yet. Prioritise referral-assisted applications over cold applies.

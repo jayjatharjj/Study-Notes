@@ -33,6 +33,10 @@ Exit this week able to: solve any Stack/Queue/LinkedList LeetCode medium cold in
 - [ ] LC #20 — Valid Parentheses (Easy) — solve in ≤10 min, review edge: `"]"` empty stack crash
 - [ ] LC #155 — Min Stack (Medium) — implement with two stacks; understand why `O(1)` getMin works; write it clean
 - [ ] LC #739 — Daily Temperatures (Medium) — monotonic decreasing stack; trace through `[73,74,75,71,69,72,76,73]` by hand before coding
+- [ ] **Monotonic-stack family (next-greater + span)** — the primer above promised "span problems"; here they are. Stack holds indices of a decreasing sequence; you pop and resolve when the current element breaks monotonicity:
+  - [ ] LC #496 — Next Greater Element I (Easy) — precompute next-greater for every value in `nums2` with one monotonic-stack pass into a `Map<value, nextGreater>`, then look up each `nums1` query in O(1). The base case for the whole family.
+  - [ ] LC #503 — Next Greater Element II (Medium) — **circular** array; iterate `2n` indices using `i % n` so the wrap-around can resolve still-pending elements; only push during the first pass (or just guard with index `< n`). Same decreasing-index stack.
+  - [ ] LC #901 — Online Stock Span (Medium) — the canonical **span** problem; stack of `(price, span)` pairs. On each new price, pop while top price ≤ current and accumulate their spans — collapses consecutive smaller days into one entry, giving amortized O(1) per `next()` call. Tie-in: this is the same "collapse a run, keep a running aggregate" shape as a streaming metrics rollup.
 - [ ] After each: write one line "What would trip me up on this in an interview?"
 
 **Core (30 min)**
@@ -240,6 +244,22 @@ public class GlobalExceptionHandler {
   - Validation error: status code, body structure with field-level errors
   - Not found: status code, body
   - Paginated list: body structure (data array, pagination metadata)
+
+#### Block 2.5 (15 min): Back-of-Envelope Estimation Drill
+
+Practice the *method* in isolation — the arithmetic candidates fumble live when it's embedded in a bigger design. Treat this as a repeatable warm-up you run before ANY capacity question (the URL shortener below is just one instance). Drill the chain cold, no calculator:
+
+**QPS → storage → bandwidth → memory**
+
+- [ ] **QPS from a daily total**: rule of thumb — **seconds/day ≈ 86,400 ≈ 86.4K** (round to 100K for fast mental math). So `1B reads/day ÷ 86.4K ≈ 11.6K QPS` average. **Peak ≈ 2–3× average** — state your multiplier and design for peak, not average.
+- [ ] **Read:write ratio**: ask for it or assume one (10:1 is a common default for read-heavy systems). Writes QPS = reads ÷ ratio. This tells you whether to optimize the write path (sharding, queue) or the read path (cache, replicas).
+- [ ] **Bytes → storage/year**: `write_QPS × bytes_per_record × seconds/year`. Rule of thumb — **seconds/year ≈ 31.5M (≈ 3.15 × 10^7)**. Example: 100 writes/s × 500 B × 31.5M s ≈ **1.5 TB/yr**. Always tack on index + replication overhead (×2–3).
+- [ ] **Bandwidth**: `QPS × payload_size`. Example: 11.6K reads/s × 500 B ≈ **5.8 MB/s** egress. Separate read vs write bandwidth.
+- [ ] **Memory for hot-set caching**: apply the **80/20 rule** — cache the ~20% of data serving ~80% of traffic. Example: 100M URLs × 100 B = 10 GB total; the hot 20% ≈ **2 GB**, comfortably fits one Redis node. This is the number that justifies "Redis fits in memory" instead of hand-waving.
+
+**Powers-of-2 / units cheat sheet to memorize**: 2^10 ≈ 1 K (thousand), 2^20 ≈ 1 M (million), 2^30 ≈ 1 B (billion → 1 GB); char = 1 B, typical metadata row ≈ 100–500 B, UUID = 16 B, timestamp = 8 B.
+
+**Self-check:** Given "500M new posts/day, each post averages 1 KB, read:write 100:1" — produce write QPS, read QPS, storage/yr, and hot-cache size in under 2 minutes, out loud. Then carry these exact numbers into Block 3.
 
 #### Block 3 (2 hr): Full System Design — URL Shortener
 

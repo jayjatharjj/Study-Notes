@@ -89,6 +89,20 @@ Profile: 2+ years Full Stack (Java 17, Spring Boot, Spring Cloud, Vue.js, Postgr
 
 ---
 
+**Q: What changes when migrating to Spring Boot 3 / Spring 6, and what breaks on upgrade? (the Jakarta namespace question)**
+
+> This is a near-guaranteed interview question for any Boot 3 resume. Spring Boot 3 / Spring Framework 6 ship three breaking baselines:
+>
+> 1. **`javax.*` → `jakarta.*` namespace.** The biggest one. When Java EE moved to the Eclipse Foundation as Jakarta EE, Oracle's trademark forced a package rename. Every EE-derived import changes: `javax.persistence.*` → `jakarta.persistence.*` (JPA: `@Entity`, `@Id`, `@Column`), `javax.validation.*` → `jakarta.validation.*` (`@NotNull`, `@Valid`), `javax.servlet.*` → `jakarta.servlet.*` (filters, `HttpServletRequest`), `javax.annotation.*` → `jakarta.annotation.*` (`@PostConstruct`, `@PreDestroy`). What breaks: code won't compile until imports are updated, and **any third-party library still on `javax.*` is incompatible** — you must bump every dependency to a Jakarta-aware version. IDE "organize imports" doesn't fully handle it; use the OpenRewrite recipe or Spring's migrator.
+>
+> 2. **JDK 17 baseline.** Spring Boot 3 requires Java 17 minimum (Boot 2.x ran on Java 8). You must upgrade the JDK, which can surface issues with reflection-heavy libraries and the strong module encapsulation introduced after Java 8.
+>
+> 3. **Observability overhaul.** Spring Cloud Sleuth is gone — tracing moves to **Micrometer Tracing** (with Micrometer Observation as the unified metrics+tracing API). `spring-cloud-sleuth` dependencies must be replaced with `micrometer-tracing-bridge-otel` (or `-brave`).
+>
+> Other notable changes: `application.properties` deprecations are enforced, Hibernate 6 (with stricter SQL/dialect behaviour), and `@ConfigurationProperties` constructor binding tightened. Practical upgrade order: bump JDK to 17 → migrate `javax`→`jakarta` (OpenRewrite) → upgrade all third-party deps to Jakarta versions → swap Sleuth for Micrometer Tracing → run the test suite.
+
+---
+
 ## Spring Cloud & Service Communication
 
 **Q: What is Spring Cloud Gateway and how is it different from Zuul?**
@@ -234,6 +248,20 @@ Profile: 2+ years Full Stack (Java 17, Spring Boot, Spring Cloud, Vue.js, Postgr
 >   USING (tenant_id = current_setting('app.tenant_id')::int);
 > ```
 > The app sets `SET app.tenant_id = 123` per connection. Advantage over app-layer filtering: security can't be bypassed by a code bug. Used in Deep Fathom for multi-tenant isolation across 50+ tables.
+
+---
+
+**Q: How do you size a HikariCP connection pool, and how can a slow `@Transactional` method starve it?**
+
+> **Pool size is not "bigger is better".** The pool holds DB connections, and the database has a hard cap (`max_connections` in PostgreSQL, default ~100). Total connections across all app instances/services must stay under that cap, with headroom for migrations, admin tools, and replicas. A common starting formula is `connections ≈ (core_count * 2) + effective_spindle_count` — most OLTP services run well with a small pool (e.g. 10), because connections are held only for the brief duration of a query, not the whole request.
+>
+> Key HikariCP settings:
+> - `maximumPoolSize` — the cap; keep `sum(maximumPoolSize across instances) < db max_connections`.
+> - `connectionTimeout` (default 30s) — how long a thread waits for a free connection before failing with `SQLTransientConnectionException`.
+> - `leakDetectionThreshold` (e.g. `60000`) — logs a stack trace when a connection is held longer than N ms without being returned; invaluable for finding connections that aren't closed.
+> - `maxLifetime` / `idleTimeout` — recycle connections before the DB or a firewall kills them.
+>
+> **How a long `@Transactional` starves the pool:** a `@Transactional` method **holds its DB connection for the entire method duration**, not just the query. If that method makes a slow REST/LLM call or sleeps inside the transaction, the connection sits idle-but-checked-out. Under load, all `maximumPoolSize` connections get held by waiting transactions, new requests block on `connectionTimeout` and then fail, and throughput collapses even though the DB is idle. Fixes: keep transactions short, never do remote/network I/O inside `@Transactional`, move long work outside the tx boundary, and set `leakDetectionThreshold` to catch the offenders.
 
 ---
 

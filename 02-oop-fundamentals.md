@@ -183,6 +183,49 @@ String s = "Hello";
 s = s.concat(" World");  // does NOT change original; s now points to a new object
 ```
 
+### Building a Fully Immutable Class (with defensive copies)
+
+`private final` fields alone are **not enough** when a field is itself mutable (a `Date`, a collection, an array). A caller who keeps a reference to the object you stored — or who gets a reference to your internal field via a getter — can mutate your "immutable" state from the outside. Fix: **defensively copy** mutable inputs in the constructor and mutable outputs in getters.
+
+```java
+// GOOD — defensive copies guard mutable fields and collections
+public final class Trip {
+    private final String destination;
+    private final Date departure;            // Date is mutable!
+    private final List<String> travellers;   // List is mutable!
+
+    public Trip(String destination, Date departure, List<String> travellers) {
+        this.destination = destination;
+        this.departure   = new Date(departure.getTime());        // copy IN
+        this.travellers  = List.copyOf(travellers);              // unmodifiable copy IN
+    }
+
+    public String getDestination() { return destination; }
+    public Date getDeparture()     { return new Date(departure.getTime()); } // copy OUT
+    public List<String> getTravellers() { return travellers; }   // already unmodifiable
+}
+
+// BAD — no copies: caller mutates internal state after construction
+// this.departure = departure;          // caller's Date and ours are the SAME object
+// public Date getDeparture() { return departure; } // hands out the live reference
+```
+
+### The `record` equivalent (modern idiom, Java 16+)
+
+A `record` auto-generates the constructor, `final` fields, accessors, `equals()`, `hashCode()`, and `toString()` — but it does **not** add defensive copies for you. For mutable components, do the copying in a **compact constructor**:
+
+```java
+// GOOD — record with a compact constructor for defensive copying
+public record Trip(String destination, Date departure, List<String> travellers) {
+    public Trip {                                  // compact constructor
+        departure  = new Date(departure.getTime());
+        travellers = List.copyOf(travellers);
+    }
+}
+```
+
+See **module 08 — Modern Java** for the full treatment of records, including when NOT to use them (e.g., JPA `@Entity`).
+
 ---
 
 ## Instance Block

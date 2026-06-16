@@ -271,6 +271,21 @@ Simulate a real first-round + technical interview from a GCC (45 min behavioral 
   - Scale numbers: 10 million notifications/day = ~116/sec average, ~1000/sec peak. Single Kafka partition handles ~10k msg/sec — easily covered.
   - Database schema: `notifications(id, user_id, channel, payload, status, created_at, sent_at, retries)`.
 
+*System Design segment — Driven HLD: Design a News Feed / Timeline (45 min)*
+
+This is the single highest-frequency HLD prompt at product companies and GCCs — drive it end-to-end, do not wait for prompts. Whiteboard it on paper, narrate aloud. Prompt: *"Design the home timeline / news feed for a social product — 100M users, a user follows up to a few thousand accounts, feed must load in under 200ms."*
+
+- [ ] **Requirements + scale (5 min):** read-heavy (feed views ≫ posts), ~100M DAU, avg user follows ~500, reads at ~10:1 vs writes. The defining tension is **write amplification vs read amplification** — state it up front, it frames the whole design.
+- [ ] **The core decision — fan-out-on-write vs fan-out-on-read:**
+  - *Fan-out-on-write (push):* when a user posts, write that post's id into every follower's precomputed feed (a per-user feed cache, e.g. a Redis sorted set keyed by user, scored by timestamp/rank). Reads are O(1) — just slice the cache. Cost: a post by someone with 1M followers triggers 1M writes (write amplification explodes for high-follower accounts).
+  - *Fan-out-on-read (pull):* store posts once; at read time, fetch the posts of everyone the user follows and merge-sort them. Writes are cheap; reads are expensive (gather + merge across hundreds of authors on every feed load — read amplification).
+- [ ] **The hybrid (this is the answer interviewers want):** push for normal users; for celebrity / high-follower accounts (above a follower threshold), do NOT fan out on write — instead pull their recent posts at read time and merge them into the precomputed feed. This caps write amplification (one Justin-Bieber post no longer does 100M writes) while keeping reads fast for the 99% case. Name the threshold as a tunable knob.
+- [ ] **Feed cache:** per-user feed stored as a Redis sorted set (post_id → score). Cap it (e.g. top ~800 entries) — nobody scrolls infinitely; older history is regenerated on demand from the posts store. Cold/inactive users: don't maintain a live feed at all, generate lazily on next login (avoids fanning out to dormant accounts).
+- [ ] **Cursor-based pagination:** never `OFFSET/LIMIT` (skips/dupes when new posts arrive mid-scroll). Use an opaque cursor = `(score, post_id)` of the last item seen; the next page is "items with score < cursor." Stable under concurrent writes — this is the correct pattern and a clean signal.
+- [ ] **Ranking signals:** chronological is the baseline; ranked feed scores each candidate post by recency, author affinity (interaction history), engagement velocity (likes/comments rate), and content type. Separate **candidate generation** (fan-out gives the candidate set) from **ranking** (a scorer orders them) — naming this two-stage split is the senior signal.
+- [ ] **Tie to your work:** "The fan-out-on-write step is exactly the outbox/Kafka pattern I know from Deep Fathom — the post-creation transaction emits a `PostCreated` event to Kafka, and feed-builder workers consume it to update follower feed caches asynchronously. Decoupling the write path from fan-out via a queue is the same decoupling I did for the notification service." Also tie the per-user feed cache to your Smart360 Redis caching work.
+- [ ] **Self-critique rubric:** Did I open with the write/read amplification trade-off, explicitly justify the hybrid for celebrity accounts, choose cursor (not offset) pagination, separate candidate-generation from ranking, and name at least one failure mode (e.g. fan-out worker lag → feed staleness, mitigated by also pulling the author's very latest posts at read time)? If any of these was missing or prompted, mark it for a redo.
+
 *Coding segment (45 min)*
 - [ ] Pick a random Medium from a company tag. 45 min, simulate no-hints.
 - [ ] After coding: explain time and space complexity unprompted. Mention an alternative approach. Ask the interviewer "Is there a follow-up you'd like to explore?" — this is an extraordinary-candidate move.
@@ -371,6 +386,42 @@ Know this pattern cold. It is the skeleton of LC 78, LC 90, LC 39, LC 40, LC 46,
 >
 > I'm looking to take that foundation into a product company or GCC where I can work at larger scale, contribute to a strong engineering culture, and keep growing as an engineer. That's why I'm excited about the work your team is doing on [specific thing]."
 
+### Behavioral Prep — Bar-Raiser STAR Scaffolds (4 high-frequency stories most candidates skip)
+
+The 6 stories above cover the core. These 4 are the bar-raiser / values rounds — especially at product companies that test "customer obsession," "earns trust," and "develops others." Write each as a real anecdote; the scaffold below is a frame, not a script. **Mark each `[INSERT REAL ANECDOTE]` honestly — a fabricated story collapses under one follow-up question.**
+
+*Story #7: Mentorship / Helping a Teammate*
+- [ ] Signal being tested: do you make the people around you better (a senior-track signal at 2.5 YOE)?
+  - **Situation**: `[INSERT REAL ANECDOTE — e.g., a junior dev or new joiner onboarded onto Smart360 was blocked for days on the multi-tenant data flow / N+1 debugging / the Bicep IaC setup.]`
+  - **Task**: Get them productive without simply taking the work over yourself.
+  - **Action**: (1) Sat with them and reproduced the problem together rather than handing a fix. (2) Walked them through the *why* — e.g., how tenant isolation flows through the request, or how to read Hibernate statistics to spot N+1 themselves. (3) Wrote a short runbook / README section so the next joiner wouldn't hit the same wall. (4) Did a follow-up check-in a few days later, not a one-and-done.
+  - **Result**: Quantify — "they shipped their first feature within `[X days]` instead of staying blocked; the onboarding doc cut ramp time for the next hire" or "they later handled `[similar task]` independently." Teaching-to-fish beats fixing — say that explicitly.
+  - **Curveball version**: "Tell me about a time you helped someone grow." Same structure; emphasise the lasting capability you left behind, not the single unblock.
+
+*Story #8: Receiving Tough / Critical Feedback*
+- [ ] Signal being tested: are you coachable? (Distinct from "a time you were wrong" — there you caught your own mistake; here *someone told you* something hard and you acted on it.)
+  - **Situation**: `[INSERT REAL ANECDOTE — e.g., in a code review or 1:1, a senior engineer or lead told you your PRs were too large to review safely / you over-engineered the LLM routing abstraction / you weren't communicating blockers early enough.]`
+  - **Task**: Take the feedback seriously without getting defensive, and actually change.
+  - **Action**: (1) Listened fully and asked a clarifying question to make sure you understood the *specific* behaviour, not a vague impression. (2) Acknowledged it openly rather than justifying. (3) Made a concrete, visible change — "I started splitting work into PRs under ~400 lines and posting a daily blocker note in standup." (4) Closed the loop: checked back with the person to confirm the change landed.
+  - **Result**: "Review turnaround on my PRs dropped from `[X]` to `[Y]`" or "the lead noted the improvement in my next 1:1." The lesson must show you treat feedback as data, not criticism.
+  - **Curveball version**: "What's the most useful piece of feedback you've ever received?" — pick the same moment, lead with the change it produced.
+
+*Story #9: Deadline / Prioritization Under Pressure*
+- [ ] Signal being tested: judgement under constraints — can you cut scope deliberately rather than blindly grinding or shipping everything half-done?
+  - **Situation**: `[INSERT REAL ANECDOTE — e.g., a Deep Fathom release / demo with a hard date and two competing must-dos: the async LLM job queue had to be stable AND the CI/CD migration was mid-flight, with not enough time for both at full polish.]`
+  - **Task**: Hit the date without shipping something broken.
+  - **Action**: (1) Made the trade-off explicit instead of silently choosing — listed what was must-have for the date vs nice-to-have. (2) Negotiated with `[lead/stakeholder]` on what could slip: "I proposed shipping the job queue with a single-provider fallback now and deferring the multi-provider routing polish by one sprint." (3) Cut the deferred work cleanly (feature-flagged / documented as a known follow-up) rather than leaving it half-wired. (4) Communicated the decision and the reasoning to everyone affected.
+  - **Result**: "Shipped on the date with the critical path stable; the deferred item landed the following sprint with zero customer impact." Name the *principle*: cut by reversibility and user impact, not by what's easiest to drop.
+  - **Curveball version**: "How do you decide what to work on when everything is urgent?" — describe the must-have/nice-to-have + reversibility framing as your default, then ground it in this story.
+
+*Story #10: Customer / Stakeholder Impact*
+- [ ] Signal being tested: customer obsession — do you connect engineering work to end-user or business value, not just internal metrics? (This is the highest-weight signal at product companies.)
+  - **Situation**: `[INSERT REAL ANECDOTE — e.g., Smart360 end users (reviewers/tenants) were abandoning dashboards because they timed out at 60s, OR a Deep Fathom B2B customer flagged that long-running LLM jobs appeared to "hang" with no feedback.]`
+  - **Task**: Solve it framed around the *user's* experience, not just the technical symptom.
+  - **Action**: (1) Started from the user's pain, not the stack trace — "I sat with the support tickets / talked to `[stakeholder]` to understand what 'slow' actually cost them." (2) Translated it to the technical fix (the N+1 + Redis caching work, or surfacing async job status so the UI showed progress instead of a spinner). (3) Validated the fix against the user-facing outcome, not just the server metric.
+  - **Result**: Lead with the *user/business* number — "dashboards that were timing out now load in under 3 seconds, and `[the abandonment / support-ticket volume / customer escalation]` dropped" — then back it with the engineering metric (96% latency reduction, 80% fewer S3 calls). The order matters: customer impact first, engineering detail second.
+  - **Curveball version**: "Tell me about a time you went above and beyond for a customer." — emphasise that you chose to dig into the user's actual workflow rather than closing the ticket at the minimum bar.
+
 ### Spring/Java — Curveball Answers Synthesised From interview-qa.md
 
 **"@Transactional + @Cacheable — what can go wrong?"**
@@ -387,7 +438,7 @@ RBAC: user has roles; roles have permissions. Simple, auditable, good for most e
 
 ---
 
-## 🎤 Sample Interview Questions (incl. Curveballs) — 15 Qs + Pointers
+## 🎤 Sample Interview Questions (incl. Curveballs) — 17 Qs + Pointers
 
 ### Behavioral
 
@@ -408,6 +459,12 @@ RBAC: user has roles; roles have permissions. Simple, auditable, good for most e
 
 **6. "Why do you want to work at [Company]?"**
 - Pointer: This is the most underprepared question by most candidates. Research BEFORE the interview: the company's engineering blog, recent tech stack decisions (from job posts or GitHub), product direction. Then make it specific: "I noticed your team recently open-sourced X / wrote about migrating to Y / is building in the Z space. That aligns with [what I built] and I'd contribute by [specific thing]." Generic answers ("great culture, innovative products") are filtered out. Specificity is the signal.
+
+**6a. "What is your greatest strength, and what is your greatest weakness?"**
+- Pointer: For strength, pick ONE that maps to a story you can prove with a number — "I'm strongest at turning a vague performance problem into a measured fix" → bridge straight into the 60s→3s story. Don't list five strengths; depth over breadth. For weakness, the trap is the fake weakness ("I work too hard", "I'm a perfectionist") — interviewers hear it as evasion. Give a REAL, low-blast-radius weakness with active remediation: e.g., "I used to delay asking for help because I wanted to solve things myself — which once turned a half-day blocker into two days. I now timebox to 45 minutes before pulling in a teammate, and I post blockers in standup the same morning." The structure is: real weakness → the concrete cost it once had → the specific system you put in place so it doesn't recur. A weakness you've actively engineered around is a strength signal.
+
+**6b. Curveball: "Why two companies / so many projects in just 2.5 years?"**
+- Pointer: This can read as a stability concern — reframe it as breadth and ownership, never as restlessness. The honest framing: "Within `[current company]` I worked across three products — Smart360, a multi-tenant review platform; Deep Fathom, a B2B SaaS on Azure; and WebX, an LLM-integrated product. That wasn't job-hopping — it was the company trusting me with new problems as I delivered. It's why I have hands-on range across the full stack, cloud infra, and LLM integration that a single long-running project wouldn't have given me." Land the close on intent: "What I want next is to go deeper at scale on one product, which is exactly the move I'm making now." If the two companies are literally two employers, frame the first as foundational and the second as the deliberate step up in scope — a trajectory, not churn. Never sound defensive; breadth at 2.5 YOE is an asset when you frame it as range plus the judgement of someone who's seen more than one system end-to-end.
 
 ### Java / Spring / System Design
 
@@ -502,6 +559,7 @@ Rate yourself 1–5 after Sunday's mock. Feed gaps directly into Week 11 Day 1�
 | CompletableFuture vs Future — composition API | 4 | | |
 | OOMKilled pod — diagnosis and fix | 4 | | |
 | Topological sort — Kahn's algorithm from scratch | 5 | | |
+| News Feed / Timeline HLD — fan-out (write/read/hybrid), cursor pagination, ranking | 5 | | |
 | 20+ applications submitted + tracking sheet current | 5 | | |
 | Full mock interview completed (recorded) | 5 | | |
 

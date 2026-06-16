@@ -123,10 +123,20 @@
 - [ ] Rewrite the About section (3–4 sentences): quantified impact first (60s→3s query, 57% CI/CD cut, 30+ Bicep resources), tech stack, what you're looking for.
 - [ ] Ensure Smart360 and Deep Fathom experience entries have 3–5 bullets each, all starting with an action verb, all with a number. Example: "Reduced P95 query latency from 60 s to 2–3 s by eliminating N+1 patterns with JOIN FETCH and EntityGraph, cutting DB load by ~70%."
 - [ ] Add Skills section: Java · Spring Boot · Spring Cloud · Microservices · Azure · AWS · Kubernetes · Docker · PostgreSQL · Redis · GitLab CI/CD · Bicep · Vue.js · React · LLM Integration.
+- [ ] **Set up recruiter-inbound profiles on Instahyre AND Cutshort (15 min).** These aren't just "apply here" job boards — they're high-signal inbound channels for exactly your band (mid-level Java + cloud, ₹14–25 LPA). Create the profile, set the open-to-work flag, fill skills/expected-CTC, upload the resume. Recruiters at product companies and GCCs actively search these — a complete profile gets you *inbound* approaches you'd never have found by applying. Do this now so the inbound pipeline is filling while you sleep.
+
+**First-Screen Salary-Deflection Readiness (10 min)**
+- [ ] The full CTC negotiation playbook is in **Week 13** — but the "what's your current CTC / expected CTC?" question hits in the *very first recruiter screen*, which starts this week. You need a ready answer *now*, before the screen, so you don't anchor yourself low on the call. Have 2–3 lines memorised:
+  - **Deflect politely (default):** *"I'd rather focus on the role and the total opportunity first — I'm confident we can find a number that works for both sides once I understand the scope."*
+  - **Give a researched band only if pressed:** *"For Senior Java / Spring Boot engineers with my background in Pune/Bengaluru, the market is around ₹18–24 LPA — I'd want to be in that range."* (Name the band, never your current number.)
+  - **Never anchor low:** do NOT volunteer your current CTC unprompted. If a form forces it, enter your *full* CTC including all components (base + variable + employer PF + benefits) — it's always higher than base alone.
+  - Cross-reference: see **Week 13 → "The Current CTC / Expected CTC Question"** for the full two-technique playbook (before vs. after an offer is in hand). This week you just need the first-screen reflex.
 
 **Self-Check**
 - [ ] Is your LinkedIn headline under 220 characters and keyword-dense?
 - [ ] Does every experience bullet have a number?
+- [ ] Are your Instahyre and Cutshort profiles live with open-to-work set?
+- [ ] Can you deflect the "current/expected CTC" question in one breath without naming your current number?
 
 ---
 
@@ -135,6 +145,19 @@
 **DSA (60 min)**
 - [ ] Full timed mock: pick any 2 problems from this week you haven't fully nailed. 30 min each, LeetCode contest mode (no hints, fresh editor).
 - [ ] If both pass: pick one Hard from Blind 75 DP list (LC 115 Distinct Subsequences or LC 312 Burst Balloons) for stretch challenge.
+
+**System Design — Driven HLD: Design a Notification System (45 min)**
+
+This is a top-5 HLD prompt and a direct extension of your Kafka/outbox experience — drive it end-to-end, do not wait for the interviewer to pull each piece out of you. Whiteboard it on paper. Prompt: *"Design a notification system that delivers push, email, SMS, and in-app notifications for a product like Flipkart — 10M notifications/day, must be reliable (no lost notifications) and must not spam users."*
+
+- [ ] **Channels + abstraction (5 min):** four channels — push (APNs/FCM), email (SES/SendGrid), SMS (Twilio/SNS), in-app (websocket/DB-backed inbox). Abstract behind a common `Channel` interface so adding a channel doesn't touch the core pipeline — name this; it's the extensibility signal.
+- [ ] **Template service:** notifications are not raw strings — a Template Service renders `(templateId, locale, variables)` → channel-specific content. Decouples product copy from delivery code; supports i18n and A/B copy without redeploys.
+- [ ] **User notification-preferences:** per-user, per-category, per-channel opt-in/opt-out + quiet hours. The pipeline consults preferences before dispatch — a user who muted marketing email still gets a security alert (category-level granularity, not a global on/off).
+- [ ] **Fan-out + per-user rate limiting + dedup/idempotency:** a single event (e.g. "order shipped") fans out to one notification per eligible channel. **Per-user rate limiting** (Redis sliding-window counter, same pattern as your LLM proxy) prevents notification storms — cap N notifications/user/hour. **Dedup/idempotency:** every notification carries an idempotency key (event_id + user_id + channel); a Redis SETNX or a unique DB constraint guarantees at-most-once delivery even if the event is redelivered. State this explicitly — duplicate notifications are the #1 user complaint.
+- [ ] **Queue-backed workers with retry + DLQ:** the producer writes a `NotificationRequested` event; per-channel worker pools consume from the queue. Transient failures (provider 5xx, timeout) → exponential-backoff retry; permanent failures (invalid token, hard bounce) → **dead-letter queue** for inspection, never silently dropped. This is exactly your Kafka consumer + DLQ knowledge.
+- [ ] **Delivery tracking / status:** `notifications(id, user_id, channel, template_id, status, attempts, created_at, sent_at, delivered_at)` with status transitions QUEUED → SENT → DELIVERED → (READ for in-app) / FAILED. Provider webhooks (delivery receipts, bounces) update status asynchronously — close the loop, don't fire-and-forget.
+- [ ] **Tie to your work:** "This is the outbox pattern I used in Deep Fathom — the originating transaction writes the notification intent to an outbox table in the same commit, a relay publishes it to Kafka, and per-channel workers consume it. Exactly-once intent capture on the write side, at-least-once delivery with idempotency keys on the consumer side." Name the read/write decoupling as the reason the originating service never blocks on a slow email provider.
+- [ ] **Self-critique:** Did I cover the channel abstraction, preferences-before-dispatch, dedup/idempotency, retry + DLQ, and delivery-status tracking — and tie at least one to the outbox/Kafka work — without being prompted? Mark any gap for a redo.
 
 **Profile & Applications (3 hr)**
 
@@ -152,6 +175,7 @@
 *Research & Apply — 3–5 Warm-Up Companies (2 hr)*
 - [ ] Target criteria: mid-size product companies or established service companies (NOT the GCC dream targets — those come later). Goal is interview reps, not offers.
 - [ ] Suggested hunting grounds: Naukri ("Java Spring Boot Microservices" → filter 2–5 YOE, 15–25 LPA, Pune/Bengaluru/remote), LinkedIn Jobs, Instahyre, Cutshort.
+- [ ] **ATS-keyword tailoring (before you hit apply):** paste the JD next to your resume and mirror the **top ~5 JD keywords/skills** into your resume's summary and skills section — using the JD's exact phrasing (e.g. if the JD says "Spring Cloud Gateway" don't leave it as just "API gateway"). Most applications at this level are filtered by an automated ATS *before* a human sees them; a resume that doesn't echo the JD's terms gets dropped silently. This matters most in the contested sub-20 LPA band where you're competing against high application volume. Keep a base resume and produce a 60-second tailored variant per JD.
 - [ ] For each application: tailor the cover note / application message in 3 sentences (what you did, tech match to JD, what you want).
 - [ ] Log all 3–5 in the tracking sheet before you close the laptop.
 
@@ -242,6 +266,13 @@ Spring config required: `server.shutdown=graceful`, `spring.lifecycle.timeout-pe
 2. Grant the identity `Key Vault Secrets User` role on the Key Vault.
 3. In Bicep: reference secret as `secretRef` pointing to Key Vault URI — no credentials in code or env vars.
 4. At runtime, ACA's control plane fetches the secret and injects it as an env var. Secret rotation happens without redeployment (only a pod restart is needed).
+
+**Encryption — at-rest vs in-transit, PII, key management** (the concept layer above secrets):
+- *Encryption in-transit*: TLS on every hop — client↔gateway, gateway↔service, service↔DB. Terminate TLS at the edge (Front Door/load balancer) or enforce mTLS service-to-service. "Secrets in Key Vault" is meaningless if the connection carrying them is plaintext.
+- *Encryption at-rest*: the data store encrypts what it persists. Azure PostgreSQL Flexible Server, Blob Storage, and Redis all support at-rest encryption (AES-256) — on by default for managed services, often with the option of customer-managed keys (CMK) over platform-managed keys for compliance (FedRAMP/HIPAA).
+- *PII / tokenization*: encryption at-rest protects the disk; it does NOT protect a value from someone with DB read access. For high-sensitivity fields (PAN, SSN, card numbers), **tokenize** — replace the real value with a token, store the real value only in a separate vault/tokenization service. Reduces the blast radius of a DB breach and shrinks PCI/PII audit scope.
+- *Key management*: keys themselves are secrets — never hardcode, rotate them, and keep the key-encryption-key separate from the data-encryption-key (envelope encryption: a KEK in Key Vault/KMS encrypts DEKs, which encrypt the data). Key Vault gives HSM-backed key storage, rotation policies, and an audit log of every key use.
+- *Interview framing*: "at-rest + in-transit is table stakes; the real design decision is which fields are sensitive enough to tokenize, and keeping the encryption keys in an HSM-backed vault with rotation and audit — which is exactly what Key Vault gave us in Deep Fathom's FedRAMP-aligned posture."
 
 **Bicep Modular Design** — explain it structurally:
 - Root `main.bicep` passes parameters to modules: `network.bicep`, `containerApps.bicep`, `database.bicep`, `security.bicep`.
