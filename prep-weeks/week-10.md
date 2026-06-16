@@ -367,7 +367,9 @@ void backtrack(int start, List<Integer> current, int[] nums, List<List<Integer>>
 ```
 Know this pattern cold. It is the skeleton of LC 78, LC 90, LC 39, LC 40, LC 46, LC 131, LC 51.
 
-### Behavioral Prep — The 6 STAR Stories
+### Behavioral Prep — The 10 STAR Stories (6 core + 4 bar-raiser)
+
+Rows 1–6 are the core stories drilled Mon–Fri; rows 7–10 are the bar-raiser / values-round scaffolds detailed below (write them as real anecdotes).
 
 | # | Story Type | Must Include | Common Curveball Version |
 |---|---|---|---|
@@ -377,6 +379,10 @@ Know this pattern cold. It is the skeleton of LC 78, LC 90, LC 39, LC 40, LC 46,
 | 4 | Biggest failure | A REAL failure, specific consequence, specific lesson with follow-through | "Tell me about a time you were wrong about a technical decision." |
 | 5 | Why leaving | Ambition framing, no negativity, growth + scale + compensation | "Were there things you tried to change but couldn't?" |
 | 6 | Tell me about yourself | 90-second pitch: current role → key achievements (numbers) → what you're looking for | "If I called your current manager right now, what would they say about you?" |
+| 7 | Mentorship / helping a teammate | Taught the *why* (didn't just fix it), left a runbook/doc, followed up; quantified ramp/outcome | "Tell me about a time you helped someone grow." |
+| 8 | Receiving tough feedback | Someone told you something hard; no defensiveness; a concrete visible change; closed the loop | "What's the most useful piece of feedback you've ever received?" |
+| 9 | Deadline / prioritization under pressure | Explicit must-have vs nice-to-have; cut by reversibility & user impact; communicated it; hit the date | "How do you decide what to work on when everything is urgent?" |
+| 10 | Customer / stakeholder impact | User/business value first, engineering metric second; started from user pain; validated against the user outcome | "Tell me about a time you went above and beyond for a customer." |
 
 **The 90-second "Tell Me About Yourself" Script (fill in real details, practise until natural):**
 
@@ -551,6 +557,10 @@ Rate yourself 1–5 after Sunday's mock. Feed gaps directly into Week 11 Day 1�
 | STAR Story #4 – Biggest failure (honest, specific) | 5 | | |
 | STAR Story #5 – Why leaving (positive framing) | 5 | | |
 | STAR Story #6 – "Tell me about yourself" 90s pitch | 5 | | |
+| STAR Story #7 – Mentorship / helping a teammate | 4 | | |
+| STAR Story #8 – Receiving tough feedback (coachability) | 4 | | |
+| STAR Story #9 – Prioritization under pressure | 4 | | |
+| STAR Story #10 – Customer / stakeholder impact (user value first) | 4 | | |
 | Curveball: "time you were wrong" | 5 | | |
 | Curveball: "how you handle ambiguity" | 4 | | |
 | "Why this company?" for 3 specific companies | 5 | | |
@@ -571,7 +581,7 @@ Rate yourself 1–5 after Sunday's mock. Feed gaps directly into Week 11 Day 1�
 - 1: Not ready — block 2 focused hours in Week 11.
 
 **Week 10 exit criteria (minimum bar before Week 11):**
-- All 6 STAR stories written AND spoken aloud at least 3× each.
+- All 6 core STAR stories written AND spoken aloud at least 3× each, plus the 4 bar-raiser scaffolds (#7–#10) drafted with real anecdotes.
 - Running application total ≥ 20 with tracking sheet current.
 - At least 1 full mock interview completed (self-recorded or with a peer).
 - DSA: Union-Find template memorised; backtracking template memorised; company-tagged problems for top 3 targets attempted.
