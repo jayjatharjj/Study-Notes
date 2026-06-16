@@ -35,7 +35,7 @@ Each module opens with a **Quick Reference** blockquote and ends with **Intervie
 
 ## 🗓️ 13-Week Prep Plan
 
-Detailed day-by-day checklists live in **[`prep-weeks/`](prep-weeks/README.md)**. Plan runs **Wed 17 Jun → Sun 13 Sep 2026** (Week 1 is a 5-day Wed–Sun kickoff; Weeks 2–13 are clean Mon–Sun).
+Detailed day-by-day checklists live in **[`prep-weeks/`](prep-weeks/README.md)**. Log daily completion in the **[Progress Tracker](PROGRESS.md)**. Plan runs **Wed 17 Jun → Sun 13 Sep 2026** (Week 1 is a 5-day Wed–Sun kickoff; Weeks 2–13 are clean Mon–Sun).
 
 | Week | Dates | Phase | Focus |
 |------|-------|-------|-------|
