@@ -1,4 +1,4 @@
-# Week 8 — Core Build + First Applications (Jul 27–Aug 2, 2026)
+# Week 8 — Core Build + First Applications (Aug 3–9, 2026)
 
 > Ship code AND ship applications. You've spent seven weeks sharpening the blade; this week you swing it. Every DSA session closes a gap in DP/Greedy. Every Cloud block turns a resume bullet into a whiteboard-ready story. By Friday your LinkedIn is recruiter-optimised and three warm-up interviews are booked.
 
@@ -27,7 +27,7 @@
 
 ## 📅 Daily Checklist
 
-### Monday, Jul 27 — 2D DP: Edit Distance & Palindromes
+### Monday, Aug 3 — 2D DP: Edit Distance & Palindromes
 
 **DSA (45 min)**
 - [ ] Read the DP recurrence for Edit Distance intuitively: `dp[i][j]` = min ops to convert `word1[0..i]` to `word2[0..j]`.
@@ -46,7 +46,7 @@
 
 ---
 
-### Tuesday, Jul 28 — 2D DP: Maximal Square & Subset Sum
+### Tuesday, Aug 4 — 2D DP: Maximal Square & Subset Sum
 
 **DSA (45 min)**
 - [ ] Solve **LC 221 – Maximal Square** (Medium). Key insight: `dp[i][j]` = side length of largest square with bottom-right corner at (i,j). Recurrence: `min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]) + 1` if `matrix[i][j] == '1'`. O(mn) time, O(n) space.
@@ -64,7 +64,7 @@
 
 ---
 
-### Wednesday, Jul 29 — Greedy: Jump Game & Gas Station
+### Wednesday, Aug 5 — Greedy: Jump Game & Gas Station
 
 **DSA (45 min)**
 - [ ] Solve **LC 55 – Jump Game** (Medium). Greedy: track `maxReach`; if current index > `maxReach`, return false. O(n) time, O(1) space. Know why DP is O(n²) and strictly worse here.
@@ -87,7 +87,7 @@
 
 ---
 
-### Thursday, Jul 30 — Greedy: Intervals
+### Thursday, Aug 6 — Greedy: Intervals
 
 **DSA (45 min)**
 - [ ] Solve **LC 56 – Merge Intervals** (Medium). Sort by start; merge overlapping by comparing `end` of last merged vs `start` of next. O(n log n) time, O(n) space.
@@ -107,7 +107,7 @@
 
 ---
 
-### Friday, Jul 31 — Mock Story Day + Profile Polish Begins
+### Friday, Aug 7 — Mock Story Day + Profile Polish Begins
 
 **DSA (30 min — lighter day)**
 - [ ] Revisit any one problem from Mon–Thu that felt shaky. Do it again from scratch, no hints, time yourself.
@@ -130,7 +130,7 @@
 
 ---
 
-### Saturday, Aug 1 — Full Applications Day
+### Saturday, Aug 8 — Full Applications Day
 
 **DSA (60 min)**
 - [ ] Full timed mock: pick any 2 problems from this week you haven't fully nailed. 30 min each, LeetCode contest mode (no hints, fresh editor).
@@ -161,7 +161,7 @@
 
 ---
 
-### Sunday, Aug 2 — Weekly Review + Week 9 Prep
+### Sunday, Aug 9 — Weekly Review + Week 9 Prep
 
 **DSA (60 min)**
 - [ ] Full DP review pass: write the recurrence (not the code, just the state and transition) for all 4 DP problems this week on paper. If any recurrence is fuzzy, re-solve that problem.

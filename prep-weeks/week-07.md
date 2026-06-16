@@ -1,4 +1,4 @@
-# Week 7 — Core Build (Jul 20–26, 2026)
+# Week 7 — Core Build (Jul 27–Aug 2, 2026)
 
 > Theme: **Tame DP, master rate limiting + resilience, and simulate a real design interview — then own every curveball from first principles.**
 
@@ -22,7 +22,7 @@ By Friday you can walk an interviewer through any classic 1D/2D DP problem using
 
 ## 📅 Daily Checklist
 
-### Monday Jul 20 — DP Foundations: 1D Problems
+### Monday Jul 27 — DP Foundations: 1D Problems
 
 **DSA (60 min)**
 - [ ] Read the "identify state + transition" framework before coding anything:
@@ -45,7 +45,7 @@ By Friday you can walk an interviewer through any classic 1D/2D DP problem using
 
 ---
 
-### Tuesday Jul 21 — DP 1D continued + Resilience4j deep dive
+### Tuesday Jul 28 — DP 1D continued + Resilience4j deep dive
 
 **DSA (60 min)**
 - [ ] **LC 139 — Word Break** (Medium): `dp[i]` = can the first `i` characters of `s` be segmented? Transition: for each `j < i`, if `dp[j]` is true AND `s[j..i]` is in `wordDict`, then `dp[i] = true`. Time: O(n² × avg_word_len). Work out why BFS/DFS-with-memo is equivalent.
@@ -67,7 +67,7 @@ By Friday you can walk an interviewer through any classic 1D/2D DP problem using
 
 ---
 
-### Wednesday Jul 22 — 2D DP + Rate Limiting algorithms
+### Wednesday Jul 29 — 2D DP + Rate Limiting algorithms
 
 **DSA (65 min)**
 - [ ] **LC 62 — Unique Paths** (Medium): `dp[i][j] = dp[i-1][j] + dp[i][j-1]`. Reduce to 1D array. This is also combinatorics: `C(m+n-2, m-1)` — know both approaches.
@@ -97,7 +97,7 @@ By Friday you can walk an interviewer through any classic 1D/2D DP problem using
 
 ---
 
-### Thursday Jul 23 — gRPC vs REST vs Messaging + API Gateway deep dive
+### Thursday Jul 30 — gRPC vs REST vs Messaging + API Gateway deep dive
 
 **DSA (55 min)**
 - [ ] Review all six problems from Mon–Wed: re-derive each recurrence on paper in 2 min max per problem. No peeking. If you stall on any, that's the one to re-solve tonight.
@@ -130,7 +130,7 @@ By Friday you can walk an interviewer through any classic 1D/2D DP problem using
 
 ---
 
-### Friday Jul 24 — Integration + Curveball practice
+### Friday Jul 31 — Integration + Curveball practice
 
 **DSA (60 min)**
 - [ ] Full timed set — 75 min timer, do not look up anything:
@@ -152,7 +152,7 @@ By Friday you can walk an interviewer through any classic 1D/2D DP problem using
 
 ---
 
-### Saturday Jul 25 — Mock System Design: Data-Collaboration Platform
+### Saturday Aug 1 — Mock System Design: Data-Collaboration Platform
 
 **Block 1 (45 min) — Timed mock, record yourself**
 
@@ -215,7 +215,7 @@ Set a 45-min timer. Open a blank doc. Record yourself speaking your design aloud
 
 ---
 
-### Sunday Jul 26 — Consolidation + Weak-spot drills
+### Sunday Aug 2 — Consolidation + Weak-spot drills
 
 **DSA (60 min)**
 - [ ] **New problem: LC 72 — Edit Distance** (Hard): `dp[i][j]` = min edits to convert `word1[0..i]` to `word2[0..j]`. Three operations → three transitions. This is LCS in disguise — both are 2D string DP. Seeing the connection is the expert move.

@@ -1,8 +1,8 @@
-# Week 1 — Foundations (Jun 9–14, 2026 · 6-day kickoff)
+# Week 1 — Foundations (Jun 17–21, 2026 · 5-day kickoff)
 
 > Lock in the two skills every product-company interview tests first: pattern-recognition on arrays/pointers/windows, and fluent Java internals tied to your own shipped code.
 >
-> **Kickoff week:** 6 days (Tue Jun 9 – Sun Jun 14) so that Week 2 onward lands on clean Mon–Sun calendar weeks. Friday is a fuller consolidation day that absorbs the original review + behavioral work.
+> **Kickoff week:** 5 days (Wed Jun 17 – Sun Jun 21) so that Week 2 onward lands on clean Mon–Sun calendar weeks. Wed–Fri are normal weekday blocks; **Saturday is a heavier consolidation day** that absorbs the mixed-pattern review, OOP, resume, deep-dive, and behavioral work (the load that lived on the extra weekday in the original 6-day kickoff). It can spill into Sunday morning if needed.
 
 ---
 
@@ -27,7 +27,7 @@ By Friday you can solve any Easy and most Medium array/two-pointer/sliding-windo
 
 ---
 
-### Tuesday Jun 9 — Arrays & Two Pointers: Classic Patterns
+### Wednesday Jun 17 — Arrays & Two Pointers: Classic Patterns
 
 **DSA (Block A, ~50 min):**
 
@@ -55,7 +55,7 @@ Time check: if you finish all 4 in <40 min, attempt **LC 167 Two Sum II** (sorte
 
 ---
 
-### Wednesday Jun 10 — Sliding Window + HashMap Internals
+### Thursday Jun 18 — Sliding Window + HashMap Internals
 
 **DSA (Block A, ~50 min):**
 
@@ -82,7 +82,7 @@ Problems (in order):
 
 ---
 
-### Thursday Jun 11 — Sliding Window Advanced + Generics & Autoboxing
+### Friday Jun 19 — Sliding Window Advanced + Generics & Autoboxing
 
 **DSA (Block A, ~50 min):**
 
@@ -111,7 +111,9 @@ Problems (in order):
 
 ---
 
-### Friday Jun 12 — Mixed Pattern Review + OOP Principles + Consolidation (fuller day)
+### Saturday Jun 20 — Consolidation Weekend: Mixed Review + OOP + Resume + Deep-Dive + Behavioral (≈5 hr)
+
+> Heavier weekend day — it folds in the consolidation work that sat on the sixth weekday of the original kickoff. Blocks A–C are the mixed-pattern review, OOP principles, and behavioral-story refinement; Blocks D–F are the resume rewrite, project deep-dive docs, and mock behavioral questions. If you run long, push Blocks E–F to Sunday morning before the mock.
 
 **DSA (Block A, ~50 min):**
 
@@ -137,7 +139,7 @@ Problems (in order):
 1. In Product of Array Except Self, why is the output array not counted as extra space? (Answer: the problem says output array doesn't count; the O(1) claim is about *auxiliary* space beyond input and output.)
 2. Name one real violation of LSP in Java's standard library. (Answer: `java.util.Stack extends Vector` — Stack IS NOT a general-purpose Vector, yet it inherits all Vector methods; `Stack.add(0, element)` breaks stack semantics.)
 
-**Stretch DSA — timed mock (this is a fuller consolidation day; if short on time, roll these two and the behavioral block below into Saturday), 25 min each, no hints:**
+**Stretch DSA — timed mock (if short on time, roll these two and the behavioral block below into Sunday morning), 25 min each, no hints:**
 
 1. **Minimum Window Substring** (LC 76) — the hardest sliding window. Two pointers + two frequency maps. Expand right until all chars covered, then shrink left while still valid, record minimum window. Practice the "have" vs "need" counter trick: only increment `have` when a char's frequency exactly matches `need[c]`.
 2. **Maximum Product Subarray** (LC 152) — extension of Kadane. Track both `maxSoFar` and `minSoFar` because a negative × negative = positive. At each step: `newMax = max(num, maxSoFar*num, minSoFar*num)`.
@@ -156,11 +158,7 @@ For each story below, recite it aloud (not in your head) against a timer (2 min 
 1. In Minimum Window Substring, what is the time complexity and why? (Answer: O(n + m) where n = len(s), m = len(t). Each character enters and exits the window at most once.)
 2. If an interviewer says "tell me about a failure," use the CI/CD story in reverse — the initial failure was accepting slow pipelines for months. What did you learn? What would you do differently?
 
----
-
-### Saturday Jun 13 — Resume Rewrite + Project Deep-Dive Docs (4 hr)
-
-**Block A (90 min) — Resume Rewrite: Impact-First Format**
+**Block D (90 min) — Resume Rewrite: Impact-First Format**
 
 Every bullet must answer: "So what? How much? How do I know?" Remove all bullets that don't have a number or a named technology decision.
 
@@ -181,7 +179,7 @@ Every bullet must answer: "So what? How much? How do I know?" Remove all bullets
 - "Designed async job architecture for 2–20 min LLM operations: 202 Accepted + jobId pattern with SSE push on completion; supports 5+ LLM providers via unified proxy interface for cost/capability routing"
 - "Integrated LLM-powered features with graceful degradation — circuit breaker pattern ensures provider outages don't degrade core product"
 
-**Block B (90 min) — Project Deep-Dive Doc: One Page Per Project**
+**Block E (90 min) — Project Deep-Dive Doc: One Page Per Project**
 
 Write these in a notebook or separate doc — they are your verbal interview cheat sheet.
 
@@ -228,7 +226,7 @@ Numbers: [your actual metrics — response time, job throughput, provider cost r
 What I'd do differently: Use a proper job queue (AWS SQS or RabbitMQ) instead of DB polling for better backpressure
 ```
 
-**Block C (60 min) — Mock Behavioral Questions (speak aloud):**
+**Block F (60 min) — Mock Behavioral Questions (speak aloud):**
 - "Walk me through your most complex technical project." → Use Deep Fathom RLS story.
 - "Tell me about a time you disagreed with a technical decision." → Prepare one — find a real moment.
 - "Why are you leaving your current company?" → Frame as growth/scope/compensation, never negative.
@@ -236,7 +234,7 @@ What I'd do differently: Use a proper job queue (AWS SQS or RabbitMQ) instead of
 
 ---
 
-### Sunday Jun 14 — Deep Java Internals + Full Mock Interview (4 hr)
+### Sunday Jun 21 — Deep Java Internals + Full Mock Interview (4 hr)
 
 **Block A (90 min) — Java Memory Model + Concurrency Basics:**
 
@@ -252,7 +250,7 @@ These questions trip up 2–3 YOE candidates who have used Spring but haven't th
 
 **Block B (60 min) — Additional LeetCode: Week 1 Gaps:**
 
-Identify your 2 weakest problems from Mon–Fri. Redo them without looking at your solutions. If you pass both in <20 min each, attempt:
+Identify your 2 weakest problems from Wed–Sat. Redo them without looking at your solutions. If you pass both in <20 min each, attempt:
 - **Sliding Window Maximum** (LC 239) — deque-based, hard. Window keeps indices in decreasing order of value. Front of deque is always the max.
 - **Minimum Number of Arrows to Burst Balloons** (LC 452) — greedy + interval thinking. Sort by end point, greedily shoot at the end of the first balloon. Introduction to the interval pattern for next week.
 
@@ -430,4 +428,4 @@ Complete these checks on Sunday evening. Honest pass/fail only — no partial cr
 
 ---
 
-*Week 1 of 13 — next: Week 2 (Mon Jun 15 – Sun Jun 21) covers Hashing/Strings + the Collections framework deep-dive + a system design primer.*
+*Week 1 of 13 — next: Week 2 (Mon Jun 22 – Sun Jun 28) covers Hashing/Strings + the Collections framework deep-dive + a system design primer.*

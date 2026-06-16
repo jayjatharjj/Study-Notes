@@ -1,4 +1,4 @@
-# Week 5 — Core Build + Soft Applications (Jul 6–12, 2026)
+# Week 5 — Core Build + Soft Applications (Jul 13–19, 2026)
 
 > Theme: Own the fundamentals that every product-company interviewer will test — Trees, caching architecture, indexing internals, and a crisp frontend story. This week you stop being a "backend person who also does Vue" and become a full-stack engineer who can reason at every layer.
 
@@ -34,7 +34,7 @@ Walk into any interview and fluently answer:
 
 ---
 
-### Monday, Jul 6 — Tree Traversals: Recursive + Iterative
+### Monday, Jul 13 — Tree Traversals: Recursive + Iterative
 
 **Time budget: 1.5 hr**
 
@@ -62,7 +62,7 @@ Walk into any interview and fluently answer:
 
 ---
 
-### Tuesday, Jul 7 — Level Order + Tree Problems II
+### Tuesday, Jul 14 — Level Order + Tree Problems II
 
 **Time budget: 1.5 hr**
 
@@ -90,7 +90,7 @@ Walk into any interview and fluently answer:
 
 ---
 
-### Wednesday, Jul 8 — BST Operations + LCA
+### Wednesday, Jul 15 — BST Operations + LCA
 
 **Time budget: 1.5 hr**
 
@@ -118,7 +118,7 @@ Walk into any interview and fluently answer:
 
 ---
 
-### Thursday, Jul 9 — Tree Construction + Indexing Deep Dive
+### Thursday, Jul 16 — Tree Construction + Indexing Deep Dive
 
 **Time budget: 1.5 hr**
 
@@ -145,7 +145,7 @@ Walk into any interview and fluently answer:
 
 ---
 
-### Friday, Jul 10 — Redis Deep Dive + LFU/LRU + Catch-Up
+### Friday, Jul 17 — Redis Deep Dive + LFU/LRU + Catch-Up
 
 **Time budget: 1.5 hr**
 
@@ -171,7 +171,7 @@ Walk into any interview and fluently answer:
 
 ---
 
-### Saturday, Jul 11 — Frontend Deep Dive: Vue 3
+### Saturday, Jul 18 — Frontend Deep Dive: Vue 3
 
 **Time budget: 4 hr**
 
@@ -229,7 +229,7 @@ Walk into any interview and fluently answer:
 
 ---
 
-### Sunday, Jul 12 — React + Consolidation + Self-Assessment
+### Sunday, Jul 19 — React + Consolidation + Self-Assessment
 
 **Time budget: 4 hr**
 

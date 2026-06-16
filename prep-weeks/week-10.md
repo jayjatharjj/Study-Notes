@@ -1,4 +1,4 @@
-# Week 10 — Peak + Active Applications (Aug 10–16, 2026)
+# Week 10 — Peak + Active Applications (Aug 17–23, 2026)
 
 > Interviews are live. Every hour matters. You are not studying anymore — you are performing. DSA is maintenance, not learning. Behavioral stories are your secret weapon. Applications are a pipeline, not a lottery. By Friday you have STAR stories written and rehearsed for every major behavioral category. By Sunday you have done a full end-to-end mock interview and can tell your story as a confident, numbers-backed narrative.
 
@@ -26,11 +26,11 @@
 
 ---
 
-## 📅 Daily Checklist (Mon–Sun, Aug 10–16)
+## 📅 Daily Checklist (Mon–Sun, Aug 17–23)
 
 ---
 
-### Monday, Aug 10 — DSA Weak Pattern: Graphs (BFS/DFS) + STAR Story #1
+### Monday, Aug 17 — DSA Weak Pattern: Graphs (BFS/DFS) + STAR Story #1
 
 **DSA (45 min)**
 - [ ] **LC 200 – Number of Islands** (Medium). DFS/BFS flood-fill: mark visited cells in-place (set to '0') or with a visited array. Time O(m×n), space O(m×n) recursion stack worst case. Know both DFS and BFS implementations — interviewers often ask for the other one after you pick one.
@@ -57,7 +57,7 @@
 
 ---
 
-### Tuesday, Aug 11 — DSA: Graphs (Cycle Detection / Topological Sort) + STAR Story #2
+### Tuesday, Aug 18 — DSA: Graphs (Cycle Detection / Topological Sort) + STAR Story #2
 
 **DSA (45 min)**
 - [ ] **LC 207 – Course Schedule** (Medium). Directed graph cycle detection via DFS with coloring (white=unvisited, gray=in-stack, black=done) OR Kahn's BFS topological sort (track in-degrees; add nodes with in-degree 0 to queue; if processed count < n, cycle exists). Know BOTH approaches — interviewers ask "now do it without recursion" and Kahn's is the answer.
@@ -90,7 +90,7 @@
 
 ---
 
-### Wednesday, Aug 12 — DSA: Union-Find + STAR Story #3
+### Wednesday, Aug 19 — DSA: Union-Find + STAR Story #3
 
 **DSA (45 min)**
 - [ ] **LC 684 – Redundant Connection** (Medium). Union-Find (Disjoint Set Union): for each edge, if both endpoints are already in the same set → this edge creates the cycle → return it. Union by rank + path compression → near O(1) amortized per operation.
@@ -118,7 +118,7 @@
 
 ---
 
-### Thursday, Aug 13 — DSA: Backtracking + STAR Story #4
+### Thursday, Aug 20 — DSA: Backtracking + STAR Story #4
 
 **DSA (45 min)**
 - [ ] **LC 78 – Subsets** (Medium). Backtracking: at each step, choose to include or exclude the current element. Build the recursion tree. Result: 2^n subsets. Time O(n × 2^n), space O(n) call stack. Also know the iterative bit-mask approach: for mask from 0 to 2^n-1, include element i if bit i is set.
@@ -151,7 +151,7 @@
 
 ---
 
-### Friday, Aug 14 — DSA: Company-Tagged Review + STAR Stories #5 & #6
+### Friday, Aug 21 — DSA: Company-Tagged Review + STAR Stories #5 & #6
 
 **DSA (45 min)**
 - [ ] Pull up LeetCode's company tags for the 3 companies you have the most active applications at (check your tracking sheet). Look at their Medium/Hard tagged problems. Prioritize:
@@ -188,7 +188,7 @@
 
 ---
 
-### Saturday, Aug 15 — Full Mock Interview + Spring/Java Deep-Dive Drill
+### Saturday, Aug 22 — Full Mock Interview + Spring/Java Deep-Dive Drill
 
 **DSA (60 min)**
 - [ ] Timed mock: open a fresh LeetCode session. Pick problems RANDOMLY from this list (don't cherry-pick):
@@ -245,7 +245,7 @@ This session revisits the interview-qa.md topics as a rapid-fire drill — you a
 
 ---
 
-### Sunday, Aug 16 — Full End-to-End Mock Interview + Week 11 Planning
+### Sunday, Aug 23 — Full End-to-End Mock Interview + Week 11 Planning
 
 **Morning: Targeted Weak-Area Review (60 min)**
 - [ ] Take the group with the most hesitations from Saturday's drill. Re-read the relevant interview-qa.md section, then answer the same questions aloud again — measure improvement.

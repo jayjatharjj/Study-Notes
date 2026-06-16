@@ -1,4 +1,4 @@
-# Week 2 — Foundations (Jun 15–21, 2026)
+# Week 2 — Foundations (Jun 22–28, 2026)
 
 > Hash the strings, understand the collections internals, and sketch your own architecture on a whiteboard.
 
@@ -25,7 +25,7 @@ By Sunday you will have drilled Hashing + Strings patterns cold (8 canonical pro
 
 ---
 
-### Monday, Jun 15 — Hashing Foundations
+### Monday, Jun 22 — Hashing Foundations
 
 **DSA Block A (40 min)**
 
@@ -63,7 +63,7 @@ By Sunday you will have drilled Hashing + Strings patterns cold (8 canonical pro
 
 ---
 
-### Tuesday, Jun 16 — Top K & Frequency Patterns
+### Tuesday, Jun 23 — Top K & Frequency Patterns
 
 **DSA Block A (40 min)**
 
@@ -112,7 +112,7 @@ By Sunday you will have drilled Hashing + Strings patterns cold (8 canonical pro
 
 ---
 
-### Wednesday, Jun 17 — Concurrent Collections + Fail-Fast/Fail-Safe
+### Wednesday, Jun 24 — Concurrent Collections + Fail-Fast/Fail-Safe
 
 **DSA Block A (40 min)**
 
@@ -156,7 +156,7 @@ By Sunday you will have drilled Hashing + Strings patterns cold (8 canonical pro
 
 ---
 
-### Thursday, Jun 18 — Comparable vs Comparator + String Patterns
+### Thursday, Jun 25 — Comparable vs Comparator + String Patterns
 
 **DSA Block A (40 min)**
 
@@ -231,7 +231,7 @@ reports.sort(byDateThenOwner);
 
 ---
 
-### Friday, Jun 19 — Review + Weak Spots + Collections Synthesis
+### Friday, Jun 26 — Review + Weak Spots + Collections Synthesis
 
 **DSA Block A (40 min) — Re-attempt the 2 hardest problems from Mon–Thu without notes**
 
@@ -264,7 +264,7 @@ Synthesis exercise — answer these WITHOUT looking at notes:
 
 ---
 
-### Saturday, Jun 20 — System Design Primer (4 hr)
+### Saturday, Jun 27 — System Design Primer (4 hr)
 
 **Morning: Foundations (2 hr)**
 
@@ -365,7 +365,7 @@ Synthesis exercise — answer these WITHOUT looking at notes:
 
 ---
 
-### Sunday, Jun 21 — Mock Interview Day (4 hr)
+### Sunday, Jun 28 — Mock Interview Day (4 hr)
 
 **Morning: Mock DSA Session (1.5 hr)**
 
@@ -555,4 +555,4 @@ If any DSA problem is ≤ 3, schedule 20 min at the start of Week 3 Day 1 to re-
 
 ---
 
-*Week 2 — generated 2026-06-05. Next: Week 3 — Advanced Java (Generics, Streams deep dive, Optional, Records) + DSA: Binary Search patterns.*
+*Week 2 — generated 2026-06-05, schedule revised 2026-06-16. Next: Week 3 — Advanced Java (Generics, Streams deep dive, Optional, Records) + DSA: Binary Search patterns.*

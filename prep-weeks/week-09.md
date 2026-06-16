@@ -1,4 +1,4 @@
-# Week 9 — Peak + Active Applications (Aug 3–9, 2026)
+# Week 9 — Peak + Active Applications (Aug 10–16, 2026)
 
 > The blade is sharp. Now swing it with precision. This week you shift from prep mode to execution mode: timed mixed DSA sets simulate real OA pressure, system design goes to true scale, and 10–15 quality applications go out the door. Referrals are the highest-leverage move you can make — one warm intro beats 50 cold applications. By Sunday you have run a full mock interview and have a live pipeline of companies actively in play.
 
@@ -30,7 +30,7 @@
 
 ---
 
-### Monday, Aug 3 — Heap Foundations + System Design: Sharding & Replication
+### Monday, Aug 10 — Heap Foundations + System Design: Sharding & Replication
 
 **DSA — Timed Set #1 (45 min, OA simulation)**
 
@@ -64,7 +64,7 @@ Set the timer. No hints. Fresh LeetCode editor. Treat this as a real OA.
 
 ---
 
-### Tuesday, Aug 4 — Heap Deep Cut + CAP Theorem & Consistency Models
+### Tuesday, Aug 11 — Heap Deep Cut + CAP Theorem & Consistency Models
 
 **DSA — Timed Set #2 (45 min, OA simulation)**
 
@@ -104,7 +104,7 @@ Set the timer. No hints. Fresh LeetCode editor. Treat this as a real OA.
 
 ---
 
-### Wednesday, Aug 5 — Timed Set #3 + System Design Mock: File Storage Platform
+### Wednesday, Aug 12 — Timed Set #3 + System Design Mock: File Storage Platform
 
 **DSA — Timed Set #3 (45 min, OA simulation)**
 
@@ -195,7 +195,7 @@ Work through it in this order:
 
 ---
 
-### Thursday, Aug 6 — Applications Day #1 + Referral Outreach
+### Thursday, Aug 13 — Applications Day #1 + Referral Outreach
 
 **DSA (30 min — lighter day, keep the streak)**
 - [ ] Solve **LC 692 – Top K Frequent Words** (Medium). Extension of LC 347 — but now with string comparison for tie-breaking. Use a min-heap with custom comparator: (frequency ASC, word DESC) so the heap root is always the "worst" of the top-k. When heap size > k, pop. O(n log k). This is a clean exercise in writing a custom comparator under pressure.
@@ -243,7 +243,7 @@ Work through it in this order:
 
 ---
 
-### Friday, Aug 7 — Applications Day #2 + System Design: Partitioning Deep Cut
+### Friday, Aug 14 — Applications Day #2 + System Design: Partitioning Deep Cut
 
 **DSA (30 min)**
 - [ ] Solve **LC 1046 – Last Stone Weight** (Easy). Max-heap. Quick 10-min warm-up — it's an OA favourite for heap validation.
@@ -270,7 +270,7 @@ Work through it in this order:
 
 ---
 
-### Saturday, Aug 8 — Full Mock Interview Day
+### Saturday, Aug 15 — Full Mock Interview Day
 
 This is the most important day of the week. Treat it like a real interview. Get up, get dressed, sit at your desk.
 
@@ -304,7 +304,7 @@ This is the most important day of the week. Treat it like a real interview. Get 
 
 ---
 
-### Sunday, Aug 9 — Review, Consolidate, Week 10 Prep
+### Sunday, Aug 16 — Review, Consolidate, Week 10 Prep
 
 **DSA (60 min) — Mixed Review + One Stretch Hard**
 - [ ] Write on paper — recurrence or invariant (not code) for every heap problem this week: LC 215, 347, 295, 23, 692, 621. Time: 15 minutes. If any is fuzzy, re-solve it now.

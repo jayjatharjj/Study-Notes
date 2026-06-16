@@ -1,4 +1,4 @@
-# Week 11 — Peak + Interview Clustering (Aug 17–23, 2026)
+# Week 11 — Peak + Interview Clustering (Aug 24–30, 2026)
 
 > Interviews are arriving. Stop building; start performing. Every hour this week is either a rep in front of an interviewer or a simulation of one. DSA sharpness is maintained, not grown. Frontend-backend integration becomes a fluent story. By Sunday your project narratives are so clean you could answer at 6 a.m. with no warm-up.
 
@@ -29,7 +29,7 @@
 
 ---
 
-### Monday, Aug 17 — DSA Maintenance + CORS & Token Handling
+### Monday, Aug 24 — DSA Maintenance + CORS & Token Handling
 
 **Pre-day check (5 min)**
 - [ ] Open the tracking sheet. Any new interview invites since Friday? Schedule them immediately and block calendar time the evening before each for company research.
@@ -87,7 +87,7 @@
 
 ---
 
-### Tuesday, Aug 18 — DSA Maintenance + API Error Handling UX & Full-Stack Integration Story
+### Tuesday, Aug 25 — DSA Maintenance + API Error Handling UX & Full-Stack Integration Story
 
 **Pre-day check (5 min)**
 - [ ] Check interview schedule. Apply Pre-Interview Checklist for any round today/tomorrow.
@@ -103,7 +103,7 @@
 - All errors return a consistent JSON body:
   ```json
   {
-    "timestamp": "2026-08-16T10:00:00Z",
+    "timestamp": "2026-08-23T10:00:00Z",
     "status": 400,
     "error": "Bad Request",
     "message": "email must not be blank",
@@ -133,7 +133,7 @@
 
 ---
 
-### Wednesday, Aug 19 — DSA Maintenance + System Design: Full-Stack LLM Feature
+### Wednesday, Aug 26 — DSA Maintenance + System Design: Full-Stack LLM Feature
 
 **Pre-day check (5 min)**
 - [ ] Check interview schedule. Apply Pre-Interview Checklist for any round today/tomorrow.
@@ -199,7 +199,7 @@ This is a rehearsal for a system design question framed as: "Design the WebX fea
 
 ---
 
-### Thursday, Aug 20 — DSA Maintenance + Smart360 Project Deep Dive Rehearsal
+### Thursday, Aug 27 — DSA Maintenance + Smart360 Project Deep Dive Rehearsal
 
 **Pre-day check (5 min)**
 - [ ] Check interview schedule. Apply Pre-Interview Checklist for any round today/tomorrow.
@@ -237,7 +237,7 @@ This is a rehearsal for a system design question framed as: "Design the WebX fea
 
 ---
 
-### Friday, Aug 21 — DSA Maintenance + Deep Fathom + WebX Deep Dive Rehearsal
+### Friday, Aug 28 — DSA Maintenance + Deep Fathom + WebX Deep Dive Rehearsal
 
 **Pre-day check (5 min)**
 - [ ] Check interview schedule. Apply Pre-Interview Checklist for any round today/tomorrow.
@@ -284,7 +284,7 @@ This is a rehearsal for a system design question framed as: "Design the WebX fea
 
 ---
 
-### Saturday, Aug 22 — Full Mock Day: Project Deep Dives + System Design + Company-Specific Prep
+### Saturday, Aug 29 — Full Mock Day: Project Deep Dives + System Design + Company-Specific Prep
 
 **Time: ~4 hours**
 
@@ -322,7 +322,7 @@ This is a rehearsal for a system design question framed as: "Design the WebX fea
 
 ---
 
-### Sunday, Aug 23 — Light Rehearsal + Week Review + Week 12 Plan
+### Sunday, Aug 30 — Light Rehearsal + Week Review + Week 12 Plan
 
 **Time: ~4 hours**
 

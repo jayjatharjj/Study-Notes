@@ -1,4 +1,4 @@
-# Week 6 — Core Build (Jul 13–19, 2026)
+# Week 6 — Core Build (Jul 20–26, 2026)
 
 > **Theme: Graphs + Async Messaging Architecture — Own the design room and the whiteboard.**
 
@@ -27,7 +27,7 @@ Exit the week able to solve any LeetCode medium graph problem cold in ≤25 min,
 
 ---
 
-### Monday Jul 13 — Graph Foundations: BFS & DFS
+### Monday Jul 20 — Graph Foundations: BFS & DFS
 
 **Total: ~1.5 hr**
 
@@ -50,7 +50,7 @@ Exit the week able to solve any LeetCode medium graph problem cold in ≤25 min,
 
 ---
 
-### Tuesday Jul 14 — Topological Sort + Kafka Internals Deep Dive
+### Tuesday Jul 21 — Topological Sort + Kafka Internals Deep Dive
 
 **Total: ~1.5 hr**
 
@@ -77,7 +77,7 @@ Exit the week able to solve any LeetCode medium graph problem cold in ≤25 min,
 
 ---
 
-### Wednesday Jul 15 — Union-Find + Idempotency & Exactly-Once
+### Wednesday Jul 22 — Union-Find + Idempotency & Exactly-Once
 
 **Total: ~1.5 hr**
 
@@ -110,7 +110,7 @@ Exit the week able to solve any LeetCode medium graph problem cold in ≤25 min,
 
 ---
 
-### Thursday Jul 16 — Advanced Graphs + Outbox Pattern
+### Thursday Jul 23 — Advanced Graphs + Outbox Pattern
 
 **Total: ~1.5 hr**
 
@@ -140,7 +140,7 @@ Exit the week able to solve any LeetCode medium graph problem cold in ≤25 min,
 
 ---
 
-### Friday Jul 17 — Word Ladder + Saga Pattern
+### Friday Jul 24 — Word Ladder + Saga Pattern
 
 **Total: ~1.5 hr**
 
@@ -182,7 +182,7 @@ Exit the week able to solve any LeetCode medium graph problem cold in ≤25 min,
 
 ---
 
-### Saturday Jul 18 — GitHub Project Polish + System Design Deep Session
+### Saturday Jul 25 — GitHub Project Polish + System Design Deep Session
 
 **Total: ~4 hr**
 
@@ -224,7 +224,7 @@ Pick ONE of:
 
 ---
 
-### Sunday Jul 19 — Mock Interview Day + Week Consolidation
+### Sunday Jul 26 — Mock Interview Day + Week Consolidation
 
 **Total: ~4 hr**
 

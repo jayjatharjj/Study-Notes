@@ -3,7 +3,7 @@
 **Profile:** Full-Stack Software Engineer, ~2.5 YOE (TwoDots, since Oct 2023), Pune. Java 17 / Spring Boot / Spring Cloud / microservices / Vue.js + React / PostgreSQL / AWS + Azure / Docker / K8s / LLM integration. Certs: Azure Developer Associate, OCI GenAI Professional.
 
 **Target:** Full-stack Java roles, all company tiers, maximize comp jump.
-**Constraints:** 60-day notice period · 1–2 hrs/day study (weekends heavier) · plan starts **Tue 9 June 2026**.
+**Constraints:** 60-day notice period · 1–2 hrs/day study (weekends heavier) · plan starts **Wed 17 June 2026**.
 
 > **Source note:** Findings tagged ✅ were confirmed by adversarial fact-checking (3-vote verification) against primary/secondary sources (Naukri JobSpeak Feb 2026, Instahyre, Zinnov-NASSCOM, TeamLease). Items tagged ⚠️ are general-knowledge guidance — the research pass could NOT verify hub-by-hub salaries, named company lists, seasonality, or interview-round structure (the available sources were low-quality blogs that failed verification). Treat ⚠️ as directional.
 
@@ -60,13 +60,13 @@ Your realistic achievable band: **₹14–25 LPA** at a product company or GCC, 
 1. **Target tier:** GCCs first (best odds + strong comp + your cloud profile fits), product mid-tier second, top product as stretch, services only as fallback/warm-up.
 2. **Lead with:** cloud-native depth (AWS/Azure, microservices, K8s, CI/CD) + measurable impact from your resume (60s→2–3s, 60% latency cut, 57% pipeline cut). These numbers are gold — rehearse the story behind each.
 3. **Comp goal:** ₹14–25 LPA (40–70% jump realistic; 100% stretch with competing offers).
-4. **Timing:** prep-first. Soft applications late July (warm-ups), hard applications mid-Aug→Sept, offers Sept–Oct, join Nov–Dec after 60-day notice.
+4. **Timing:** prep-first. Soft applications early August (warm-ups), hard applications mid-Aug→Sept, offers Sept–Oct, join Nov–Dec after 60-day notice.
 
 ---
 
-## PART 3 — 13-WEEK PREP TIMETABLE (9 Jun → 6 Sep 2026)
+## PART 3 — 13-WEEK PREP TIMETABLE (17 Jun → 13 Sep 2026)
 
-*Week 1 is a 6-day Tue–Sun kickoff (Jun 9–14); Weeks 2–13 are clean Mon–Sun calendar weeks.*
+*Week 1 is a 5-day Wed–Sun kickoff (Jun 17–21); Weeks 2–13 are clean Mon–Sun calendar weeks.*
 
 **Weekly budget:** ~1.5 hr/weekday × 5 + ~4 hr × 2 weekend days = **~16 hrs/week.**
 
@@ -81,91 +81,91 @@ Your realistic achievable band: **₹14–25 LPA** at a product company or GCC, 
 
 ---
 
-### PHASE 1 — FOUNDATIONS (Weeks 1–4 · 9 Jun – 5 Jul) — *not applying yet*
+### PHASE 1 — FOUNDATIONS (Weeks 1–4 · 17 Jun – 12 Jul) — *not applying yet*
 
 **Goal:** rebuild fundamentals, lock DSA habit, polish resume.
 
-**Week 1 (Jun 9–14, 6-day kickoff)**
+**Week 1 (Jun 17–21, 5-day kickoff)**
 - DSA: Arrays + Two Pointers + Sliding Window (8–10 problems). Pick **one platform** (LeetCode) and **one structured list** (NeetCode 150 or Striver SDE Sheet).
 - Java/Spring: revisit your own notes 01–03 (basics, OOP). Re-derive `equals`/`hashCode`, collections internals (HashMap), generics.
 - Weekend: **rewrite your resume** around impact metrics; build a 1-page "project deep-dive doc" for Smart360, Deep Fathom, WebX (architecture, your decisions, trade-offs, numbers).
 
-**Week 2 (Jun 15–21)**
+**Week 2 (Jun 22–28)**
 - DSA: Hashing + Strings (8–10 problems).
 - Java: Collections framework deep-dive (your notes 06–07) — ArrayList vs LinkedList, HashMap resizing, ConcurrentHashMap, fail-fast iterators.
 - Weekend: System design **primer** — client-server, latency, throughput, caching, load balancing basics. Read about how you'd redraw Smart360's 5-microservice architecture.
 
-**Week 3 (Jun 22–28)**
+**Week 3 (Jun 29–Jul 5)**
 - DSA: Recursion + Binary Search (8–10 problems).
 - Java/Spring: Spring core — IoC/DI, bean lifecycle, `@Transactional` internals, Spring Boot autoconfig (see your `interview-qa.md`). Be able to whiteboard the request lifecycle.
 - Weekend: Concurrency refresh (notes 06) — threads, executor framework, `synchronized` vs locks, `CompletableFuture`. Common interview favorite.
 
-**Week 4 (Jun 29–Jul 5)**
+**Week 4 (Jul 6–12)**
 - DSA: Stacks + Queues + LinkedList (8–10 problems).
 - Spring: REST API design, OAuth2/JWT flow (you know this from work — make it crisp), exception handling, validation.
 - Weekend: **Self-assessment checkpoint** — timed 2-problem DSA test + write one system design doc end-to-end (e.g. "design a URL shortener"). Identify weak spots.
 
 ---
 
-### PHASE 2 — CORE BUILD + SOFT APPLICATIONS (Weeks 5–8 · 6 Jul – 2 Aug)
+### PHASE 2 — CORE BUILD + SOFT APPLICATIONS (Weeks 5–8 · 13 Jul – 9 Aug)
 
 **Goal:** DSA patterns at interview speed, system design fundamentals, frontend refresh. **Start soft/warm-up applications at end of Week 8.**
 
-**Week 5 (Jul 6–12)**
+**Week 5 (Jul 13–19)**
 - DSA: Trees (traversals, BST, LCA) — 10 problems.
 - System design: caching (Redis — you use it; tie to your S3 URL caching win), DB indexing, SQL vs NoSQL.
 - Weekend: frontend refresh — Vue 3 reactivity, component lifecycle, state management; React hooks, reconciliation. Be able to compare them.
 
-**Week 6 (Jul 13–19)**
+**Week 6 (Jul 20–26)**
 - DSA: Graphs (BFS/DFS, topological sort) — 10 problems.
 - System design: messaging/async (you did event-driven migration — own this), Kafka/queue basics, idempotency, outbox pattern.
 - Weekend: build/refresh **one small full-stack side project** OR polish a GitHub repo that shows Spring Boot + Vue/React + a clean README. Recruiters check GitHub.
 
-**Week 7 (Jul 20–26)**
+**Week 7 (Jul 27–Aug 2)**
 - DSA: Dynamic Programming intro (knapsack, LIS, common patterns) — 10 problems.
 - System design: rate limiting, API gateway (you built one — connect it), microservice communication patterns, circuit breakers (Resilience4j).
 - Weekend: **mock system design** — "design a data-collaboration platform" (mirrors your work). Record yourself, time-box to 45 min.
 
-**Week 8 (Jul 27–Aug 2)**
+**Week 8 (Aug 3–9)**
 - DSA: DP continued + Greedy — 10 problems.
 - Cloud/DevOps talking points: rehearse AWS/Azure architecture stories, K8s deployment, zero-downtime CI/CD (your 57% pipeline win), Bicep IaC.
 - Weekend: **Polish LinkedIn + Naukri profiles** (keywords: Java, Spring Boot, Microservices, AWS, Azure, Full Stack). **Submit 3–5 soft/warm-up applications** to mid-size/service companies — these are practice reps to calibrate your interviewing, not your target offers.
 
 ---
 
-### PHASE 3 — PEAK + ACTIVE APPLICATIONS (Weeks 9–11 · 3 Aug – 23 Aug)
+### PHASE 3 — PEAK + ACTIVE APPLICATIONS (Weeks 9–11 · 10 Aug – 30 Aug)
 
 **Goal:** mock interviews, system design depth, **apply hard to target GCCs/product companies** (rides the Aug–Oct hiring window).
 
-**Week 9 (Aug 3–9)**
+**Week 9 (Aug 10–16)**
 - DSA: mixed timed sets (2 problems / 45 min, 3×/week) — simulate real assessments.
 - System design: full mock — design at scale (sharding, replication, CAP, consistency). 
 - **Applications:** start applying to **target GCCs + product mid-tier** (10–15 quality applications). Use referrals wherever possible — LinkedIn outreach to engineers at target GCCs is high-leverage.
 - Weekend: 1 full mock interview (DSA + system design) with a peer or platform (Pramp/interviewing.io).
 
-**Week 10 (Aug 10–16)**
+**Week 10 (Aug 17–23)**
 - DSA: revisit weak patterns + company-tagged problems for companies you applied to.
 - Behavioral prep: write STAR stories (your `interview-qa.md` has the templates) — performance win, conflict, ownership, failure.
 - **Applications:** another 10–15 to target tier; follow up on Week 9 apps. Begin first-round interviews as they come.
 - Weekend: 1 full mock + Spring/Java deep-dive drill.
 
-**Week 11 (Aug 17–23)**
+**Week 11 (Aug 24–30)**
 - DSA: maintenance (1–2 problems/day) — don't lose sharpness.
 - **Interviews ramping:** this is when first/second rounds cluster. Prioritize prep for *scheduled* interviews over new applications.
 - Weekend: rehearse project deep-dives + system design tailored to companies in your pipeline.
 
 ---
 
-### PHASE 4 — INTERVIEW & CLOSE (Weeks 12–13 · 24 Aug – 6 Sep)
+### PHASE 4 — INTERVIEW & CLOSE (Weeks 12–13 · 31 Aug – 13 Sep)
 
 **Goal:** convert interviews, negotiate, get competing offers to overlap.
 
-**Week 12 (Aug 24–30)**
+**Week 12 (Aug 31–Sep 6)**
 - Focus shifts almost fully to **active interview loops** — light DSA maintenance only.
 - Tailor prep per company (their tech stack, their product). Re-read your deep-dive doc before each round.
 - Track everything in a pipeline sheet: company, stage, date, comp range.
 
-**Week 13 (Aug 31–Sep 6)**
+**Week 13 (Sep 7–13)**
 - **Negotiation phase.** Try to get offers to land within ~1–2 weeks of each other so you have leverage. A competing offer is the strongest negotiation lever at this level.
 - Don't accept the first offer immediately — use it to accelerate others.
 - Once you accept: **resign → 60-day notice → join ~Nov.**
@@ -176,11 +176,11 @@ Your realistic achievable band: **₹14–25 LPA** at a product company or GCC, 
 
 | Period | Activity |
 |--------|----------|
-| Jun 9 – Jul 5 | Foundations. **No applications.** Resume + GitHub + deep-dive doc. |
-| Jul 6 – Jul 26 | Core build. Profiles live on LinkedIn/Naukri. |
-| Jul 27 – Aug 2 | **3–5 warm-up applications** (practice reps). |
-| Aug 3 – Aug 23 | **Hard applications to target GCCs/product** (~25–30 total). Interviews begin. |
-| Aug 24 – Sep 6 | Interview loops + **negotiation**. Get competing offers. |
+| Jun 17 – Jul 12 | Foundations. **No applications.** Resume + GitHub + deep-dive doc. |
+| Jul 13 – Aug 2 | Core build. Profiles live on LinkedIn/Naukri. |
+| Aug 3 – Aug 9 | **3–5 warm-up applications** (practice reps). |
+| Aug 10 – Aug 30 | **Hard applications to target GCCs/product** (~25–30 total). Interviews begin. |
+| Aug 31 – Sep 13 | Interview loops + **negotiation**. Get competing offers. |
 | Sep – Oct | Accept best offer. |
 | ~Sep/Oct + 60 days | **Join new company (Nov–Dec).** |
 
@@ -193,4 +193,4 @@ Your realistic achievable band: **₹14–25 LPA** at a product company or GCC, 
 - **Apply when sharp, not before.** Warm-ups in late July; real applications mid-Aug onward to ride the Aug–Oct window.
 - **Get competing offers to overlap** for negotiation leverage — realistic target 40–70% jump, ₹14–25 LPA.
 
-*Plan created: 2026-06-05. Market data: 2026-current, time-sensitive — re-check JobSpeak/benchmarks quarterly.*
+*Plan created: 2026-06-05; start date revised to Wed 17 Jun 2026 (whole schedule shifted forward, now ending 13 Sep 2026) on 2026-06-16. Market data: 2026-current, time-sensitive — re-check JobSpeak/benchmarks quarterly.*

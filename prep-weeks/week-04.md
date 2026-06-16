@@ -1,4 +1,4 @@
-# Week 4 — Foundations (Jun 29–Jul 5, 2026)
+# Week 4 — Foundations (Jul 6–12, 2026)
 
 > Last foundation week: seal the cracks in DSA (Stacks, Queues, Linked Lists), lock in REST/OAuth2/JWT production knowledge, and prove to yourself you can perform under timed pressure.
 
@@ -24,7 +24,7 @@ Exit this week able to: solve any Stack/Queue/LinkedList LeetCode medium cold in
 
 ## 📅 Daily Checklist
 
-### Monday Jun 29 — Stacks: Core Problems
+### Monday Jul 6 — Stacks: Core Problems
 
 **Time budget: ~1.5 hr**
 
@@ -46,7 +46,7 @@ Exit this week able to: solve any Stack/Queue/LinkedList LeetCode medium cold in
 
 ---
 
-### Tuesday Jun 30 — Stacks: Hard Problem + REST Versioning & Pagination
+### Tuesday Jul 7 — Stacks: Hard Problem + REST Versioning & Pagination
 
 **Time budget: ~1.5 hr**
 
@@ -76,7 +76,7 @@ Exit this week able to: solve any Stack/Queue/LinkedList LeetCode medium cold in
 
 ---
 
-### Wednesday Jul 1 — Linked Lists: Core Problems + JWT Lifecycle Deep Dive
+### Wednesday Jul 8 — Linked Lists: Core Problems + JWT Lifecycle Deep Dive
 
 **Time budget: ~1.5 hr**
 
@@ -121,7 +121,7 @@ Exit this week able to: solve any Stack/Queue/LinkedList LeetCode medium cold in
 
 ---
 
-### Thursday Jul 2 — Linked Lists: Medium Problems + Global Exception Handling
+### Thursday Jul 9 — Linked Lists: Medium Problems + Global Exception Handling
 
 **Time budget: ~1.5 hr**
 
@@ -182,7 +182,7 @@ public class GlobalExceptionHandler {
 
 ---
 
-### Friday Jul 3 — LRU Cache + OAuth2 Flows + Interview Simulation
+### Friday Jul 10 — LRU Cache + OAuth2 Flows + Interview Simulation
 
 **Time budget: ~1.5 hr**
 
@@ -213,7 +213,7 @@ public class GlobalExceptionHandler {
 
 ---
 
-### Saturday Jul 4 — Timed DSA Test + System Design Deep Dive
+### Saturday Jul 11 — Timed DSA Test + System Design Deep Dive
 
 **Time budget: ~4 hr**
 
@@ -307,7 +307,7 @@ CREATE INDEX idx_short_code ON urls(short_code);
 
 ---
 
-### Sunday Jul 5 — Review, Consolidation, Phase 2 Preview
+### Sunday Jul 12 — Review, Consolidation, Phase 2 Preview
 
 **Time budget: ~4 hr**
 

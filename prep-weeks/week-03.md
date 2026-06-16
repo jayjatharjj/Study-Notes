@@ -1,4 +1,4 @@
-# Week 3 — Foundations (Jun 22–28, 2026)
+# Week 3 — Foundations (Jun 29–Jul 5, 2026)
 
 > Master the bedrock that every Java interview tests first: recursion, binary search, Spring internals, and Java concurrency — then connect every concept back to your resume.
 
@@ -30,7 +30,7 @@ Walk into any interview and answer cold questions on Spring IoC/DI, `@Transactio
 
 ---
 
-### Monday Jun 22 — Binary Search Fundamentals
+### Monday Jun 29 — Binary Search Fundamentals
 
 **DSA Block (45 min)**
 
@@ -45,7 +45,7 @@ Walk into any interview and answer cold questions on Spring IoC/DI, `@Transactio
 
 ---
 
-### Tuesday Jun 23 — Binary Search on Answer + 2D Matrix
+### Tuesday Jun 30 — Binary Search on Answer + 2D Matrix
 
 **DSA Block (45 min)**
 
@@ -77,7 +77,7 @@ Walk into any interview and answer cold questions on Spring IoC/DI, `@Transactio
 
 ---
 
-### Wednesday Jun 24 — Spring Bean Lifecycle + @Transactional Internals
+### Wednesday Jul 1 — Spring Bean Lifecycle + @Transactional Internals
 
 **DSA Block (45 min)**
 
@@ -122,7 +122,7 @@ Walk into any interview and answer cold questions on Spring IoC/DI, `@Transactio
 
 ---
 
-### Thursday Jun 25 — Spring Boot Auto-Configuration + Full Request Lifecycle
+### Thursday Jul 2 — Spring Boot Auto-Configuration + Full Request Lifecycle
 
 **DSA Block (45 min)**
 
@@ -184,7 +184,7 @@ Walk into any interview and answer cold questions on Spring IoC/DI, `@Transactio
 
 ---
 
-### Friday Jun 26 — Combination Sum + Week Review Sprint
+### Friday Jul 3 — Combination Sum + Week Review Sprint
 
 **DSA Block (45 min)**
 
@@ -213,7 +213,7 @@ Walk into any interview and answer cold questions on Spring IoC/DI, `@Transactio
 
 ---
 
-### Saturday Jun 27 — Concurrency Deep Dive (Weekend Session, ~4 hr)
+### Saturday Jul 4 — Concurrency Deep Dive (Weekend Session, ~4 hr)
 
 **DSA Block (60 min)**
 
@@ -273,7 +273,7 @@ Work through your 06-concurrency-and-collections.md, but push deeper on each top
 
 ---
 
-### Sunday Jun 28 — End-of-Week Integration + Mock Interview
+### Sunday Jul 5 — End-of-Week Integration + Mock Interview
 
 **DSA Block (60 min)**
 
