@@ -1,4 +1,4 @@
-# Week 4 — Foundations (Jul 6–12, 2026)
+# Week 4 — Foundations (Jul 13–19, 2026)
 
 > Last foundation week: seal the cracks in DSA (Stacks, Queues, Linked Lists), lock in REST/OAuth2/JWT production knowledge, and prove to yourself you can perform under timed pressure.
 
@@ -24,7 +24,9 @@ Exit this week able to: solve any Stack/Queue/LinkedList LeetCode medium cold in
 
 ## 📅 Daily Checklist
 
-### Monday Jul 6 — Stacks: Core Problems
+### Monday Jul 13 — Stacks: Core Problems
+
+📌 **Study today:** Monotonic stack — next-greater & span (LC 20, 155, 739, 496, 503, 901) · REST resource naming, status codes, idempotency
 
 **Time budget: ~1.5 hr**
 
@@ -50,7 +52,9 @@ Exit this week able to: solve any Stack/Queue/LinkedList LeetCode medium cold in
 
 ---
 
-### Tuesday Jul 7 — Stacks: Hard Problem + REST Versioning & Pagination
+### Tuesday Jul 14 — Stacks: Hard Problem + REST Versioning & Pagination
+
+📌 **Study today:** Stack flagship — Largest Rectangle in Histogram (LC 84, 739) · REST API versioning + pagination trade-offs
 
 **Time budget: ~1.5 hr**
 
@@ -80,7 +84,9 @@ Exit this week able to: solve any Stack/Queue/LinkedList LeetCode medium cold in
 
 ---
 
-### Wednesday Jul 8 — Linked Lists: Core Problems + JWT Lifecycle Deep Dive
+### Wednesday Jul 15 — Linked Lists: Core Problems + JWT Lifecycle Deep Dive
+
+📌 **Study today:** Linked lists — reversal, dummy head, Floyd's cycle (LC 206, 21, 141) · JWT/OAuth2 issuance → validation → refresh → RBAC
 
 **Time budget: ~1.5 hr**
 
@@ -125,7 +131,9 @@ Exit this week able to: solve any Stack/Queue/LinkedList LeetCode medium cold in
 
 ---
 
-### Thursday Jul 9 — Linked Lists: Medium Problems + Global Exception Handling
+### Thursday Jul 16 — Linked Lists: Medium Problems + Global Exception Handling
+
+📌 **Study today:** Linked lists — two-pointer & three-step reorder (LC 19, 143) · @ControllerAdvice global exception handling + Bean Validation
 
 **Time budget: ~1.5 hr**
 
@@ -186,7 +194,9 @@ public class GlobalExceptionHandler {
 
 ---
 
-### Friday Jul 10 — LRU Cache + OAuth2 Flows + Interview Simulation
+### Friday Jul 17 — LRU Cache + OAuth2 Flows + Interview Simulation
+
+📌 **Study today:** LRU Cache — HashMap + DLL design (LC 146) · OAuth2 grant types + token storage security edge cases
 
 **Time budget: ~1.5 hr**
 
@@ -217,7 +227,9 @@ public class GlobalExceptionHandler {
 
 ---
 
-### Saturday Jul 11 — Timed DSA Test + System Design Deep Dive
+### Saturday Jul 18 — Timed DSA Test + System Design Deep Dive
+
+📌 **Study today:** Timed DSA test (LC 141, 739) · back-of-envelope estimation + URL shortener full system design
 
 **Time budget: ~4 hr**
 
@@ -327,7 +339,9 @@ CREATE INDEX idx_short_code ON urls(short_code);
 
 ---
 
-### Sunday Jul 12 — Review, Consolidation, Phase 2 Preview
+### Sunday Jul 19 — Review, Consolidation, Phase 2 Preview
+
+📌 **Study today:** Re-solve Reorder List & Largest Rectangle (LC 143, 84) · JWT/REST verbal drill + Phase 2 plan + behavioral STAR stories
 
 **Time budget: ~4 hr**
 

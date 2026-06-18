@@ -1,4 +1,4 @@
-# Week 12 — Interview Loops (Aug 31–Sep 6, 2026)
+# Week 12 — Interview Loops (Sep 7–13, 2026)
 
 > You are no longer preparing for interviews — you are IN them. The work now is execution, not accumulation. Every round is a performance you've rehearsed. Light DSA maintenance keeps the edge sharp. Everything else is tailored, deliberate, and followed up.
 
@@ -29,7 +29,9 @@
 
 ---
 
-### Monday, Aug 31 — Loop Entry: Tailoring + Light DSA
+### Monday, Sep 7 — Loop Entry: Tailoring + Light DSA
+
+📌 **Study today:** Light DSA warm-up (LC 79, 200, or 33) · per-company tailoring (JD → project story mapping) · pipeline sheet hygiene
 
 **DSA Maintenance (15–20 min)**
 - [ ] Solve one medium problem you haven't touched in 2+ weeks — pick from: LC 79 (Word Search), LC 200 (Number of Islands), or LC 33 (Search in Rotated Sorted Array). Time yourself. The goal is to stay warm, not learn new material.
@@ -52,7 +54,9 @@
 
 ---
 
-### Tuesday, Sep 1 — Execution Drills: Coding Interview Mechanics
+### Tuesday, Sep 8 — Execution Drills: Coding Interview Mechanics
+
+📌 **Study today:** Narrated solve (LC 207 or 994) + recovery drills (LC 124, 297) · interview execution mechanics — clarifying, thinking out loud, graceful "I don't know"
 
 **DSA Maintenance (15–20 min)**
 - [ ] Pick one problem from your weak-area list. Solve it with narration — talk through your approach out loud as if the interviewer is listening.
@@ -101,7 +105,9 @@ This is a structured solo mock — full execution practice, not theory.
 
 ---
 
-### Wednesday, Sep 2 — Behavioural + HM Round Prep
+### Wednesday, Sep 9 — Behavioural + HM Round Prep
+
+📌 **Study today:** Two LC Easy warm-ups · behavioral STAR skeletons (6 stories, metric in each) · HM round prep (3-year vision, first 30 days, why-this-company)
 
 **DSA Maintenance (15–20 min)**
 - [ ] Two LC Easy problems from categories you haven't touched this week — use them as warm-up, not study. 10 min max total.
@@ -132,7 +138,9 @@ This is a structured solo mock — full execution practice, not theory.
 
 ---
 
-### Thursday, Sep 3 — Live Round Execution Day
+### Thursday, Sep 10 — Live Round Execution Day
+
+📌 **Study today:** Live round execution — company brief + JD top-3 + project metrics · Easy LC warm-up · thank-you note + written debrief within 12h
 
 This is your template for any actual interview day. Use this checklist the morning of.
 
@@ -174,7 +182,9 @@ This is your template for any actual interview day. Use this checklist the morni
 
 ---
 
-### Friday, Sep 4 — System Design + Java Deep Execution Mock
+### Friday, Sep 11 — System Design + Java Deep Execution Mock
+
+📌 **Study today:** Heap / quickselect (LC 347, 215) · system design execution mock (distributed LLM job queue or multi-tenant auth) · Java deep-dive (@Transactional self-invocation, bean lifecycle, circuit breaker states)
 
 **DSA Maintenance (20 min)**
 - [ ] Timed solve: LC 347 (Top K Frequent Elements) or LC 215 (Kth Largest Element). These are high-frequency across all company tiers. Clean solve with heap/quickselect narration in ≤ 20 min.
@@ -202,7 +212,9 @@ This is your template for any actual interview day. Use this checklist the morni
 
 ---
 
-### Saturday, Sep 5 — Per-Company Tailoring + Questions Bank Refresh
+### Saturday, Sep 12 — Per-Company Tailoring + Questions Bank Refresh
+
+📌 **Study today:** Trees (LC 98, 102) · per-company deep tailoring (tech-stack bridge answers, product observations, tailored questions) · pipeline review + follow-ups
 
 **DSA Maintenance (20 min)**
 - [ ] LC 98 (Validate BST) or LC 102 (Level Order Traversal). These appear in final rounds frequently. Clean solve, narrate out loud.
@@ -225,7 +237,9 @@ For each active company in your pipeline that has a round coming up in the next 
 
 ---
 
-### Sunday, Sep 6 — Full Mock + Pipeline Review + Week 13 Plan
+### Sunday, Sep 13 — Full Mock + Pipeline Review + Week 13 Plan
+
+📌 **Study today:** Fresh medium DSA (full narration) · full 45-min interview mock (scored) · pipeline sheet full review · Week 13 plan
 
 **DSA Maintenance (20 min)**
 - [ ] One fresh medium problem, clean solve, full narration. No review material — this is a performance test, not study.
@@ -435,8 +449,8 @@ Don't send "Thanks for your time, I enjoyed the conversation." Send: "Thank you 
 | Role | Exact job title |
 | JD URL | Direct link to the job description (JDs get taken down — screenshot it too) |
 | Stage | Applied / Recruiter Screen / Tech Round 1 / Tech Round 2 / HM / Offer / Rejected |
-| Last Action | Date + what happened (e.g., "Aug 31 — completed Tech Round 1 with [name]") |
-| Next Action | What you need to do next (e.g., "Follow up with recruiter by Sep 5") |
+| Last Action | Date + what happened (e.g., "Sep 7 — completed Tech Round 1 with [name]") |
+| Next Action | What you need to do next (e.g., "Follow up with recruiter by Sep 12") |
 | Next Action Date | Hard deadline for the next action |
 | Comp Range | Their stated range OR your estimate from Glassdoor/Levels.fyi |
 | Interviewer(s) | Name, title, LinkedIn — for personalised thank-you notes |
@@ -492,4 +506,4 @@ Rate yourself 1–5 after Sunday's mock. Feed gaps directly into Week 13 prep.
 
 ---
 
-*Week 12 complete → Week 13: Offer evaluation, negotiation strategy, managing competing timelines, and any final-round prep for companies still in loop.*
+*Week 12 complete → Week 13 (Sep 14–20): Offer evaluation, negotiation strategy, managing competing timelines, and any final-round prep for companies still in loop.*

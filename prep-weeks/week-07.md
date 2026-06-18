@@ -1,4 +1,4 @@
-# Week 7 — Core Build (Jul 27–Aug 2, 2026)
+# Week 7 — Core Build (Aug 3–9, 2026)
 
 > Theme: **Tame DP, master rate limiting + resilience, and simulate a real design interview — then own every curveball from first principles.**
 
@@ -22,7 +22,8 @@ By Friday you can walk an interviewer through any classic 1D/2D DP problem using
 
 ## 📅 Daily Checklist
 
-### Monday Jul 27 — DP Foundations: 1D Problems
+### Monday Aug 3 — DP Foundations: 1D Problems
+📌 **Study today:** 1D DP — state + transition framework (LC 70, 198, 213, 322) · Resilience4j circuit breaker state machine
 
 **DSA (60 min)**
 - [ ] Read the "identify state + transition" framework before coding anything:
@@ -45,7 +46,8 @@ By Friday you can walk an interviewer through any classic 1D/2D DP problem using
 
 ---
 
-### Tuesday Jul 28 — DP 1D continued + Resilience4j deep dive
+### Tuesday Aug 4 — DP 1D continued + Resilience4j deep dive
+📌 **Study today:** 1D DP — Word Break & LIS, memo vs tabulation (LC 139, 300) · Resilience4j: bulkhead, retry, time-limiter chain
 
 **DSA (60 min)**
 - [ ] **LC 139 — Word Break** (Medium): `dp[i]` = can the first `i` characters of `s` be segmented? Transition: for each `j < i`, if `dp[j]` is true AND `s[j..i]` is in `wordDict`, then `dp[i] = true`. Time: O(n² × avg_word_len). Work out why BFS/DFS-with-memo is equivalent.
@@ -67,7 +69,8 @@ By Friday you can walk an interviewer through any classic 1D/2D DP problem using
 
 ---
 
-### Wednesday Jul 29 — 2D DP + Rate Limiting algorithms
+### Wednesday Aug 5 — 2D DP + Rate Limiting algorithms
+📌 **Study today:** 2D DP — Unique Paths, LCS, 0/1 knapsack (LC 62, 1143, 416) · rate limiting: token/leaky bucket, sliding window
 
 **DSA (65 min)**
 - [ ] **LC 62 — Unique Paths** (Medium): `dp[i][j] = dp[i-1][j] + dp[i][j-1]`. Reduce to 1D array. This is also combinatorics: `C(m+n-2, m-1)` — know both approaches.
@@ -97,7 +100,8 @@ By Friday you can walk an interviewer through any classic 1D/2D DP problem using
 
 ---
 
-### Thursday Jul 30 — gRPC vs REST vs Messaging + API Gateway deep dive
+### Thursday Aug 6 — gRPC vs REST vs Messaging + API Gateway deep dive
+📌 **Study today:** DP recurrence review + subset sum / palindrome (LC 416, 5) · REST vs gRPC vs async messaging; API Gateway vs BFF
 
 **DSA (55 min)**
 - [ ] Review all six problems from Mon–Wed: re-derive each recurrence on paper in 2 min max per problem. No peeking. If you stall on any, that's the one to re-solve tonight.
@@ -130,7 +134,8 @@ By Friday you can walk an interviewer through any classic 1D/2D DP problem using
 
 ---
 
-### Friday Jul 31 — Integration + Curveball practice
+### Friday Aug 7 — Integration + Curveball practice
+📌 **Study today:** Timed DP set (LC 70, 322, 300, 1143, 416) · curveball follow-ups on circuit breaker, distributed txns, CQRS, JWT
 
 **DSA (60 min)**
 - [ ] Full timed set — 75 min timer, do not look up anything:
@@ -152,7 +157,8 @@ By Friday you can walk an interviewer through any classic 1D/2D DP problem using
 
 ---
 
-### Saturday Aug 1 — Mock System Design: Data-Collaboration Platform
+### Saturday Aug 8 — Mock System Design: Data-Collaboration Platform
+📌 **Study today:** Timed mock HLD — data-collaboration platform (CRDT/OT, RLS, CQRS, scale) self-scored on rubric · LIS O(n log n) review
 
 **Block 1 (45 min) — Timed mock, record yourself**
 
@@ -215,7 +221,8 @@ Set a 45-min timer. Open a blank doc. Record yourself speaking your design aloud
 
 ---
 
-### Sunday Aug 2 — Consolidation + Weak-spot drills
+### Sunday Aug 9 — Consolidation + Weak-spot drills
+📌 **Study today:** Edit Distance & Coin Change II (LC 72, 518, 97) · interview-ready rate-limiting walkthrough; preview Week 8 (Kafka, Saga, K8s)
 
 **DSA (60 min)**
 - [ ] **New problem: LC 72 — Edit Distance** (Hard): `dp[i][j]` = min edits to convert `word1[0..i]` to `word2[0..j]`. Three operations → three transitions. This is LCS in disguise — both are 2D string DP. Seeing the connection is the expert move.

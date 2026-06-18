@@ -1,8 +1,8 @@
-# Week 1 — Foundations (Jun 17–21, 2026 · 5-day kickoff)
+# Week 1 — Foundations (Jun 22–28, 2026)
 
 > Lock in the two skills every product-company interview tests first: pattern-recognition on arrays/pointers/windows, and fluent Java internals tied to your own shipped code.
 >
-> **Kickoff week:** 5 days (Wed Jun 17 – Sun Jun 21) so that Week 2 onward lands on clean Mon–Sun calendar weeks. Wed–Fri are normal weekday blocks; **Saturday is a heavier consolidation day** that absorbs the mixed-pattern review, OOP, resume, deep-dive, and behavioral work (the load that lived on the extra weekday in the original 6-day kickoff). It can spill into Sunday morning if needed.
+> **Full Mon–Sun foundations week.** Mon–Fri are normal weekday DSA + core blocks; **Sat–Sun are lighter weekend days (~4 hr each)** for the resume rewrite, project deep-dive docs, deep Java internals, and the full mock. This week assumes the **Jun 18–21 Week 0 basics revision** is already done — it precedes and feeds directly into the array/Java work here.
 
 ---
 
@@ -27,7 +27,9 @@ By Friday you can solve any Easy and most Medium array/two-pointer/sliding-windo
 
 ---
 
-### Wednesday Jun 17 — Arrays & Two Pointers: Classic Patterns
+### Monday Jun 22 — Arrays & Two Pointers: Classic Patterns
+
+📌 **Study today:** Two Pointers — opposite ends converging (LC 1 · 125 · 11 · 42) · Java `equals`/`hashCode` contract
 
 **DSA (Block A, ~50 min):**
 
@@ -55,7 +57,9 @@ Time check: if you finish all 4 in <40 min, attempt **LC 167 Two Sum II** (sorte
 
 ---
 
-### Thursday Jun 18 — Sliding Window + HashMap Internals
+### Tuesday Jun 23 — Sliding Window + HashMap Internals
+
+📌 **Study today:** Sliding Window — variable size (LC 3 · 643 · 209 · 424) · HashMap Internals
 
 **DSA (Block A, ~50 min):**
 
@@ -82,7 +86,9 @@ Problems (in order):
 
 ---
 
-### Friday Jun 19 — Sliding Window Advanced + Generics & Autoboxing
+### Wednesday Jun 24 — Multi-pointer (3Sum) + Prefix Sum + Generics & Autoboxing
+
+📌 **Study today:** Multi-pointer 3Sum family + Prefix Sum (LC 121 · 53 · 15 · 560) · Generics, Type Erasure & Autoboxing
 
 **DSA (Block A, ~50 min):**
 
@@ -111,11 +117,11 @@ Problems (in order):
 
 ---
 
-### Saturday Jun 20 — Consolidation Weekend: Mixed Review + OOP + Resume + Deep-Dive + Behavioral (≈5 hr)
+### Thursday Jun 25 — Mixed Array-Pattern Recognition + OOP SOLID
 
-> Heavier weekend day — it folds in the consolidation work that sat on the sixth weekday of the original kickoff. Blocks A–C are the mixed-pattern review, OOP principles, and behavioral-story refinement; Blocks D–F are the resume rewrite, project deep-dive docs, and mock behavioral questions. If you run long, push Blocks E–F to Sunday morning before the mock.
+📌 **Study today:** Mixed-pattern recognition drill — sliding window / prefix product / array rotation (LC 438 · 1493 · 238 · 189) · OOP SOLID + Inheritance vs Composition
 
-**DSA (Block A, ~50 min):**
+**DSA Block A (~50 min):**
 
 Pattern: **Recognition drill — given a problem, identify the pattern before coding**. Today's goal is speed and accuracy of pattern identification, not just solving.
 
@@ -125,7 +131,7 @@ Problems (in order):
 3. **Product of Array Except Self** (LC 238) — no division allowed. Prefix product array, then suffix product in a second pass. O(n) time, O(1) extra space if output array counts. This is a famous Meta/Google question — know it cold.
 4. **Rotate Array** (LC 189) — three-reversal trick. Reverse all, reverse first k, reverse last n-k. O(n) time, O(1) space. Know why this works by visualizing indices.
 
-**Core Topic (Block B, ~50 min) — OOP: SOLID + Inheritance vs Composition:**
+**Core Block B (~50 min) — OOP: SOLID + Inheritance vs Composition:**
 
 - **Single Responsibility**: your `AuthorizationService` in Smart360 had one job — token validation + role resolution. When it started handling user management events, it violated SRP. That's why you extracted it (the strangler-fig migration story).
 - **Open/Closed**: your LLM provider router in WebX is a good example — adding a new provider means implementing a `LLMProvider` interface, not modifying the router. Explain this concretely.
@@ -139,14 +145,25 @@ Problems (in order):
 1. In Product of Array Except Self, why is the output array not counted as extra space? (Answer: the problem says output array doesn't count; the O(1) claim is about *auxiliary* space beyond input and output.)
 2. Name one real violation of LSP in Java's standard library. (Answer: `java.util.Stack extends Vector` — Stack IS NOT a general-purpose Vector, yet it inherits all Vector methods; `Stack.add(0, element)` breaks stack semantics.)
 
-**Stretch DSA — timed mock (if short on time, roll these two and the behavioral block below into Sunday morning), 25 min each, no hints:**
+---
+
+### Friday Jun 26 — Stretch DSA + Behavioral STAR
+
+📌 **Study today:** Stretch timed mock — hardest sliding window + Kadane extension (LC 76 · 152) · Behavioral STAR story refinement (+ String-immutability recap)
+
+> Quick String-immutability recap (bridging from the Jun 18–21 Week 0 basics revision):
+> - `String` is immutable — every "modification" (`+`, `replace`, `substring`) returns a new object; the original is untouched. This is what makes `String` safe as a `HashMap` key and shareable across threads without synchronization.
+> - The string pool (interning) only works because of immutability — two `"hello"` literals can safely share one backing object.
+> - Build strings in loops with `StringBuilder`, not `+` — `+` in a loop creates O(n) throwaway objects (real GC pressure in hot paths).
+
+**DSA Block A — timed mock (25 min each, no hints):**
 
 1. **Minimum Window Substring** (LC 76) — the hardest sliding window. Two pointers + two frequency maps. Expand right until all chars covered, then shrink left while still valid, record minimum window. Practice the "have" vs "need" counter trick: only increment `have` when a char's frequency exactly matches `need[c]`.
 2. **Maximum Product Subarray** (LC 152) — extension of Kadane. Track both `maxSoFar` and `minSoFar` because a negative × negative = positive. At each step: `newMax = max(num, maxSoFar*num, minSoFar*num)`.
 
 After each problem: write out the pattern name, time complexity, space complexity, and one follow-up question the interviewer might ask. This is interview muscle memory.
 
-**Block C (~45 min) — Behavioral Stories + STAR Refinement:**
+**Core Block B (~45 min) — Behavioral Stories + STAR Refinement:**
 
 For each story below, recite it aloud (not in your head) against a timer (2 min max per story). Tighten the numbers.
 
@@ -158,7 +175,13 @@ For each story below, recite it aloud (not in your head) against a timer (2 min 
 1. In Minimum Window Substring, what is the time complexity and why? (Answer: O(n + m) where n = len(s), m = len(t). Each character enters and exits the window at most once.)
 2. If an interviewer says "tell me about a failure," use the CI/CD story in reverse — the initial failure was accepting slow pipelines for months. What did you learn? What would you do differently?
 
-**Block D (90 min) — Resume Rewrite: Impact-First Format**
+---
+
+### Saturday Jun 27 — Resume Rewrite + Project Deep-Dive Docs (~4 hr)
+
+📌 **Study today:** Impact-first resume rewrite (Smart360 · Deep Fathom · WebX) · one-page project deep-dive architecture docs
+
+**Block A (90 min) — Resume Rewrite: Impact-First Format**
 
 Every bullet must answer: "So what? How much? How do I know?" Remove all bullets that don't have a number or a named technology decision.
 
@@ -179,7 +202,7 @@ Every bullet must answer: "So what? How much? How do I know?" Remove all bullets
 - "Designed async job architecture for 2–20 min LLM operations: 202 Accepted + jobId pattern with SSE push on completion; supports 5+ LLM providers via unified proxy interface for cost/capability routing"
 - "Integrated LLM-powered features with graceful degradation — circuit breaker pattern ensures provider outages don't degrade core product"
 
-**Block E (90 min) — Project Deep-Dive Doc: One Page Per Project**
+**Block B (90 min) — Project Deep-Dive Doc: One Page Per Project**
 
 Write these in a notebook or separate doc — they are your verbal interview cheat sheet.
 
@@ -226,7 +249,7 @@ Numbers: [your actual metrics — response time, job throughput, provider cost r
 What I'd do differently: Use a proper job queue (AWS SQS or RabbitMQ) instead of DB polling for better backpressure
 ```
 
-**Block F (60 min) — Mock Behavioral Questions (speak aloud):**
+**Block C (60 min) — Mock Behavioral Questions (speak aloud):**
 - "Walk me through your most complex technical project." → Use Deep Fathom RLS story.
 - "Tell me about a time you disagreed with a technical decision." → Prepare one — find a real moment.
 - "Why are you leaving your current company?" → Frame as growth/scope/compensation, never negative.
@@ -234,7 +257,9 @@ What I'd do differently: Use a proper job queue (AWS SQS or RabbitMQ) instead of
 
 ---
 
-### Sunday Jun 21 — Deep Java Internals + Full Mock Interview (4 hr)
+### Sunday Jun 28 — Deep Java Internals + Full Mock Interview (~4 hr)
+
+📌 **Study today:** JVM memory model + concurrency basics · Week 1 gap LeetCode (LC 239 · 452) · full mock interview (DSA + system design + behavioral)
 
 **Block A (90 min) — Java Memory Model + Concurrency Basics:**
 
@@ -250,7 +275,7 @@ These questions trip up 2–3 YOE candidates who have used Spring but haven't th
 
 **Block B (60 min) — Additional LeetCode: Week 1 Gaps:**
 
-Identify your 2 weakest problems from Wed–Sat. Redo them without looking at your solutions. If you pass both in <20 min each, attempt:
+Identify your 2 weakest problems from Mon–Sat. Redo them without looking at your solutions. If you pass both in <20 min each, attempt:
 - **Sliding Window Maximum** (LC 239) — deque-based, hard. Window keeps indices in decreasing order of value. Front of deque is always the max.
 - **Minimum Number of Arrows to Burst Balloons** (LC 452) — greedy + interval thinking. Sort by end point, greedily shoot at the end of the first balloon. Introduction to the interval pattern for next week.
 
@@ -428,4 +453,4 @@ Complete these checks on Sunday evening. Honest pass/fail only — no partial cr
 
 ---
 
-*Week 1 of 13 — next: Week 2 (Mon Jun 22 – Sun Jun 28) covers Hashing/Strings + the Collections framework deep-dive + a system design primer.*
+*Week 1 of 13 — next: Week 2 (Mon Jun 29 – Sun Jul 5) covers Hashing/Strings + the Collections framework deep-dive + a system design primer.*

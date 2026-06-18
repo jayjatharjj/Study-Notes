@@ -1,4 +1,4 @@
-# Week 3 — Foundations (Jun 29–Jul 5, 2026)
+# Week 3 — Foundations (Jul 6–12, 2026)
 
 > Master the bedrock that every Java interview tests first: recursion, binary search, Spring internals, and Java concurrency — then connect every concept back to your resume.
 
@@ -30,7 +30,9 @@ Walk into any interview and answer cold questions on Spring IoC/DI, `@Transactio
 
 ---
 
-### Monday Jun 29 — Binary Search Fundamentals
+### Monday Jul 6 — Binary Search Fundamentals
+
+📌 **Study today:** Binary search fundamentals — rotated arrays (LC 704, 33, 153) · iterative + recursive search internals
 
 **DSA Block (45 min)**
 
@@ -45,7 +47,9 @@ Walk into any interview and answer cold questions on Spring IoC/DI, `@Transactio
 
 ---
 
-### Tuesday Jun 30 — Binary Search on Answer + 2D Matrix
+### Tuesday Jul 7 — Binary Search on Answer + 2D Matrix
+
+📌 **Study today:** Binary-search-on-answer + 2D matrix (LC 875, 74) · ApplicationContext vs BeanFactory + IoC/DI
 
 **DSA Block (45 min)**
 
@@ -77,7 +81,9 @@ Walk into any interview and answer cold questions on Spring IoC/DI, `@Transactio
 
 ---
 
-### Wednesday Jul 1 — Spring Bean Lifecycle + @Transactional Internals
+### Wednesday Jul 8 — Spring Bean Lifecycle + @Transactional Internals
+
+📌 **Study today:** Backtracking — Subsets (LC 78) · Spring bean lifecycle + @Transactional proxy internals
 
 **DSA Block (45 min)**
 
@@ -122,7 +128,9 @@ Walk into any interview and answer cold questions on Spring IoC/DI, `@Transactio
 
 ---
 
-### Thursday Jul 2 — Spring Boot Auto-Configuration + Full Request Lifecycle
+### Thursday Jul 9 — Spring Boot Auto-Configuration + Full Request Lifecycle
+
+📌 **Study today:** Backtracking — Permutations with state-restore (LC 46) · Spring Boot auto-config + DispatcherServlet request lifecycle
 
 **DSA Block (45 min)**
 
@@ -184,7 +192,9 @@ Walk into any interview and answer cold questions on Spring IoC/DI, `@Transactio
 
 ---
 
-### Friday Jul 3 — Combination Sum + Week Review Sprint
+### Friday Jul 10 — Combination Sum + Week Review Sprint
+
+📌 **Study today:** Backtracking — Combination Sum with start-index (LC 39) · Spring internals consolidation (bean lifecycle, @Lazy)
 
 **DSA Block (45 min)**
 
@@ -213,7 +223,9 @@ Walk into any interview and answer cold questions on Spring IoC/DI, `@Transactio
 
 ---
 
-### Saturday Jul 4 — Concurrency Deep Dive (Weekend Session, ~4 hr)
+### Saturday Jul 11 — Concurrency Deep Dive (Weekend Session, ~4 hr)
+
+📌 **Study today:** Re-drill binary search + backtracking (LC 875, 74, 78, 54) · LLD primer (Parking Lot, SOLID) + concurrency (synchronized vs ReentrantLock, volatile, CompletableFuture, ThreadLocal, deadlock)
 
 **DSA Block (60 min)**
 
@@ -305,7 +317,9 @@ Work through your 06-concurrency-and-collections.md, but push deeper on each top
 
 ---
 
-### Sunday Jul 5 — End-of-Week Integration + Mock Interview
+### Sunday Jul 12 — End-of-Week Integration + Mock Interview
+
+📌 **Study today:** Timed mock DSA (2 cold problems) · integrate Spring + concurrency into resume stories (Smart360, WebX, API Gateway)
 
 **DSA Block (60 min)**
 

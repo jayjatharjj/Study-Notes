@@ -1,4 +1,4 @@
-# Week 2 — Foundations (Jun 22–28, 2026)
+# Week 2 — Foundations (Jun 29–Jul 5, 2026)
 
 > Hash the strings, understand the collections internals, and sketch your own architecture on a whiteboard.
 
@@ -25,7 +25,9 @@ By Sunday you will have drilled Hashing + Strings patterns cold (8 canonical pro
 
 ---
 
-### Monday, Jun 22 — Hashing Foundations
+### Monday, Jun 29 — Hashing Foundations
+
+📌 **Study today:** Hashing — frequency maps & canonical keys (LC 242, 49) · HashMap internals deep-dive
 
 **DSA Block A (40 min)**
 
@@ -63,7 +65,9 @@ By Sunday you will have drilled Hashing + Strings patterns cold (8 canonical pro
 
 ---
 
-### Tuesday, Jun 23 — Top K & Frequency Patterns
+### Tuesday, Jun 30 — Top K & Frequency Patterns
+
+📌 **Study today:** Top-K & frequency — bucket sort / heap + HashSet (LC 347, 128) · ArrayList vs LinkedList internals
 
 **DSA Block A (40 min)**
 
@@ -112,7 +116,9 @@ By Sunday you will have drilled Hashing + Strings patterns cold (8 canonical pro
 
 ---
 
-### Wednesday, Jun 24 — Concurrent Collections + Fail-Fast/Fail-Safe
+### Wednesday, Jul 1 — Concurrent Collections + Fail-Fast/Fail-Safe
+
+📌 **Study today:** Two pointers & length-prefix encoding (LC 125, 271) · ConcurrentHashMap internals + fail-fast vs fail-safe
 
 **DSA Block A (40 min)**
 
@@ -156,7 +162,9 @@ By Sunday you will have drilled Hashing + Strings patterns cold (8 canonical pro
 
 ---
 
-### Thursday, Jun 25 — Comparable vs Comparator + String Patterns
+### Thursday, Jul 2 — Comparable vs Comparator + String Patterns
+
+📌 **Study today:** Sliding window & prefix sum + HashMap (LC 424, 560) · Comparable vs Comparator, TreeMap/TreeSet sorting
 
 **DSA Block A (40 min)**
 
@@ -231,7 +239,9 @@ reports.sort(byDateThenOwner);
 
 ---
 
-### Friday, Jun 26 — Review + Weak Spots + Collections Synthesis
+### Friday, Jul 3 — Review + Weak Spots + Collections Synthesis
+
+📌 **Study today:** Bit manipulation — XOR & `n&(n-1)` tricks (LC 136, 191, 338, 268) · Collections framework synthesis
 
 **DSA Block A (40 min) — Re-attempt the 2 hardest problems from Mon–Thu without notes**
 
@@ -286,7 +296,9 @@ Synthesis exercise — answer these WITHOUT looking at notes:
 
 ---
 
-### Saturday, Jun 27 — System Design Primer (4 hr)
+### Saturday, Jul 4 — System Design Primer (4 hr)
+
+📌 **Study today:** System design foundations — caching, CDN, load balancing, CAP · Smart360 5-microservice architecture exercise
 
 **Morning: Foundations (2 hr)**
 
@@ -394,7 +406,9 @@ Synthesis exercise — answer these WITHOUT looking at notes:
 
 ---
 
-### Sunday, Jun 28 — Mock Interview Day (4 hr)
+### Sunday, Jul 5 — Mock Interview Day (4 hr)
+
+📌 **Study today:** Mock DSA (Group Anagrams, Subarray Sum = K) · URL shortener system design + behavioral STAR drill
 
 **Morning: Mock DSA Session (1.5 hr)**
 
@@ -584,4 +598,4 @@ If any DSA problem is ≤ 3, schedule 20 min at the start of Week 3 Day 1 to re-
 
 ---
 
-*Week 2 — generated 2026-06-05, schedule revised 2026-06-16. Next: Week 3 — Advanced Java (Generics, Streams deep dive, Optional, Records) + DSA: Binary Search patterns.*
+*Week 2 — generated 2026-06-12, schedule revised 2026-06-23. Next: Week 3 (Jul 6–12) — Advanced Java (Generics, Streams deep dive, Optional, Records) + DSA: Binary Search patterns.*

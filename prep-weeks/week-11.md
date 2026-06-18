@@ -1,4 +1,4 @@
-# Week 11 — Peak + Interview Clustering (Aug 24–30, 2026)
+# Week 11 — Peak + Interview Clustering (Aug 31–Sep 6, 2026)
 
 > Interviews are arriving. Stop building; start performing. Every hour this week is either a rep in front of an interviewer or a simulation of one. DSA sharpness is maintained, not grown. Frontend-backend integration becomes a fluent story. By Sunday your project narratives are so clean you could answer at 6 a.m. with no warm-up.
 
@@ -29,7 +29,9 @@
 
 ---
 
-### Monday, Aug 24 — DSA Maintenance + CORS & Token Handling
+### Monday, Aug 31 — DSA Maintenance + CORS & Token Handling
+
+📌 **Study today:** Sliding window (LC 3, 567) · CORS (preflight, credentials) + JWT token handling on the client
 
 **Pre-day check (5 min)**
 - [ ] Open the tracking sheet. Any new interview invites since Friday? Schedule them immediately and block calendar time the evening before each for company research.
@@ -87,7 +89,9 @@
 
 ---
 
-### Tuesday, Aug 25 — DSA Maintenance + API Error Handling UX & Full-Stack Integration Story
+### Tuesday, Sep 1 — DSA Maintenance + API Error Handling UX & Full-Stack Integration Story
+
+📌 **Study today:** Sliding window (LC 209, 424) · API error contract (@RestControllerAdvice) + full-stack integration story
 
 **Pre-day check (5 min)**
 - [ ] Check interview schedule. Apply Pre-Interview Checklist for any round today/tomorrow.
@@ -103,7 +107,7 @@
 - All errors return a consistent JSON body:
   ```json
   {
-    "timestamp": "2026-08-23T10:00:00Z",
+    "timestamp": "2026-08-30T10:00:00Z",
     "status": 400,
     "error": "Bad Request",
     "message": "email must not be blank",
@@ -133,7 +137,9 @@
 
 ---
 
-### Wednesday, Aug 26 — DSA Maintenance + System Design: Full-Stack LLM Feature
+### Wednesday, Sep 2 — DSA Maintenance + System Design: Full-Stack LLM Feature
+
+📌 **Study today:** Trees / BFS (LC 199, 102, 236) · System design — full-stack LLM async job feature (202 Accepted, SSE vs WebSocket, idempotency)
 
 **Pre-day check (5 min)**
 - [ ] Check interview schedule. Apply Pre-Interview Checklist for any round today/tomorrow.
@@ -199,7 +205,9 @@ This is a rehearsal for a system design question framed as: "Design the WebX fea
 
 ---
 
-### Thursday, Aug 27 — DSA Maintenance + Smart360 Project Deep Dive Rehearsal
+### Thursday, Sep 3 — DSA Maintenance + Smart360 Project Deep Dive Rehearsal
+
+📌 **Study today:** Hard sliding window (LC 76, 438) · Smart360 5-min talk-track + LazyInitializationException / multi-tenancy curveballs
 
 **Pre-day check (5 min)**
 - [ ] Check interview schedule. Apply Pre-Interview Checklist for any round today/tomorrow.
@@ -237,7 +245,9 @@ This is a rehearsal for a system design question framed as: "Design the WebX fea
 
 ---
 
-### Friday, Aug 28 — DSA Maintenance + Deep Fathom + WebX Deep Dive Rehearsal
+### Friday, Sep 4 — DSA Maintenance + Deep Fathom + WebX Deep Dive Rehearsal
+
+📌 **Study today:** Re-solve weakest problem of the week + complexity review card · Deep Fathom + WebX talk-tracks (Bicep IaC, CI/CD 57%, async job + SSE) + Key Vault / crashed-worker curveballs
 
 **Pre-day check (5 min)**
 - [ ] Check interview schedule. Apply Pre-Interview Checklist for any round today/tomorrow.
@@ -284,7 +294,9 @@ This is a rehearsal for a system design question framed as: "Design the WebX fea
 
 ---
 
-### Saturday, Aug 29 — Full Mock Day: Project Deep Dives + System Design + Company-Specific Prep
+### Saturday, Sep 5 — Full Mock Day: Project Deep Dives + System Design + Company-Specific Prep
+
+📌 **Study today:** Timed DSA mock (LC 21, 15/560, 146 LRU Cache) · Company-specific prep · System design mock (chat/messaging or rate limiter/notification) · behavioral rehearsal
 
 **Time: ~4 hours**
 
@@ -331,7 +343,9 @@ This is a rehearsal for a system design question framed as: "Design the WebX fea
 
 ---
 
-### Sunday, Aug 30 — Light Rehearsal + Week Review + Week 12 Plan
+### Sunday, Sep 6 — Light Rehearsal + Week Review + Week 12 Plan
+
+📌 **Study today:** Light DSA (LC 994, 207) · cold run all three project talk-tracks + 60-second career arc · pre-interview checklist rehearsal · Week 12 plan
 
 **Time: ~4 hours**
 
@@ -581,4 +595,4 @@ Rate yourself 1–5 after Sunday's rehearsal. Be honest — this feeds directly 
 
 ---
 
-*Week 11 complete → Week 12: Debrief scheduled interviews, identify gaps, targeted reinforcement. If offers arrive: negotiation strategy and counteroffer prep. If pipeline thins: resume second-wave outreach with updated talking points. Advanced topics if bandwidth permits: virtual threads (Java 21), Spring AI, system design at larger scale (Cassandra, event sourcing).*
+*Week 11 complete → Week 12 (Sep 7–13): Debrief scheduled interviews, identify gaps, targeted reinforcement. If offers arrive: negotiation strategy and counteroffer prep. If pipeline thins: resume second-wave outreach with updated talking points. Advanced topics if bandwidth permits: virtual threads (Java 21), Spring AI, system design at larger scale (Cassandra, event sourcing).*

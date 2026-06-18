@@ -1,4 +1,4 @@
-# Week 6 — Core Build (Jul 20–26, 2026)
+# Week 6 — Core Build (Jul 27–Aug 2, 2026)
 
 > **Theme: Graphs + Async Messaging Architecture — Own the design room and the whiteboard.**
 
@@ -27,7 +27,8 @@ Exit the week able to solve any LeetCode medium graph problem cold in ≤25 min,
 
 ---
 
-### Monday Jul 20 — Graph Foundations: BFS & DFS
+### Monday Jul 27 — Graph Foundations: BFS & DFS
+📌 **Study today:** Graphs — BFS & DFS, grid as implicit graph (LC 200, 133) · Kafka fundamentals: partitions, consumer groups, offsets
 
 **Total: ~1.5 hr**
 
@@ -50,7 +51,8 @@ Exit the week able to solve any LeetCode medium graph problem cold in ≤25 min,
 
 ---
 
-### Tuesday Jul 21 — Topological Sort + Kafka Internals Deep Dive
+### Tuesday Jul 28 — Topological Sort + Kafka Internals Deep Dive
+📌 **Study today:** Topological sort — Kahn's & DFS, cycle detection (LC 207, 210) · Kafka internals: ISR, acks, consumer rebalance
 
 **Total: ~1.5 hr**
 
@@ -77,7 +79,8 @@ Exit the week able to solve any LeetCode medium graph problem cold in ≤25 min,
 
 ---
 
-### Wednesday Jul 22 — Union-Find + Idempotency & Exactly-Once
+### Wednesday Jul 29 — Union-Find + Idempotency & Exactly-Once
+📌 **Study today:** Union-Find — path compression & union by rank (LC 684, 323) · idempotency & exactly-once vs at-least-once delivery
 
 **Total: ~1.5 hr**
 
@@ -110,7 +113,8 @@ Exit the week able to solve any LeetCode medium graph problem cold in ≤25 min,
 
 ---
 
-### Thursday Jul 23 — Advanced Graphs + Outbox Pattern
+### Thursday Jul 30 — Advanced Graphs + Outbox Pattern
+📌 **Study today:** Advanced graphs — reverse multi-source & multi-source BFS (LC 417, 994) · Outbox pattern: dual-write fix, polling vs Debezium CDC
 
 **Total: ~1.5 hr**
 
@@ -140,7 +144,8 @@ Exit the week able to solve any LeetCode medium graph problem cold in ≤25 min,
 
 ---
 
-### Friday Jul 24 — Word Ladder + Saga Pattern
+### Friday Jul 31 — Word Ladder + Saga Pattern
+📌 **Study today:** Word Ladder BFS + tries (LC 127, 208, 211, 1268) + Dijkstra/weighted graphs (LC 743, 787, 1631) · Saga: choreography vs orchestration
 
 **Total: ~1.5 hr**
 
@@ -209,7 +214,8 @@ Everything so far has been unweighted (BFS = shortest path). With edge weights, 
 
 ---
 
-### Saturday Jul 25 — GitHub Project Polish + System Design Deep Session
+### Saturday Aug 1 — GitHub Project Polish + System Design Deep Session
+📌 **Study today:** DSA verbal review of all 8 graph problems · system design: async LLM job system at 10× scale + typeahead/autocomplete HLD · GitHub project & profile polish
 
 **Total: ~4 hr**
 
@@ -269,7 +275,8 @@ Pick ONE of:
 
 ---
 
-### Sunday Jul 26 — Mock Interview Day + Week Consolidation
+### Sunday Aug 2 — Mock Interview Day + Week Consolidation
+📌 **Study today:** Mock interviews — DSA (LC 207, 994), system design: event-driven order processing + idempotent payment/ledger · behavioral STAR · Kafka delivery-guarantee table
 
 **Total: ~4 hr**
 
@@ -483,7 +490,7 @@ Rate yourself 1–5 on each item after Sunday's mock session:
 
 **Minimum to proceed to Week 7:** All DSA items ≥ 3/5, no system design item below 3/5.
 
-**If any DSA item is 1–2/5:** Revisit that algorithm Monday morning of Week 7 before moving to new material. Graph patterns compound — the weighted-graph extensions (Dijkstra, Bellman-Ford with a k-stop constraint, Dijkstra-on-grid) live in the **Dijkstra / Weighted-Graph Block in Friday Jul 24 of THIS week**, so shore up the unweighted BFS/DFS foundations before tackling those.
+**If any DSA item is 1–2/5:** Revisit that algorithm Monday morning of Week 7 before moving to new material. Graph patterns compound — the weighted-graph extensions (Dijkstra, Bellman-Ford with a k-stop constraint, Dijkstra-on-grid) live in the **Dijkstra / Weighted-Graph Block in Friday Jul 31 of THIS week**, so shore up the unweighted BFS/DFS foundations before tackling those.
 
 ---
 

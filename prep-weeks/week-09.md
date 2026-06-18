@@ -1,4 +1,4 @@
-# Week 9 — Peak + Active Applications (Aug 10–16, 2026)
+# Week 9 — Peak + Active Applications (Aug 17–23, 2026)
 
 > The blade is sharp. Now swing it with precision. This week you shift from prep mode to execution mode: timed mixed DSA sets simulate real OA pressure, system design goes to true scale, and 10–15 quality applications go out the door. Referrals are the highest-leverage move you can make — one warm intro beats 50 cold applications. By Sunday you have run a full mock interview and have a live pipeline of companies actively in play.
 
@@ -30,7 +30,8 @@
 
 ---
 
-### Monday, Aug 10 — Heap Foundations + System Design: Sharding & Replication
+### Monday, Aug 17 — Heap Foundations + System Design: Sharding & Replication
+📌 **Study today:** Heaps — top-K with min-heap & QuickSelect (LC 215, 347) · system design: sharding (range/hash/consistent) & leader-follower replication
 
 **DSA — Timed Set #1 (45 min, OA simulation)**
 
@@ -64,7 +65,8 @@ Set the timer. No hints. Fresh LeetCode editor. Treat this as a real OA.
 
 ---
 
-### Tuesday, Aug 11 — Heap Deep Cut + CAP Theorem & Consistency Models
+### Tuesday, Aug 18 — Heap Deep Cut + CAP Theorem & Consistency Models
+📌 **Study today:** Heaps — two-heap streaming median & merge K lists (LC 295, 23) · CAP theorem, consistency models, PACELC
 
 **DSA — Timed Set #2 (45 min, OA simulation)**
 
@@ -104,7 +106,8 @@ Set the timer. No hints. Fresh LeetCode editor. Treat this as a real OA.
 
 ---
 
-### Wednesday, Aug 12 — Timed Set #3 + System Design Mock: File Storage Platform
+### Wednesday, Aug 19 — Timed Set #3 + System Design Mock: File Storage Platform
+📌 **Study today:** Heap-pattern timed set (pick 2 from LC 767, 451, 373, 378, 253) · full system design: scalable file storage platform (chunked upload, metadata sharding, CDN, replication, failure modes)
 
 **DSA — Timed Set #3 (45 min, OA simulation)**
 
@@ -195,7 +198,8 @@ Work through it in this order:
 
 ---
 
-### Thursday, Aug 13 — Applications Day #1 + Referral Outreach
+### Thursday, Aug 20 — Applications Day #1 + Referral Outreach
+📌 **Study today:** Heap — Top K Frequent Words + design-DS (LC 692, 380, 460) · partitioning strategies review · 5 referral messages + 3–4 applications
 
 **DSA (30 min — lighter day, keep the streak)**
 - [ ] Solve **LC 692 – Top K Frequent Words** (Medium). Extension of LC 347 — but now with string comparison for tie-breaking. Use a min-heap with custom comparator: (frequency ASC, word DESC) so the heap root is always the "worst" of the top-k. When heap size > k, pop. O(n log k). This is a clean exercise in writing a custom comparator under pressure.
@@ -251,7 +255,8 @@ Design-DS rounds are high-frequency at product-tier companies and pair naturally
 
 ---
 
-### Friday, Aug 14 — Applications Day #2 + System Design: Partitioning Deep Cut
+### Friday, Aug 21 — Applications Day #2 + System Design: Partitioning Deep Cut
+📌 **Study today:** Heap — Last Stone Weight & Task Scheduler (LC 1046, 621) · partitioning (horizontal/vertical/functional) + file storage re-draw · 4–5 more applications
 
 **DSA (30 min)**
 - [ ] Solve **LC 1046 – Last Stone Weight** (Easy). Max-heap. Quick 10-min warm-up — it's an OA favourite for heap validation.
@@ -278,7 +283,8 @@ Design-DS rounds are high-frequency at product-tier companies and pair naturally
 
 ---
 
-### Saturday, Aug 15 — Full Mock Interview Day
+### Saturday, Aug 22 — Full Mock Interview Day
+📌 **Study today:** OA timed set + LLD reframe of Design Twitter (LC 355, 264, 703) · full mock interview (DSA + system design) with observability debrief · push to 15 applications
 
 This is the most important day of the week. Treat it like a real interview. Get up, get dressed, sit at your desk.
 
@@ -334,7 +340,8 @@ LC 355 as a DSA problem is just a heap merge over follow lists. But a product/GC
 
 ---
 
-### Sunday, Aug 16 — Review, Consolidate, Week 10 Prep
+### Sunday, Aug 23 — Review, Consolidate, Week 10 Prep
+📌 **Study today:** Heap review + stretch Hard Smallest Range (LC 215, 347, 295, 23, 692, 621, 632) · mock-feedback consolidation + file storage re-narration + PACELC · Week 10 planning
 
 **DSA (60 min) — Mixed Review + One Stretch Hard**
 - [ ] Write on paper — recurrence or invariant (not code) for every heap problem this week: LC 215, 347, 295, 23, 692, 621. Time: 15 minutes. If any is fuzzy, re-solve it now.

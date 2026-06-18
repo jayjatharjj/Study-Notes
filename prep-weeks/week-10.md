@@ -1,4 +1,4 @@
-# Week 10 — Peak + Active Applications (Aug 17–23, 2026)
+# Week 10 — Peak + Active Applications (Aug 24–30, 2026)
 
 > Interviews are live. Every hour matters. You are not studying anymore — you are performing. DSA is maintenance, not learning. Behavioral stories are your secret weapon. Applications are a pipeline, not a lottery. By Friday you have STAR stories written and rehearsed for every major behavioral category. By Sunday you have done a full end-to-end mock interview and can tell your story as a confident, numbers-backed narrative.
 
@@ -26,11 +26,13 @@
 
 ---
 
-## 📅 Daily Checklist (Mon–Sun, Aug 17–23)
+## 📅 Daily Checklist (Mon–Sun, Aug 24–30)
 
 ---
 
-### Monday, Aug 17 — DSA Weak Pattern: Graphs (BFS/DFS) + STAR Story #1
+### Monday, Aug 24 — DSA Weak Pattern: Graphs (BFS/DFS) + STAR Story #1
+
+📌 **Study today:** Graphs — DFS/BFS flood-fill (LC 200, 695) · STAR story #1 (performance win — 60s→3s, N+1 + Redis)
 
 **DSA (45 min)**
 - [ ] **LC 200 – Number of Islands** (Medium). DFS/BFS flood-fill: mark visited cells in-place (set to '0') or with a visited array. Time O(m×n), space O(m×n) recursion stack worst case. Know both DFS and BFS implementations — interviewers often ask for the other one after you pick one.
@@ -57,7 +59,9 @@
 
 ---
 
-### Tuesday, Aug 18 — DSA: Graphs (Cycle Detection / Topological Sort) + STAR Story #2
+### Tuesday, Aug 25 — DSA: Graphs (Cycle Detection / Topological Sort) + STAR Story #2
+
+📌 **Study today:** Graphs — cycle detection / topological sort (LC 207, 210) · STAR story #2 (conflict / disagreement) · application follow-ups
 
 **DSA (45 min)**
 - [ ] **LC 207 – Course Schedule** (Medium). Directed graph cycle detection via DFS with coloring (white=unvisited, gray=in-stack, black=done) OR Kahn's BFS topological sort (track in-degrees; add nodes with in-degree 0 to queue; if processed count < n, cycle exists). Know BOTH approaches — interviewers ask "now do it without recursion" and Kahn's is the answer.
@@ -90,7 +94,9 @@
 
 ---
 
-### Wednesday, Aug 19 — DSA: Union-Find + STAR Story #3
+### Wednesday, Aug 26 — DSA: Union-Find + STAR Story #3
+
+📌 **Study today:** Union-Find / DSU (LC 684, 323/547) · STAR story #3 (ownership / leadership)
 
 **DSA (45 min)**
 - [ ] **LC 684 – Redundant Connection** (Medium). Union-Find (Disjoint Set Union): for each edge, if both endpoints are already in the same set → this edge creates the cycle → return it. Union by rank + path compression → near O(1) amortized per operation.
@@ -118,7 +124,9 @@
 
 ---
 
-### Thursday, Aug 20 — DSA: Backtracking + STAR Story #4
+### Thursday, Aug 27 — DSA: Backtracking + STAR Story #4
+
+📌 **Study today:** Backtracking — subsets/permutations (LC 78, 90, 46) · STAR story #4 (biggest failure & lesson) · 5 new applications
 
 **DSA (45 min)**
 - [ ] **LC 78 – Subsets** (Medium). Backtracking: at each step, choose to include or exclude the current element. Build the recursion tree. Result: 2^n subsets. Time O(n × 2^n), space O(n) call stack. Also know the iterative bit-mask approach: for mask from 0 to 2^n-1, include element i if bit i is set.
@@ -151,7 +159,9 @@
 
 ---
 
-### Friday, Aug 21 — DSA: Company-Tagged Review + STAR Stories #5 & #6
+### Friday, Aug 28 — DSA: Company-Tagged Review + STAR Stories #5 & #6
+
+📌 **Study today:** Company-tagged review (LC 56, 33, 76, 105 etc.) · STAR story #5 (why leaving) · STAR story #6 (tell me about a time you were wrong)
 
 **DSA (45 min)**
 - [ ] Pull up LeetCode's company tags for the 3 companies you have the most active applications at (check your tracking sheet). Look at their Medium/Hard tagged problems. Prioritize:
@@ -188,7 +198,9 @@
 
 ---
 
-### Saturday, Aug 22 — Full Mock Interview + Spring/Java Deep-Dive Drill
+### Saturday, Aug 29 — Full Mock Interview + Spring/Java Deep-Dive Drill
+
+📌 **Study today:** Timed graph/backtracking mock (LC 127, 130, 417, 79, 131, 51) · Spring/Java rapid-fire drill (auto-config, bean lifecycle, @Transactional, Resilience4j, JWT, RLS) · applications
 
 **DSA (60 min)**
 - [ ] Timed mock: open a fresh LeetCode session. Pick problems RANDOMLY from this list (don't cherry-pick):
@@ -245,7 +257,9 @@ This session revisits the interview-qa.md topics as a rapid-fire drill — you a
 
 ---
 
-### Sunday, Aug 23 — Full End-to-End Mock Interview + Week 11 Planning
+### Sunday, Aug 30 — Full End-to-End Mock Interview + Week 11 Planning
+
+📌 **Study today:** Full end-to-end mock — behavioral + News Feed/Timeline HLD (fan-out write/read/hybrid, cursor pagination, ranking) + coding · Week 11 planning
 
 **Morning: Targeted Weak-Area Review (60 min)**
 - [ ] Take the group with the most hesitations from Saturday's drill. Re-read the relevant interview-qa.md section, then answer the same questions aloud again — measure improvement.
@@ -591,4 +605,4 @@ Rate yourself 1–5 after Sunday's mock. Feed gaps directly into Week 11 Day 1�
 
 ---
 
-*Week 10 complete → Week 11: Live interview execution + advanced system design (design a search system, design a payment service) + Heap/Priority Queue problems + follow-up pipeline management.*
+*Week 10 complete → Week 11 (Aug 31–Sep 6): Live interview execution + advanced system design (design a search system, design a payment service) + Heap/Priority Queue problems + follow-up pipeline management.*

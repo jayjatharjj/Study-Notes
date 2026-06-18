@@ -1,4 +1,4 @@
-# Week 13 — Negotiation & Close (Sep 7–13, 2026)
+# Week 13 — Negotiation & Close (Sep 14–20, 2026)
 
 > You've interviewed for 13 weeks. This week you stop performing and start converting. Every conversation is now a business negotiation — and you have more leverage than you think. The goal is not to get *an* offer. The goal is to get the *best* offer, accepted cleanly, with a clear path to joining around November.
 
@@ -28,7 +28,9 @@
 
 ---
 
-### Monday, Sep 7 — Offer Evaluation Framework + Pipeline Compression
+### Monday, Sep 14 — Offer Evaluation Framework + Pipeline Compression
+
+📌 **Study today:** Build floor/target/stretch numbers (₹16/20–22/24–25 LPA) + decompose total comp into 5 levers · evaluate on in-hand + guaranteed cash · pipeline compression calls
 
 **Morning: Build Your Numbers (45 min)**
 - [ ] Write down — on paper, not just in your head — your three compensation thresholds:
@@ -56,7 +58,9 @@
 
 ---
 
-### Tuesday, Sep 8 — The "Current CTC / Expected CTC" Question + First Response to an Offer
+### Tuesday, Sep 15 — The "Current CTC / Expected CTC" Question + First Response to an Offer
+
+📌 **Study today:** Master CTC deflection (before vs after an offer; numeric-field guidance) · first-offer response protocol + offer evaluation checklist
 
 **Morning: Master the CTC Deflection (30 min)**
 
@@ -90,7 +94,9 @@ This question is the single highest-value negotiation moment. Most engineers ans
 
 ---
 
-### Wednesday, Sep 9 — Counter-Offer + Competing-Offer Leverage Call
+### Wednesday, Sep 16 — Counter-Offer + Competing-Offer Leverage Call
+
+📌 **Study today:** Draft + rehearse the counter (specific number, one reason, no ultimatum) · competing-offer leverage call (5 negotiable levers)
 
 **Morning: Draft the Counter (30 min)**
 - [ ] If an offer is in hand and below your target: write the counter email/call script before picking up the phone. Do not improvise. The structure is:
@@ -118,7 +124,9 @@ This question is the single highest-value negotiation moment. Most engineers ans
 
 ---
 
-### Thursday, Sep 10 — Curveball Handling: Exploding Offers, Lowball Anchors, Pressure Tactics
+### Thursday, Sep 17 — Curveball Handling: Exploding Offers, Lowball Anchors, Pressure Tactics
+
+📌 **Study today:** Handle exploding offers, lowball anchors, and pressure tactics (the four-line cheat-sheet) — deliver each response without reading
 
 **Morning: Exploding Offers (30 min)**
 - [ ] An exploding offer is one with an artificially short deadline — "accept by end of day today," "offer expires Friday." This is a pressure tactic. Legitimate companies use it when:
@@ -143,7 +151,9 @@ This question is the single highest-value negotiation moment. Most engineers ans
 
 ---
 
-### Friday, Sep 11 — Decision Day: Accept, Resign, Document
+### Friday, Sep 18 — Decision Day: Accept, Resign, Document
+
+📌 **Study today:** Final weighted offer comparison table · accept best offer (signed letter first) · write + deliver resignation email · confirm start date + BGV
 
 **Morning: Final Offer Comparison (45 min)**
 - [ ] If you have multiple offers, build a simple scoring table in your tracking sheet:
@@ -186,7 +196,7 @@ This question is the single highest-value negotiation moment. Most engineers ans
 - [ ] If they make a counter-offer: *"I genuinely appreciate this. But I've made my decision and I think it's the right one for my growth. I don't want to negotiate against an offer I've already committed to accepting."*
 
 **Afternoon: Offer Letter + Start Date Confirmation**
-- [ ] Confirm with the new company: expected joining date (target: ~Nov 11–16 for a Sep 11 resignation + 60-day notice — last working day ≈ Nov 10).
+- [ ] Confirm with the new company: expected joining date (target: ~Nov 18–23 for a Sep 18 resignation + 60-day notice — last working day ≈ Nov 17).
 - [ ] Ask about background verification process (BGV): they will verify employment dates, educational credentials, and may ask for Form 16. Start collecting these documents now.
 - [ ] Ask: Is there a pre-joining medical check? Any pre-joining forms to fill? Any pre-joining reading/access to be granted?
 
@@ -196,23 +206,25 @@ This question is the single highest-value negotiation moment. Most engineers ans
 
 ---
 
-### Saturday, Sep 12 — Notice Period Checklist + Post-Acceptance Kickoff
+### Saturday, Sep 19 — Notice Period Checklist + Post-Acceptance Kickoff
+
+📌 **Study today:** Notice-period operating plan (KT doc, access handoff, ADRs, exit clearances) · BGV document preparation checklist
 
 **Morning: Notice Period Operating Plan (2 hr)**
 
-This 60-day window (Sep 11–Nov 10 approx.) is operationally critical. Your professional reputation exits with your relieving letter.
+This 60-day window (Sep 18–Nov 17 approx.) is operationally critical. Your professional reputation exits with your relieving letter.
 
-*Week 1–2 (Sep 11–24): Transition Architecture*
+*Week 1–2 (Sep 18–Oct 1): Transition Architecture*
 - [ ] Create a living "Knowledge Transfer Document" for every system/feature you own. Include: system overview, runbook, common failure scenarios, pending work items, open tickets, and next steps. This document is your professional exit gift — it also protects you from getting blamed for something that breaks after you leave.
 - [ ] Hand off all production access/alerts: ensure oncall rotation is updated, no alert/PagerDuty goes only to your phone.
 - [ ] Identify your successor for each key responsibility and schedule weekly sync with them for the first two weeks.
 
-*Week 3–5 (Sep 28–Oct 18): Deep KT + Wrap Up*
+*Week 3–5 (Oct 5–25): Deep KT + Wrap Up*
 - [ ] Complete all in-progress features to a "demo-able" state or a clean stop point. Do not start new large features — you won't be there to finish them.
 - [ ] Document architecture decisions (ADRs) for anything you designed that isn't documented. Future engineers will curse or bless you based on this.
 - [ ] Schedule skip-level and peer coffee chats with people you want to stay connected with. LinkedIn connections + a warm note goes a long way.
 
-*Week 6–8 (Oct 19–Nov 12): Wind-Down + Exit*
+*Week 6–8 (Oct 26–Nov 19): Wind-Down + Exit*
 - [ ] Collect from HR: relieving letter (confirming last working day), experience letter (confirming role and tenure), and Form 16 for the current financial year (or a letter confirming it will be issued).
 - [ ] Confirm PF transfer vs withdrawal strategy. If UAN is active, transfer is almost always better than withdrawal.
 - [ ] Ensure no pending recovery — advances, laptop, assets. Get clearance in writing.
@@ -231,7 +243,9 @@ This 60-day window (Sep 11–Nov 10 approx.) is operationally critical. Your pro
 
 ---
 
-### Sunday, Sep 13 — Reflection + Pre-Joining Study Plan
+### Sunday, Sep 20 — Reflection + Pre-Joining Study Plan
+
+📌 **Study today:** Week 13 reflection + decline notes to other companies · pre-joining 60-day study plan (Kafka, WebFlux, DDIA, observability, "The First 90 Days")
 
 **Morning: Week 13 Review (1 hr)**
 - [ ] Review the offer you accepted. Write down in one paragraph: why you chose this company, what you're most excited to learn, and what you're most nervous about. This is for your own clarity — read it on Day 30 at the new job.
@@ -436,14 +450,14 @@ Rate yourself 1–5. Be honest. This is not for anyone else's consumption.
 
 | Phase | Dates | Priority |
 |---|---|---|
-| Transition architecture doc | Sep 11–18 | Own all critical systems documentation |
-| Handover begins | Sep 22–Oct 5 | Weekly syncs with successor(s) |
-| BGV package submitted to new company | Sep 14 (first Monday) | Do not delay — BGV blocks joining |
-| Deep technical pre-study (Kafka, WebFlux, domain) | Sep 11 → Nov 10 (ongoing, 1 hr/day) | Consistency > intensity |
-| Wrap up open PRs and features | Oct 10–26 | Leave code clean |
-| Exit clearances: laptop, access, assets | Nov 6–10 | No surprises on last day |
-| Relieving letter / experience letter collected | Nov 10 (last day) | In hand before you walk out |
-| First day at new company | Nov 11–16 (target) | |
+| Transition architecture doc | Sep 18–25 | Own all critical systems documentation |
+| Handover begins | Sep 29–Oct 12 | Weekly syncs with successor(s) |
+| BGV package submitted to new company | Sep 21 (first Monday) | Do not delay — BGV blocks joining |
+| Deep technical pre-study (Kafka, WebFlux, domain) | Sep 18 → Nov 17 (ongoing, 1 hr/day) | Consistency > intensity |
+| Wrap up open PRs and features | Oct 17–Nov 2 | Leave code clean |
+| Exit clearances: laptop, access, assets | Nov 13–17 | No surprises on last day |
+| Relieving letter / experience letter collected | Nov 17 (last day) | In hand before you walk out |
+| First day at new company | Nov 18–23 (target) | |
 
 ---
 
