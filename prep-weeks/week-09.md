@@ -2,6 +2,8 @@
 
 > The blade is sharp. Now swing it with precision. This week you shift from prep mode to execution mode: timed mixed DSA sets simulate real OA pressure, system design goes to true scale, and 10–15 quality applications go out the door. Referrals are the highest-leverage move you can make — one warm intro beats 50 cold applications. By Sunday you have run a full mock interview and have a live pipeline of companies actively in play.
 
+> 📨 **Apps & referrals this week:** 12–15 target GCC/product applications + 8–10 referral asks. See the [cadence & tracker](applications-and-referrals.md).
+
 ---
 
 ## 🎯 Week Goal

@@ -2,6 +2,8 @@
 
 > Interviews are live. Every hour matters. You are not studying anymore — you are performing. DSA is maintenance, not learning. Behavioral stories are your secret weapon. Applications are a pipeline, not a lottery. By Friday you have STAR stories written and rehearsed for every major behavioral category. By Sunday you have done a full end-to-end mock interview and can tell your story as a confident, numbers-backed narrative.
 
+> 📨 **Apps & referrals this week:** 12–15 applications + follow up ALL Week 9 apps + 8–10 new referral asks. See the [cadence & tracker](applications-and-referrals.md).
+
 ---
 
 ## 🎯 Week Goal

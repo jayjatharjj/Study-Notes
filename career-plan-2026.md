@@ -181,7 +181,7 @@ Your realistic achievable band: **₹14–25 LPA** at a product company or GCC, 
 | Jun 22 – Jul 19 | Foundations. **No applications.** Resume + GitHub + deep-dive doc. |
 | Jul 20 – Aug 9 | Core build. Profiles live on LinkedIn/Naukri. |
 | Aug 10 – Aug 16 | **3–5 warm-up applications** (practice reps). |
-| Aug 17 – Sep 6 | **Hard applications to target GCCs/product** (~40–60 total — see realism note). Interviews begin. |
+| Aug 17 – Sep 6 | **Hard applications to target GCCs/product** (~40–60 total — see [Applications & Referrals](prep-weeks/applications-and-referrals.md) for weekly quotas + referral cadence). Interviews begin. |
 | Sep 7 – Sep 20 | Interview loops + **negotiation**. Get competing offers. |
 | Sep – Oct | Accept best offer. |
 | ~Sep/Oct + 60 days | **Join new company (Nov–Dec).** |

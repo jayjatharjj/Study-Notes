@@ -2,6 +2,8 @@
 
 > You've interviewed for 13 weeks. This week you stop performing and start converting. Every conversation is now a business negotiation — and you have more leverage than you think. The goal is not to get *an* offer. The goal is to get the *best* offer, accepted cleanly, with a clear path to joining around November.
 
+> 📨 **Apps & referrals this week:** No new applications — negotiate; convert the pipeline. See the [cadence & tracker](applications-and-referrals.md).
+
 ---
 
 ## 🎯 Week Goal

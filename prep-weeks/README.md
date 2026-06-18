@@ -27,6 +27,8 @@ Companion to [`career-plan-2026.md`](../../career%20planing/career-plan-2026.md)
 
 > **Realism note (read this before you treat Sep 20 as a finish line):** The 13-week calendar ends Sep 20, but that's *not* when offers land. Indian product/GCC loops run ~3–6 weeks application→offer, and a 60-day notice adds funnel friction, so offers realistically cluster **late-Sept through late-Oct**. Week 13 means "applications closed / loops in progress," **not "done."** Two practical consequences: (1) In the back-half weeks (11–13), a **scheduled interview always overrides the daily study template** — never miss an interview to tick a DSA box. (2) Given the contested sub-20 LPA band + notice friction, raise your application-volume target from ~25–30 to **~40–60** quality applications across Weeks 9–12, so enough loops are live to produce overlapping offers for leverage.
 
+> See **[Applications & Referrals](applications-and-referrals.md)** for the weekly application quotas, the referral cadence + templates, and the trackers — this is the lever that most determines whether you get offers, and it starts in Week 5.
+
 ### How to use
 1. Each Monday, open that week's file and skim the goal + self-assessment gate first — that's your target.
 2. Tick the daily checklist; log what you actually did.

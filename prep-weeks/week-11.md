@@ -2,6 +2,8 @@
 
 > Interviews are arriving. Stop building; start performing. Every hour this week is either a rep in front of an interviewer or a simulation of one. DSA sharpness is maintained, not grown. Frontend-backend integration becomes a fluent story. By Sunday your project narratives are so clean you could answer at 6 a.m. with no warm-up.
 
+> 📨 **Apps & referrals this week:** 8–10 applications (taper) + nudge stalled referrals — scheduled interviews take priority over new volume. See the [cadence & tracker](applications-and-referrals.md).
+
 ---
 
 ## 🎯 Week Goal

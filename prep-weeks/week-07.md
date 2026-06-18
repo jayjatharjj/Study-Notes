@@ -2,6 +2,8 @@
 
 > Theme: **Tame DP, master rate limiting + resilience, and simulate a real design interview — then own every curveball from first principles.**
 
+> 📨 **Apps & referrals this week:** Warm 5–8 referral relationships; draft your referral-ask message. See the [cadence & tracker](applications-and-referrals.md).
+
 ---
 
 ## 🎯 Week Goal

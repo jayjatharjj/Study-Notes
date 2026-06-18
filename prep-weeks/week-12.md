@@ -2,6 +2,8 @@
 
 > You are no longer preparing for interviews — you are IN them. The work now is execution, not accumulation. Every round is a performance you've rehearsed. Light DSA maintenance keeps the edge sharp. Everything else is tailored, deliberate, and followed up.
 
+> 📨 **Apps & referrals this week:** Few/none — prioritize live interview loops; send pipeline-compression nudges. See the [cadence & tracker](applications-and-referrals.md).
+
 ---
 
 ## 🎯 Week Goal

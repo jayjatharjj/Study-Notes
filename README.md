@@ -35,7 +35,7 @@ Each module opens with a **Quick Reference** blockquote and ends with **Intervie
 
 ## 🗓️ 13-Week Prep Plan
 
-Detailed day-by-day checklists live in **[`prep-weeks/`](prep-weeks/README.md)**. Log daily completion in the **[Progress Tracker](PROGRESS.md)**. A 4-day Java-basics revision (Week 0) precedes Week 1. Plan runs **Thu 18 Jun → Sun 20 Sep 2026** (Week 0 is a 4-day warm-up; Week 1 is a full Mon–Sun week; Weeks 2–13 are clean Mon–Sun).
+Detailed day-by-day checklists live in **[`prep-weeks/`](prep-weeks/README.md)**. Log daily completion in the **[Progress Tracker](PROGRESS.md)**. A 4-day Java-basics revision (Week 0) precedes Week 1. Plan runs **Thu 18 Jun → Sun 20 Sep 2026** (Week 0 is a 4-day warm-up; Week 1 is a full Mon–Sun week; Weeks 2–13 are clean Mon–Sun). Track applications + referrals — the lever that decides offers — in **[Applications & Referrals](prep-weeks/applications-and-referrals.md)**.
 
 | Week | Dates | Phase | Focus |
 |------|-------|-------|-------|

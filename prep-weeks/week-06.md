@@ -2,6 +2,8 @@
 
 > **Theme: Graphs + Async Messaging Architecture — Own the design room and the whiteboard.**
 
+> 📨 **Apps & referrals this week:** Map 1–2 referral contacts per target company; engage lightly (genuine comment / congrats). See the [cadence & tracker](applications-and-referrals.md).
+
 ---
 
 ## 🎯 Week Goal

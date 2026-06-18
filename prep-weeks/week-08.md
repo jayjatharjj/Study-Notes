@@ -2,6 +2,8 @@
 
 > Ship code AND ship applications. You've spent seven weeks sharpening the blade; this week you swing it. Every DSA session closes a gap in DP/Greedy. Every Cloud block turns a resume bullet into a whiteboard-ready story. By Friday your LinkedIn is recruiter-optimised and three warm-up interviews are booked.
 
+> 📨 **Apps & referrals this week:** 3–5 warm-up applications (services/mid-size) + your first 3–5 referral asks. See the [cadence & tracker](applications-and-referrals.md).
+
 ---
 
 ## 🎯 Week Goal

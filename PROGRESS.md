@@ -269,8 +269,6 @@ One line per week — what went well, what to fix next week.
 | 12 | | | |
 | 13 | | | |
 
-## 🎯 Application & Offer Pipeline (summary — keep the detailed sheet separately)
+## 🎯 Application & Offer Pipeline
 
-| Company | Tier | Applied | Stage | Next action | Comp range |
-|---------|------|---------|-------|-------------|------------|
-| | | | | | |
+Weekly application quotas, the referral cadence + message templates, and the application/referral logs live in **[Applications & Referrals](prep-weeks/applications-and-referrals.md)** — log them there (one source of truth). Keep the dashboard "Applications submitted" count above in sync each Sunday.

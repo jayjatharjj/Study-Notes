@@ -2,6 +2,8 @@
 
 > Theme: Own the fundamentals that every product-company interviewer will test — Trees, caching architecture, indexing internals, and a crisp frontend story. This week you stop being a "backend person who also does Vue" and become a full-stack engineer who can reason at every layer.
 
+> 📨 **Apps & referrals this week:** Build your tiered target list (~30–40 companies); connect with 10–15 engineers at Tier-1/2 targets (connect only, no ask yet). See the [cadence & tracker](applications-and-referrals.md).
+
 ---
 
 ## 🎯 Week Goal
