@@ -13,6 +13,25 @@
 
 > **Surface the immediate-joiner advantage everywhere.** Put **"Available to join immediately"** on the resume header and LinkedIn headline/About, and include it in the connect + referral-ask templates — it's a concrete reason for a recruiter or referrer to prioritize you.
 
+## 🪜 Floor / Safety-Net Ladder — "employed no matter what"
+
+> No honest plan guarantees a *target* offer by a fixed date. But a deliberate **floor** makes *being employed* the near-certain outcome (~95%+ within ~4 months). Run the floor track **in parallel** with the target track from day one of applications — **not** as a last resort.
+
+**The ladder — apply across tiers simultaneously:**
+- **Tier A — Target:** GCC / product, ₹14–25 LPA. Primary goal, referral-first. (~50–60% by end-Sep — see odds.)
+- **Tier B — Mid-tier:** product mid-size / Indian unicorns / well-funded startups. Good comp, faster loops than Tier A.
+- **Tier C — Services / IT majors + staffing:** TCS, Infosys, Wipro, Accenture, Capgemini, LTIMindtree, Cognizant, Tech Mahindra + staffing/consultancies. They hire **on volume, continuously**, and **prize immediate joiners** — this is where "no matter what" becomes real. Comp may be lateral-ish, but it's employment + income.
+- **Tier D — Contract / contract-to-hire:** lands in ~1–3 weeks, stops the income bleed, often converts to full-time. A bridge, not a failure.
+- **Warm-network track (fastest):** ex-colleagues, your former manager, anyone who's seen your work. Message them this week — *"I've moved on, available immediately — who's hiring?"* Warm leads convert fastest of all.
+
+**Define your FLOOR NUMBER — write it down now:** the minimum role + comp you will *actually accept* to stay employed (a lateral or small bump is fine). Having a floor you'll say "yes" to is what *guarantees* you don't stay unemployed. You can keep interviewing for Tier A/B after accepting a floor offer if it comes to that.
+
+**Rules of the floor:**
+- **Immediate-joiner everywhere, hardest at Tier C/D** — it's your biggest edge with volume hirers.
+- **Build the floor early** so you negotiate Tier A/B from *security, not panic*. A safety offer in hand is what stops you accepting an exploding/lowball offer out of fear.
+- **Detach "employed" from "by Sep 30."** If the floor lands Oct 10, you're fine — don't let a date force a bad call.
+- **Cadence:** seed Tier C/D + warm-network in **W6 (Aug 3)** alongside Tier A/B — don't wait for target loops to fail.
+
 ## Weekly cadence (study finishes Aug 1; applications start Aug 3)
 
 Applications stay **off** through study (W5 is the last study week). W5 is pure *pipeline-building* (list + warm connections). Real volume starts the moment study ends, in W6.
@@ -76,6 +95,16 @@ Stages: `applied → OA → R1 → R2 → R3/HM → HR/offer → accepted/reject
 
 | Contact | Company | Connected (date) | Asked (date) | Responded? | Outcome (referred / no / pending) |
 |---------|---------|------------------|--------------|-----------|------------------------------------|
+| | | | | | |
+
+---
+
+## Tracker 4 — Floor / safety-net pipeline
+
+Run alongside the target pipeline. **Floor number: ₹______ / ______ role (fill in).**
+
+| Source | Type (services/staffing/contract/network) | Contact / portal | Date | Stage | Next action |
+|--------|-------------------------------------------|------------------|------|-------|-------------|
 | | | | | | |
 
 ---
