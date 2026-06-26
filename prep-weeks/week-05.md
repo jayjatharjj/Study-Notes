@@ -1,473 +1,327 @@
-# Week 5 — Core Build + Soft Applications (Jul 20–26, 2026)
+# Week 5 — Consolidation & Apply-Prep (Jul 27–Aug 1, 2026)
 
-> Theme: Own the fundamentals that every product-company interviewer will test — Trees, caching architecture, indexing internals, and a crisp frontend story. This week you stop being a "backend person who also does Vue" and become a full-stack engineer who can reason at every layer.
+> The blade is sharp. This week you consolidate — DSA becomes maintenance, system designs become fluent walk-throughs, your 10 STAR stories and three project deep-dives become muscle memory — and you set up the application machine: profiles live, tiered target list built, and the first referral connections going out. This is the bridge from pure study to active applications.
+>
+> **Full-time week — Mon–Sat (6 days), Sun rest.** Three blocks per day: **Block A** (DSA maintenance / mock, ~2.5 hr), **Block B** (system-design mocks + profiles, ~2 hr), **Block C** (behavioral / project deep-dives / apply-prep, ~1.5 hr).
 
-> 📨 **Apps & referrals this week:** Build your tiered target list (~30–40 companies); connect with 10–15 engineers at Tier-1/2 targets (connect only, no ask yet). See the [cadence & tracker](applications-and-referrals.md).
+> 📨 **Apps & referrals this week:** build your tiered target-company list (~30–40 cos) + connect with 15–20 engineers at Tier-1/2 targets (connect only). See the [cadence & tracker](applications-and-referrals.md).
 
 ---
 
 ## 🎯 Week Goal
 
-Walk into any interview and fluently answer:
-- Any tree traversal / BST problem (iterative + recursive, no fumbling)
-- Cache strategy trade-offs tied to your own production wins
-- DB index internals without hand-waving
-- A sharp Vue 3 vs React comparison backed by hands-on knowledge
-- LCA, diameter, and tree construction — the "hard" tree questions that separate candidates
+Turn everything from Weeks 0–4 into interview-ready fluency. Solve 2 mixed problems in 45 min under OA conditions, on demand, any day. Drive five core HLDs cold — URL shortener, file storage, News Feed, notification, chat/typeahead — with requirements → capacity → architecture → deep-dive → failure modes → trade-offs, each tied to your own work. Write and rehearse all 10 STAR stories (6 core + 4 bar-raiser) and the three project talk-tracks (Smart360, Deep Fathom, WebX) until each lands under 2–5 minutes with a number in every answer. Finish the week with profiles live (LinkedIn, Naukri, Instahyre/Cutshort, GitHub), a tiered ~30–40-company list, and 15–20 referral connections in flight — ready to apply Aug 3.
 
 ---
 
-## ✅ By Sunday you can...
+## ✅ By Saturday you can...
 
-- [ ] Write iterative in-order, pre-order, post-order traversals cold (no hints)
-- [ ] Implement BFS level-order with a deque, returning `List<List<Integer>>`
-- [ ] Solve Validate BST using the min/max bounds approach (not inorder trick)
-- [ ] Explain LRU O(1) get/put using HashMap + doubly-linked list (draw it on a whiteboard)
-- [ ] Articulate exactly why your 60s→2-3s fix needed both indexes AND caching — and which came first and why
-- [ ] Name the three cache write strategies, their failure modes, and when each fits your projects
-- [ ] Explain B-tree structure, why PostgreSQL uses it, and what a covering index is
-- [ ] Compare Vue 3 reactivity (Proxy-based) vs React reconciliation (virtual DOM diffing) without hedging
-- [ ] Describe `ref` vs `reactive`, Pinia store shape, and React `useEffect` dependency array semantics
-- [ ] Solve 8 of the 9 target LeetCode problems before the weekend
+- Solve 2 LeetCode problems in 45 min under OA conditions, back-to-back, with correct complexity stated — on any day, cold.
+- Whiteboard from memory, in under 10 minutes each: URL shortener, scalable file storage, News Feed/timeline, notification system, and chat/typeahead — covering requirements, capacity estimation, architecture, 2–3 deep-dives, failure modes, and trade-offs.
+- Deliver any of the 10 STAR stories under 2 minutes with a specific number in every answer, plus the 90-second "tell me about yourself" pitch.
+- Narrate the Smart360, Deep Fathom, and WebX talk-tracks in under 5 minutes each, no notes, no filler, and field the standard curveballs (LazyInitializationException, Key Vault outage, crashed worker, multi-tenancy).
+- Explain the full-stack integration story — CORS (preflight + credentials), JWT client flow with 401/refresh handling, the API error contract — as one coherent narrative.
+- Design a full-stack LLM async-job feature end-to-end (202 Accepted, SSE vs WebSocket, idempotency, durable job state).
+- Show recruiter-ready profiles (headline: "available to join immediately") and a tiered target-company list with referral contacts mapped.
 
 ---
 
-## 📅 Daily Checklist (Mon–Sun)
+## 📅 Daily Checklist
 
 ---
 
-### Monday, Jul 20 — Tree Traversals: Recursive + Iterative
+### Monday Jul 27 — DSA Maintenance + URL Shortener / File Storage Mock + STAR #1–#5
 
-📌 **Study today:** Tree traversals — iterative pre/in/post-order + invert (LC 144, 94, 145, 226) · B-tree structure primer
+📌 **Study today:** DSA maintenance — timed mixed set · system-design mock: URL shortener + file storage · STAR stories #1–#5 (write + rehearse)
 
-**Time budget: 1.5 hr**
+**DSA (Block A, ~2.5 hr) — Timed Mixed Set #1 (OA simulation):**
 
-#### DSA (55 min)
-- [ ] **Theory warm-up (10 min)**: Draw a sample BST on paper. Trace in-order, pre-order, post-order manually.
-  - In-order (L → Root → R) → sorted output on BST
-  - Pre-order (Root → L → R) → tree serialization / copy
-  - Post-order (L → R → Root) → deletion, size calculation
-- [ ] **LC 144 — Binary Tree Preorder Traversal** (Easy) — implement iterative using explicit Stack
-  - Pattern: push root → loop → pop → add to result → push right then left (right first so left is processed first)
-- [ ] **LC 94 — Binary Tree Inorder Traversal** (Easy) — implement iterative using the "go-left-then-pop" pattern
-  - Pattern: `curr = root`; while curr or stack not empty: go left until null, then pop and record, then go right
-- [ ] **LC 145 — Binary Tree Postorder Traversal** (Medium) — iterative two-stack trick OR reverse of modified pre-order
-  - Trick: pre-order is Root→L→R; if you do Root→R→L and reverse result → post-order
-- [ ] **LC 226 — Invert Binary Tree** (Easy) — both recursive and iterative BFS; explain in terms of your mental model
+Set the timer, no hints, fresh editor — treat it as a real OA. Pick 2 across patterns (don't pre-announce the type):
+- One DP or greedy from Week 4 (e.g. LC 322 Coin Change or LC 56 Merge Intervals).
+- One heap or graph (e.g. LC 215 Kth Largest or LC 207 Course Schedule).
+After the timer: write time/space (best and worst if they differ), the one-line key insight, and one follow-up the interviewer might ask, for each.
 
-#### Core System Concept (20 min)
-- [ ] Read: B-tree structure primer — understand why it's O(log n) for reads, how pages work, and why PostgreSQL stores all actual data in leaf nodes (clustered vs. heap).
-  - Key fact: PostgreSQL uses heap storage (table and index are separate files). MySQL InnoDB uses a clustered index (table IS a B+ tree by primary key).
-  - Implication for your work: explain why adding an index on `user_id` in your Smart360 N+1 fix mattered.
+**Core Topic (Block B, ~2 hr) — System-Design Mock: URL Shortener + File Storage:**
 
-#### Self-Check (5 min)
-- [ ] Without looking: write the iterative in-order skeleton from memory on paper.
-- [ ] Can you explain why recursive DFS has O(h) space complexity and what "h" is for a skewed tree?
+*URL shortener (20 min):* requirements (read-heavy, ~100:1 read/write, <100ms redirect), capacity (write rate × retention → key length via base-62), short-key generation (counter + base-62, or hash + collision check), the redirect path (cache-aside in Redis → DB), and analytics as an async event. Trade-off: 301 (cacheable, loses click tracking) vs 302 (every hit reaches you).
 
----
+*Scalable file storage (25 min) — drive it end-to-end:*
+- **Requirements + capacity:** files up to 5 GB (chunked upload), read-heavy (~1:10 write/read), eventual consistency for content / strong for metadata, global → CDN. 10M users × 5 GB = 50 TB; 100K uploads/day × 10 MB = 1 TB/day.
+- **Upload pipeline:** client → Upload Service (gets `fileId` + per-chunk pre-signed S3 URLs) → client uploads chunks *directly to S3* (no data through your servers) → notify → async assembly (`CompleteMultipartUpload`) → Metadata Service records `status=READY` → publish `FileUploaded`. "Same pre-signed-URL pattern as Smart360, extended to per-chunk for large files."
+- **Metadata Service:** PostgreSQL (strong consistency), shard on `owner_id` (efficient "list my files"), read replicas for the read-heavy queries.
+- **Read path + CDN:** Download Service validates permission → pre-signed URL (TTL 15 min), cache it in Redis (TTL 10 min, under expiry); CloudFront/Front Door in front of S3 for shared files. "Front Door via Bicep in Deep Fathom for exactly this CDN offload."
+- **Replication + failure modes:** S3 cross-AZ by default (+ cross-region replication); PostgreSQL leader-follower (replication-lag implication on "list my files" → route post-upload reads to leader, or optimistic UI). Failure modes: orphaned chunks → S3 lifecycle deletes incomplete uploads after 24h; metadata leader dies → promote replica (CP); CDN stale after delete → invalidation on delete event (batch the calls). Common gaps: virus scanning, quota enforcement, audit logging.
 
-### Tuesday, Jul 21 — Level Order + Tree Problems II
+**Behavioral (Block C, ~1.5 hr) — STAR Stories #1–#5 (write + rehearse):**
 
-📌 **Study today:** Level-order BFS + depth/diameter (LC 102, 104, 100, 543) · composite & covering indexes
+Write and speak each aloud, timed; every sentence carries a specific detail.
+1. **Performance win** — Smart360 60s→2–3s (96%): Hibernate statistics found 47 queries/load (N+1) → `JOIN FETCH` + `@EntityGraph` → composite indexes `(tenant_id, created_at)`, `(user_id, status)` → Redis read cache (5-min TTL) → S3 URL cache (TTL = expiry − 30s buffer, 80% fewer S3 calls). Zero schema changes. Target 90s spoken.
+2. **Conflict / disagreement** — a real design disagreement (JWT vs session / async event-driven vs sync REST / Bicep vs existing Terraform): documented both with trade-offs, proposed a time-boxed PoC or decision matrix, found the kernel of validity in their concern, reached consensus or escalated cleanly. Relationship intact, quantified outcome.
+3. **Ownership / leadership** — owned the slow CI/CD nobody fixed: profiled with GitLab trace → 3 bottlenecks → DAG + BuildKit → 23→10 min (57%). Proactive identification, no one asked, measured impact.
+4. **Biggest failure** — a real mistake with a measurable consequence (e.g. shipped the LLM-proxy routing without retry+fallback, assumed provider uptime → production incident). Honest consequence, specific lesson ("design for failure first"), follow-through. Under 90s.
+5. **Why leaving** — ambition framing (scale, engineering culture, compensation that reflects the level), never negativity. Speak 3× until natural.
 
-**Time budget: 1.5 hr**
-
-#### DSA (55 min)
-- [ ] **LC 102 — Binary Tree Level Order Traversal** (Medium)
-  - Use `ArrayDeque` as queue. For each level: record `queue.size()` before the inner loop, pull exactly that many nodes, add children.
-  - Return `List<List<Integer>>` — practice the exact Java generics syntax.
-  - Must be clean in < 15 lines. If not, keep iterating.
-- [ ] **LC 104 — Maximum Depth of Binary Tree** (Easy) — recursive one-liner, then iterative BFS counting levels.
-- [ ] **LC 100 — Same Tree** (Easy) — recursive: base cases first (both null → true, one null → false), then values equal AND subtrees same.
-- [ ] **LC 543 — Diameter of Binary Tree** (Medium)
-  - Diameter through a node = left height + right height.
-  - Classic trick: track `maxDiameter` in a 1-element array or instance variable during height DFS.
-  - Common mistake: thinking diameter must pass through root — it doesn't. The LeetCode constraint trips people.
-
-#### Core System Concept (20 min)
-- [ ] **Composite Indexes** — your 60s→2-3s win.
-  - Understand: a composite index `(tenant_id, created_at)` is useful when you filter by `tenant_id` first. The leftmost prefix rule.
-  - Covering index: index contains ALL columns needed by a query → index-only scan, never touches the heap. Example: `CREATE INDEX idx_covering ON orders(tenant_id, status, created_at)` when your query is `SELECT tenant_id, status, created_at FROM orders WHERE tenant_id = ?`
-  - Tie to Smart360: explain which columns you indexed and why (join columns, filter columns, sort columns).
-
-#### Self-Check (5 min)
-- [ ] Write level order from memory with the inner `size` trick.
-- [ ] Explain covering index vs regular index in 2 sentences — no jargon.
+**Self-check:**
+1. Did both timed problems finish within 45 min, with complexity stated?
+2. Can you tell the performance story under 2 minutes with "96%" spoken naturally?
 
 ---
 
-### Wednesday, Jul 22 — BST Operations + LCA
+### Tuesday Jul 28 — DSA Maintenance + News Feed / Notification Mock + STAR #6–#10
 
-📌 **Study today:** BST operations — validate, LCA, kth smallest (LC 98, 235, 230) · cache-aside (lazy loading) pattern
+📌 **Study today:** DSA maintenance · system-design mock: News Feed + Notification · STAR stories #6–#10 (bar-raiser)
 
-**Time budget: 1.5 hr**
+**DSA (Block A, ~2.5 hr) — Timed Mixed Set #2:**
 
-#### DSA (55 min)
-- [ ] **LC 98 — Validate Binary Search Tree** (Medium)
-  - Wrong approach: just check left < root < right (misses deeper violations).
-  - Right approach: DFS with `(node, min, max)` bounds. Each left subtree call passes `max = node.val`; each right subtree call passes `min = node.val`. Start with `(-∞, +∞)`.
-  - In Java: use `long` to handle `Integer.MIN_VALUE` / `Integer.MAX_VALUE` edge cases.
-- [ ] **LC 235 — Lowest Common Ancestor of BST** (Easy)
-  - Exploit BST property: if both p and q are less than root → go left. If both greater → go right. Otherwise, root IS the LCA.
-  - O(h) time, O(1) space iteratively.
-- [ ] **LC 230 — Kth Smallest Element in BST** (Medium)
-  - In-order traversal gives sorted order → count nodes. Iterative in-order with early exit.
-  - Follow-up (very common!): "What if the BST is modified often and findKthSmallest is called frequently?" → augment each node with the count of its left subtree. O(h) per operation.
+Two more mixed problems under OA conditions. Rotate patterns you didn't hit Monday (a tree/graph + a sliding-window/two-pointer, e.g. LC 994 Rotting Oranges + LC 3 Longest Substring Without Repeating). Grade yourself; mark anything over time for an extra rep.
 
-#### Core System Concept (20 min)
-- [ ] **Cache-Aside (Lazy Loading)** — the pattern you used for S3 URLs and JWT blacklist.
-  - Flow: app checks cache → miss → app queries DB/S3 → app writes to cache → returns data.
-  - Failure mode: cache stampede on cold start / TTL expiry under high load. Mitigation: probabilistic early expiration or a mutex lock per cache key.
-  - Your Redis S3 URL cache: TTL set to slightly less than the S3 presigned URL expiry (say, URL expires in 15 min → Redis TTL 13 min). Explain this off the cuff — it's a genuine production insight.
+**Core Topic (Block B, ~2 hr) — System-Design Mock: News Feed + Notification:**
 
-#### Self-Check (5 min)
-- [ ] Draw the LCA algorithm on BST in pseudocode — 5 lines max.
-- [ ] Explain cache stampede to a non-technical interviewer.
+*News Feed / Timeline (driven, 25 min)* — the highest-frequency HLD:
+- **Requirements + scale:** read-heavy, ~100M DAU, avg ~500 follows, ~10:1 read/write. Open with the defining tension: **write amplification vs read amplification.**
+- **Core decision — fan-out-on-write vs fan-out-on-read:** push (write the post id into every follower's precomputed Redis sorted set; O(1) reads, but a 1M-follower post = 1M writes) vs pull (store once, gather + merge at read time; cheap writes, expensive reads).
+- **The hybrid (the answer):** push for normal users; for celebrity/high-follower accounts, pull their recent posts at read time and merge into the precomputed feed — caps write amplification while keeping reads fast for the 99%. Threshold is a tunable knob.
+- **Feed cache:** per-user Redis sorted set (post_id → score), capped (~800); inactive users generated lazily on login.
+- **Cursor pagination:** never `OFFSET/LIMIT`; opaque cursor = `(score, post_id)`, "items with score < cursor" — stable under concurrent writes.
+- **Ranking:** separate **candidate generation** (fan-out) from **ranking** (scorer: recency, affinity, engagement velocity, content type).
+- **Tie to work:** "fan-out-on-write is the outbox/Kafka pattern from Deep Fathom — `PostCreated` → Kafka → feed-builder workers update follower caches async; same decoupling as the notification service."
 
----
+*Notification system (20 min):* four channels behind a common `Channel` interface (push/email/SMS/in-app); Template Service `(templateId, locale, vars)` → content; per-user preferences consulted before dispatch (category granularity — a muted-marketing user still gets security alerts); fan-out + per-user rate limit (Redis sliding window) + dedup via idempotency key (event_id+user_id+channel, SETNX/unique constraint); queue-backed per-channel workers with exponential-backoff retry + DLQ; delivery-status tracking (QUEUED→SENT→DELIVERED→READ/FAILED via provider webhooks). "Outbox on the write side, at-least-once + idempotency on the consumer side."
 
-### Thursday, Jul 23 — Tree Construction + Indexing Deep Dive
+**Behavioral (Block C, ~1.5 hr) — STAR Stories #6–#10 (bar-raiser):**
 
-📌 **Study today:** Tree construction + general-tree LCA (LC 105, 236) · write-through/back/around + SQL vs NoSQL decision framework
+6. **Tell me about yourself** — the 90-second pitch: current role → key achievements with numbers (60s→3s, 57% CI/CD, 30+ Bicep resources, 5-provider LLM proxy) → what you want → bridge to the company.
+7. **Mentorship / helping a teammate** — unblocked a junior on the multi-tenant flow / N+1 debugging by teaching the *why* + leaving a runbook + following up. Quantify ramp.
+8. **Receiving tough feedback** — someone told you something hard (PRs too large / over-engineered the LLM routing / didn't surface blockers early); listened without defensiveness, made a concrete visible change, closed the loop.
+9. **Deadline / prioritization under pressure** — explicit must-have vs nice-to-have, cut by reversibility + user impact, communicated it, hit the date.
+10. **Customer / stakeholder impact** — user value first, engineering metric second; started from user pain (dashboards timing out / LLM jobs appearing to hang), validated against the user outcome.
 
-**Time budget: 1.5 hr**
+Mark each bar-raiser story with a real anecdote — a fabricated one collapses under one follow-up.
 
-#### DSA (55 min)
-- [ ] **LC 105 — Construct Binary Tree from Preorder and Inorder Traversal** (Medium)
-  - Key insight: pre-order[0] is always the root. Find that value in in-order → everything to its left is the left subtree, everything right is the right subtree.
-  - Optimization: HashMap `{value → inorder_index}` for O(1) lookup instead of O(n) linear scan.
-  - Practice the recursive signature: `build(preStart, inStart, inEnd)`.
-- [ ] **LC 236 — Lowest Common Ancestor of Binary Tree** (Medium) — NOT a BST this time.
-  - Recursive post-order: return the node if it equals p or q. Combine results: if left and right are both non-null → current node is LCA. If only one is non-null → return that one.
-  - This is harder than BST LCA — make sure you can explain why the algorithm works.
-- [ ] Review any two problems from Mon–Wed that felt shaky. Attempt from scratch, timed (15 min each).
-
-#### Core System Concept (20 min)
-- [ ] **Write-Through vs Write-Back vs Write-Around**
-  - **Write-Through**: write to cache AND DB synchronously. Cache always consistent. Downside: write latency doubles; cache fills with data that may never be read again.
-  - **Write-Back (Write-Behind)**: write to cache only, then asynchronously flush to DB. Fast writes, but risk of data loss if cache node dies before flush. Used in CPU L1/L2 caches.
-  - **Write-Around**: skip the cache on write, go directly to DB. Cache is populated only on reads (cache-aside style). Good for write-heavy, rarely-re-read data (logs, audit trails).
-  - Tie to your projects: your JWT blacklist uses cache-aside (write directly to Redis on logout — that's actually write-through since DB isn't involved). Your S3 URL cache uses write-around (S3 is the source of truth, you only cache on read).
-
-- [ ] **SQL vs NoSQL — a decision framework, not a religion** (the lens the indexing table doesn't give you)
-  - **Start from access patterns, not the data.** The question is never "is my data relational?" — it's "what queries do I run, at what scale, with what consistency?" Relational schema and indexes (above) optimize for *unknown future queries*; NoSQL stores optimize for *known query patterns you design the schema around*.
-  - **When relational (PostgreSQL) still wins — and it usually does:** multi-entity **joins**, ACID **transactions** across rows/tables, **ad-hoc / analytical queries** you didn't plan for, and **strong consistency** by default. This is why Smart360 and Deep Fathom are PostgreSQL — tenant data with RLS, joins across 50 tables, transactional correctness on authorization. Your honest line: "I start with Postgres because it handles ~95% of use cases correctly; I switch a *slice* of the system to NoSQL when a specific access pattern consistently hits relational limits — polyglot, not replacement."
-  - **The NoSQL families and when each fits:**
-    - **Key-value (Redis, DynamoDB)** — O(1) lookup by key, no query flexibility. Fits: cache, sessions, rate-limiter state, JWT blacklist. You already use Redis exactly here.
-    - **Document (MongoDB)** — self-contained JSON aggregates, flexible/evolving schema, no joins. Fits: a product whose shape changes weekly, or a denormalized read-model where one document = one screen.
-    - **Wide-column (Cassandra, HBase)** — massive **write throughput**, **time-series**, partition-key-driven reads of **known query patterns**. Fits: event/audit logs, metrics, IoT/telemetry. You must model the table per query — no ad-hoc filtering.
-    - **Graph (Neo4j)** — cheap **relationship traversal** at many hops. Fits: social graphs, permissions/org hierarchies, recommendation paths. This is the case in the Q9 pointer below: SQL self-joins explode at 4+ hops; a graph DB traverses them natively.
-  - **Polyglot persistence:** real systems mix — Postgres for the transactional core, Redis for ephemeral/hot state, a wide-column or document store for one high-volume access pattern. The skill is drawing the *seam*: which slice goes where, and how you keep them consistent (usually via events/outbox — Week 6).
-
-#### Self-Check (5 min)
-- [ ] Write the Tree Construction (LC 105) signature and base case without looking.
-- [ ] Pick a write strategy for a social media "like count" and justify it.
+**Self-check:**
+1. Did you open the News Feed with the write/read amplification trade-off and justify the celebrity-account hybrid unprompted?
+2. Are all 10 STAR stories written and spoken at least once?
 
 ---
 
-### Friday, Jul 24 — Redis Deep Dive + LFU/LRU + Catch-Up
+### Wednesday Jul 29 — DSA Maintenance + Chat / Typeahead Mock + Project Deep-Dives
 
-📌 **Study today:** LRU Cache design — HashMap + DLL (LC 146) · Redis deep dive (data structures, eviction LFU/LRU, persistence, Cluster vs Sentinel)
+📌 **Study today:** DSA maintenance · system-design mock: chat + typeahead · project deep-dive rehearsals (Smart360, Deep Fathom, WebX)
 
-**Time budget: 1.5 hr**
+**DSA (Block A, ~2.5 hr) — Timed Mixed Set #3 + LRU/LFU:**
 
-#### DSA (30 min)
-- [ ] **LRU Cache Design** — not a LeetCode "solve it" day, a "explain it cold" day.
-  - Data structures: `HashMap<key, Node>` + doubly-linked list. Head = MRU end, tail = LRU end.
-  - `get(key)`: O(1) HashMap lookup → move node to head → return value.
-  - `put(key, val)`: if exists → update + move to head. If new + at capacity → remove tail node AND remove from HashMap → insert new node at head.
-  - Draw this on paper. Be able to code it in 20 min under pressure.
-  - **LC 146 — LRU Cache** (Medium) — implement it.
+Two mixed problems, OA conditions. Include one design-DS — **LRU Cache (LC 146)** or **LFU (LC 460)** — the most-asked "design a data structure." Know LC 146 cold (doubly-linked list + HashMap).
 
-#### Core System Concept (35 min)
-- [ ] **Redis in your stack — go deep**
-  - Data structures you know: String (JWT blacklist), Hash, ZSet (leaderboards/rate limiting)
-  - Eviction policies: `allkeys-lru` (evict any key LRU), `volatile-lru` (evict TTL-set keys LRU), `noeviction` (return error when full). Know which to use for a cache vs a durable store.
-  - **LFU vs LRU**: LRU evicts the Least Recently Used (recency). LFU evicts the Least Frequently Used (frequency). LFU is better for non-uniform access patterns (avoids evicting frequently accessed old keys). Redis supports `allkeys-lfu` / `volatile-lfu`.
-  - Persistence: RDB (point-in-time snapshots) vs AOF (append-only log, fsync configurable). For your JWT blacklist: AOF with `appendfsync everysec` — you need durability (can't un-invalidate a token), but 1s of data loss on crash is acceptable. For the S3 URL cache: RDB only or no persistence — it's just a cache.
-  - Redis Cluster vs Redis Sentinel: Sentinel is HA for a single-primary setup (automatic failover). Cluster is horizontal sharding (16384 hash slots). Know which Azure Cache for Redis tiers map to each.
+**Core Topic (Block B, ~2 hr) — System-Design Mock: Chat + Typeahead:**
 
-#### Self-Check (15 min)
-- [ ] Code LRU Cache from memory. Time yourself — target under 20 minutes.
-- [ ] Explain why you chose a specific Redis eviction policy for one of your two real use cases.
+*Chat / messaging (driven, 25 min):*
+- **WebSocket connection management:** persistent bidirectional socket per client (contrast SSE — chat needs client→server too). Millions of long-lived connections → a gateway layer mapping `userId → (server, connectionId)` in Redis so any backend can find a recipient; reconnects + heartbeats/ping-pong detect dead sockets.
+- **Presence:** online/offline/last-seen via heartbeat TTL keys (`SETEX presence:userId 30s`); fan-out to contacts on change; eventual consistency is fine.
+- **Message ordering:** per-conversation monotonic sequence number (not wall-clock) — clients order by sequence, immune to clock skew.
+- **Delivery / read receipts:** SENT → DELIVERED → READ, flowing back as lightweight messages.
+- **Group fan-out:** small groups → fan-out-on-write to each inbox; large channels → fan-out-on-read — same hybrid as News Feed.
+- **Storage:** wide-column (Cassandra/HBase) partitioned by `conversation_id`, clustered by `message_seq` → efficient "fetch last N / paginate older" at write-heavy scale; TTL/archival tiering for old messages.
 
----
+*Typeahead / autocomplete (20 min):* read-heavy, <100ms p99. Serving: client (debounced) → edge → sharded suggestion index (trie/FST sharded by prefix), each node stores **precomputed top-k** (walk-to-prefix-then-read, not request-time DFS). Rank by historical query frequency, not lexicographic. Offline pipeline: query logs → stream/batch aggregation → per-prefix counts → build/refresh trie → ship to shards via versioned blob swap (atomic pointer flip). Cache hot prefixes in Redis.
 
-### Saturday, Jul 25 — Frontend Deep Dive: Vue 3
+**Project Deep-Dives (Block C, ~1.5 hr) — Smart360 / Deep Fathom / WebX:**
 
-📌 **Study today:** Vue 3 internals — Proxy reactivity, Composition API, Pinia, virtual DOM · Vue vs React comparison
+Rehearse each talk-track aloud, recorded, until tight.
+- **Smart360 (5 min):** multi-tenant SaaS, Java 17 / Spring Boot / Vue. Three contributions — performance (N+1 → JOIN FETCH/EntityGraph + indexes + Redis + S3 URL cache → 60s→2–3s, 96%); security (session→stateless JWT at the gateway, 60% sign-in latency cut; 3-level RBAC); architecture (strangler-fig user-management migration, notification boundary first → 30% efficiency gain). Curveballs: JWT filter testing (WireMock + `@WebMvcTest`/`MockMvc`); hardest bug (`LazyInitializationException` outside a transaction → `@Transactional(readOnly=true)` / `@EntityGraph`); multi-tenancy (tenant in JWT + Hibernate `@Filter` + Postgres RLS backstop).
+- **Deep Fathom (5 min):** FedRAMP-aligned; 30+ Azure resources in modular Bicep (Container Apps, PostgreSQL Flexible, Redis, Key Vault, Front Door, private endpoints; one parameter file per env); DAG CI/CD + BuildKit → 23→10 min (57%); K8s probes + graceful shutdown; Key Vault via managed identity; RLS across 50+ tables. Curveball: Key Vault outage at startup (deploy fails safe; runtime secrets cached in memory survive an outage).
+- **WebX (4 min):** LLM orchestration for 2–20 min jobs across 5 providers; POST → 202 + jobId; PostgreSQL job state + Redis Streams queue; worker pool routes by cost/capability/rate-limit headroom (Redis atomic INCR/EXPIRE); SSE/polling for results; idempotency keys. Curveball: worker pod killed mid-PROCESSING (heartbeat + `@Scheduled` watchdog marks STALE after 2 min, re-queues; idempotent calls prevent double-billing).
 
-**Time budget: 4 hr**
-
-#### Morning Session (2 hr): Vue 3 Internals + Composition API
-
-- [ ] **Reactivity System (45 min)**
-  - Vue 2 used `Object.defineProperty` — couldn't detect property addition/deletion, couldn't track array index changes.
-  - Vue 3 uses ES6 `Proxy` → intercepts ALL operations (get, set, deleteProperty, has). This is why `reactive()` objects are fully reactive without `Vue.set()`.
-  - `ref(value)` wraps primitives in a `{ value }` object (since Proxy needs an object to intercept). Accessing in templates: Vue auto-unwraps refs at the top level, so you don't write `.value` in templates.
-  - `reactive(object)` returns a Proxy. Destructuring breaks reactivity (you get plain values, not Proxy). Fix: use `toRefs(state)` to convert each property to a ref.
-  - `computed(() => ...)` is lazy + cached. Only re-evaluates when its reactive dependencies change. Read `computed` in the context of your Smart360 dashboard filters.
-
-- [ ] **Composition API vs Options API (20 min)**
-  - Options API: `data()`, `methods`, `computed`, `watch`, `mounted`. Logic is split by option type — hard to extract reusable logic.
-  - Composition API: `setup()` function (or `<script setup>`). Logic grouped by feature, not option. Composables (`useAuth()`, `useDataTable()`) replace mixins.
-  - `<script setup>` is syntactic sugar: top-level variables are automatically exposed to the template.
-
-- [ ] **Lifecycle Hooks in Composition API (15 min)**
-  - `onMounted`, `onUpdated`, `onUnmounted` (equivalent to `mounted`, `updated`, `beforeDestroy`)
-  - `onBeforeMount` runs after `setup()` but before DOM is created. `onMounted` runs after DOM is inserted.
-  - `watchEffect(() => { ... })` runs immediately and re-runs when deps change (auto-tracks). `watch(source, callback)` is explicit, lazy, gives old + new value.
-
-- [ ] **Pinia (30 min)** — your state management
-  - Define a store: `defineStore('id', { state: () => ({}), getters: {}, actions: {} })`
-  - Getters are like `computed` — cached, reactive. Actions can be async.
-  - No mutations (unlike Vuex) — you mutate state directly in actions.
-  - `storeToRefs(store)` to destructure state/getters while keeping reactivity (same reason as `toRefs`).
-  - Tie to your work: describe a store you've actually built (user session, permissions, or UI state).
-
-- [ ] **Practice drill (10 min)**: Without looking, write a `<script setup>` component that:
-  - Uses `ref` for a counter
-  - Has a `computed` for doubled value
-  - Has a button that increments on click
-  - Calls an API `onMounted` and stores result in `reactive` state
-
-#### Afternoon Session (2 hr): Vue Deep Cuts + Interview Prep
-
-- [ ] **Virtual DOM in Vue 3 (30 min)**
-  - Vue 3 compiler statically analyzes templates and marks dynamic nodes (no need to diff static nodes). This is "compiler-informed virtual DOM" — far more efficient than React's full-tree diffing.
-  - `v-if` vs `v-show`: `v-if` conditionally mounts/unmounts (DOM element created/destroyed). `v-show` always mounts, toggles `display: none`. Use `v-show` for frequent toggles, `v-if` for rare ones.
-  - `key` prop: Vue (like React) uses keys to identify list items during diffing. Without keys, Vue reuses DOM nodes in order → can cause subtle state bugs.
-
-- [ ] **Common Vue Interview Questions (45 min)** — write out answers, don't just read:
-  - How does `v-model` work? It's `:modelValue` + `@update:modelValue` sugar. On custom components: emit `update:modelValue`.
-  - What are slots? Default slot, named slots, scoped slots (passing data from child to parent's slot template).
-  - What's a composable? A function starting with `use` that uses Composition API internally. How does it differ from a mixin? No namespace collision, explicit source of logic, type-safe.
-  - How do you handle async errors globally in Vue? `app.config.errorHandler` or per-component `onErrorCaptured`.
-
-- [ ] **Vue vs React — the comparison you'll be asked (45 min)**
-  - Write a 5-point comparison table: Reactivity model | State management | Template vs JSX | Compilation | Learning curve
-  - Reactivity: Vue = fine-grained Proxy-based (only re-renders the exact reactive dep that changed). React = coarse-grained (useState triggers re-render of component + children, mitigated by `memo`, `useMemo`, `useCallback`).
-  - Templates: Vue SFC separates HTML/CSS/JS (`.vue` files). React uses JSX (JS + HTML mixed). Vue's template compiler can optimize statically.
-  - Community/ecosystem: React has larger ecosystem. Vue has more opinionated defaults (Pinia, Vue Router are first-party).
-  - When to choose Vue: team already knows it, Laravel/PHP shop, faster to get productive. React: larger talent pool, React Native needed, company standard.
+**Self-check:**
+1. Did the chat design cover connection routing, sequence ordering, the receipt state machine, the group fan-out split, and the wide-column partition/cluster key — unprompted?
+2. Do all three talk-tracks land in time with no "basically"?
 
 ---
 
-### Sunday, Jul 26 — React + Consolidation + Self-Assessment
+### Thursday Jul 30 — DSA Maintenance + LLD Mock + Full-Stack LLM + CORS/Token
 
-📌 **Study today:** React hooks + reconciliation/Fiber + state management · re-solve hard trees (LC 105, 236, 98) + caching architecture review
+📌 **Study today:** DSA maintenance · LLD mock (parking lot / Design Twitter) + full-stack LLM feature design · CORS/token handling + full-stack integration story
 
-**Time budget: 4 hr**
+**DSA (Block A, ~2.5 hr) — Timed Mixed Set #4:**
 
-#### Morning Session (2 hr): React Hooks + Reconciliation
+Two mixed problems, OA conditions — favour patterns rated weakest in the Week 4 self-assessment. State complexity unprompted; mention one alternative approach per problem.
 
-- [ ] **Hooks Deep Dive (60 min)**
-  - `useState`: returns `[state, setter]`. Setter is async (batched in event handlers). Calling setter with same value → no re-render (Object.is comparison).
-  - `useEffect(fn, deps)`: runs after render. Deps array controls when:
-    - `[]` → runs once after mount (componentDidMount equivalent)
-    - `[a, b]` → runs after mount + whenever a or b change
-    - No array → runs after every render (usually a bug)
-    - Return a cleanup function → runs before next effect or on unmount
-  - Common mistake: missing deps causes stale closure (effect captures old variable value). ESLint `exhaustive-deps` rule catches this.
-  - `useCallback(fn, deps)`: memoizes a function reference. Use when passing callbacks to memoized children.
-  - `useMemo(fn, deps)`: memoizes a computed value. Use for expensive computations.
-  - `useRef`: mutable ref object (`ref.current`). Two uses: (1) DOM node access, (2) mutable value that doesn't trigger re-render (like `setInterval` ID).
-  - `useContext(MyContext)`: consume context without nesting. Context changes re-render ALL consumers — use sparingly or split contexts.
-  - `useReducer(reducer, initialState)`: like Redux but local. Use when state transitions are complex (multiple sub-values, next state depends on previous).
+**Core Topic (Block B, ~2 hr) — LLD Mock + Full-Stack LLM Feature:**
 
-- [ ] **Reconciliation + Virtual DOM (30 min)**
-  - React maintains a VDOM tree. On state change, React creates a new VDOM and diffs it against the previous (diffing algorithm). Changed nodes are applied to the real DOM in a "commit phase."
-  - React 18 Concurrent Mode: rendering is interruptible. React can pause rendering to handle higher-priority updates (user input > data fetch).
-  - Fiber: React's internal reconciler. Each component is a "fiber" unit of work. React can process fibers incrementally.
-  - `key` in lists: without keys, React diffs by position → inserting at start is O(n) mutations. With stable keys → O(1) identification. Never use array index as key if list can be reordered/filtered.
-  - `React.memo(Component)`: skips re-render if props haven't changed (shallow equality). Pair with `useCallback` for stable function props.
+*LLD mock (45 min) — pick parking lot OR Design Twitter classes:*
+- **Design Twitter as LLD:** clean responsibilities + defensible SOLID. `User` (id/profile, no feed logic), `Tweet` (immutable value object), `FollowGraph` (`follow`/`unfollow`/`followeesOf`, encapsulates the social graph), `FeedService` (`postTweet`/`getTimeline`, depends on `FollowGraph` + `TimelineMerger` via interfaces), `TimelineMerger` interface (heap-merge is one impl; chronological/ranked drop in). Defend: SRP (each has one reason to change), Open/Closed + DIP (swap chronological→ranked without editing `FeedService`), Strategy pattern (name it). Bridge to scale: "the in-memory `FollowGraph` is the LLD; at scale this becomes fan-out-on-write vs fan-out-on-read — interface boundaries stay identical." Test: could a new joiner add a "muted accounts" filter without modifying `FeedService`?
 
-- [ ] **State Management in React (30 min)**
-  - Local: `useState`, `useReducer`
-  - Context: built-in, good for infrequent updates (theme, auth). Bad for high-frequency updates (triggers all consumers).
-  - Redux Toolkit: `createSlice`, `createAsyncThunk`, `RTK Query`. Still the enterprise standard.
-  - Zustand: lightweight, no boilerplate. `const useStore = create(set => ({ count: 0, inc: () => set(s => ({ count: s.count + 1 })) }))`.
-  - React Query / TanStack Query: server state (caching, refetching, background sync). Pair with Zustand for client state.
+*Full-stack LLM async-job feature (15 min):* UI → POST /jobs → API Gateway → LLM Orchestration (validate, write `PENDING` to PostgreSQL, publish to Redis Streams/RabbitMQ, return 202 + jobId) → worker pool (route to provider by cost/capability/rate-limit, call, write result, `COMPLETED`, publish completion) → Status/Result Service (`GET /status` polling + SSE `/stream` for partial tokens) → UI (poll every 3s or subscribe to SSE; progress bar; FAILED → error + retry). Justify each: 202+async (LLM can take 20 min, sync HTTP times out); Redis for rate-limit tracking (atomic INCR/EXPIRE, distributed); SSE over WebSocket (unidirectional, HTTP/1.1, easy to proxy); PostgreSQL for job state (durable — crash leaves PENDING for recovery); idempotency (duplicate click returns the existing jobId via client key or content hash).
 
-#### Afternoon Session (2 hr): Consolidation + Full Review
+**Full-Stack Integration (Block C, ~1.5 hr) — CORS / Token Handling:**
 
-- [ ] **Drill: React vs Vue explanation (20 min)**
-  - Practice saying the Vue vs React comparison out loud (not reading). Time yourself — 3 minutes max, crisp.
-  - Key differentiator you can use: "In Vue, the compiler knows at build time which parts of the template are dynamic. React diffs the whole virtual tree at runtime. Vue 3's approach is faster for update-heavy UIs but React's ecosystem and concurrent features make it the dominant choice at scale."
+- **CORS:** browser same-origin policy — the browser sends the request and blocks the *response* without `Access-Control-Allow-Origin`. With credentials: server `Access-Control-Allow-Credentials: true` + client `withCredentials`/`credentials:'include'`; wildcard `*` is illegal with credentials. Preflight OPTIONS for non-simple requests (PUT/DELETE, `Authorization` header) → 200 with allowed methods/headers; `maxAge` caches the preflight. Configure once at Spring Cloud Gateway so downstream services don't each need it.
+- **JWT client flow:** access token in memory (NOT localStorage — XSS), refresh token in HttpOnly Secure SameSite cookie. Axios request interceptor attaches `Bearer`; response interceptor on 401 → call refresh (cookie sent automatically) → new token → retry; refresh also 401 → force logout. **Guard the recursion:** if the failing URL *is* `/auth/refresh`, don't retry — redirect to login (avoids an infinite loop). 403 → "access denied," do NOT retry. 5xx/network → friendly toast, never raw exception messages.
+- **API error contract:** `@RestControllerAdvice` + `@ExceptionHandler` maps domain exceptions to consistent JSON (`timestamp/status/error/message/path`); `@Valid` → 400 field-level list; business rule → 409; downstream failure → clean 502/503. Frontend: form errors inline, system errors to toast, loading reset in `finally`.
 
-- [ ] **System Design Review — tie everything together (40 min)**
-  - Draw a caching architecture diagram for your Smart360 project: Client → API Gateway (rate limit via Redis) → Spring Service → [Redis cache? hit] → [PostgreSQL? miss + write back to Redis] → S3 for files (URL cached in Redis with TTL).
-  - Annotate: which cache strategy at each layer, what eviction policy, what TTL, what happens on a cache miss.
-  - Practice narrating this as if answering "Walk me through your system's caching strategy."
+Say the integration story aloud (under 90s): "Vue → Spring Boot through the gateway (JWT validation, CORS, routing); a global Axios instance with request + response interceptors; `@RestControllerAdvice` gives every error a consistent shape the frontend consumes uniformly."
 
-- [ ] **DSA Review Session (40 min)**
-  - Re-solve two of the hardest problems from the week cold (pick from: LC 105, LC 236, LC 98)
-  - Time yourself: target 20 min each
-  - Focus on talking while coding — narrate your thought process
-
-- [ ] **Behavioral prep (20 min)** — write fresh STAR answers for:
-  - "Tell me about a time you improved frontend performance." (tie to Vue component optimization, lazy loading, or Pinia store design)
-  - "How do you decide between SQL and NoSQL?" (tie to your PostgreSQL choice for relational data + Redis for ephemeral/cache data)
+**Self-check:**
+1. Could a new joiner add a ranked feed to your Twitter LLD without modifying `FeedService`?
+2. Can you explain why localStorage is an XSS risk and what happens step-by-step on a 401 mid-session?
 
 ---
 
-## 🎯 Build Your Tiered Target-Company List (30 min — do it this week, not in Week 9)
+### Friday Jul 31 — Full Mock + Profiles Live + Build the Target List
 
-You don't apply until Week 8+, but the *list* needs to exist now. Right now the plan improvises company names ad hoc when applications start. That's backwards — building a curated, living sheet in Week 5 means your referral outreach (LinkedIn warm-up, "alumni at company" pings) can start warming up weeks before you actually apply. Cold-applying in Week 9 with no relationships is the lowest-yield path; a warm referral at a GCC is 3–5× more likely to convert to a first round.
+📌 **Study today:** full mock interview (DSA + system design, timed) · finalize resume + LinkedIn + Naukri + GitHub (headline: "available to join immediately") · build the tiered target-company list
 
-Create a single living sheet (a tab in your application tracker, or a separate Google Sheet) of **~30–40 companies in 3 tiers**:
+**DSA + System Design (Block A, ~2.5 hr) — Full Mock (timed):**
 
-- **Tier 1 — Target GCCs (your best odds + cloud-profile fit):** the GCCs that hire heavily at 2–4 YOE and value AWS/Azure + microservices + K8s. This is your highest-probability, highest-comp tier — aim for 12–15 names here. Examples in your band: Walmart Global Tech, Barclays, SAP Labs, Bosch, Société Générale, Deutsche Bank, Wells Fargo, Target, Lowe's, JPMC, Mastercard, Visa, ServiceNow, Nvidia/Adobe GCCs in Pune/Bengaluru/Hyderabad.
-- **Tier 2 — Product mid-tier / Indian unicorns:** product companies where the comp band and engineering bar are strong but the loop is shorter than top-tier. Aim for 10–12 names — Razorpay, Zerodha, PhonePe, Swiggy, Zeta, Postman, Browserstack, Hasura, CRED-adjacent, mid-stage SaaS.
-- **Tier 3 — Warm-up services / mid-size:** the practice-rep companies you hit first in Week 8 to calibrate your interviewing (NOT your target offers). Aim for 8–10 — established services firms and mid-size product shops with a fast cycle.
+Treat it as a real loop. Round 1 — DSA (45 min): a partner (Pramp/interviewing.io) or self-mock gives 2 problems; clarify before coding, narrate, state complexity before submitting. Round 2 — System Design (45 min): one of URL shortener / file storage / notification — requirements → capacity → high-level → 2–3 deep-dives → failure modes → trade-offs → one sentence on observability (golden signals, trace propagation, SLO burn-rate alerting). Write 3 things you did well + 3 to improve.
 
-**Concrete sourcing method (don't guess — mine these):**
-- [ ] **Zinnov / NASSCOM GCC reports** — they publish lists of active GCCs by city and sector. This is the authoritative source for "who actually has a GCC in Pune/Bengaluru/Hyderabad."
-- [ ] **Levels.fyi company directory** — browse by company; gives you the comp bands so you can pre-filter for your ₹14–25 LPA target before you ever apply.
-- [ ] **AmbitionBox** — use the **GCC filter** and the company explorer; cross-check reported salary bands and interview-round structure per company.
-- [ ] **LinkedIn** — for each shortlisted company run two searches: **"alumni at <company>"** (people from your college / past employer — warmest referral path) and **"engineers at <company>"** (filter to your stack — Java/Spring). Note 2–3 names per Tier 1 company to reach out to in Week 6–7.
-- [ ] **Instahyre / Cutshort listings** — browse open roles to confirm a company is actively hiring at your level *right now*, and to surface companies you hadn't thought of.
+**Profiles (Block B, ~2 hr) — Finalize Resume + LinkedIn + Naukri + GitHub:**
 
-**Sheet columns:** Company | Tier | City | Has GCC? (Zinnov-confirmed) | Comp band (Levels/AmbitionBox) | Stack match | Referral contact (LinkedIn) | Open role link | Notes. Keep it living — add and prune as you research.
+- **LinkedIn:** headline `Full Stack Engineer · Java 17 · Spring Boot · Microservices · Azure · Kubernetes · LLM Integration · Available to join immediately`. About (3–4 sentences): quantified impact first (60s→3s, 57% CI/CD, 30+ Bicep), stack, what you want. Every experience bullet starts with an action verb and carries a number. Skills section keyword-dense.
+- **Naukri:** mirror headline/summary; upload a clean PDF (1–2 pages); "Actively Looking" + immediate-joiner; skills with proficiency; expected-CTC band (set 20 LPA floor to avoid filtering).
+- **Instahyre + Cutshort:** create profiles, set open-to-work, fill skills/expected-CTC, upload resume — high-signal inbound channels for your band; fills the pipeline passively.
+- **GitHub:** pin 3–6 best repos, profile README (cloud-native + LLM narrative), prune embarrassing repos, one showcase repo with a clean README + architecture diagram + `docker-compose up`. Imperative, scoped commit messages.
+- **First-screen CTC deflection (memorise now):** default deflect ("I'd rather focus on the role and total opportunity first…"); if pressed, give a researched band (₹18–24 LPA), never your current number; if a form forces it, enter full CTC (base + variable + employer PF + benefits).
 
-> Why now: referrals take time to warm. A connection request + a genuine note in Week 6, a follow-up in Week 7, then an application in Week 9 converts far better than a cold apply. Building the list in Week 5 is what makes that sequence possible.
+**Apply-Prep (Block C, ~1.5 hr) — Build the Tiered Target-Company List:**
 
----
+Build a ~30–40-company list, tiered:
+- **Tier-1 (dream — GCC/product):** Goldman Sachs, Morgan Stanley, JPMC, Walmart Global Tech, Atlassian, Salesforce, Adobe, Visa, Mastercard, Razorpay, PhonePe, CRED, etc. — Java/Spring Boot in JD, 2–5 YOE, ₹18–30 LPA, Pune/Bengaluru/remote.
+- **Tier-2 (strong product mid-tier):** Groww, Juspay, Navi, Slice, Postman, BrowserStack, Druva, Meesho, Zepto, Setu, Darwinbox.
+- **Tier-3 (calibration / warm-ups):** established service + mid-size product companies for interview reps.
+Columns: Company | Tier | Role | JD URL | Tech-stack check | Referral contact(s) | Status. Verify each stack (don't apply to .NET shops). This is the input for Week 6's referral-contact mapping and Week 8's first applications.
 
-## 🧠 Concepts to Master This Week
-
-### Trees
-| Concept | Key Insight | Common Mistake |
-|---|---|---|
-| Iterative In-Order | Use stack: go left until null, pop, record, go right | Forgetting the go-right step after pop |
-| Iterative Post-Order | Reverse of (Root→R→L) pre-order variant | Trying to do it with one stack (use two) |
-| Level Order | Record `queue.size()` before inner loop for level grouping | Using size inside loop (size changes as you enqueue children) |
-| Validate BST | Pass `(min, max)` bounds down recursion | Checking only parent-child relationship (misses grandparent violation) |
-| LCA — BST | Exploit BST: both < root → go left; both > root → go right; else → root | Treating it like general tree (overkill) |
-| LCA — General Tree | Post-order: if left and right both return non-null → current node | Confusing this with BST LCA |
-| Tree Construction | Pre-order[0] = root; find in in-order array; recurse | O(n²) lookup; fix with HashMap |
-| Diameter | Track max(left_height + right_height) during height DFS | Assuming diameter must pass through root |
-| Kth Smallest in BST | In-order traversal; count k | Not knowing the follow-up (augmented BST) |
-
-### Caching
-| Strategy | Write Behavior | Read Behavior | Best For | Risk |
-|---|---|---|---|---|
-| Cache-Aside | App writes to DB directly; cache populated on read misses | Check cache → miss → read DB → write cache | Read-heavy, tolerate stale | Stampede on miss, cold start |
-| Write-Through | Write to cache + DB synchronously | Always reads from cache | Read-heavy, consistency critical | Double write latency |
-| Write-Back | Write to cache only; async flush to DB | Always reads from cache | Write-heavy, latency sensitive | Data loss if cache dies before flush |
-| Write-Around | Write directly to DB, bypass cache | Cache populated only on reads | Write-once, read-rarely (logs) | High read latency on first access |
-
-### DB Indexing
-- **B-tree**: self-balancing tree; O(log n) reads; default PostgreSQL index type; supports range queries (`>`, `<`, `BETWEEN`)
-- **Hash index**: O(1) exact match; does NOT support range queries; rarely used
-- **Composite index `(a, b, c)`**: effective for queries filtering on `a`, `a+b`, or `a+b+c`. Leftmost prefix rule — `(b, c)` alone doesn't use the index.
-- **Covering index**: includes all columns a query needs → index-only scan (no heap access). Fastest possible read.
-- **Partial index**: `CREATE INDEX ON orders(status) WHERE status = 'PENDING'` — tiny index, fast for that filter
-- **Index selectivity**: high cardinality columns (user_id, email) make better index targets than low-cardinality (boolean, status with 2 values)
-
-### Vue 3 vs React — Side by Side
-| Aspect | Vue 3 | React 18 |
-|---|---|---|
-| Reactivity | Proxy-based, fine-grained (tracks exact deps) | useState triggers full component re-render |
-| Optimization | Compiler marks static nodes; no manual memo | `React.memo`, `useMemo`, `useCallback` needed |
-| State Mgmt | Pinia (official, Composition API native) | Redux Toolkit / Zustand / React Query |
-| Templates | SFC (`.vue`): HTML + JS + CSS separated | JSX: HTML in JS; CSS-in-JS or modules |
-| Learning Curve | Lower (options API familiar; SFC clear separation) | Higher (hooks mental model, JSX, ecosystem choices) |
-| Ecosystem | Smaller but cohesive | Massive, fragmented |
+**Self-check:**
+1. Is your LinkedIn headline keyword-dense with the immediate-joiner flag, and does every bullet have a number?
+2. Is the tiered list ~30–40 companies with stacks verified?
 
 ---
 
-## 🎤 Sample Interview Questions (incl. Curveballs) — 12 Questions
+### Saturday Aug 1 — Final Mock / Closeout + Referral Connections + Readiness Check
 
-**1. "Walk me through all four tree traversal orders and when you'd use each in a real system."**
-- Pointer: In-order → sorted BST output (used for rangequeries). Pre-order → serialize/copy a tree, or evaluate expression trees (prefix notation). Post-order → delete a tree bottom-up (children before parents), size/disk-usage computation. Level-order → BFS graph search, print tree level by level, shortest-path in unweighted graph.
+📌 **Study today:** final mock / weak-spot closeout · start 15–20 referral connections + ATS keyword routine · readiness check — ready to apply Aug 3
 
-**2. "Your Redis cache for JWT blacklisting — what happens if Redis goes down?"**
-- Pointer: This is a security-correctness trade-off. If Redis is unavailable and you fail-open (allow all tokens), invalidated tokens are suddenly valid again. If you fail-closed (reject all requests), the system goes down. Production answer: Redis Sentinel or Cluster for HA; if Redis is truly unavailable, fail-closed on auth (return 503) for the duration. Document this as an accepted trade-off. Also: AOF persistence so Redis can recover quickly with minimal data loss.
+**DSA + Design (Block A, ~2.5 hr) — Final Mock / Weak-Spot Closeout:**
 
-**3. "Curveball: You have a write-through cache. A cache node dies after you write to it but before the write reaches the DB. What happens?"**
-- Pointer: If the write hit the cache but DB write failed (transactional failure) → cache has stale data, DB doesn't. On next read → cache hit returns stale data. Fix: write-through must be atomic or use write-through only with idempotent operations + TTL as a safety net. This is why write-through alone doesn't solve consistency — you need DB as the source of truth.
+One last timed set targeting whatever rated lowest all week (a DP/heap/graph gap or the shakiest HLD). Re-solve or re-narrate until clean. Goal: zero open red flags going into applications.
 
-**4. "Explain the leftmost prefix rule for composite indexes with a concrete example."**
-- Pointer: Index `(tenant_id, status, created_at)`. Queries that can use it: `WHERE tenant_id = ?`, `WHERE tenant_id = ? AND status = ?`, `WHERE tenant_id = ? AND status = ? AND created_at > ?`. Query that CANNOT use it: `WHERE status = ?` alone (skips leftmost column). Why: B-tree is sorted by leftmost key first, then second, etc. Without the first key, you'd have to scan the entire index.
+**Referrals + ATS (Block B, ~2 hr) — Start 15–20 Connections:**
 
-**5. "You mentioned N+1 queries. How would you detect one in production without access to Hibernate statistics?"**
-- Pointer: Slow query log in PostgreSQL (`log_min_duration_statement = 100ms`) → you'd see hundreds of nearly identical queries (same structure, different `WHERE id = ?` values) in a short time window. In observability: distributed trace shows many short sequential DB spans for a single request. Also: `p6spy` or `datasource-proxy` in non-prod for logging all queries with stack traces.
+- For Tier-1/2 targets, find 1–2 engineers each (SDE2/Senior/Tech Lead, "Java"/"Spring Boot" in profile, 2nd-degree prioritized). Send **connect requests only** with a one-line genuine note (a specific detail about their work) — **no referral ask yet**; that comes in Week 8. Log each: Company | Name | LinkedIn URL | Date | Response.
+- **ATS keyword routine:** keep a base resume + a 60-second tailoring habit — paste a JD beside the resume, mirror the top ~5 JD keywords using the JD's exact phrasing (e.g. "Spring Cloud Gateway," not just "API gateway"). Most sub-20-LPA applications are ATS-filtered before a human reads them.
 
-**6. "Curveball: In Vue 3, why does destructuring a `reactive()` object break reactivity?"**
-- Pointer: `reactive()` returns a JavaScript Proxy. Proxies intercept property access on the proxy OBJECT. When you destructure `const { name } = state`, you extract the raw value at that moment — a primitive or a plain reference. The Proxy is no longer in the chain. Fix: `const { name } = toRefs(state)` — `toRefs` converts each property to a ref (which is itself reactive) before you destructure.
+**Readiness Check (Block C, ~1.5 hr) — Ready to Apply Aug 3:**
 
-**7. "What's the difference between LRU and LFU? When would you choose each for a cache?"**
-- Pointer: LRU evicts the item that hasn't been accessed for the longest time. LFU evicts the item accessed least often over all time. LRU is great for temporal locality (recent data is likely to be accessed again). LFU is better for non-uniform access patterns where some items are always popular regardless of recency. Real Redis configuration: `allkeys-lru` for a general cache; `allkeys-lfu` if you have hot items that should never be evicted even after a quiet period.
+Run the readiness gate below. Anything not green becomes a Week 6 carry-forward — but do not start applying until the gate is met.
 
-**8. "Curveball: If you're solving Lowest Common Ancestor on a general binary tree, how does your algorithm handle the case where one of the target nodes IS the LCA?"**
-- Pointer: The recursive algorithm returns the node when it matches p or q. If p is an ancestor of q, then when we recurse down from p, we find p first and return it. The other branch eventually returns null (q is in the subtree below p, so from p's perspective the left and right calls will find q but p is already returned). Wait — actually: if p = ancestor and q = descendant, then when we reach p, we return p (base case). In the sibling subtree we find nothing → return null. So at p's parent: one side returns p, other returns null → returns p. Correct! But only if we don't recurse INTO p's subtree once we've found p. The standard algorithm does NOT stop at p — it recurses through p's subtree too. However, since it returns p as soon as p is found, it doesn't matter what's below — the caller gets p and propagates it up. The result is correct.
+**Self-check:**
+1. Are 15–20 connection requests sent and logged?
+2. Does every readiness-gate item pass?
 
-**9. "SQL vs NoSQL — when would you NOT use PostgreSQL even though you clearly know it well?"**
-- Pointer: (1) Document-heavy, schema-flexible data that evolves rapidly — MongoDB. (2) Time-series data with billions of rows — TimescaleDB or InfluxDB (though Timescale IS PostgreSQL). (3) Graph relationships with many hops — Neo4j (SQL joins get expensive at 4+ hops). (4) Key-value with microsecond latency at extreme scale — Redis or DynamoDB. (5) Event streaming/append-only log — Kafka. Your honest answer: "I start with PostgreSQL because it handles 95% of use cases correctly, but I'd switch when query patterns consistently hit its limits."
+---
 
-**10. "Curveball: In React, you have `useEffect(() => { fetchData(); }, [userId])`. The userId changes while a fetch is still in-flight. What happens?"**
-- Pointer: React triggers cleanup and re-runs the effect. The old fetch is still in-flight and will resolve — if you set state from it, you'll overwrite the new fetch's data with stale data. Fix: use the cleanup function to set an `isCancelled` flag or use `AbortController`. `const controller = new AbortController(); fetch(url, { signal: controller.signal }); return () => controller.abort();` The aborted fetch throws an `AbortError` — catch and ignore it.
+### Sunday Aug 2 — Rest
 
-**11. "Your CI/CD pipeline uses Docker BuildKit cache. How would you ensure cache hits are maximized for a Spring Boot app?"**
-- Pointer: Layer ordering is critical. In a Spring Boot Dockerfile: (1) Copy `pom.xml` / `build.gradle` first → run `mvn dependency:go-offline` → this layer is cached as long as deps don't change. (2) Then copy source code → build. The dependency layer is ~200MB and changes infrequently. Source layer is small and changes every commit. Without this ordering, every source change invalidates the dependency layer → full re-download every build.
+No study blocks. Let the consolidation settle before applications begin Aug 3. Optionally skim your STAR stories and the two weakest HLDs — but do not start new material.
 
-**12. "Curveball: You add an index to a 100M-row production table in PostgreSQL. What happens during the index creation and how do you avoid downtime?"**
-- Pointer: Standard `CREATE INDEX` takes an `AccessShareLock` — blocks writes for the entire duration (could be minutes on 100M rows). Production solution: `CREATE INDEX CONCURRENTLY idx_name ON table(col)` — takes a weaker lock, allows reads and writes during build. Trade-off: takes longer, can fail (then you have an INVALID index you must drop and retry). Always use CONCURRENTLY in production. Also: run during low-traffic period, monitor `pg_stat_progress_create_index`.
+---
+
+## ✅ Readiness Gate — Ready to Apply Aug 3
+
+You are ready to begin applications when ALL of these are true:
+
+- [ ] **DSA fluency:** solve 2 mixed mediums in 45 min under OA conditions, cold, with complexity stated — demonstrated on at least 3 separate days this week.
+- [ ] **Two system-design walk-throughs cold:** any two of URL shortener / file storage / News Feed / notification / chat-typeahead, narrated end-to-end from memory in under 10 minutes each, with failure modes, trade-offs, and a tie to your own work.
+- [ ] **10 STAR stories:** all 10 written and spoken, each under 2 minutes with a specific number; the 90-second pitch fluent.
+- [ ] **Three project talk-tracks:** Smart360, Deep Fathom, WebX — each under 5 minutes, no notes, curveballs handled.
+- [ ] **Profiles live:** LinkedIn, Naukri, Instahyre, Cutshort, GitHub — all updated, keyword-dense, open-to-work set, resume uploaded.
+- [ ] **Tiered list built:** ~30–40 companies, tiered, stacks verified, referral contacts mapped.
+- [ ] **Immediate-joiner ready:** headline + profiles state "available to join immediately"; first-screen CTC-deflection line memorised.
+- [ ] **Referral connections in flight:** 15–20 connect requests sent and logged.
+
+**If any item is red:** carry it into Week 6's daily review slot, but prioritize closing it before sending applications — a live loop on an unprepped story or design costs the offer.
+
+---
+
+## 🧠 Concepts to Master This Week (consolidation, not new material)
+
+### System Design — Five HLDs to Drive Cold
+URL shortener (base-62 keys, 301 vs 302) · file storage (chunked pre-signed upload, owner_id sharding, CDN, replication-lag handling) · News Feed (fan-out write/read/hybrid, cursor pagination, candidate-gen vs ranking) · notification (channel abstraction, preferences-before-dispatch, dedup, retry + DLQ) · chat (connection routing, sequence ordering, receipts, wide-column storage) + typeahead (sharded trie, precomputed top-k, offline refresh). Always: requirements → capacity → architecture → 2–3 deep-dives → failure modes → trade-offs → observability sentence.
+
+### Behavioral — The 10 STAR Stories
+Core (1–6): performance win, conflict, ownership, biggest failure, why-leaving, tell-me-about-yourself. Bar-raiser (7–10): mentorship, receiving tough feedback, prioritization under pressure, customer impact. Every answer ends with a number or concrete outcome.
+
+### Full-Stack Integration
+CORS (preflight, credentials, gateway-level config, the `*`+credentials trap) · JWT client flow (memory + HttpOnly cookie, 401→refresh→retry, recursion guard, 403 handling) · API error contract (`@RestControllerAdvice`, consistent JSON, inline vs toast). LLM async job: 202, SSE vs WebSocket, durable job state, idempotency.
+
+### Apply-Prep
+Tiered list (Tier-1 GCC/product, Tier-2 mid-tier, Tier-3 calibration) · profiles live with immediate-joiner flag · referral-first (connect now, ask Week 8) · ATS keyword tailoring · first-screen CTC deflection.
+
+---
+
+## 🎤 Sample Interview Questions (incl. curveballs)
+
+1. **Design a URL shortener.** → Capacity → base-62 key length; counter+base-62 vs hash+collision; redirect via Redis cache-aside; analytics async; 301 (cacheable) vs 302 (trackable).
+2. **File storage — start with the upload flow.** → Chunked pre-signed URLs; data never flows through your servers; client → Upload Service → direct-to-S3 → complete. Smart360 single-file pattern extended to chunks.
+3. **News Feed — fan-out on write or read?** → Hybrid: push for normal users, pull for celebrities above a follower threshold; caps write amplification, keeps reads fast for the 99%.
+4. **(Curveball) Two users upload a file with the same name simultaneously.** → Name isn't the PK; `file_id` UUID is. For "unique per folder," a `(owner_id, folder_id, name)` constraint → 409 on the loser, enforced transactionally within a shard.
+5. **Notification — ensure no duplicates.** → Idempotency key (event_id+user_id+channel) via SETNX or a unique constraint; duplicate notifications are the #1 user complaint.
+6. **Chat — why order by sequence, not timestamp?** → Per-conversation monotonic sequence is immune to sender clock skew; wall-clock can reorder messages.
+7. **Tell me about yourself.** → 90-second pitch: impact numbers first, stack, what you want, bridge to the company. Never recite the CV chronologically.
+8. **Tell me about a time you were wrong.** → A confident technical assumption that proved wrong (sync REST fine under current load → cascading failures on bursty traffic); acknowledged it, moved to async + circuit breaker, now load-test bursty traffic before sign-off.
+9. **(Curveball) Frontend on app.example.com, API on api.example.com — browser blocks it. Debug.** → DevTools Network → failed OPTIONS / missing header; check `Access-Control-Allow-Origin` exact match, credentials flags both sides, gateway path pattern, no trailing slash, no `*`+credentials.
+10. **(Curveball) After 15 min idle, actions fail silently with no redirect.** → Access + refresh both expired; the 401 from `/auth/refresh` is being caught recursively. Fix: detect the refresh URL in the interceptor and redirect to login instead of retrying.
+11. **Why SSE over WebSocket for the LLM stream?** → Unidirectional server→client, HTTP/1.1, simpler to proxy through the gateway; WebSocket's bidirectionality is overkill for a read-only token stream (chat is where you'd need WebSocket).
+12. **(Curveball) WebX worker pod is killed mid-job.** → Heartbeat every 30s; a `@Scheduled` watchdog marks jobs STALE after 2 min and re-queues; idempotent provider calls (request ID) prevent double-billing.
 
 ---
 
 ## 🌟 Extraordinary-Candidate Edge
 
-These are the things average candidates don't say. Drop one or two naturally — don't recite a list.
-
-**On Caching:**
-> "When we cached S3 pre-signed URLs in Redis, I set the TTL to 13 minutes against a 15-minute URL expiry — not 14:59. The extra buffer accounts for clock skew between the app server and S3 and the latency of serving the cached URL before the client actually uses it. Getting burned by a 'valid' cached URL that expired by the time the client used it would be worse than a slightly shorter TTL."
-
-**On Indexing:**
-> "After adding the composite index, I ran `EXPLAIN (ANALYZE, BUFFERS)` — not just EXPLAIN. The BUFFERS output showed that cache hit ratio on the index pages was already near 100% after warm-up because the index was small enough to fit in PostgreSQL's `shared_buffers`. That told me further caching at the application layer was likely unnecessary for that query path."
-
-**On BST / Data Structures:**
-> "The iterative in-order traversal using a stack isn't just a LeetCode trick — it's exactly how a database B-tree cursor works. When PostgreSQL scans a range via an index, it maintains a stack of internal nodes to traverse. This is why understanding tree traversal matters beyond algorithms."
-
-**On Vue vs React:**
-> "I've shipped production code in both. The decision I've come to: Vue's SFC model and Pinia make team onboarding faster — juniors write correct, readable code sooner. React's ecosystem and concurrent features make it the right call when you need React Native parity or when you're in an organization where React skill is already ubiquitous. I don't have a strong opinion beyond context — the wrong framework chosen fast beats the right framework chosen late."
-
-**On LLM Integration (if it comes up):**
-> "Long-running LLM jobs taught me that the client-visible latency and the actual compute latency are completely different problems. The 202 + jobId pattern solved the HTTP timeout problem, but the harder problem was the user-experience problem: users don't understand 'we're working on it.' What actually improved satisfaction was streaming partial results via SSE — users felt the system was responsive even when the total time hadn't changed."
+1. **Every behavioral answer has a number.** "Latency dropped from 60s to 2–3s, 96%, and S3 calls fell 80%" — metrics prove ownership; vague statements prove you watched.
+2. **Design for failure first.** Open HLDs with failure modes and constraints, name patterns you deliberately avoided ("no 2PC — it couples services and risks availability"), quantify scale.
+3. **Lead with the answer, not the journey.** "JWT is validated at the gateway on every request — no downstream service touches auth." Then explain. Weak candidates bury the answer.
+4. **Anticipate the follow-up.** After CORS: "this lives at the gateway, not each service, so security policy is consistent without every team configuring it."
+5. **Weave the three projects into one arc.** "Smart360 taught me performance engineering; Deep Fathom gave me infra ownership; WebX pushed me into async + LLM integration — now I want to own a domain end-to-end at scale."
+6. **Referral-first, researched.** Connect with a specific detail about their work, not "I've always wanted to work here"; a referred application is ~4–5× more likely to get a callback.
 
 ---
 
 ## 📊 End-of-Week Self-Assessment
 
-Rate yourself 1–5 on each. Anything below 4 goes on next week's focus list.
+Rate yourself 1–5. Anything below 3 blocks the readiness gate.
 
-| Area | Target | Your Rating | Notes |
+| Area | Target | Your Score | Notes |
 |---|---|---|---|
-| Iterative tree traversals (all 3) | 5 | | Write cold without hints |
-| Level-order BFS (clean Java) | 5 | | Must return `List<List<Integer>>` correctly |
-| Validate BST (bounds approach) | 4 | | Edge cases: `Integer.MIN/MAX_VALUE` |
-| LCA — BST (iterative) | 5 | | Should be trivial with BST property |
-| LCA — General Tree (recursive) | 4 | | Explain why the base case works |
-| Tree Construction from pre+in | 4 | | HashMap optimization |
-| Diameter of Binary Tree | 4 | | Instance variable / array trick |
-| Kth Smallest + follow-up | 4 | | Know the augmented BST follow-up |
-| Cache strategies (all 4) | 5 | | Tie each to a real system |
-| Redis eviction policies | 4 | | Name 3+, say which you'd pick and why |
-| LRU Cache implementation | 4 | | HashMap + DLL, O(1) get+put |
-| B-tree + covering index | 4 | | Leftmost prefix, CONCURRENTLY creation |
-| Vue 3 reactivity (Proxy, ref, reactive) | 4 | | Explain destructuring problem |
-| Composition API + Pinia | 4 | | Write a composable from memory |
-| React hooks (useEffect deps, stale closure) | 4 | | AbortController pattern |
-| Vue vs React comparison (spoken) | 4 | | 3 min, confident, no hedging |
+| Timed mixed OA set (2 in 45 min) — repeatable | 5 | | |
+| LRU/LFU cache from scratch (LC 146/460) | 5 | | |
+| URL shortener HLD (cold, <10 min) | 4 | | |
+| File storage HLD (cold, <10 min) | 5 | | |
+| News Feed HLD (fan-out/cursor/ranking) | 5 | | |
+| Notification HLD (channel/dedup/retry/DLQ) | 4 | | |
+| Chat + typeahead HLD | 4 | | |
+| LLD: Design Twitter classes (SOLID defended) | 4 | | |
+| Full-stack LLM async-job feature | 4 | | |
+| CORS + JWT client flow + error contract | 5 | | |
+| STAR #1–#6 (core, under 2 min, numbers) | 5 | | |
+| STAR #7–#10 (bar-raiser, real anecdotes) | 4 | | |
+| 90-second "tell me about yourself" | 5 | | |
+| Smart360 talk-track (5 min, no notes) | 5 | | |
+| Deep Fathom talk-track (5 min, no notes) | 5 | | |
+| WebX talk-track (4 min, no notes) | 5 | | |
+| Full mock completed (DSA + design) | 5 | | |
+| Profiles live (LinkedIn/Naukri/Instahyre/Cutshort/GitHub) | 5 | | |
+| Tiered target list (~30–40, stacks verified) | 5 | | |
+| 15–20 referral connections sent + logged | 5 | | |
+| First-screen CTC deflection memorised | 4 | | |
+| Immediate-joiner flag set everywhere | 5 | | |
 
-**End-of-week threshold**: If 12/16 items are rated 4+, you're on track. If fewer than 10, carve out an extra 2 hours from Weekend Day 2 to revisit gaps before moving to Week 6.
+**Score interpretation:**
+- All readiness-gate items green → begin applications Aug 3.
+- Any HLD or STAR item below 3 → close it before applying; a live loop on an unprepped story costs the offer.
+- Any DSA item below 3 → re-drill Week 6 Day 1.
 
-**Red flags to catch now (before Week 6 starts):**
-- [ ] Can I write iterative in-order traversal in < 5 minutes without looking? (If no → drill Mon morning)
-- [ ] Can I explain LRU cache design without drawing it first? (If no → drill Fri morning)
-- [ ] Can I say "Vue vs React" for 2 minutes without saying "um, it depends" and stopping? (If no → record yourself and replay)
+**Bonus check:** Can you tie every system-design decision and every STAR story to a specific Smart360 / Deep Fathom / WebX number? If yes on 80%+ of rows, you are ready not just to apply, but to convert.
 
 ---
 
-*Week 5 of interview prep — built on interview-qa.md. Week 6 target: dynamic programming foundations + distributed systems (Kafka, event-driven architecture, idempotency) + behavioral stories refinement.*
+*Study complete — next: Week 6 (Mon Aug 3 – Sun Aug 9), applications begin.*

@@ -1,428 +1,285 @@
-# Week 8 — Core Build + First Applications (Aug 10–16, 2026)
+# Week 8 — Interview Loops Cluster (Aug 17–23, 2026)
 
-> Ship code AND ship applications. You've spent seven weeks sharpening the blade; this week you swing it. Every DSA session closes a gap in DP/Greedy. Every Cloud block turns a resume bullet into a whiteboard-ready story. By Friday your LinkedIn is recruiter-optimised and three warm-up interviews are booked.
+> The loops are here. This is the week the work pays off — full interview rounds cluster, and scheduled loops now override new-application volume. You are not studying anymore; you are performing, then resetting, then performing again. The rhythm changes: rehearse the relevant project deep-dive before each round, deliver behavioral STAR stories with a number in every answer, drive system-design loops end-to-end, and decompress deliberately between rounds so you arrive at the next one sharp. DSA drops to light maintenance — one quick problem to stay warm. Applications taper to a trickle (8–12 new) with heavy follow-up, because a live loop you nail is worth more than ten cold applies you rushed.
 
-> 📨 **Apps & referrals this week:** 3–5 warm-up applications (services/mid-size) + your first 3–5 referral asks. See the [cadence & tracker](applications-and-referrals.md).
+> 📨 **Apps & referrals this week:** 8–12 new applications + heavy follow-up — scheduled interviews take priority over new volume. See the [cadence & tracker](applications-and-referrals.md).
 
 ---
 
 ## 🎯 Week Goal
 
-1. Solve all 9 target LeetCode problems cleanly on first attempt with optimal time/space complexity.
-2. Be able to whiteboard — without notes — a full deployment pipeline for Deep Fathom (Azure Container Apps + K8s + Bicep + GitLab CI/CD) and field any curveball on it.
-3. Publish the polished LinkedIn/Naukri profiles and submit 3–5 warm-up applications with a tracking sheet live.
+1. Execute every scheduled loop researched, calm, and rehearsed — arriving with the right project deep-dive fresh and 3 sharp questions ready.
+2. Deliver all 10 STAR stories (6 core + 4 bar-raiser) fluently, each under 2 minutes, each with a specific number.
+3. Drive system-design loops end-to-end: requirements → capacity → design → deep dives → failure modes → observability, tying decisions to your real work.
+4. Rehearse the Smart360 / Deep Fathom / WebX project deep-dives so any "tell me about a project" lands in 4–5 minutes with no filler.
+5. Keep the pipeline alive with 8–12 new applications + heavy follow-up — without ever sacrificing prep for a live loop.
 
 ---
 
 ## ✅ By Sunday you can...
 
-- Implement Edit Distance (LC 72), Longest Palindromic Substring (LC 5), Maximal Square (LC 221), and Partition Equal Subset Sum (LC 416) from a blank editor — explaining the recurrence aloud as you type.
-- Implement Jump Game (LC 55 & 45), Gas Station (LC 134), Merge Intervals (LC 56), Insert Interval (LC 57), and Non-overlapping Intervals (LC 435) in ≤ 15 min each.
-- Narrate the Deep Fathom Azure architecture story for 4–6 minutes (problem → design decisions → metrics) with zero filler.
-- Explain Docker multi-stage builds and K8s rolling-update mechanics at whiteboard speed.
-- Quote the 57% CI/CD pipeline cut and tie it concretely to the DAG pipeline, parallel builds, and BuildKit caching.
-- Walk through Key Vault secret injection in Azure Container Apps without referencing notes.
-- Articulate why you chose Bicep over Terraform/Pulumi for this project.
-- Recite your "extraordinary candidate" differentiator pitch in under 90 seconds.
+- Walk into any loop having rehearsed the most relevant project deep-dive that morning, with a company-specific angle in your intro.
+- Deliver any of the 10 STAR stories under 2 minutes, with a number in every answer.
+- Drive a system-design loop (chat/messaging, notification, file storage) end-to-end without being pulled through it.
+- Explain the full-stack integration story — CORS, JWT token flow, API error contract — as one coherent narrative.
+- Field the high-frequency curveballs (LazyInitializationException, @Transactional self-invocation, crashed worker recovery, Key Vault outage) without pausing.
+- Decompress and reset between back-to-back rounds so the third loop is as sharp as the first.
+- State "available to join immediately" naturally when a recruiter discusses start dates — and know it shortens their decision.
 
 ---
 
-## 📅 Daily Checklist
+## 📅 Daily Checklist (Mon–Sun)
 
-### Monday, Aug 10 — 2D DP: Edit Distance & Palindromes
-📌 **Study today:** 2D DP — Edit Distance & Longest Palindromic Substring (LC 72, 5) · Azure Container Apps deep dive (ACA vs AKS, KEDA)
+---
 
-**DSA (45 min)**
-- [ ] Read the DP recurrence for Edit Distance intuitively: `dp[i][j]` = min ops to convert `word1[0..i]` to `word2[0..j]`.
-  - Insert: `dp[i][j-1] + 1`; Delete: `dp[i-1][j] + 1`; Replace: `dp[i-1][j-1] + (word1[i] != word2[j])`
-- [ ] Solve **LC 72 – Edit Distance** (Hard). Target: O(mn) time, O(n) space with rolling array optimisation.
-- [ ] Solve **LC 5 – Longest Palindromic Substring** (Medium). Two approaches: expand-around-centre O(n²) and Manacher's O(n). Know both; implement expand-around-centre first. Understand why the DP table (`dp[i][j] = is s[i..j] a palindrome`) also works in O(n²).
+### Monday Aug 17 — Loop Execution + Performance-Win Deep Dive
 
-**Core Block (30 min) — Azure Container Apps Deep Dive**
-- [ ] Narrate the Deep Fathom deployment story aloud (kitchen table, no notes). Hit: multi-service ACA environment, Bicep provisioning, Key Vault references via managed identity, ingress rules, DAPR optional.
-- [ ] Be able to answer: "Why Container Apps over AKS here?" (scale-to-zero cost, no node management, adequate for the workload) vs. "When would you flip to AKS?" (custom operators, specific node SKUs, complex network policies).
-- [ ] Memorise: Azure Container Apps uses KEDA under the hood for scaling; this is a genuine detail that impresses interviewers.
+📌 **Study today:** light DSA (LC 1) · Smart360 deep-dive rehearsal · execute scheduled loop(s) + STAR #1 (performance win)
+
+**Pre-day check (5 min):**
+- [ ] Open the tracker. Confirm every loop this week is on the calendar with prep time blocked the evening before. Any loop today/tomorrow? Run the **pre-interview checklist** (bottom of this file) now.
+
+**Light DSA Maintenance (15–20 min):**
+- [ ] **LC 1 – Two Sum** or any easy you can clear in 5 min. The goal this week is to *stay warm*, not learn — loops are the priority.
+
+**Project Deep-Dive Rehearsal (40 min) — Smart360 (do before any round):**
+- [ ] Rehearse the 5-minute Smart360 talk-track aloud: multi-tenant SaaS; perf (Hibernate stats → N+1 → JOIN FETCH/EntityGraph + composite indexes + Redis + S3-URL caching → 96% cut); security (stateless JWT at the gateway → 60% sign-in latency cut, 3-level RBAC); architecture (strangler-fig user-management migration → 30% efficiency gain). No filler, no "basically."
+- [ ] Curveball prep: **LazyInitializationException** (Hibernate proxy outside a transaction → fix with `@Transactional(readOnly=true)` on the serialising method or `@EntityGraph`); multi-tenancy (tenant ID in JWT → Hibernate `@Filter` + PostgreSQL RLS as backstop).
+
+**Loop Execution + STAR #1 (rest of day):**
+- [ ] **Execute scheduled loop(s).** Lead with impact numbers; ask a researched question; surface immediate availability if start dates come up.
+- [ ] **STAR #1 — Performance win:** rehearse aloud to <2 min. 60s→2–3s, the diagnosis, the per-layer fix, "96%" spoken naturally.
+- [ ] **Decompress between rounds:** after each loop, 15 min away from the screen before the next — water, walk, reset. A fried third round loses offers.
 
 **Self-Check**
-- [ ] Can you explain Edit Distance DP state transition in one breath without hesitation?
-- [ ] Can you name three concrete reasons you'd pick ACA over AKS?
+- [ ] Did you rehearse the relevant project deep-dive *before* the round, not after?
+- [ ] Can you tell the performance story in under 2 min with "96%" landing naturally?
 
 ---
 
-### Tuesday, Aug 11 — 2D DP: Maximal Square & Subset Sum
-📌 **Study today:** 2D DP — Maximal Square & Partition Equal Subset Sum (LC 221, 416) · Docker multi-stage builds, BuildKit caching, GitLab DAG
+### Tuesday Aug 18 — Loop Execution + Deep Fathom Deep Dive + STAR #2/#3
 
-**DSA (45 min)**
-- [ ] Solve **LC 221 – Maximal Square** (Medium). Key insight: `dp[i][j]` = side length of largest square with bottom-right corner at (i,j). Recurrence: `min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]) + 1` if `matrix[i][j] == '1'`. O(mn) time, O(n) space.
-- [ ] Solve **LC 416 – Partition Equal Subset Sum** (Medium). Reduction to 0/1 knapsack: target = sum/2; `dp[j]` = can we form sum `j` using items so far. Iterate items outer, sums inner (right to left to avoid reuse). O(n * target) time, O(target) space.
-- [ ] Write out both solutions without hints. If stuck >15 min, look at the recurrence only — not the code.
+📌 **Study today:** light DSA (LC 102) · Deep Fathom deep-dive rehearsal · loop execution + STAR #2 (conflict) & #3 (ownership)
 
-**Core Block (30 min) — Docker Multi-Stage Builds**
-- [ ] Study/recall your GitLab CI/CD pipeline. Be ready to explain a 2-stage Dockerfile: `FROM eclipse-temurin:17-jdk AS build` → Maven build → `FROM eclipse-temurin:17-jre` → copy fat jar. Why: final image contains no JDK, Maven cache, or source code — 60–70% smaller image.
-- [ ] Know BuildKit flags: `DOCKER_BUILDKIT=1`, `--cache-from registry/image:cache`, `--build-arg BUILDKIT_INLINE_CACHE=1`. Tie to the 57% pipeline drop: unchanged layers cache-hit → no recompile.
-- [ ] Practice explaining the GitLab DAG pipeline (`needs:` keyword) vs sequential stages. Draw it: test-unit → [test-integration, build-image] run in parallel → deploy. That parallel fan-out is the architectural reason for the time drop.
+**Pre-day check (5 min):**
+- [ ] Check the schedule; run the pre-interview checklist for any round today/tomorrow.
+
+**Light DSA Maintenance (15–20 min):**
+- [ ] **LC 102 – Binary Tree Level Order Traversal** — BFS, under 10 min. Warm-up only.
+
+**Project Deep-Dive Rehearsal (40 min) — Deep Fathom:**
+- [ ] Rehearse the 5-minute Deep Fathom talk-track: 30+ Azure resources in modular Bicep (Container Apps, PostgreSQL Flexible Server, Redis, Key Vault, Front Door, private endpoints); CI/CD redesign (sequential → DAG with `needs:`, BuildKit `--cache-from` → 23 min to 10 min, 57% cut); K8s probes + graceful shutdown; Key Vault via managed identity; PostgreSQL RLS across 50+ tables; FedRAMP posture.
+- [ ] Curveball prep: **Key Vault outage at startup** (deploy fails safe; runtime secrets cached in-memory, running pods unaffected); **Bicep vs Terraform** (Bicep = Azure-native, no state file; Terraform if multi-cloud).
+
+**Loop Execution + STAR #2/#3 (rest of day):**
+- [ ] **Execute scheduled loop(s).**
+- [ ] **STAR #2 — Conflict/disagreement:** a real disagreement, your counter-evidence (a comparison doc / time-boxed POC), outcome, relationship intact. <2 min.
+- [ ] **STAR #3 — Ownership/leadership:** you fixed something nobody owned (e.g., the slow CI/CD pipeline) — assessed scope, proposed a plan, executed, measured (23→10 min). <2 min.
+- [ ] Decompress between rounds.
 
 **Self-Check**
-- [ ] Can you write Maximal Square's recurrence on a whiteboard in 30 seconds?
-- [ ] Can you describe the Docker multi-stage Dockerfile from memory, with the exact FROM lines?
+- [ ] Does the Deep Fathom story land in 4–5 min with the 57% cut tied to DAG + BuildKit specifically?
+- [ ] Are the conflict and ownership stories backed by a specific number/outcome?
 
 ---
 
-### Wednesday, Aug 12 — Greedy: Jump Game & Gas Station
-📌 **Study today:** Greedy — Jump Game I/II & Gas Station (LC 55, 45, 134) · Kubernetes: rolling updates, liveness/readiness probes, graceful shutdown
+### Wednesday Aug 19 — System-Design Loop + WebX Deep Dive + Full-Stack Story
 
-**DSA (45 min)**
-- [ ] Solve **LC 55 – Jump Game** (Medium). Greedy: track `maxReach`; if current index > `maxReach`, return false. O(n) time, O(1) space. Know why DP is O(n²) and strictly worse here.
-- [ ] Solve **LC 45 – Jump Game II** (Medium). Greedy: track current end, furthest reachable, jumps. Increment jumps when you reach `currentEnd`. O(n), O(1).
-- [ ] Solve **LC 134 – Gas Station** (Medium). Key insight: if total gas ≥ total cost, a solution exists; start tracking from the point where running sum went negative. O(n), O(1). Prove to yourself why you can discard everything before the reset point.
+📌 **Study today:** light DSA (LC 146) · WebX deep-dive + full-stack integration (CORS/JWT/error contract) · system-design loop execution
 
-**Core Block (30 min) — Kubernetes Deep Dive**
-- [ ] Be able to whiteboard: Pod → ReplicaSet → Deployment relationship. Why you never create pods directly.
-- [ ] Explain rolling update mechanics: `maxSurge` (extra pods allowed), `maxUnavailable` (pods that can be down). Default is 25% each.
-- [ ] Know readiness vs liveness probes cold:
-  - Liveness: is the process alive? Failure → restart pod. Example: Spring's `/actuator/health/liveness`.
-  - Readiness: is the pod ready to receive traffic? Failure → remove from Service endpoints. Example: `/actuator/health/readiness`. This is what prevents traffic to a pod that's still warming up (connection pool, cache hydration).
-  - Startup probe: for slow-starting containers — gives extra time before liveness kicks in.
-- [ ] Know `spring.lifecycle.timeout-per-shutdown-phase=30s` and `server.shutdown=graceful` — mandatory for zero-downtime. K8s sends SIGTERM → app stops accepting new requests → finishes in-flight → exits.
-- [ ] Know `terminationGracePeriodSeconds` on the Pod spec and that it must exceed the Spring shutdown timeout.
+**Pre-day check (5 min):**
+- [ ] Schedule check; pre-interview checklist for any round today/tomorrow.
+
+**Light DSA Maintenance (20 min):**
+- [ ] **LC 146 – LRU Cache** — doubly-linked list + HashMap. Implement once to keep it cold-ready; it's the most-asked design problem.
+
+**Project Deep-Dive + Full-Stack Rehearsal (50 min):**
+- [ ] Rehearse the 4-minute WebX talk-track: async job architecture (POST → 202 + jobId; PostgreSQL job record; Redis Streams queue; worker pool routes across 5 providers by cost/capability/rate-limit headroom tracked in Redis INCR/EXPIRE; SSE vs polling for results; idempotency keys).
+- [ ] **Full-stack integration story (say it as one narrative):** Vue/React → API Gateway (JWT validation + CORS) → Spring Boot. Axios interceptors (request attaches Bearer token; response handles 401 → refresh → retry). `@RestControllerAdvice` → consistent JSON error shape; form errors inline, system errors as a toast.
+- [ ] Curveball prep: **crashed worker mid-job** (heartbeat + watchdog `@Scheduled` marks STALE after 2 min → re-queue; idempotent provider calls prevent double-billing); **SSE vs WebSocket** (SSE unidirectional, simpler to proxy — right for read-only streaming); **CORS with credentials** (no wildcard origin; `Access-Control-Allow-Credentials: true` + `withCredentials`).
+
+**System-Design Loop Execution (rest of day):**
+- [ ] **Execute any SD loop.** If you get to pick / it leans real-time, **chat / messaging** pairs with your SSE/WebSocket knowledge: WebSocket connection routing (`userId → server` map in Redis), presence via heartbeat TTLs, per-conversation sequence ordering (not wall-clock), SENT→DELIVERED→READ receipts, small-vs-large group fan-out (the same hybrid as a news feed), wide-column message store partitioned by `conversation_id`. Drive it; name the trade-offs.
+- [ ] Decompress between rounds.
 
 **Self-Check**
-- [ ] Can you explain why Gas Station's greedy works — not just what it does?
-- [ ] Can you describe a full zero-downtime K8s rolling deploy, including Spring config, in 2 minutes?
+- [ ] Can you justify SSE over WebSocket and recover a crashed worker without hesitating?
+- [ ] Did you drive the SD loop through failure modes + observability, not just the happy path?
 
 ---
 
-### Thursday, Aug 13 — Greedy: Intervals
-📌 **Study today:** Greedy intervals — Merge/Insert/Non-overlapping (LC 56, 57, 435) · AWS S3 pre-signed URLs & EC2 talking points
+### Thursday Aug 20 — Loop Execution + Bar-Raiser STAR Stories + Application Trickle
 
-**DSA (45 min)**
-- [ ] Solve **LC 56 – Merge Intervals** (Medium). Sort by start; merge overlapping by comparing `end` of last merged vs `start` of next. O(n log n) time, O(n) space.
-- [ ] Solve **LC 57 – Insert Interval** (Medium). Three phases: collect all before new interval, merge overlapping (extend by max end), collect remaining. O(n), no sort needed since already sorted. This is a common FAANG variant — practice it until it feels mechanical.
-- [ ] Solve **LC 435 – Non-overlapping Intervals** (Medium). Reframe as: max non-overlapping intervals = n − (max intervals to keep). Sort by end time; greedy: always keep the interval with earliest end. O(n log n), O(1).
-- [ ] Spot the pattern: Interval problems → sort by start OR end (know which and why) → single pass greedy.
+📌 **Study today:** light DSA (LC 207) · bar-raiser STAR #7–#10 · loop execution + 3–4 applications + follow-ups
 
-**Core Block (30 min) — AWS Talking Points (S3 + EC2)**
-- [ ] Rehearse Smart360 AWS story: S3 for storing user-uploaded files + pre-signed URL generation (time-bounded, no public bucket exposure). The performance win: caching pre-signed URLs in Redis with TTL slightly less than S3 expiry → 80% S3 API call reduction.
-- [ ] Know S3 access patterns: bucket policies vs IAM roles vs pre-signed URLs. Know when to use each. Pre-signed URL: temporary, no credentials in client. Bucket policy: broad allow for static hosting. IAM role: for EC2/Lambda server-side access.
-- [ ] Know EC2 basics for conversation: instance types (t3/m6i/c6i families), auto-scaling groups, application load balancer target groups. Know when you'd reach for EC2 vs Lambda vs Container (ECS/EKS).
-- [ ] Tie AWS to Azure: "In Smart360 we used AWS; in Deep Fathom we moved to Azure because the client had an enterprise Azure agreement. Key Vault replaced AWS Secrets Manager; Azure Container Apps replaced ECS; Bicep replaced CloudFormation."
+**Pre-day check (5 min):**
+- [ ] Schedule check; pre-interview checklist for any round today/tomorrow.
+
+**Light DSA Maintenance (20 min):**
+- [ ] **LC 207 – Course Schedule** — cycle detection / topo sort (Kahn's or DFS). Under 15 min.
+
+**Core Block (45 min) — Bar-Raiser STAR Stories (#7–#10):**
+
+The 6 core stories cover most rounds; these 4 are the values / bar-raiser rounds at product companies. Rehearse each as a real anecdote, <2 min, a number in each:
+- [ ] **#7 Mentorship:** unblocked a teammate by teaching the *why* + leaving a runbook; quantify their ramp.
+- [ ] **#8 Receiving tough feedback:** someone told you something hard (PRs too large / over-engineered abstraction); you made a concrete visible change; closed the loop.
+- [ ] **#9 Prioritization under pressure:** explicit must-have vs nice-to-have, cut by reversibility + user impact, hit the date.
+- [ ] **#10 Customer/stakeholder impact:** lead with the *user/business* number, then the engineering metric (customer impact first, engineering detail second).
+
+**Loop Execution + Pipeline (rest of day):**
+- [ ] **Execute scheduled loop(s).**
+- [ ] **Pipeline (45 min) — but loops come first:** apply to 3–4 new roles only if loop prep is done. Heavy follow-up: nudge stalled referrals once, chase any application 5+ days quiet, confirm receipts. Respond to recruiters within hours — and surface immediate availability when they discuss start dates.
+- [ ] Decompress between rounds.
 
 **Self-Check**
-- [ ] Can you solve all three interval problems back-to-back without looking anything up?
-- [ ] Can you clearly explain the pre-signed URL caching strategy and its tradeoffs?
+- [ ] Are all 4 bar-raiser stories anchored in a real anecdote with a number?
+- [ ] Did loop prep stay ahead of the application trickle?
 
 ---
 
-### Friday, Aug 14 — Mock Story Day + Profile Polish Begins
-📌 **Study today:** DSA complexity flashcards (all 9 week problems) · Bicep IaC story + Deep Fathom architecture talk-track · LinkedIn/Naukri/Instahyre/Cutshort profile polish + CTC deflection
+### Friday Aug 21 — Loop Execution + Curveball Drill + Debrief
 
-**DSA (30 min — lighter day)**
-- [ ] Revisit any one problem from Mon–Thu that felt shaky. Do it again from scratch, no hints, time yourself.
-- [ ] Write time/space complexity for all 9 week problems on a single sheet. Review it like flashcards.
+📌 **Study today:** light DSA (LC 3) · Spring/Java curveball rapid-fire · loop execution + same-day debriefs
 
-**Core Block (30 min) — Bicep IaC & Full Story Rehearsal**
-- [ ] Rehearse the Bicep story: "I wrote 30+ Azure resources as modular Bicep — Container Apps environments, PostgreSQL Flexible Server, Redis Cache, Key Vault, Front Door CDN, VNet, private endpoints. Each environment (dev/staging/prod/GovCloud) is one parameter file away. This eliminated environment drift and enabled reproducible FedRAMP-aligned infrastructure."
-- [ ] Know Bicep vs Terraform trade-off answer: "Bicep is first-class Azure — tighter integration, no state file to manage, same-day support for new Azure features. Terraform's HCL is cloud-agnostic but lags on new Azure APIs. For a pure-Azure project, Bicep is the pragmatic choice." Know you'd use Terraform if the stack was multi-cloud.
-- [ ] Rehearse the full 6-minute "Deep Fathom Architecture" talk-track end-to-end. Cover: problem, tech choices, CI/CD, K8s probes, Key Vault integration, Bicep, outcome metrics.
+**Pre-day check (5 min):**
+- [ ] Schedule check; pre-interview checklist for any round today/tomorrow.
 
-**Profile Polish (30 min)**
-- [ ] Open LinkedIn. Rewrite the headline: `Full Stack Engineer · Java 17 · Spring Boot · Microservices · Azure · Kubernetes · LLM Integration`. Keywords recruiters search.
-- [ ] Rewrite the About section (3–4 sentences): quantified impact first (60s→3s query, 57% CI/CD cut, 30+ Bicep resources), tech stack, what you're looking for.
-- [ ] Ensure Smart360 and Deep Fathom experience entries have 3–5 bullets each, all starting with an action verb, all with a number. Example: "Reduced P95 query latency from 60 s to 2–3 s by eliminating N+1 patterns with JOIN FETCH and EntityGraph, cutting DB load by ~70%."
-- [ ] Add Skills section: Java · Spring Boot · Spring Cloud · Microservices · Azure · AWS · Kubernetes · Docker · PostgreSQL · Redis · GitLab CI/CD · Bicep · Vue.js · React · LLM Integration.
-- [ ] **Set up recruiter-inbound profiles on Instahyre AND Cutshort (15 min).** These aren't just "apply here" job boards — they're high-signal inbound channels for exactly your band (mid-level Java + cloud, ₹14–25 LPA). Create the profile, set the open-to-work flag, fill skills/expected-CTC, upload the resume. Recruiters at product companies and GCCs actively search these — a complete profile gets you *inbound* approaches you'd never have found by applying. Do this now so the inbound pipeline is filling while you sleep.
+**Light DSA Maintenance (15 min):**
+- [ ] **LC 3 – Longest Substring Without Repeating Characters** — sliding window, under 12 min.
 
-**First-Screen Salary-Deflection Readiness (10 min)**
-- [ ] The full CTC negotiation playbook is in **Week 13** — but the "what's your current CTC / expected CTC?" question hits in the *very first recruiter screen*, which starts this week. You need a ready answer *now*, before the screen, so you don't anchor yourself low on the call. Have 2–3 lines memorised:
-  - **Deflect politely (default):** *"I'd rather focus on the role and the total opportunity first — I'm confident we can find a number that works for both sides once I understand the scope."*
-  - **Give a researched band only if pressed:** *"For Senior Java / Spring Boot engineers with my background in Pune/Bengaluru, the market is around ₹18–24 LPA — I'd want to be in that range."* (Name the band, never your current number.)
-  - **Never anchor low:** do NOT volunteer your current CTC unprompted. If a form forces it, enter your *full* CTC including all components (base + variable + employer PF + benefits) — it's always higher than base alone.
-  - Cross-reference: see **Week 13 → "The Current CTC / Expected CTC Question"** for the full two-technique playbook (before vs. after an offer is in hand). This week you just need the first-screen reflex.
+**Core Block (40 min) — Spring/Java Curveball Rapid-Fire (answer aloud in <90s each):**
+- [ ] `@Transactional` self-invocation — why it's ignored and how to fix (proxy bypass).
+- [ ] `@Transactional` + `@Cacheable` proxy ordering — stale cache after rollback; fix with `@TransactionalEventListener(AFTER_COMMIT)`.
+- [ ] Circuit breaker (Resilience4j) — three states + half-open probe behaviour.
+- [ ] OOMKilled pod — diagnosis (`kubectl describe` → OOMKilled) and fix (heap vs limit sizing).
+- [ ] Readiness fails forever but liveness passes — pod stays Running, removed from Endpoints, no restart.
+- [ ] CompletableFuture vs Future — non-blocking composition (`thenApply`/`thenCompose`/`exceptionally`).
+- [ ] Track which ones you hesitate on; re-drill Sunday.
+
+**Loop Execution + Debrief (rest of day):**
+- [ ] **Execute scheduled loop(s).**
+- [ ] **Same-day debrief** after every round: log every question asked (while fresh), what went well, what to change. Send a thank-you note within 4 hours where allowed.
+- [ ] Decompress between rounds.
 
 **Self-Check**
-- [ ] Is your LinkedIn headline under 220 characters and keyword-dense?
-- [ ] Does every experience bullet have a number?
-- [ ] Are your Instahyre and Cutshort profiles live with open-to-work set?
-- [ ] Can you deflect the "current/expected CTC" question in one breath without naming your current number?
+- [ ] Which curveball group had the most hesitations? (Re-drill Sunday.)
+- [ ] Is every round this week debriefed the same day?
 
 ---
 
-### Saturday, Aug 15 — Full Applications Day
-📌 **Study today:** Timed DP mock (2 problems) + stretch Hard (LC 115/312) · system design: notification system HLD (channels, dedup, retry/DLQ) · Naukri polish + tracking sheet + 3–5 warm-up applications
+### Saturday Aug 22 — Full Mock Day + Pipeline Maintenance
 
-**DSA (60 min)**
-- [ ] Full timed mock: pick any 2 problems from this week you haven't fully nailed. 30 min each, LeetCode contest mode (no hints, fresh editor).
-- [ ] If both pass: pick one Hard from Blind 75 DP list (LC 115 Distinct Subsequences or LC 312 Burst Balloons) for stretch challenge.
+📌 **Study today:** timed DSA mock (LC 21, 15/560) · full behavioral + system-design mock · pipeline maintenance
 
-**System Design — Driven HLD: Design a Notification System (45 min)**
+**DSA Mock (45 min):**
+- [ ] Contest mode: **LC 21 – Merge Two Sorted Lists** (10-min warm-up) + **LC 15 – 3Sum** or **LC 560 – Subarray Sum Equals K** (25 min). State complexity unprompted.
 
-This is a top-5 HLD prompt and a direct extension of your Kafka/outbox experience — drive it end-to-end, do not wait for the interviewer to pull each piece out of you. Whiteboard it on paper. Prompt: *"Design a notification system that delivers push, email, SMS, and in-app notifications for a product like Flipkart — 10M notifications/day, must be reliable (no lost notifications) and must not spam users."*
+**Full Mock (90 min) — behavioral + system design:**
+- [ ] **Behavioral (30 min):** run TMAY → performance win → conflict → failure → why leaving → why company, back to back, recorded. Every answer ends with a number/outcome.
+- [ ] **System design (45 min):** drive one prompt (notification system / file storage / news feed) end-to-end; self-critique against the rubric (requirements, capacity, deep dives, failure modes, observability, one tie to your work).
+- [ ] **Review (15 min):** filler words? numbers in every behavioral answer? failure modes in the SD? complexity stated unprompted?
 
-- [ ] **Channels + abstraction (5 min):** four channels — push (APNs/FCM), email (SES/SendGrid), SMS (Twilio/SNS), in-app (websocket/DB-backed inbox). Abstract behind a common `Channel` interface so adding a channel doesn't touch the core pipeline — name this; it's the extensibility signal.
-- [ ] **Template service:** notifications are not raw strings — a Template Service renders `(templateId, locale, variables)` → channel-specific content. Decouples product copy from delivery code; supports i18n and A/B copy without redeploys.
-- [ ] **User notification-preferences:** per-user, per-category, per-channel opt-in/opt-out + quiet hours. The pipeline consults preferences before dispatch — a user who muted marketing email still gets a security alert (category-level granularity, not a global on/off).
-- [ ] **Fan-out + per-user rate limiting + dedup/idempotency:** a single event (e.g. "order shipped") fans out to one notification per eligible channel. **Per-user rate limiting** (Redis sliding-window counter, same pattern as your LLM proxy) prevents notification storms — cap N notifications/user/hour. **Dedup/idempotency:** every notification carries an idempotency key (event_id + user_id + channel); a Redis SETNX or a unique DB constraint guarantees at-most-once delivery even if the event is redelivered. State this explicitly — duplicate notifications are the #1 user complaint.
-- [ ] **Queue-backed workers with retry + DLQ:** the producer writes a `NotificationRequested` event; per-channel worker pools consume from the queue. Transient failures (provider 5xx, timeout) → exponential-backoff retry; permanent failures (invalid token, hard bounce) → **dead-letter queue** for inspection, never silently dropped. This is exactly your Kafka consumer + DLQ knowledge.
-- [ ] **Delivery tracking / status:** `notifications(id, user_id, channel, template_id, status, attempts, created_at, sent_at, delivered_at)` with status transitions QUEUED → SENT → DELIVERED → (READ for in-app) / FAILED. Provider webhooks (delivery receipts, bounces) update status asynchronously — close the loop, don't fire-and-forget.
-- [ ] **Tie to your work:** "This is the outbox pattern I used in Deep Fathom — the originating transaction writes the notification intent to an outbox table in the same commit, a relay publishes it to Kafka, and per-channel workers consume it. Exactly-once intent capture on the write side, at-least-once delivery with idempotency keys on the consumer side." Name the read/write decoupling as the reason the originating service never blocks on a slow email provider.
-- [ ] **Self-critique:** Did I cover the channel abstraction, preferences-before-dispatch, dedup/idempotency, retry + DLQ, and delivery-status tracking — and tie at least one to the outbox/Kafka work — without being prompted? Mark any gap for a redo.
-
-**Profile & Applications (3 hr)**
-
-*Naukri Polish (45 min)*
-- [ ] Update headline/summary to mirror LinkedIn.
-- [ ] Upload latest resume (ensure PDF exports cleanly — one page if possible, two max).
-- [ ] Set "Actively Looking" / open-to-work status.
-- [ ] Add all skills with proficiency levels. Naukri's keyword algorithm indexes your skills section heavily.
-- [ ] Set salary expectation band to target (research: Java + Spring Boot + 2.5 YOE + Bangalore/remote median is ₹14–18 LPA at mid-size product; ₹18–25 LPA at GCC — set 20 LPA as minimum to avoid filtering).
-
-*Application Tracking Sheet (15 min)*
-- [ ] Create a Google Sheet with columns: Company | Role | JD URL | Applied Date | Source | Status | Next Step | Contacts | Notes.
-- [ ] This sheet is your operating system. Update it after every action.
-
-*Research & Apply — 3–5 Warm-Up Companies (2 hr)*
-- [ ] Target criteria: mid-size product companies or established service companies (NOT the GCC dream targets — those come later). Goal is interview reps, not offers.
-- [ ] Suggested hunting grounds: Naukri ("Java Spring Boot Microservices" → filter 2–5 YOE, 15–25 LPA, Pune/Bengaluru/remote), LinkedIn Jobs, Instahyre, Cutshort.
-- [ ] **ATS-keyword tailoring (before you hit apply):** paste the JD next to your resume and mirror the **top ~5 JD keywords/skills** into your resume's summary and skills section — using the JD's exact phrasing (e.g. if the JD says "Spring Cloud Gateway" don't leave it as just "API gateway"). Most applications at this level are filtered by an automated ATS *before* a human sees them; a resume that doesn't echo the JD's terms gets dropped silently. This matters most in the contested sub-20 LPA band where you're competing against high application volume. Keep a base resume and produce a 60-second tailored variant per JD.
-- [ ] For each application: tailor the cover note / application message in 3 sentences (what you did, tech match to JD, what you want).
-- [ ] Log all 3–5 in the tracking sheet before you close the laptop.
+**Pipeline Maintenance (60 min) — loops still come first:**
+- [ ] Apply to 3–4 new roles to keep the 8–12 weekly trickle alive.
+- [ ] Heavy follow-up: every quiet application + every stalled referral gets its one nudge. Tracker quality pass — every active row has a next action and current stage.
+- [ ] For any new loop invite: confirm time, research the interviewer, add prep notes.
 
 **Self-Check**
-- [ ] Is the tracking sheet live with at least 3 rows?
-- [ ] Did you verify each company's tech stack before applying (don't apply to .NET shops)?
+- [ ] Did the full mock surface a specific gap to fix Sunday?
+- [ ] Is the weekly application trickle at 8–12 with heavy follow-up done?
 
 ---
 
-### Sunday, Aug 16 — Weekly Review + Week 9 Prep
-📌 **Study today:** DP recurrence review + LIS (LC 300) · end-of-week mock interview + Deep Fathom architecture whiteboard · Week 9 planning
+### Sunday Aug 23 — Reset + Weak-Area Review + Week 9 Plan (lighter day)
 
-**DSA (60 min)**
-- [ ] Full DP review pass: write the recurrence (not the code, just the state and transition) for all 4 DP problems this week on paper. If any recurrence is fuzzy, re-solve that problem.
-- [ ] Solve **LC 300 – Longest Increasing Subsequence** (if not done previously) as a connective DP problem — reinforces the pattern of "dp[i] depends on all j < i where condition holds."
+📌 **Study today:** weak-area re-drill (the shakiest curveball group + one DSA gap) · cold project-story run-through · Week 9 plan
 
-**Core Block (90 min) — End-of-Week Mock Interview**
-- [ ] Do a 45-min self-mock: pick 5 questions from the Sample Questions section below and answer them aloud, timed, as if on a Zoom call. Record yourself on your phone if possible — watch it back.
-- [ ] Do a 30-min whiteboard: draw the Deep Fathom deployment architecture on paper (not notes). Check it matches reality.
-- [ ] Spend 15 min reviewing what felt weak in the mock → add those topics to Week 9's focus list.
+**Weak-Area Review (60 min):**
+- [ ] Re-drill the curveball group with the most Friday hesitations until each answer is <90s clean.
+- [ ] Solve one DSA problem from a pattern that felt slow in a loop this week, timed, no hints.
 
-**Planning (30 min)**
-- [ ] Review the tracking sheet. Any recruiter responses? Schedule follow-ups.
-- [ ] Plan Week 9 DSA focus (Trees: BFS/DFS, LCA, serialization — or Graphs if Trees are solid).
-- [ ] Write 2–3 things you learned this week that you didn't know last Sunday.
+**Cold Project-Story Run-Through (45 min):**
+- [ ] Smart360, Deep Fathom, WebX — say each talk-track cold, no warm-up, timed (≤5 min each). Then the 60-second career-arc linker. If any runs long, cut the bloated sentence.
 
----
-
-## 🧠 Concepts to Master This Week
-
-### DP — 2D and Subset Patterns
-
-**Edit Distance (LC 72)**
-- State: `dp[i][j]` = min edit operations to convert `word1[0..i-1]` to `word2[0..j-1]`.
-- Base: `dp[i][0] = i` (delete i chars), `dp[0][j] = j` (insert j chars).
-- Transition: if chars equal, `dp[i][j] = dp[i-1][j-1]`; else `1 + min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1])`.
-- Space opt: only need previous row → O(n) space with a rolling array.
-
-**Longest Palindromic Substring (LC 5)**
-- Expand-around-centre: for each index, expand both odd-length and even-length centres. O(n²) time, O(1) space. This is the interview-preferred approach.
-- Know that Manacher's is O(n) and what it does conceptually (transforms string, tracks mirror property) — you don't need to implement it under pressure, but saying "Manacher's gives O(n); here's why it works at a high level" is an extraordinary-candidate signal.
-
-**Maximal Square (LC 221)**
-- Recurrence: `dp[i][j] = min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]) + 1` when `matrix[i][j] == '1'`.
-- Intuition: the square's side is bottlenecked by its three neighbours. Prove this with a 2×2 example.
-- Answer area = `(max dp[i][j])²`.
-
-**Partition Equal Subset Sum (LC 416)**
-- 0/1 Knapsack: `dp[j]` = true if we can form sum `j`. Iterate nums outer, sums from `target` down to `num[i]` inner (prevents reuse). Terminate early if `dp[target]` becomes true.
-- Edge cases: odd total sum → false immediately. Num > target → false.
-
-### Greedy Patterns
-
-**Jump Game family**: always track the farthest reachable index. Don't simulate; track the frontier.
-
-**Gas Station**: two key facts to internalise:
-1. If total gas ≥ total cost, a solution always exists and is unique.
-2. If running sum goes negative at index `k`, the starting station must be after `k` — all stations from 0 to k are disqualified as starts.
-
-**Interval problems**: sort order determines correctness. For merge/insert: sort by start. For non-overlapping (greedy keep): sort by end. Know why.
-
-### Cloud/DevOps Architecture
-
-**Docker Multi-Stage Build** — mental model:
-```
-Stage 1 (build): JDK + Maven + source → fat jar
-Stage 2 (runtime): JRE only + fat jar → final image
-```
-Key result: no JDK, no source, no Maven cache in prod image. Size goes from ~600 MB → ~180 MB typical. Security surface reduced.
-
-**BuildKit Caching** — key flags to know:
-- `DOCKER_BUILDKIT=1` or `docker buildx build`
-- `--cache-from type=registry,ref=registry/image:cache` — pull layer cache from registry
-- `--cache-to type=registry,ref=registry/image:cache,mode=max` — push updated cache
-- `RUN --mount=type=cache,target=/root/.m2` — mount Maven cache across builds without baking it into the layer
-
-**Kubernetes Zero-Downtime Rolling Update** — 6-step mental model:
-1. `kubectl set image deployment/app container=new-image:tag` triggers rollout.
-2. K8s creates new pod(s) (controlled by `maxSurge`).
-3. New pod passes readiness probe → added to Service endpoints.
-4. Old pod removed from Service endpoints.
-5. Old pod receives SIGTERM → Spring graceful shutdown drains in-flight requests.
-6. Old pod terminates. Repeat until all pods replaced.
-
-Spring config required: `server.shutdown=graceful`, `spring.lifecycle.timeout-per-shutdown-phase=30s`. Pod spec: `terminationGracePeriodSeconds: 60` (must exceed Spring timeout).
-
-**Azure Key Vault Integration** — the production pattern:
-1. Assign a managed identity to the Container App.
-2. Grant the identity `Key Vault Secrets User` role on the Key Vault.
-3. In Bicep: reference secret as `secretRef` pointing to Key Vault URI — no credentials in code or env vars.
-4. At runtime, ACA's control plane fetches the secret and injects it as an env var. Secret rotation happens without redeployment (only a pod restart is needed).
-
-**Encryption — at-rest vs in-transit, PII, key management** (the concept layer above secrets):
-- *Encryption in-transit*: TLS on every hop — client↔gateway, gateway↔service, service↔DB. Terminate TLS at the edge (Front Door/load balancer) or enforce mTLS service-to-service. "Secrets in Key Vault" is meaningless if the connection carrying them is plaintext.
-- *Encryption at-rest*: the data store encrypts what it persists. Azure PostgreSQL Flexible Server, Blob Storage, and Redis all support at-rest encryption (AES-256) — on by default for managed services, often with the option of customer-managed keys (CMK) over platform-managed keys for compliance (FedRAMP/HIPAA).
-- *PII / tokenization*: encryption at-rest protects the disk; it does NOT protect a value from someone with DB read access. For high-sensitivity fields (PAN, SSN, card numbers), **tokenize** — replace the real value with a token, store the real value only in a separate vault/tokenization service. Reduces the blast radius of a DB breach and shrinks PCI/PII audit scope.
-- *Key management*: keys themselves are secrets — never hardcode, rotate them, and keep the key-encryption-key separate from the data-encryption-key (envelope encryption: a KEK in Key Vault/KMS encrypts DEKs, which encrypt the data). Key Vault gives HSM-backed key storage, rotation policies, and an audit log of every key use.
-- *Interview framing*: "at-rest + in-transit is table stakes; the real design decision is which fields are sensitive enough to tokenize, and keeping the encryption keys in an HSM-backed vault with rotation and audit — which is exactly what Key Vault gave us in Deep Fathom's FedRAMP-aligned posture."
-
-**Bicep Modular Design** — explain it structurally:
-- Root `main.bicep` passes parameters to modules: `network.bicep`, `containerApps.bicep`, `database.bicep`, `security.bicep`.
-- Each environment (dev/staging/prod) has its own `parameters.{env}.json`.
-- This structure enables: PR-based reviews of infra changes, staged rollouts, and reproducible GovCloud deployments with different parameter values but identical topology.
-
-**GitLab CI/CD DAG Pipeline** — the architecture that drove 57% cut:
-```yaml
-stages: [test, build, deploy]
-
-unit-test: { stage: test }
-integration-test: { stage: test, needs: [] }  # parallel with unit-test
-build-image:
-  stage: build
-  needs: [unit-test, integration-test]         # waits for both, then runs
-  script: docker buildx build --cache-from ...
-deploy-staging:
-  stage: deploy
-  needs: [build-image]
-```
-Before: stages were sequential (23 min). After: DAG parallelism + BuildKit cache (10 min).
+**Week 9 Plan (30 min):**
+- [ ] Update the tracker: status for every application, every recruiter interaction, every loop outcome. Note any verbal interest or next-stage invite.
+- [ ] If loops keep clustering, hold this rhythm (light DSA + deep-dive rehearsal + decompress). If the pipeline is thinning, line up 2 new applications for Monday.
+- [ ] Read the funnel: with cumulative applications past 40, are loops converting to next rounds? If a specific round type keeps stalling (SD, behavioral, a curveball area), that's next week's targeted fix.
+- [ ] Write 2–3 things you can do now that you couldn't last Sunday (ran back-to-back loops; recovered a botched answer; decompressed and reset cleanly).
 
 ---
 
-## 🎤 Sample Interview Questions (incl. Curveballs) — 8–15 Qs + Pointers
+## Pre-Interview Checklist (use before EVERY loop)
 
-### DP/Greedy
+**Evening before (~30 min):**
+- [ ] Re-read the JD — which of your 3 projects is most relevant? Which 2 tech areas appear most?
+- [ ] Research the company: product, stack (engineering blog), recent news. Write 3 specific things.
+- [ ] Prepare 3 questions; at least one references something specific you found.
+- [ ] Say the most-relevant project talk-track aloud once.
+- [ ] Check Glassdoor/Blind for recent interview reports; note recurring types. Log everything.
 
-**1. "Walk me through Edit Distance. What is the recurrence and why does it work?"**
-- Pointer: State the sub-problem clearly first ("minimum ops to convert prefix of length i to prefix of length j"). Then give the recurrence with the three cases. Mention the space optimisation. If they push: discuss how this extends to Longest Common Subsequence (LCS) — set replace cost to ∞.
+**Morning of (15 min):**
+- [ ] Virtual round: test camera, mic, screen share, internet; phone backup ready; LeetCode editor open in a tab.
+- [ ] Say the differentiator pitch aloud once. Review the 3 questions so they feel natural.
+- [ ] Water ready. Tracker open. 5 min before: close all notifications.
 
-**2. "Can Partition Equal Subset Sum be solved greedily? Why or why not?"**
-- Pointer: No. Greedy fails because a locally "best" choice (take the largest item) doesn't guarantee a valid partition. Counterexample: [3, 3, 3, 4, 1] — greedy takes 4+3=7 ≠ 7 correctly by coincidence, but [3,3,3,4,1], sum=14, target=7: greedy 4+3=7 but leaves [3,3,1]=7 — both work here. Use [1,5,11,5] — target=11, greedy takes 11 first, rest is [1,5,5]=11 — works. Use [1,2,3,5] — target=5 — DP finds [2,3], greedy takes 5, leaves [1,2,3], target 0... actually valid. Construct a real failure case if pushed: [6,6,2,2,2,2], sum=20, odd — actually use [3,3,3,4,4,4] sum=21, odd. Point is: DP is required because subset problems have overlapping subproblems and optimal substructure at each item level, not across items greedily.
+**During:**
+- [ ] Clarify the problem before coding (repeat it back, confirm constraints, ask about edges).
+- [ ] Think aloud. State time/space complexity after every solution, unprompted.
+- [ ] Behavioral: end every answer with a number or concrete outcome. Surface immediate availability when start dates come up.
 
-**3. "Curveball: How would you detect if an interval scheduling problem requires DP vs Greedy?"**
-- Pointer: If the objective is "max number of non-overlapping intervals" OR "min intervals to remove" → Greedy (sort by end, greedy pick). If the objective is "max weight/value of non-overlapping intervals where intervals have weights" → DP (because greedy can't account for value trade-offs). This is a beautiful distinction. Weighted Job Scheduling (LC 1235) is the DP version; Non-overlapping Intervals (LC 435) is the Greedy version.
-
-### Cloud/DevOps
-
-**4. "You said you cut CI/CD time by 57%. Walk me through every specific change you made."**
-- Pointer: (1) Identified bottleneck with GitLab pipeline trace — integration tests were blocking the image build. (2) Switched to DAG pipeline with `needs:` so unit tests, integration tests, and build ran in parallel. (3) Added Docker BuildKit with `--cache-from` pointing to registry cache — Maven build layers now hit 70%+ cache. (4) Mounted Maven cache directory with `RUN --mount=type=cache` to avoid downloading dependencies on each build. (5) Result: 23 min → 10 min. Do NOT just say "parallelism" — name the specific mechanisms.
-
-**5. "Curveball: If a Kubernetes pod passes liveness but fails readiness forever, what happens?"**
-- Pointer: The pod stays Running but is never added to the Service's Endpoints — it receives no traffic. It won't be restarted (liveness is fine). It just sits there, healthy but idle. This is actually the correct behaviour for a pod that has lost its upstream dependency (e.g., database down) — you don't want to restart it, you want to stop sending traffic to it. The fix is to address the root cause (restore DB connection), at which point readiness passes and traffic resumes automatically.
-
-**6. "Why would you use Azure Key Vault over Kubernetes Secrets for storing credentials?"**
-- Pointer: K8s Secrets are base64-encoded (not encrypted) by default — anyone with cluster access can read them. Key Vault provides: hardware-backed encryption (HSM tier), access policies tied to managed identity (no credentials to manage), audit logs of every secret access, automatic rotation capabilities, and centralised management across multiple clusters/environments. In a FedRAMP-aligned environment (Deep Fathom), Key Vault with private endpoints is non-negotiable.
-
-**7. "Curveball: Your new pod starts, passes liveness, but never passes readiness. Traffic never reaches it. Debugging steps?"**
-- Pointer: (1) `kubectl describe pod <name>` — look at Events for readiness probe failures and error messages. (2) `kubectl logs <pod>` — is the app throwing exceptions on startup? (3) Exec into pod: `kubectl exec -it <pod> -- curl localhost:8080/actuator/health/readiness` — what does it return? (4) Check if readiness depends on an external resource (DB, downstream service) — is that resource reachable from within the pod? (5) Check if `spring.datasource.url` or other config is misconfigured — app may start but fail health check because it can't connect to DB. This is a systematic debugging answer that demonstrates operational maturity.
-
-**8. "Walk me through how your Bicep code actually provisions the Key Vault and wires it to Container Apps."**
-- Pointer: This is a tell-me-the-details question. Be ready with: (1) `keyVault.bicep` module creates Key Vault, sets `enableSoftDelete: true`, adds role assignment `Key Vault Secrets User` to the Container App's managed identity using `roleDefinitionId`. (2) `containerApps.bicep` module references the secret: `secrets: [{ name: 'db-password', keyVaultUrl: kvRef.properties.vaultUri, identity: managedIdentityId }]`. (3) The environment var references the secret: `env: [{ name: 'DB_PASSWORD', secretRef: 'db-password' }]`. If you don't remember the exact Bicep syntax, describe the concept precisely — the intent is to verify you actually wrote it.
-
-### Java/System Design
-
-**9. "Curveball: You have a service that uses @Transactional. You add a @Cacheable on the same method. What happens if the cache returns a stale object after a rollback?"**
-- Pointer: Classic AOP ordering problem. Both `@Transactional` and `@Cacheable` use proxies. If cache is populated before the transaction commits, you could serve a value that was later rolled back. Solution: ensure the cache population happens AFTER the transaction commits — use `@TransactionalEventListener(phase = AFTER_COMMIT)` to evict/repopulate the cache, or use `@CacheEvict` on the transactional write method so subsequent reads re-fetch. Also note: the proxy ordering matters (`@Order` on the advice, or `spring.cache.transaction.proxy-target-class`).
-
-**10. "You built an LLM proxy that routes across 5 providers. How did you handle provider-specific rate limits without blocking the main request thread?"**
-- Pointer: Async job queue pattern (Spring `@Async` + thread pool, or a proper queue like Redis Streams). Each LLM call submitted as a task; the HTTP thread returns 202 immediately. Rate limit state tracked per-provider in Redis with a sliding window (increment count, set TTL). The router checks available capacity before dispatching; if a provider is at its limit, it routes to the next cheapest available one. For the client: SSE or WebSocket push for real-time streaming; polling for batch jobs. This demonstrates you understand non-blocking architecture and distributed rate limiting.
-
-**11. "Curveball: What's the difference between a Kubernetes Deployment and a StatefulSet? When would Spring Boot services use a StatefulSet?"**
-- Pointer: Deployment pods are interchangeable — any pod can be killed and replaced, storage is ephemeral (or shared via PVC). StatefulSet pods have stable network identities (pod-0, pod-1) and stable persistent storage (one PVC per pod that doesn't float). Spring Boot services are almost always Deployments — they're designed to be stateless. StatefulSet is for stateful workloads: databases (PostgreSQL), message brokers (Kafka, Zookeeper), Elasticsearch. The one Spring Boot use case: if your app uses sticky sessions and can't be made truly stateless — but the right answer is to fix the stateful design, not to use a StatefulSet.
-
-**12. "Tell me about a time the infrastructure failed in production and how you debugged it."**
-- Pointer: Prepare a STAR story. Even if nothing dramatic has happened, think about: a pod OOMKilled (memory limit hit), a readiness probe that failed due to a DB migration taking too long on startup, a Bicep deployment that failed due to a name collision, a CI/CD pipeline that broke after a Docker Hub pull rate limit hit. Pick whichever is truest for you. The structure interviewers want: how did you detect it (alert? user report?), what was your first hypothesis, what tools did you use (kubectl logs, Azure Monitor, GitLab trace), what was the root cause, what did you change to prevent recurrence.
-
-**13. "Curveball: Your Kubernetes rolling update is stuck — some old pods aren't terminating. What do you check?"**
-- Pointer: (1) `kubectl rollout status deployment/app` — look at the stall message. (2) `kubectl get pods` — which pods are in Terminating state? How long? (3) Check if `terminationGracePeriodSeconds` is too low — app hasn't finished draining. (4) Check if a preStop hook is hanging. (5) Check if the pod has a finalizer that isn't being cleared (common with operators). (6) Check if the node is under pressure (DiskPressure, MemoryPressure) — eviction blocked. (7) Nuclear option: `kubectl delete pod <name> --force --grace-period=0` — but explain you'd only do this after ruling out data safety concerns.
-
-**14. "Why Spring Boot and not Quarkus or Micronaut for your projects?"**
-- Pointer: Don't be defensive — show you know the landscape. "Spring Boot has the broadest ecosystem maturity (Spring Cloud, Spring Security, Spring Data JPA), the largest community, and the most enterprise support — which mattered for a multi-service production deployment with Azure integration. Quarkus and Micronaut have faster startup and lower memory via native compilation (GraalVM), which matters for functions/serverless. If I were building a high-density Lambda-equivalent, I'd evaluate Quarkus seriously. For a long-running microservice with rich Spring Cloud features, Boot is still the pragmatic choice." This shows architectural awareness, not framework loyalty.
-
-**15. "Curveball: How would you migrate this microservices architecture from Azure to AWS with minimal code changes?"**
-- Pointer: Abstract the infrastructure, not the application. (1) The Spring Boot code itself is cloud-agnostic — no Azure SDK calls in business logic (you used managed identity + env var injection, so secrets are just env vars). (2) Replace Azure Container Apps with ECS Fargate or EKS. (3) Replace Key Vault with AWS Secrets Manager or Parameter Store — change the Bicep/CDK only. (4) Replace PostgreSQL Flexible Server with RDS PostgreSQL — connection string change only. (5) Replace Bicep with CDK or Terraform — rewrite infra code, zero app code changes. (6) The architectural discipline to keep cloud-specific concerns at the infra layer (not in application code) is exactly what makes this migration possible. This is the extraordinary candidate answer.
+**After (5 min):**
+- [ ] Log every question asked while fresh; note what went well and what to change.
+- [ ] Send a thank-you note within 4 hours if the process allows.
 
 ---
 
-## 🌟 Extraordinary-Candidate Edge
+## 🧠 This Week's Operating Principles
 
-**The 90-second differentiator pitch** (practise until it's effortless):
+### Scheduled loops override new volume
+The cadence is explicit now: a live loop you nail beats ten cold applies you rushed. Applications drop to an 8–12 trickle with heavy follow-up; prep for the next round always wins the time conflict. Don't sabotage a loop to hit a volume number.
 
-> "I'm unusual in this market because I sit at the intersection of deep backend engineering and infrastructure ownership — most developers in my experience bracket either write application code or manage infra, but rarely both at production depth. In Deep Fathom I wrote the Bicep IaC for 30+ Azure resources, designed the Kubernetes deployment with proper zero-downtime probes and graceful shutdown, cut CI/CD runtime by 57% through pipeline architecture changes, and built the LLM orchestration layer that handles 2–20 minute async jobs across 5 providers. In Smart360 I diagnosed and fixed production performance problems at the query and caching layer, reducing latency by 96%. I have hands-on scars from both sides of the system. That's what makes me different."
+### Rehearse the right deep-dive *before* each round
+Match the project to the company: a perf-heavy role → Smart360; an infra/DevOps role → Deep Fathom; an async/LLM role → WebX. Say the talk-track aloud the morning of, so it's fresh, not recalled.
 
-**Depth signals to drop in naturally:**
+### Decompress and reset between rounds
+Back-to-back loops are an endurance test. A 15-minute reset between rounds (away from the screen) is the difference between a sharp third loop and a fried one. Treat recovery as part of the performance.
 
-- Mentioning KEDA when discussing Azure Container Apps autoscaling (shows you looked under the hood).
-- Mentioning that K8s readiness probe failure removes the pod from Service Endpoints but does NOT trigger a restart (shows precise operational understanding).
-- Saying "we used Manacher's algorithm is O(n) vs expand-around-centre at O(n²) — in practice expand-around-centre is fine because of constant factor differences and cache behaviour" (shows you reason about complexity in context, not just asymptotically).
-- Noting that `@Transactional` on `private` methods is silently ignored, and that self-invocation bypasses the proxy (shows you've debugged real Spring issues, not just read the docs).
-- Explaining that BuildKit's `--mount=type=cache` avoids baking the Maven cache into the image layer (a detail that separates people who wrote Dockerfiles from people who optimised them).
+### Numbers in every behavioral answer
+"We improved performance" proves you watched; "60s → 2–3s, a 96% reduction, 80% fewer S3 calls" proves you owned it. Every STAR story lands a specific number — that's the ownership signal.
 
-**What extraordinary looks like in each interview format:**
-
-- *Coding*: Clean solution + complexity analysis + space optimisation mentioned + "here's a follow-up variant you might ask" — shows you understand the problem family, not just this instance.
-- *System design*: Draw the failure modes first, then design around them. Name anti-patterns you deliberately avoided (e.g., "I didn't use distributed transactions because 2PC couples services and creates availability risk").
-- *Behavioural*: Specific numbers in every answer. No "we improved performance" — always "latency dropped from 60 s to 2–3 s, 96% improvement." Metrics are the signal that you owned the outcome.
-- *Culture/fit*: Show intellectual curiosity — reference something you learned recently (LLM streaming protocols, Bicep what's new, K8s Gateway API replacing Ingress).
+### Immediate availability shortens the close
+When a recruiter or HM discusses start dates, "available to join immediately" is a concrete advantage — it shortens their decision and can tip a close in a clustered, competitive window. Surface it whenever timelines come up.
 
 ---
 
 ## 📊 End-of-Week Self-Assessment
 
-Rate yourself 1–5 on each dimension after Sunday's mock. Be honest — this feeds directly into Week 9 planning.
+Fill Sunday. Anything below target is Week 9 Day 1.
 
-| Area | Target | Your Rating | Gap / Next Action |
+| Area | Target | Your Score | Notes |
 |---|---|---|---|
-| Edit Distance — implement from scratch | 5 | | |
-| Longest Palindromic Substring — expand approach | 5 | | |
-| Maximal Square — recurrence articulation | 5 | | |
-| Partition Equal Subset Sum — 0/1 knapsack reduction | 5 | | |
-| Jump Game I & II — greedy explanation | 5 | | |
-| Gas Station — proof of correctness | 4 | | |
-| Merge/Insert/Non-overlapping Intervals | 5 | | |
-| Deep Fathom architecture story (6 min) | 5 | | |
-| Docker multi-stage build + BuildKit details | 5 | | |
-| K8s rolling update + probe mechanics | 5 | | |
-| Azure Key Vault managed-identity wiring | 4 | | |
-| Bicep modular structure explanation | 4 | | |
-| CI/CD 57% cut — specific mechanism explanation | 5 | | |
-| Smart360 AWS S3 + pre-signed URL story | 5 | | |
-| LinkedIn/Naukri updated + keyword-rich | 5 | | |
-| 3–5 applications submitted + tracking sheet live | 5 | | |
-| 90-second differentiator pitch — fluent | 5 | | |
-
-**Scoring guide:**
-- 5: Can do it cold, under pressure, on a whiteboard.
-- 4: Solid but might hesitate on one edge case.
-- 3: Know the concept, can't execute under pressure — needs more reps.
-- 2: Shaky — must revisit this week's material.
-- 1: Not comfortable — block 2 hours in Week 9 specifically for this.
+| Every scheduled loop executed with prep done | 5 | | |
+| Project deep-dive rehearsed before each round | 5 | | |
+| 10 STAR stories deliverable <2 min, number in each | 5 | | |
+| System-design loop driven end-to-end | 5 | | |
+| Full-stack integration story (CORS/JWT/error contract) | 4 | | |
+| Curveball rapid-fire (Spring/Java) <90s each | 4 | | |
+| Decompress/reset between back-to-back rounds | 4 | | |
+| Every round debriefed same day | 5 | | |
+| Light DSA maintenance streak | 3 | | |
+| 8–12 new applications + heavy follow-up | 4 | | |
+| Immediate availability surfaced when timelines arose | 5 | | |
 
 **Week 8 exit criteria (minimum bar before Week 9):**
-- All 9 LeetCode problems solved at least once without hints.
-- At least 3 applications submitted and logged.
-- LinkedIn headline and experience bullets updated with numbers.
-- Able to do the 6-minute Deep Fathom story without notes.
+- Every scheduled loop executed with the pre-interview checklist completed.
+- All 10 STAR stories spoken aloud at least once this week, each under 2 min with a number.
+- At least one system-design loop or mock driven end-to-end with failure modes.
+- Every live round debriefed in the tracker the same day.
+- Pipeline kept alive (8–12 new) with heavy follow-up — without sacrificing loop prep.
 
-**If you missed the bar:** Don't skip the missed items to start Week 9. Carry them as Day 1–2 makeup sessions. Momentum > perfection, but visible gaps compound.
+**If you missed the bar:** prioritise the loop-execution and STAR items — a missing story or an unprepped round costs you the offer, not the application you didn't send. Carry application shortfall, never prep shortfall.
 
 ---
 
-*Week 8 complete → Week 9: Trees (BFS/DFS, LCA, Serialize/Deserialize) + System Design deep dives (Design a URL shortener, Design a notification system) + first GCC/product company applications.*
+*Week 8 of the execution phase — next: Week 9 (Mon Aug 24 – Sun Aug 30, 2026).*

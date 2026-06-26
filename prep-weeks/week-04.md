@@ -1,512 +1,394 @@
-# Week 4 — Foundations (Jul 13–19, 2026)
+# Week 4 — Core Build (Jul 20–25, 2026)
 
-> Last foundation week: seal the cracks in DSA (Stacks, Queues, Linked Lists), lock in REST/OAuth2/JWT production knowledge, and prove to yourself you can perform under timed pressure.
+> Tame dynamic programming and greedy, master the resilience + at-scale layer interviewers reach for next — rate limiting, circuit breakers/bulkheads, API gateways, heaps, and the distributed-systems backbone (sharding, replication, CAP/PACELC, consistent hashing) — and tie every answer back to a real decision from Smart360, Deep Fathom, or WebX.
+>
+> **Full-time, heads-down study week — Mon–Sat (6 study days), Sun rest.** Three blocks per day: **Block A** (DSA, ~2.5 hr), **Block B** (core/system knowledge, ~2 hr), **Block C** (a second DSA set or deep-dive, ~1.5 hr). No applications this week — pure skill build.
 
 ---
 
 ## 🎯 Week Goal
 
-Exit this week able to: solve any Stack/Queue/LinkedList LeetCode medium cold in ≤25 min; explain the full OAuth2/JWT lifecycle (token issuance → validation → refresh → revocation → RBAC) without notes; design a complete URL shortener system doc from scratch in 45 min. This is the final foundation checkpoint before Phase 2 (system design depth + advanced DSA).
+Derive any classic 1D/2D DP recurrence (Climbing Stairs, House Robber I/II, Coin Change I/II, LIS, LCS, 0/1 knapsack, Word Break, Edit Distance, Maximal Square) from state + transition — no memorising. Solve greedy and interval problems on sight. Implement all four heap patterns and design-DS primitives cold. Explain rate-limiting algorithms, the Resilience4j circuit-breaker state machine and bulkhead, gRPC vs REST vs messaging, and the at-scale layer (sharding, leader-follower replication, CAP, PACELC, consistent hashing) at depth — and field every curveball from first principles.
 
 ---
 
-## ✅ By Sunday you can...
+## ✅ By Saturday you can...
 
-- [ ] Solve Valid Parentheses, Min Stack, Daily Temperatures, Largest Rectangle in Histogram, Reverse Linked List, Merge Two Sorted Lists, Linked List Cycle, Reorder List, LRU Cache, Remove Nth Node From End — all without hints
-- [ ] Explain exactly how Smart360's JWT issuance, validation, refresh, and RBAC (repository/table/permission levels) works in a 5-minute whiteboard answer
-- [ ] Describe REST idempotency guarantees for every HTTP method and give a concrete non-obvious example of violating them
-- [ ] Write a `@ControllerAdvice` global exception handler with correct HTTP status codes from memory
-- [ ] Produce a written system design doc for a URL shortener covering API contract, data model, encoding algorithm, caching strategy, and scaling path
-- [ ] Complete a timed 45-min 2-problem DSA test and score yourself honestly
-- [ ] List your 3 weakest areas to drill in Phase 2
+- Derive and code Climbing Stairs, House Robber I/II, Coin Change, LIS, and Word Break from scratch, optimising space where `dp[i]` only depends on a couple of prior states.
+- Solve 2D DP — Unique Paths, LCS, Edit Distance, Maximal Square, Longest Palindromic Substring — and the 0/1 knapsack family (Partition Equal Subset Sum, Coin Change II), explaining why the 0/1 inner loop runs right-to-left and unbounded runs left-to-right.
+- Solve the greedy + interval set (Jump Game I/II, Gas Station, Merge/Insert/Non-overlapping Intervals, Meeting Rooms II) in ≤15 min each, and state which sort order each needs and why.
+- Implement the four heap patterns (top-K min-heap, two-heap streaming median, merge-K, custom comparator) and design-DS (Insert/Delete/GetRandom O(1), LFU cache) from a blank editor.
+- Explain token bucket vs leaky bucket vs sliding window (log + counter): complexity, burst handling, and the Redis structure each uses.
+- Draw the Resilience4j circuit-breaker state machine with exact config edges, distinguish bulkhead (semaphore vs thread-pool) from circuit breaker, and name the wrap order with Retry + TimeLimiter.
+- Compare REST, gRPC, and async messaging across coupling, latency, schema evolution, observability, and failure mode, and contrast API Gateway vs BFF.
+- Explain range/hash/consistent-hashing sharding and their failure modes, leader-follower replication lag with three mitigations, CAP precisely (behaviour *during* a partition), PACELC, and the four consistency models — placing PostgreSQL, Redis, Cassandra, and DynamoDB correctly.
+- Whiteboard Docker multi-stage builds, K8s rolling-update + probe mechanics, and the GitLab DAG/BuildKit pipeline that drove the 57% CI/CD cut.
 
 ---
 
 ## 📅 Daily Checklist
 
-### Monday Jul 13 — Stacks: Core Problems
+---
 
-📌 **Study today:** Monotonic stack — next-greater & span (LC 20, 155, 739, 496, 503, 901) · REST resource naming, status codes, idempotency
+### Monday Jul 20 — DP 1D + Rate-Limiting Algorithms
 
-**Time budget: ~1.5 hr**
+📌 **Study today:** 1D DP — state + transition framework (LC 70, 198, 213, 139, 300, 322) · rate-limiting algorithms (token/leaky/sliding) · DP practice
 
-**DSA (55 min)**
-- [ ] Read the Stack pattern primer: "Monotonic stack" mental model — what it is, when to use it (next greater element, span problems, histograms)
-- [ ] LC #20 — Valid Parentheses (Easy) — solve in ≤10 min, review edge: `"]"` empty stack crash
-- [ ] LC #155 — Min Stack (Medium) — implement with two stacks; understand why `O(1)` getMin works; write it clean
-- [ ] LC #739 — Daily Temperatures (Medium) — monotonic decreasing stack; trace through `[73,74,75,71,69,72,76,73]` by hand before coding
-- [ ] **Monotonic-stack family (next-greater + span)** — the primer above promised "span problems"; here they are. Stack holds indices of a decreasing sequence; you pop and resolve when the current element breaks monotonicity:
-  - [ ] LC #496 — Next Greater Element I (Easy) — precompute next-greater for every value in `nums2` with one monotonic-stack pass into a `Map<value, nextGreater>`, then look up each `nums1` query in O(1). The base case for the whole family.
-  - [ ] LC #503 — Next Greater Element II (Medium) — **circular** array; iterate `2n` indices using `i % n` so the wrap-around can resolve still-pending elements; only push during the first pass (or just guard with index `< n`). Same decreasing-index stack.
-  - [ ] LC #901 — Online Stock Span (Medium) — the canonical **span** problem; stack of `(price, span)` pairs. On each new price, pop while top price ≤ current and accumulate their spans — collapses consecutive smaller days into one entry, giving amortized O(1) per `next()` call. Tie-in: this is the same "collapse a run, keep a running aggregate" shape as a streaming metrics rollup.
-- [ ] After each: write one line "What would trip me up on this in an interview?"
+**DSA (Block A, ~2.5 hr) — 1D DP Foundations:**
 
-**Core (30 min)**
-- [ ] REST resource naming rules: nouns not verbs (`/users/{id}` not `/getUser`), plurals for collections, sub-resources for relationships (`/users/{id}/orders`)
-- [ ] HTTP status codes to memorize cold: 200, 201, 204, 400, 401, 403, 404, 409, 422, 429, 500, 502, 503
-- [ ] Idempotency table: GET ✓, PUT ✓, DELETE ✓, POST ✗, PATCH ✗ (debated) — be ready to explain why POST to create is not idempotent and how to make it safe with idempotency keys
+Read the "identify state + transition" framework before coding anything:
+- *State*: what do you need to know to solve a subproblem? Usually `dp[i]` = answer for first `i` elements / target `i`.
+- *Transition*: how does `dp[i]` depend on `dp[i-1]`, `dp[i-2]`, etc.? This is the hard step — draw examples.
+- *Base case*: the smallest subproblem you can answer directly.
+- *Direction*: top-down (memoization, recursion + HashMap/array) vs bottom-up (tabulation, loops).
 
-**Self-check (5 min)**
-- [ ] Without notes: what is the difference between 401 and 403? Between 409 and 422?
-- [ ] Can you explain monotonic stack in one sentence?
+Problems (in order):
+1. **Climbing Stairs** (LC 70) — `dp[i] = dp[i-1] + dp[i-2]`. Code both memoization and tabulation, then reduce to O(1) space with two variables.
+2. **House Robber** (LC 198) — `dp[i] = max(dp[i-1], dp[i-2] + nums[i])`. Justify *why* you can't rob adjacent houses as a recurrence, not a rule you memorise. Target AC in 8 min.
+3. **House Robber II** (LC 213) — houses in a circle. Run House Robber I on `nums[0..n-2]` and `nums[1..n-1]`, take max. *Why does splitting work?* House 0 and house n-1 can never both be chosen.
+4. **Word Break** (LC 139) — `dp[i]` = can the first `i` chars be segmented? For each `j < i`, if `dp[j]` is true AND `s[j..i]` ∈ `wordDict`, then `dp[i] = true`. O(n² × avg_word_len). Work out why DFS-with-memo is equivalent.
+5. **Longest Increasing Subsequence** (LC 300) — O(n²): `dp[i] = max(dp[j]+1)` for `j<i` where `nums[j]<nums[i]`. Then the O(n log n) patience-sort + binary-search solution — interviewers push for the optimal. LIS ≈ longest chain of compatible microservice versions.
+6. **Coin Change** (LC 322) — `dp[amount] = min(dp[amount-coin] + 1)` per coin (unbounded knapsack). Init `dp[0]=0`, rest `INF`. Greedy fails here (coins=[1,3,4], amount=6: greedy 4+1+1=3 vs DP 3+3=2); resembles Smart360's LLM cost-routing — DP would be optimal but is too slow for real-time, which is why production used heuristic scoring.
+
+**Core Topic (Block B, ~2 hr) — Rate-Limiting Algorithms:**
+
+Master all four (plus the two sliding-window variants):
+
+| Algorithm | How it works | Burst allowed? | Memory | Redis structure |
+|---|---|---|---|---|
+| **Token bucket** | Tokens added at a fixed rate, consumed per request | Yes (up to bucket size) | O(1) | HASH (tokens + timestamp) |
+| **Leaky bucket** | Requests queue, drain at a fixed output rate | No (smoothed) | O(queue size) | LIST as queue |
+| **Fixed window counter** | Count resets every window | Yes (boundary burst) | O(1) | STRING with TTL |
+| **Sliding window log** | Store the timestamp of every request | No | O(requests in window) | ZSET (score = timestamp) |
+| **Sliding window counter** | Interpolate between two fixed windows | Approximately no | O(1) | Two STRINGs |
+
+- **Token bucket** (Spring Cloud Gateway `RequestRateLimiter`): bucket holds ≤ `burstCapacity` tokens; tokens added at `replenishRate`/sec; each request consumes one; empty → 429. Redis: a Lua script atomically reads `{tokens, last_refill_time}`, computes tokens to add, clamps to bucket size, decrements by cost, writes back. **Why Lua?** Redis is single-threaded per command, so the script runs as one atomic op — no race condition without locks.
+- **Sliding window log** (most accurate): ZSET of timestamps; on each request remove entries older than `windowSize`, count remaining, allow if under limit. Memory-proportional to volume — not for high-throughput endpoints.
+- **Sliding window counter** (practical balance): two fixed-window counters; estimate = `prev_count × (1 - elapsed_fraction) + curr_count`. O(1), within ~0.003% of true sliding window in practice.
+- Recall the Smart360 API Gateway config: `redis-rate-limiter.replenishRate` and `burstCapacity` — write plausible values with justification (e.g. analytics users fire 10 queries then idle → token bucket allows the burst while enforcing sustained rate; sliding window log would reject them when idle).
+
+**DSA (Block C, ~1.5 hr) — DP Practice:**
+
+- Re-derive each of today's recurrences on paper in ≤2 min, no peeking. If you stall on any, that's the one to re-solve tonight.
+- Compare memoization vs tabulation: memoization is easier to write and only computes needed subproblems but carries recursion-stack overhead; tabulation has no stack-overflow risk, is cache-friendly, and easier to space-optimise — prefer it for production code.
+- Teach-back: explain `dp[i] = max(dp[i-1], dp[i-2] + nums[i])` to a rubber duck — *why*, not recite.
+
+**Self-check:**
+1. Code House Robber from scratch in 8 min without notes — time yourself.
+2. A client sends 10 requests in the last 0.5s of window 1 and 10 in the first 0.5s of window 2. Fixed window allows all 20 — how does sliding window counter catch it? (Weighted interpolation of the previous window's count.)
 
 ---
 
-### Tuesday Jul 14 — Stacks: Hard Problem + REST Versioning & Pagination
+### Tuesday Jul 21 — DP 2D + Resilience4j
 
-📌 **Study today:** Stack flagship — Largest Rectangle in Histogram (LC 84, 739) · REST API versioning + pagination trade-offs
+📌 **Study today:** 2D DP — Unique Paths, Edit Distance, LCS, Maximal Square, palindromes (LC 62, 72, 1143, 221, 5) · Resilience4j (circuit-breaker state machine + bulkhead + retry/time-limiter) · knapsack/subset DP (LC 416, 518)
 
-**Time budget: ~1.5 hr**
+**DSA (Block A, ~2.5 hr) — 2D DP:**
 
-**DSA (55 min)**
-- [ ] LC #84 — Largest Rectangle in Histogram (Hard) — this is a Stack flagship; spend 15 min thinking before coding
-  - Key insight: for each bar, find the leftmost/rightmost bar that is at least as tall → use stack to track indices
-  - Trace through `[2,1,5,6,2,3]` → expected output 10
-  - Common mistake: not handling the remaining stack after the loop — add a dummy 0-height bar at the end
-- [ ] Re-solve Daily Temperatures without looking at yesterday's solution — time yourself (target ≤18 min)
-- [ ] Write time/space complexity for all 4 stack problems this week in your notes
+1. **Unique Paths** (LC 62) — `dp[i][j] = dp[i-1][j] + dp[i][j-1]`. Reduce to a 1D array. Also combinatorics: `C(m+n-2, m-1)` — know both.
+2. **Edit Distance** (LC 72, Hard) — `dp[i][j]` = min ops to convert `word1[0..i]` to `word2[0..j]`. Insert `dp[i][j-1]+1`; delete `dp[i-1][j]+1`; replace `dp[i-1][j-1] + (chars differ)`. Base: `dp[i][0]=i`, `dp[0][j]=j`. O(mn) time, O(n) space with a rolling array. This is LCS in disguise — seeing the connection is the expert move.
+3. **Longest Common Subsequence** (LC 1143) — `dp[i][j]`: if `text1[i-1]==text2[j-1]` then `dp[i-1][j-1]+1`, else `max(dp[i-1][j], dp[i][j-1])`. Reconstruct the actual subsequence by backtracking — interviewers sometimes ask.
+4. **Maximal Square** (LC 221) — `dp[i][j]` = side of the largest square with bottom-right corner at (i,j) = `min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]) + 1` when `matrix[i][j]=='1'`. The side is bottlenecked by its three neighbours — prove with a 2×2. Answer area = `(max dp)²`.
+5. **Longest Palindromic Substring** (LC 5) — expand-around-centre O(n²) (interview-preferred) and the `dp[i][j] = is s[i..j] a palindrome` table O(n²). Know Manacher's is O(n) conceptually (transform string, mirror property) — saying so is an extraordinary-candidate signal; don't implement it under pressure.
 
-**Core (30 min)**
-- [ ] API versioning strategies:
-  - URI path: `/v1/users` — most common, most visible, breaks bookmarks on version change
-  - Request header: `Accept: application/vnd.app.v2+json` — clean URIs, less discoverable
-  - Query param: `/users?version=2` — easiest to test, not RESTful purists' choice
-  - Which to use when: URI for public APIs (easy to route at gateway), header for internal services
-- [ ] Pagination:
-  - Offset: `?page=2&size=20` — simple but slow on large offsets (PostgreSQL scans all skipped rows)
-  - Cursor/keyset: `?after=eyJpZCI6MTAwfQ==` (base64 encoded last-seen ID) — O(log n) stable under inserts/deletes; use for feeds/infinite scroll
-  - Return: total count, next cursor, `Link` headers (RFC 5988)
-- [ ] Relate to Smart360: what pagination did you use in the data service APIs? Would you change it?
+**Core Topic (Block B, ~2 hr) — Resilience4j (Circuit Breaker + Bulkhead + Retry/TimeLimiter):**
 
-**Self-check (5 min)**
-- [ ] Explain Largest Rectangle in Histogram approach out loud without looking at code
-- [ ] What are the trade-offs of cursor vs. offset pagination for a 10M-row table?
-
----
-
-### Wednesday Jul 15 — Linked Lists: Core Problems + JWT Lifecycle Deep Dive
-
-📌 **Study today:** Linked lists — reversal, dummy head, Floyd's cycle (LC 206, 21, 141) · JWT/OAuth2 issuance → validation → refresh → RBAC
-
-**Time budget: ~1.5 hr**
-
-**DSA (45 min)**
-- [ ] LC #206 — Reverse Linked List (Easy) — solve iteratively AND recursively; know both cold
-  - Iterative: `prev=null, curr=head`; walk forward while swapping pointers
-  - Recursive: base case `head.next == null`; trust the recursion to reverse the rest
-- [ ] LC #21 — Merge Two Sorted Lists (Easy) — dummy head pattern; always use a dummy to avoid head-special-case bugs
-- [ ] LC #141 — Linked List Cycle (Easy) — Floyd's tortoise and hare; slow moves 1, fast moves 2; they meet iff cycle exists; *bonus*: find cycle start (LC #142)
-- [ ] After each: write the pointer diagram — draw boxes and arrows for a 3-node example
-
-**Core (40 min) — JWT/OAuth2 End-to-End (Smart360 context)**
-- [ ] **Token Issuance flow** (write this out step by step):
-  1. User POSTs credentials to `/auth/login`
-  2. `AuthService` validates credentials against DB (BCrypt compare)
-  3. Builds claims: `sub` (userId), `roles` (e.g., `["ROLE_ADMIN","ROLE_USER"]`), `tenantId`, `iat`, `exp` (e.g., 15 min for access token)
-  4. Signs with HMAC-SHA256 (`HS256`) using secret, or RSA private key (`RS256`) for multi-service verification
-  5. Returns: `{ accessToken, refreshToken, expiresIn }`
-  6. Refresh token stored hashed in DB (or Redis) with `userId`, `tokenFamily` (for rotation)
-- [ ] **Validation flow** (every protected request):
-  1. Spring Security `JwtAuthenticationFilter` intercepts request (extends `OncePerRequestFilter`)
-  2. Extracts Bearer token from `Authorization` header
-  3. Parses and validates signature (local, no DB call) → 60% latency win from Smart360
-  4. Checks `exp` claim
-  5. Checks Redis blacklist (for logged-out tokens — only O(1) lookup)
-  6. Sets `SecurityContextHolder` with `UsernamePasswordAuthenticationToken` carrying roles
-- [ ] **Refresh flow**:
-  1. Client POSTs `refreshToken` to `/auth/refresh`
-  2. Server validates refresh token (DB lookup), issues new access token + rotates refresh token (token family rotation — invalidates old refresh token, detects theft if old one used again)
-  3. Old refresh token marked invalid
-- [ ] **RBAC at repository/table/permission levels (Smart360)**:
-  - Permission levels stored in DB: `USER_ROLE` → `[READ_REPORTS, WRITE_REPORTS, MANAGE_USERS]`
-  - JWT payload includes role names → decoded in filter
-  - `@PreAuthorize("hasAuthority('READ_REPORTS')")` at controller/service level
-  - Custom `@PermissionRequired` annotation backed by AOP for fine-grained checks
-  - Repository level: `findByIdAndTenantId()` — tenant isolation baked into queries
-  - Table level: PostgreSQL RLS as a second line of defense (same pattern as Deep Fathom)
-
-**Self-check (5 min)**
-- [ ] Draw the JWT validation filter chain from memory: what happens at each step when the token is expired?
-- [ ] Reverse a linked list in your head on a 4-node list: `1→2→3→4→null` → `4→3→2→1→null`
-
----
-
-### Thursday Jul 16 — Linked Lists: Medium Problems + Global Exception Handling
-
-📌 **Study today:** Linked lists — two-pointer & three-step reorder (LC 19, 143) · @ControllerAdvice global exception handling + Bean Validation
-
-**Time budget: ~1.5 hr**
-
-**DSA (50 min)**
-- [ ] LC #19 — Remove Nth Node From End (Medium) — two-pointer: advance fast pointer n steps, then move both until fast.next == null; handle edge: removing the head (n == length)
-- [ ] LC #143 — Reorder List (Medium) — **three-step pattern**:
-  1. Find middle (slow/fast pointers)
-  2. Reverse second half
-  3. Merge two halves by interleaving
-  - Most candidates skip step 2 and get stuck — do the dry run first
-- [ ] Time-box: 20 min per problem; if stuck at 15 min, look at the hint for the algorithm idea only, then code from there
-
-**Core (35 min) — `@ControllerAdvice` + Bean Validation**
-- [ ] Global exception handler — write this from memory:
-
-```java
-@RestControllerAdvice
-public class GlobalExceptionHandler {
-
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleNotFound(ResourceNotFoundException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-            .body(new ErrorResponse("NOT_FOUND", ex.getMessage()));
-    }
-
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse> handleValidation(MethodArgumentNotValidException ex) {
-        List<String> errors = ex.getBindingResult().getFieldErrors()
-            .stream()
-            .map(fe -> fe.getField() + ": " + fe.getDefaultMessage())
-            .toList();
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-            .body(new ErrorResponse("VALIDATION_ERROR", errors.toString()));
-    }
-
-    @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<ErrorResponse> handleForbidden(AccessDeniedException ex) {
-        return ResponseEntity.status(HttpStatus.FORBIDDEN)
-            .body(new ErrorResponse("FORBIDDEN", "Insufficient permissions"));
-    }
-
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleGeneric(Exception ex) {
-        // log ex fully here — never expose stack trace to client
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-            .body(new ErrorResponse("INTERNAL_ERROR", "An unexpected error occurred"));
-    }
-}
+Circuit-breaker state machine with exact conditions:
 ```
+CLOSED ──[failure_rate >= threshold OR slow_call_rate >= threshold]──► OPEN
+OPEN ──[after waitDurationInOpenState]──► HALF_OPEN
+HALF_OPEN ──[permittedNumberOfCallsInHalfOpenState calls all succeed]──► CLOSED
+HALF_OPEN ──[any failure]──► OPEN
+```
+- `slidingWindowType`: COUNT_BASED (last N calls) or TIME_BASED (last N seconds). `minimumNumberOfCalls`: won't open until this many calls (prevents premature opening on startup). `permittedNumberOfCallsInHalfOpenState`: probe calls before deciding. Fallback method needs the same signature + a `Throwable` parameter. Annotate `slidingWindowSize`, `failureRateThreshold`, `slowCallRateThreshold`, `waitDurationInOpenState` against the state-machine edges.
+- **Multi-instance concern:** Resilience4j state is in-process — two pods can have different circuit states; usually fine (eventual convergence). Global state needs a Redis-backed adapter; know the trade-off.
 
-- [ ] Bean Validation annotations to know: `@NotNull`, `@NotBlank`, `@NotEmpty`, `@Size`, `@Min/@Max`, `@Email`, `@Pattern`, `@Valid` (triggers cascade), `@Validated` (for groups)
-- [ ] Key: `@Valid` on the method parameter triggers Spring MVC validation before the method body runs; the `MethodArgumentNotValidException` is thrown automatically
-- [ ] Custom validator: `@Constraint(validatedBy = MyValidator.class)` implementing `ConstraintValidator<MyAnnotation, String>`
+**Bulkhead vs circuit breaker** (never bluff this): a circuit breaker *stops* calls to a failing dependency (trips after a failure threshold, short-circuits); a bulkhead *limits* how much of your resources one dependency can consume so a slow-but-not-yet-failing dependency can't starve the whole service. Named after a ship's watertight compartments. Two flavors:
+- **`Bulkhead` (semaphore)** — a counting semaphore caps *concurrent* calls; the caller's own thread runs the call. Cheap, no timeout isolation. Good default for fast synchronous dependencies.
+- **`ThreadPoolBulkhead` (thread-pool)** — the call runs in a dedicated bounded pool with its own queue; the caller's thread is freed (returns a `CompletableFuture`). Costlier, but fully contains a slow dependency — isolate the slow LLM-provider calls so they can never starve threads serving fast data queries.
 
-**Self-check (5 min)**
-- [ ] What HTTP status should a validation failure return? (422 Unprocessable Entity OR 400 — know both and have an opinion)
-- [ ] Why should the generic `Exception` handler never return the exception message to the client?
+They're complementary: bulkhead *contains* the blast radius while a dependency degrades, the circuit breaker *cuts off* a dead one. Wire both — bulkhead first to bound concurrency, then circuit breaker — alongside **Retry** (`maxAttempts`, `waitDuration`, `exponentialBackoff`, `retryExceptions`; retrying non-idempotent POSTs is dangerous → idempotency keys) and **TimeLimiter** (wraps a `CompletableFuture`; fires first, counts the timeout as a circuit failure). Wrap order: **TimeLimiter wraps Retry wraps CircuitBreaker.** The five modules: CircuitBreaker, Retry, RateLimiter, TimeLimiter, Bulkhead.
+
+**DSA (Block C, ~1.5 hr) — Knapsack / Subset DP:**
+
+- **0/1 Knapsack** (classic): `dp[i][w] = max(dp[i-1][w], dp[i-1][w-wt[i]] + val[i])` if `wt[i] <= w`. Space-optimise to 1D by iterating weights *right to left* — this preserves the `i-1` row (left-to-right would read a value already updated for item `i`, i.e. unbounded behaviour).
+1. **Partition Equal Subset Sum** (LC 416) — 0/1 knapsack: can we fill a subset summing to `totalSum/2`? `dp[j] |= dp[j-nums[i]]`, inner loop right-to-left. Odd total → false immediately.
+2. **Coin Change II** (LC 518) — count the number of ways (unbounded knapsack). Loop order matters: outer = coins, inner = amounts → combinations; swapping → permutations. Know why.
+
+**Self-check:**
+1. Code 0/1 Knapsack bottom-up in 12 min, convert to 1D, and explain why the inner loop direction differs for 0/1 vs unbounded.
+2. Draw the Resilience4j state machine from memory with the exact config parameters on each edge.
 
 ---
 
-### Friday Jul 17 — LRU Cache + OAuth2 Flows + Interview Simulation
+### Wednesday Jul 22 — Greedy + Intervals + API Gateway / gRPC
 
-📌 **Study today:** LRU Cache — HashMap + DLL design (LC 146) · OAuth2 grant types + token storage security edge cases
+📌 **Study today:** Greedy + intervals (LC 55, 45, 134, 56, 57, 435, 253) · API gateway + gRPC vs REST vs messaging · interval problems
 
-**Time budget: ~1.5 hr**
+**DSA (Block A, ~2.5 hr) — Greedy + Intervals:**
 
-**DSA (50 min)**
-- [ ] LC #146 — LRU Cache (Medium) — this is a design problem disguised as DSA
-  - Data structure: `LinkedHashMap` in Java (access-order mode) — the interview-acceptable O(1) solution
-  - **Preferred full implementation**: `HashMap<Integer, Node>` + doubly linked list (DLL)
-    - HashMap: key → Node (O(1) lookup)
-    - DLL: MRU at head, LRU at tail; on `get` or `put` → move node to head; on capacity → remove tail
-    - Sentinel head/tail nodes eliminate null checks
-  - Write out the full implementation; this comes up in senior/backend interviews frequently
-  - Time yourself: target full solution in ≤30 min
+1. **Jump Game** (LC 55) — track `maxReach`; if an index > `maxReach`, return false. O(n), O(1). Know why DP is O(n²) and strictly worse.
+2. **Jump Game II** (LC 45) — track current end, furthest reachable, jumps; increment jumps when you reach `currentEnd`. O(n), O(1).
+3. **Gas Station** (LC 134) — if total gas ≥ total cost, a solution exists and is unique; start tracking from the station after the point where the running sum went negative. O(n), O(1). Prove *why* you can discard everything before the reset.
+4. **Merge Intervals** (LC 56) — sort by start; merge by comparing the last merged `end` vs next `start`. O(n log n).
+5. **Insert Interval** (LC 57) — three phases: before, merge-overlapping (extend by max end), after. O(n), no sort (already sorted). Common FAANG variant — drill until mechanical.
+6. **Non-overlapping Intervals** (LC 435) — max non-overlapping = n − (max to keep); sort by end, greedily keep the earliest end. O(n log n).
+7. **Meeting Rooms II** (LC 253) — min-heap of end times / sweep line; prerequisite for many scheduling problems.
 
-**Core (30 min) — OAuth2 Flows + Security Edge Cases**
-- [ ] OAuth2 grant types (know which to use when):
-  - **Authorization Code + PKCE**: user-facing web/mobile apps — most secure; code exchanged for token server-side; PKCE prevents code interception
-  - **Client Credentials**: service-to-service (no user involved) — your microservice calling another microservice's protected endpoint
-  - **Implicit**: deprecated — never recommend
-  - **Resource Owner Password**: legacy, avoid — exposes credentials to client app
-- [ ] Token storage best practices:
-  - Access token: in-memory JS (not localStorage — XSS risk, not cookie — CSRF risk if not configured correctly)
-  - Refresh token: HttpOnly, Secure, SameSite=Strict cookie
-- [ ] Algorithm confusion attack: always configure `JwtParser` with explicit algorithm: `Jwts.parserBuilder().setSigningKey(key).build()` — never trust the `alg` header from the token itself
+Pattern: intervals → sort by start (merge/insert) OR end (non-overlapping keep) → single pass. **DP vs greedy on intervals:** "max non-overlapping" / "min to remove" → greedy; "max *weight* of non-overlapping" (weighted job scheduling, LC 1235) → DP, because greedy can't account for value trade-offs.
 
-**Self-check (5 min)**
-- [ ] Which OAuth2 flow does Smart360 use? Could you justify the choice to a security engineer?
-- [ ] What is PKCE and why does it matter for mobile apps?
+**Core Topic (Block B, ~2 hr) — API Gateway + gRPC vs REST vs Messaging:**
 
----
+Microservice communication across five dimensions:
 
-### Saturday Jul 18 — Timed DSA Test + System Design Deep Dive
+| Dimension | REST | gRPC | Async Messaging |
+|---|---|---|---|
+| **Coupling** | Loose (URL contract) | Tight (`.proto` schema) | Loosest (message schema) |
+| **Latency** | ~1ms+ (JSON parse) | ~0.3ms (binary) | Milliseconds to seconds (async) |
+| **Schema evolution** | Risky (no enforcement) | Controlled (field numbers) | Risky unless schema registry |
+| **Observability** | Easy (HTTP logs) | Needs gRPC interceptors | Needs correlation IDs in message |
+| **Failure mode** | Synchronous → caller waits | Synchronous → caller waits | Asynchronous → dead-letter queue |
 
-📌 **Study today:** Timed DSA test (LC 141, 739) · back-of-envelope estimation + URL shortener full system design
+- **REST (HTTP/1.1 + JSON)**: universal tooling, human-readable, stateless, HTTP caching; chatty for many small fields, no built-in streaming, silent breaking changes. Smart360 used it gateway→services: human-debuggable, Vue consumes it directly, team familiarity.
+- **gRPC (HTTP/2 + Protobuf)**: 3–10× smaller payloads, multiplexed/bidirectional streams, strong `.proto` contract + codegen; not browser-native (needs gRPC-Web + proxy), binary is harder to debug, schema evolution needs care. Use for internal high-throughput service-to-service (sub-5ms overhead).
+- **Async messaging (Kafka/RabbitMQ)**: temporal decoupling, backpressure, fan-out, replay; eventual consistency, harder debugging, complex ordering (Kafka per-partition, Rabbit per-queue). Smart360's event-driven notification service after the user-management extraction.
+- **API Gateway vs BFF**: Spring Cloud Gateway's predicate + filter pipeline. Concrete filters used: `AddRequestHeader`, `StripPrefix`, `RequestRateLimiter`, a custom JWT-validation `GatewayFilter`. BFF tailors a backend per client; the gateway is a shared edge.
 
-**Time budget: ~4 hr**
+**DSA (Block C, ~1.5 hr) — Interval Problems:**
 
-#### Block 1 (45 min): Timed DSA Test — Treat This Like a Real Interview
+- Re-solve the three interval problems (LC 56, 57, 435) back-to-back, no hints, timing each ≤15 min.
+- Spot the sort-order decision instantly: write one sentence per problem on which key you sort by and why.
+- State the greedy-vs-DP interval distinction aloud (objective decides it).
 
-**Rules**: no hints, no solutions, timer running, write clean code as if on a whiteboard
-
-- [ ] **Problem A (Easy-Medium, 20 min)**: LC #141 — Linked List Cycle — cold solve, state your approach before coding
-- [ ] **Problem B (Medium, 25 min)**: LC #739 — Daily Temperatures — cold solve
-
-**After the timer:**
-- [ ] Score yourself:
-  - Did you talk through your approach before coding? (Y/N)
-  - Did you handle edge cases before being asked? (Y/N)
-  - Did you finish within time? (Y/N)
-  - Was your code compilable without fixes? (Y/N)
-- [ ] Write what you would do differently
-
-#### Block 2 (30 min): REST API Design Review
-
-- [ ] Review all REST concepts from Mon–Fri
-- [ ] Write from memory: what does an ideal REST API response look like for:
-  - Successful creation: status code, body, Location header
-  - Validation error: status code, body structure with field-level errors
-  - Not found: status code, body
-  - Paginated list: body structure (data array, pagination metadata)
-
-#### Block 2.5 (15 min): Back-of-Envelope Estimation Drill
-
-Practice the *method* in isolation — the arithmetic candidates fumble live when it's embedded in a bigger design. Treat this as a repeatable warm-up you run before ANY capacity question (the URL shortener below is just one instance). Drill the chain cold, no calculator:
-
-**QPS → storage → bandwidth → memory**
-
-- [ ] **QPS from a daily total**: rule of thumb — **seconds/day ≈ 86,400 ≈ 86.4K** (round to 100K for fast mental math). So `1B reads/day ÷ 86.4K ≈ 11.6K QPS` average. **Peak ≈ 2–3× average** — state your multiplier and design for peak, not average.
-- [ ] **Read:write ratio**: ask for it or assume one (10:1 is a common default for read-heavy systems). Writes QPS = reads ÷ ratio. This tells you whether to optimize the write path (sharding, queue) or the read path (cache, replicas).
-- [ ] **Bytes → storage/year**: `write_QPS × bytes_per_record × seconds/year`. Rule of thumb — **seconds/year ≈ 31.5M (≈ 3.15 × 10^7)**. Example: 100 writes/s × 500 B × 31.5M s ≈ **1.5 TB/yr**. Always tack on index + replication overhead (×2–3).
-- [ ] **Bandwidth**: `QPS × payload_size`. Example: 11.6K reads/s × 500 B ≈ **5.8 MB/s** egress. Separate read vs write bandwidth.
-- [ ] **Memory for hot-set caching**: apply the **80/20 rule** — cache the ~20% of data serving ~80% of traffic. Example: 100M URLs × 100 B = 10 GB total; the hot 20% ≈ **2 GB**, comfortably fits one Redis node. This is the number that justifies "Redis fits in memory" instead of hand-waving.
-
-**Powers-of-2 / units cheat sheet to memorize**: 2^10 ≈ 1 K (thousand), 2^20 ≈ 1 M (million), 2^30 ≈ 1 B (billion → 1 GB); char = 1 B, typical metadata row ≈ 100–500 B, UUID = 16 B, timestamp = 8 B.
-
-**Self-check:** Given "500M new posts/day, each post averages 1 KB, read:write 100:1" — produce write QPS, read QPS, storage/yr, and hot-cache size in under 2 minutes, out loud. Then carry these exact numbers into Block 3.
-
-#### Block 3 (2 hr): Full System Design — URL Shortener
-
-Write a complete design document (can be in a scratch file or paper) covering ALL sections:
-
-**1. Requirements clarification (5 min)**
-- Functional: shorten long URL → short code; redirect short URL → original; analytics (optional)
-- Non-functional: 100M URLs, 10:1 read:write ratio, < 10ms redirect latency, 99.99% availability
-- Out of scope for v1: custom aliases, expiry, A/B testing
-
-**2. API contract**
-```
-POST /api/v1/urls
-  Body: { "longUrl": "https://..." }
-  Response 201: { "shortCode": "abc123", "shortUrl": "https://short.ly/abc123" }
-
-GET /{shortCode}
-  Response 301/302: Location: https://original-long-url.com
-  (301 = permanent, cached by browser; 302 = temporary, every request hits server — choose 302 for analytics)
-```
-
-**3. Data model**
-```sql
-urls (
-  id          BIGSERIAL PRIMARY KEY,
-  short_code  CHAR(7)     UNIQUE NOT NULL,
-  long_url    TEXT        NOT NULL,
-  created_at  TIMESTAMPTZ DEFAULT now(),
-  user_id     BIGINT REFERENCES users(id),
-  click_count BIGINT      DEFAULT 0
-);
-CREATE INDEX idx_short_code ON urls(short_code);
-```
-
-**4. Short code generation algorithm**
-- Option A: Base62 encode a counter (a-z A-Z 0-9): `counter → base62 → 7 chars = 62^7 = ~3.5T URLs` — predictable, sequential
-- Option B: MD5/SHA256 of long URL → take first 7 chars — collision-prone, non-unique for same URL
-- Option C: **Recommended**: pre-generate a pool of random 7-char base62 codes in a `code_pool` table; worker populates pool; URL service claims one atomically via `SELECT FOR UPDATE SKIP LOCKED` — no collision, no counter coordination problem across shards
-- Alternative for distributed: use Twitter Snowflake-style unique ID → base62 encode
-
-**5. Caching strategy**
-- Redis: `shortCode → longUrl` with TTL = 24h (LRU eviction)
-- Cache hit rate target: >99% for popular URLs
-- Read path: check Redis first; miss → PostgreSQL → populate Redis
-- Write path: write to DB first, then invalidate/populate cache
-- Cache size estimate: 100M active URLs × avg 100 bytes/URL = 10GB — fits in Redis cluster
-
-**6. Scaling path**
-- Read replicas for PostgreSQL (10:1 read ratio)
-- Read-heavy → add Redis cluster; horizontal scale app tier (stateless)
-- Writes: partition `urls` table by `short_code` hash range for sharding at scale
-- CDN: PUT redirect logic at CDN edge for sub-millisecond redirects (304 with cached Location header)
-- Rate limiting: token bucket per IP at API gateway (protect POST endpoint from URL flooding)
-
-**7. What you'd do differently at 1B URLs**
-- Move to Cassandra for write-heavy workload with known access pattern (short_code lookup)
-- Separate analytics service: async click events → Kafka → ClickHouse for aggregation
-- Geographic distribution: region-aware routing so short.ly/abc123 resolves at nearest PoP
-
-#### Block 4 (45 min): Weak Spot Identification
-
-- [ ] Review all 4 weeks of notes
-- [ ] Write honestly: **Top 3 weak areas** (e.g., "Histogram problem pattern", "OAuth PKCE details", "System design scaling math")
-- [ ] For each weak area: write 1 specific action for Phase 2 (e.g., "Do 3 more monotonic stack problems", "Implement PKCE flow in a test project")
+**Self-check:**
+1. Explain *why* Gas Station's greedy works — not just what it does.
+2. A recruiter asks "why didn't you just use gRPC everywhere?" — answer in 90 seconds referencing specific Smart360 constraints.
 
 ---
 
-### Sunday Jul 19 — Review, Consolidation, Phase 2 Preview
+### Thursday Jul 23 — Heaps + Sharding & Replication + Design-DS
 
-📌 **Study today:** Re-solve Reorder List & Largest Rectangle (LC 143, 84) · JWT/REST verbal drill + Phase 2 plan + behavioral STAR stories
+📌 **Study today:** Heaps — top-K, two-heap median, merge-K (LC 215, 347, 295, 23, 373) · system design: sharding & replication · design-DS (LC 380, 460)
 
-**Time budget: ~4 hr**
+**DSA (Block A, ~2.5 hr) — Heaps:**
 
-#### Block 1 (60 min): Linked List + Stack Revision
+1. **Kth Largest Element** (LC 215) — *min-heap of size k*: push each element, pop if size > k; answer = heap top. O(n log k), O(k) — interview-preferred for streaming. Also *QuickSelect*: avg O(n), worst O(n²) — the "can you do better?" follow-up. Implement heap first; mention QuickSelect when pushed.
+2. **Top K Frequent Elements** (LC 347) — frequency map → min-heap of size k. O(n log k). Bucket-sort O(n) follow-up: `buckets[freq]` lists, iterate high→low. Implement heap version first.
+3. **Find Median from Data Stream** (LC 295, Hard) — max-heap (lower half) + min-heap (upper half); invariant `|lower| - |upper| <= 1`. Median = top of max-heap (odd) or average of both tops (even). O(log n) insert, O(1) query. Common mistake: forgetting to rebalance after every insert — narrate the rebalancing aloud.
+4. **Merge K Sorted Lists** (LC 23, Hard) — min-heap of `(value, node)` seeded with each list head; pop min, push that node's next. O(n log k) (heap bounded by k, not n — that's where log k comes from). Know the naive O(nk) and the divide-and-conquer alternative.
+5. **Find K Pairs with Smallest Sums** (LC 373) — min-heap with a custom comparator; lazy expansion of candidate pairs.
 
-- [ ] Re-solve without hints (timer on, 15 min each):
-  - LC #143 — Reorder List
-  - LC #84 — Largest Rectangle in Histogram
-- [ ] For any problem you get wrong or slow on: add it to the Phase 2 warm-up list
+Why a min-heap finds the k *largest*: the heap of size k keeps the k largest seen; its minimum sits on top, so a new element larger than the top deserves to be in the top-k → pop, push. Make this reasoning explicit.
 
-#### Block 2 (60 min): JWT/REST Verbal Drill
+**Core Topic (Block B, ~2 hr) — Sharding & Replication:**
 
-Practice answering these out loud (stand up, talk to yourself or record):
+Three sharding strategies, cold:
+- *Range sharding*: partition by key range (IDs 0–1M → shard 1, etc.). Simple; hotspots if data isn't uniform (most active users in one range).
+- *Hash sharding*: `shard = hash(key) % N`. Even distribution; resharding on node add requires rehashing all keys.
+- *Consistent hashing*: nodes + keys on a ring; key → nearest node clockwise. Adding/removing a node redistributes only 1/N of keys. Used by Cassandra, DynamoDB, Redis Cluster (16384 hash slots). Virtual nodes (vnodes, ~100–200/node) even out distribution — more vnodes = better balance, higher coordination overhead. This is the GCC-level answer.
 
-- [ ] "Walk me through exactly how JWT authentication works in Smart360, end to end"
-  - Target: 4-5 min answer covering issuance, filter chain, RBAC, refresh
-- [ ] "How would you design the auth layer for a new microservice that only other internal services call?"
-  - Target: mention Client Credentials, service account JWTs, mTLS as alternative
-- [ ] "What's wrong with storing JWTs in localStorage?"
-  - Target: XSS attack → token theft → impersonation; mitigate with HttpOnly cookie + CSRF token
-- [ ] "Design a rate-limiting API" (this tests REST + system design combined)
+Leader-follower replication:
+- Leader takes all writes; followers replicate async (common) or sync (rare, expensive). **Replication lag** = time between leader commit and follower propagation (PostgreSQL streaming: ~10ms–2s); a follower read during lag returns stale data.
+- Three application strategies: (1) **read from leader for critical reads** (defeats replica purpose for those queries); (2) **read-your-writes** — track the write's WAL LSN, route the next read to the leader if the replica's LSN is behind; (3) **accept and handle staleness** — for non-critical reads (file list after upload), show optimistic UI from the POST response while the DB catches up (most pragmatic).
+- *Monotonic reads*: hash a user to a consistent replica so they never read an older value after a newer one.
+- Tie to work: caching S3 pre-signed URLs in Redis with a TTL is an eventual-consistency choice — a slightly stale but still-valid URL is fine; strong consistency would negate the 80% S3 reduction.
 
-#### Block 3 (60 min): Write Your Phase 2 Plan
+**DSA (Block C, ~1.5 hr) — Design a Data Structure:**
 
-Review what Week 5+ should cover based on your self-assessment. Key areas to ensure are on the list:
-- System design: databases at scale, consistent hashing, message queues deep dive
-- DSA: Trees and Graphs (DFS/BFS patterns)
-- Spring: reactive programming, async patterns
-- Behavioral: STAR stories polished
+Design-DS rounds test whether you can compose primitives (array + hashmap + heap) under O(1)/O(log n) constraints. Narrate operation complexity as you go.
+1. **Insert Delete GetRandom O(1)** (LC 380) — `ArrayList` for values + `HashMap<value, index>`. `remove`: swap target with the last element, update the moved element's map index, pop the last slot. All O(1). Common mistake: forgetting to update the swapped element's index.
+2. **LFU Cache** (LC 460, Hard) — the step up from LRU (recency) to frequency: (1) `HashMap<key, Node>`; (2) `HashMap<freq, LinkedHashSet<key>>` frequency buckets (recency order within a tie); (3) a **min-freq pointer**. On hit: move the key to the `freq+1` bucket; if its old bucket was `minFreq` and now empty, increment `minFreq`. On eviction: drop the LRU key from the `minFreq` bucket, reset `minFreq=1` on the new insert. The min-freq pointer avoids scanning buckets — state that aloud.
 
-#### Block 4 (60 min): Interview Simulation — Behavioral Stories
+**Self-check:**
+1. Implement the min-heap top-K solution and explain the two-heap median invariant out loud, no notes.
+2. Name the failure mode of range vs hash vs consistent hashing in one sentence each.
 
-Polish these 3 STAR stories for use in any interview:
+---
 
-1. **Performance story** (Smart360 60s → 2s): practice delivering in exactly 2 min
-2. **Technical decision story** (event-driven migration): emphasize trade-off thinking
-3. **New story to add**: a time you pushed back on a requirement or caught a bug before production — think of a real example, structure it in STAR format, write it out
+### Friday Jul 24 — Heaps/Mixed + CAP/PACELC + Cloud/DevOps
+
+📌 **Study today:** Heaps/mixed + Design Twitter (LC 355, 621, 692) · CAP/PACELC + consistent hashing + consistency models · cloud/DevOps talking points (Docker multi-stage, K8s probes, CI/CD)
+
+**DSA (Block A, ~2.5 hr) — Heaps / Mixed:**
+
+1. **Design Twitter** (LC 355) — heap merge over follow lists. `getNewsFeed` = merge-K-sorted over the followees' tweet lists, capped at 10 — the same heap pattern as LC 23. Maintain per-user tweet lists + a follow set.
+2. **Task Scheduler** (LC 621) — greedy + heap: idle time is set by the most frequent task. Math formula `max(n_tasks, (max_freq-1)*(n+1) + count_of_max_freq)`; also the max-heap + cooldown-queue simulation. Know both.
+3. **Top K Frequent Words** (LC 692) — min-heap with a custom comparator `(frequency ASC, word DESC)` so the root is the "worst" of the top-k; pop when size > k. O(n log k). Clean exercise in a tie-breaking comparator under pressure.
+
+**Core Topic (Block B, ~2 hr) — CAP / PACELC + Consistency Models:**
+
+- **CAP — the precise statement:** during a network **partition** (P), a distributed system must choose **Consistency** (every read returns the most recent write) or **Availability** (every request gets a non-error response, possibly stale). Without a partition you can have both. The real question: *how does the system behave during a partition?* PostgreSQL (single-node/sync replication) = **CP** (isolated replica stops accepting writes rather than serve stale). Redis (default) = **AP-leaning**. Cassandra = AP by default, tunable to C via `QUORUM`/`ALL`.
+- **Consistency models spectrum:** *Strong* (every read = most recent write; needs coordination — PostgreSQL `synchronous_commit=on`). *Read-your-writes* (always see your own writes; sufficient for most user-facing features). *Eventual* (replicas converge given no new writes; DNS, Redis replication, the S3 URL cache). *Causal* (reads following a causally-related write reflect it; MongoDB sessions).
+- **PACELC** (the GCC-favourite extension): even with no partition (E), there's a Latency vs Consistency trade-off. DynamoDB = **PA/EL** (available during partition, low-latency eventual normally). Spanner/CockroachDB = **PC/EC** (consistent during partition, consistent-but-higher-latency normally). Mentioning PACELC distinguishes you as someone who thought beyond CAP — "you can't just say 'we're CP'; what's the latency budget for consistency in normal operation?"
+- **Consistent hashing deep cut:** adding a node moves only the keys between it and its predecessor on the ring — O(n/k), no global rehash. This is why Redis Cluster and Cassandra rebalance incrementally.
+- Tie to work: "Smart360 used PostgreSQL as the CP source of truth and Redis as the AP-leaning cache; pre-signed-URL TTLs were tuned to be safe inside the eventual-consistency window."
+
+**DSA (Block C, ~1.5 hr) — Cloud/DevOps Talking Points:**
+
+- **Docker multi-stage build:** Stage 1 (build) JDK + Maven + source → fat jar; Stage 2 (runtime) JRE only + jar. No JDK/source/Maven cache in prod → ~600 MB → ~180 MB, smaller security surface. BuildKit: `DOCKER_BUILDKIT=1`, `--cache-from type=registry,ref=...`, `RUN --mount=type=cache,target=/root/.m2` (don't bake the Maven cache into the layer).
+- **K8s zero-downtime rolling update:** `kubectl set image` → new pod created (`maxSurge`) → passes **readiness** → added to Service endpoints → old pod removed → SIGTERM → Spring graceful drain → terminate. Liveness (process alive? failure → restart) vs readiness (ready for traffic? failure → removed from endpoints, no restart) vs startup probe (slow-start grace). Config: `server.shutdown=graceful`, `spring.lifecycle.timeout-per-shutdown-phase=30s`, pod `terminationGracePeriodSeconds` must *exceed* the Spring timeout.
+- **GitLab DAG / BuildKit pipeline (the 57% cut):** sequential stages (23 min) → DAG with `needs:` so unit tests, integration tests, and image build run in parallel + BuildKit registry cache (70%+ layer hits) → 10 min. Name the specific mechanisms, not just "parallelism."
+
+**Self-check:**
+1. Place PostgreSQL, Redis, Cassandra, and DynamoDB on the CAP spectrum and justify each.
+2. Describe a full zero-downtime K8s rolling deploy, including the Spring config, in 2 minutes.
+
+---
+
+### Saturday Jul 25 — Timed DP/Heap Set + At-Scale Consolidation
+
+📌 **Study today:** Timed DP/heap set (LC 70, 322, 300, 1143, 416, 215, 295) · system-design-at-scale consolidation · weak-spot drills
+
+**DSA (Block A, ~2.5 hr) — Timed Set (no hints):**
+
+Real-interview conditions — think aloud, handle edge cases, state complexity. 75-min timer, fresh editor:
+- LC 70 Climbing Stairs (10 min)
+- LC 322 Coin Change (15 min)
+- LC 300 LIS (15 min — O(n²) first, then O(n log n) if time)
+- LC 1143 LCS (15 min)
+- LC 416 Partition Equal Subset Sum (15 min)
+- Stretch if time: LC 215 Kth Largest or LC 295 Find Median.
+
+After the timer: review only the slow/wrong ones. Identify *why* — wrong state definition? wrong base case? off-by-one? missed rebalance? Write time/space complexity for every problem from memory.
+
+**Core Topic (Block B, ~2 hr) — System-Design-at-Scale Consolidation:**
+
+Consolidate the distributed-systems backbone you'll lean on for the rest of the plan. Without notes, write:
+- **Sharding decision framework:** (1) most common query pattern → shard key (keep query data co-located); (2) will the key cause hotspots? (uniform distribution is a must); (3) how often do nodes join/leave? (frequent → consistent hashing; rare → hash mod N). Metadata example: shard on `owner_id` → all of a user's files on one shard → efficient "list my files." Time-series: range-shard on timestamp → efficient range scans, hot current-time shard mitigated by a randomised bucket suffix.
+- **CAP/PACELC table** from memory (CP vs AP examples, PA/EL vs PC/EC).
+- **Replication-lag mitigations** (read-from-leader, read-your-writes via LSN, accept-and-handle staleness).
+- **Resilience4j delivery table:** circuit-breaker states + config, bulkhead (semaphore vs thread-pool), wrap order TimeLimiter→Retry→CircuitBreaker.
+- **Rate-limiting table** (four algorithms + Redis structure each).
+
+**DSA (Block C, ~1.5 hr) — Weak-Spot Drills:**
+
+- Write 3 bullets per DP/greedy/heap pattern: when to use, the pattern, one gotcha.
+- State the one-line pattern per problem: Coin Change → unbounded knapsack; LCS/Edit Distance → 2D string DP; 0/1 knapsack → right-to-left 1D; intervals → sort + single pass; top-K → min-heap of size k; median → two heaps; merge-K → heap bounded by k.
+- Re-solve your two hardest problems of the week (15 min each).
+- Write your top 3 weak areas and one concrete drill for each.
+
+**Self-check:**
+1. Can you derive every DP recurrence from this week on paper in ≤2 min each?
+2. Can you place DynamoDB and Spanner on PACELC and justify, and answer "two pods, different circuit states" without hesitating?
+
+---
+
+### Sunday Jul 26 — Rest
+
+No study blocks. Let DP, greedy, heaps, and the at-scale patterns consolidate. Optionally skim the self-check answers you got wrong — but do not start new material.
 
 ---
 
 ## 🧠 Concepts to Master This Week
 
-### Data Structures
+### Dynamic Programming — The Universal Framework
 
-**Stack**
-- Monotonic stack: maintains elements in monotonically increasing/decreasing order; pop when current element breaks the monotonicity; used for "next greater element", "span", "histogram" problems
-- Key operations: O(1) push/pop/peek; backed by `Deque<Integer> stack = new ArrayDeque<>()` in Java (never use `Stack<>` class — it's legacy synchronized)
-- `ArrayDeque` vs `LinkedList` as stack: `ArrayDeque` is faster (array-backed, no node allocation)
+1. **Define state**: write it as a sentence ("`dp[i]` = min coins to make amount `i`").
+2. **Write the recurrence**: how `dp[i]` depends on smaller subproblems (the hard step — draw examples).
+3. **Identify base cases**: `dp[0]`, `dp[1]`, empty-string/array.
+4. **Choose implementation**: memoization if the state space is sparse; tabulation if you need all states.
+5. **Optimise space**: if `dp[i]` only depends on `dp[i-1]` (+ maybe `dp[i-2]`), drop the full array.
 
-**Queue / Deque**
-- Monotonic deque: used in sliding window maximum (LC #239 — good Phase 2 problem)
-- `ArrayDeque` as queue: `addLast()` / `pollFirst()`
+| Problem | Pattern | Key insight |
+|---|---|---|
+| Climbing Stairs | 1D, 2 prev states | Fibonacci — each step a small decision |
+| House Robber I/II | 1D / 1D × 2 passes | Rob-or-skip; circle → two linear subproblems |
+| Coin Change / II | 1D unbounded | Min coins; II counts ways (outer=coins → combinations) |
+| LIS | 1D O(n²) or O(n log n) | Patience sort for optimal |
+| LCS / Edit Distance | 2D, two strings | Match→extend; Edit = LCS with three ops |
+| 0/1 Knapsack / Partition | 2D → 1D right-to-left | Each item used at most once |
+| Unique Paths | 2D grid | Sum of paths from adjacent cells |
+| Maximal Square | 2D | Side = `min(3 neighbours)+1` |
+| Word Break | 1D, check all splits | Is this prefix "reachable"? |
 
-**Linked List**
-- Dummy head node pattern: eliminates head-is-null special case in merge/remove operations
-- Two-pointer patterns: slow/fast (cycle detection, midpoint finding), fixed-gap (nth from end)
-- Reversal: always know both iterative (3 pointers: prev/curr/next) and recursive
-- DLL + HashMap = LRU Cache
+### Rate Limiting
+Token bucket (Spring Cloud Gateway, Lua-atomic in Redis, allows controlled burst) · leaky bucket (smoothed) · fixed window (boundary burst) · sliding window log (ZSET, accurate, memory-heavy) · sliding window counter (O(1), ~exact via interpolation).
 
-### REST API Design
-- **Idempotency**: an operation is idempotent if calling it N times has the same effect as calling it once. PUT replaces a resource identically. DELETE of a non-existent resource should return 404 or 204 — both are idempotent (state doesn't change after second call). POST creates a new resource each time — not idempotent. Idempotency keys on POST: `Idempotency-Key: <uuid>` header; server stores key + response; duplicate request returns cached response without re-executing.
-- **HATEOAS** (Hypermedia): response includes links to related actions (`_links: { self, next, cancel }`); Spring HATEOAS library; rarely implemented but good to know the concept
+### Resilience4j
+Circuit breaker (CLOSED→OPEN→HALF_OPEN, in-process state) · bulkhead (semaphore vs thread-pool isolation) · Retry · TimeLimiter · RateLimiter. Wrap order TimeLimiter→Retry→CircuitBreaker. Bulkhead contains the blast radius; circuit breaker cuts off a dead dependency.
 
-### JWT/OAuth2
-- JWT structure: `base64url(header).base64url(payload).base64url(signature)` — the signature is the only part that provides security guarantees; payload is readable by anyone
-- `RS256` vs `HS256`: RS256 uses private key to sign, public key to verify — allows multiple services to verify without sharing the secret. Prefer RS256 in multi-service environments.
-- Token family rotation: each refresh generates a new refresh token and invalidates the family if the old one is replayed — detects refresh token theft
-- Spring Security filter chain order: `SecurityContextPersistenceFilter` → `UsernamePasswordAuthenticationFilter` → your custom `JwtAuthenticationFilter` → `ExceptionTranslationFilter` → `FilterSecurityInterceptor`
+### Greedy + Intervals
+Jump Game → track the frontier, don't simulate. Gas Station → total ≥ cost ⇒ unique solution after the last negative-reset. Intervals → sort by start (merge/insert) or end (non-overlapping keep). Max non-overlapping → greedy; max-*weight* non-overlapping → DP.
+
+### Heap / Priority Queue
+Top-K with min-heap of size k (O(n log k)) · two-heap streaming median (O(log n) insert) · merge-K (heap bounded by k → O(n log k)) · lazy deletion / custom comparator.
+
+### Sharding, Replication & At-Scale
+Range/hash/consistent-hashing sharding (+ vnodes) · leader-follower lag with three mitigations · CAP (behaviour *during* partition) · PACELC (latency-vs-consistency without a partition) · four consistency models. Place PostgreSQL (CP), Redis (AP-leaning), Cassandra (AP-tunable), DynamoDB (PA/EL), Spanner (PC/EC).
+
+### Cloud / DevOps
+Docker multi-stage (build → runtime, ~70% smaller) + BuildKit caching · K8s rolling update + liveness/readiness/startup probes + graceful shutdown · GitLab DAG (`needs:`) + BuildKit cache = the 57% CI/CD cut.
 
 ---
 
 ## 🎤 Sample Interview Questions (incl. curveballs)
 
-**DSA**
-
-1. *(Medium)* "Implement a stack that supports push, pop, top, and retrieving the minimum element in O(1) time." — Min Stack; answer: maintain an auxiliary `minStack` that only pushes when new min ≤ current min; pop from both on pop.
-
-2. *(Curveball)* "How would you implement an LRU Cache without using `LinkedHashMap`?" — They want to see you build the DLL + HashMap manually. Walk through: Node class (key, val, prev, next), sentinels, moveToHead(), removeLast().
-
-3. *(Hard, expect in senior loops)* "Given a histogram, find the maximum rectangle. Now what if the histogram is a stream and you need to answer queries as each bar arrives?" — Extend with a running stack; this tests whether you understand the invariant, not just the algorithm.
-
-**REST & API Design**
-
-4. *(Standard)* "What HTTP method and status code would you use to partially update a resource?" — PATCH + 200 (with updated resource) or 204 (no content). Distinguish from PUT (full replacement). PATCH is not guaranteed idempotent — e.g., PATCH `{ increment: 5 }` is not idempotent.
-
-5. *(Curveball)* "A client calls DELETE /orders/123 twice. The first call succeeds. What should the second call return — 404 or 204?" — Both are defensible; the important answer is: idempotency means the server state is the same, but the HTTP spec allows 404 for second call. In practice, return 204 for better client experience (don't force client to handle 404 as an error on a delete).
-
-6. *(Curveball)* "You're designing an API for a bank transfer. POST /transfers is not idempotent — how do you make it safe for clients to retry on network failure?" — Idempotency-Key header; server stores `idempotency_key → result` in Redis with TTL; on replay, return the stored result without executing the transfer again.
-
-**JWT / Security**
-
-7. *(Standard)* "What happens in Smart360 when a user logs out? How do you invalidate their JWT?" — JWT is stateless; we can't un-issue it. On logout: add `jti` (JWT ID) to a Redis blacklist with TTL = remaining token lifetime. Every request checks Redis blacklist (O(1) lookup, minimal latency impact). Refresh token is deleted from DB.
-
-8. *(Curveball)* "An attacker intercepts a user's JWT. What's your defense assuming the token hasn't expired?" — Short expiry (15 min access token) limits damage window. Token binding (binding token to TLS session) is theoretically sound but rarely implemented. Redis blacklist only helps post-logout. The real mitigations are: HTTPS-only, short expiry, HttpOnly cookies (harder to steal than localStorage). Acknowledge the trade-off — this is a known limitation of stateless JWTs.
-
-9. *(Deep dive)* "Walk me through RBAC at three levels: API, service, and database. What breaks if you only implement it at one level?" — API level (`@PreAuthorize`): stops unauthorized calls but a bug bypasses it. Service level: defense-in-depth. Database level (RLS): even a compromised service can't leak cross-tenant data. Smart360 used all three; Deep Fathom used PostgreSQL RLS for 50+ tables — this answer shows production maturity.
-
-**System Design / Architectural**
-
-10. *(Standard)* "How would you add rate limiting to your API Gateway?" — Redis token bucket: `INCR` key `user:{id}:req_count`, set `EXPIRE` on first increment (e.g., 60s window), if count > limit return 429. Spring Cloud Gateway has `RequestRateLimiterFilter` backed by Redis out of the box. Add `Retry-After` header on 429 response.
-
-11. *(Curveball)* "Your URL shortener is getting 10K redirect requests/sec. Redis is your cache. What do you do if Redis goes down?" — Circuit breaker on Redis client; fallback to PostgreSQL directly (slower but functional); set timeout low (50ms) so Redis failure is detected quickly. Pre-warm a read replica that can serve as fallback. For extreme resilience: read-through to DB, alert on cache miss spike.
-
-12. *(Behavioral/Technical)* "You said you reduced sign-in latency by 60% by switching to JWT. What would you have done if the security team had required server-side session validation on every request?" — Acknowledge the trade-off: stateless JWT is a security vs. performance trade-off. If server-side validation was required, would use Redis session store with connection pooling and pipelining; would batch session checks if multiple services need to validate; would accept the latency hit and compensate with better hardware/caching at the Redis layer.
-
-**Curveball / Behavioral**
-
-13. *(Curveball)* "If you had to remove one service from your 5-microservice architecture to simplify it, which one would you remove and why?" — Shows you understand coupling and complexity. Good answer: evaluate by dependency graph — the service with the most inbound dependencies and least unique functionality should be merged. Be specific: "I'd evaluate merging the notification service into the user service boundary if event volume is low, because the async decoupling adds operational overhead without proportionate benefit at current scale."
-
-14. *(Stress test)* "How do you handle a situation where a manager asks you to skip security review to hit a release deadline?" — Calibrate: acknowledge the business pressure, then explain the asymmetric risk of a security incident vs. a one-sprint delay. Offer alternatives: time-box the review, do a targeted review on just the new surfaces, ship with a feature flag to reduce exposure. Never "yes-and-here's-why-it'll-be-fine" a skip.
-
-15. *(Deep Java)* "In your JWT filter, you use `ThreadLocal` via `SecurityContextHolder`. What happens in a reactive/WebFlux context?" — `SecurityContextHolder` is ThreadLocal-based and breaks in reactive pipelines because a single request can span multiple threads. WebFlux uses `ReactiveSecurityContextHolder` backed by Reactor's context (a `Context` object attached to the `Mono`/`Flux` chain, not a thread). If you were to migrate to Spring WebFlux, the JWT filter would need to become a `WebFilter` using `exchange.mutate()` and `ReactiveSecurityContextHolder.withAuthentication()`.
+1. **Coin Change — why doesn't greedy work?** → coins=[1,3,4], amount=6: greedy 4+1+1=3, DP 3+3=2. DP explores all sub-amounts; show a small `dp` trace.
+2. **Time/space of LCS and how to optimise space?** → O(m×n)/O(m×n) naive; `dp[i][j]` only uses row `i-1` → two 1D arrays, then one with a `prev` variable for `dp[i-1][j-1]`.
+3. **0/1 knapsack 1D — why right-to-left?** → Right-to-left reads `dp[w-wt]` before it's overwritten for item `i` (still the `i-1` row). Left-to-right = unbounded (item reused).
+4. **Redis (rate limiter) goes down — what happens?** → Spring Cloud Gateway default fail-open (requests allowed, rate limiting temporarily lost). Trade-off: internal platform → fail-open; billing/abuse-sensitive → fail-closed.
+5. **Three circuit-breaker states; now 20 pods with independent state?** → Each tracks its own window; under round-robin, convergence to Open as failures propagate is usually fine. Global state needs Redis (adds latency + a failure point).
+6. **Why REST over gRPC for Smart360?** → Vue consumes REST directly (gRPC-Web adds proxy), team tooling, ~KB payloads don't justify binary; gRPC for an internal high-frequency stream.
+7. **Climbing Stairs = Fibonacci — is Fibonacci always DP?** → Fibonacci is one DP instance; DP is general (state + transition). Many DP problems are 2D/min-max (Edit Distance, Burst Balloons) — don't let the Fibonacci intuition mislead.
+8. **Interval scheduling: DP vs greedy?** → "max non-overlapping" / "min to remove" → greedy (sort by end); "max weight non-overlapping" → DP.
+9. **(Curveball) Find Median when 90% of numbers are in [0,100]?** → Counting/bucket sort with a count array + negative/large buckets → O(1) amortised vs O(log n) heap. Know when to abandon the general solution.
+10. **Merge K Sorted Lists — where does log k come from?** → Heap holds ≤ k elements (one per list), each node pushed/popped once → O(n log k), not log n. Space O(k).
+11. **Walk through CAP with a C-vs-A decision from your own work.** → Smart360 chose availability for the URL cache (TTL < S3 expiry; Redis-down → regenerate from S3). Strong consistency (immediate invalidation on delete) would use cache-aside + explicit invalidation events.
+12. **(Curveball) "CAP is outdated — PACELC is better."** → PACELC refines, not replaces. Even without a partition there's a latency-vs-consistency trade-off; Spanner (PC/EC) pays latency for global consistency, DynamoDB (PA/EL) gives low-latency eventual. The relevant design question is often the latency budget for consistency in normal operation.
+13. **Shard a 10M-user metadata DB without downtime.** → Choose shard key (`owner_id` hash); dual-write to old + new; background-migrate in batches; verify checksums/row counts; switch reads, then stop dual-writes; decommission. Dual-write → verify → cut over, never without verification.
+14. **(Curveball) Pod passes liveness but fails readiness forever?** → Stays Running, removed from Service endpoints, no traffic, not restarted — correct behaviour for a lost upstream dependency (e.g. DB down). Fix the root cause; readiness passes and traffic resumes automatically.
+15. **(Curveball) Implement a circuit breaker without Resilience4j?** → `AtomicReference<State>` (CLOSED/OPEN/HALF_OPEN), an atomic failure counter, an open-timestamp, and a wrapper that checks state before calling, increments on exception, and flips on threshold.
 
 ---
 
 ## 🌟 Extraordinary-Candidate Edge
 
-**Technical differentiation moves**
-
-- When answering the LRU Cache problem, implement the DLL version, not just `LinkedHashMap`. Then mention: "In production I'd use Redis with `EXPIRE` and `LFU` eviction policy — but understanding the underlying structure helps me reason about Redis's own eviction behavior."
-
-- On JWT: don't just say "we use JWT in Smart360." Say: "We evaluated opaque tokens vs. JWT. We chose JWT specifically because we had 5 services that all needed to verify identity without chatty calls to the auth service. The 60% latency reduction was a direct consequence of that architectural choice." That is a trade-off narrative, not a recitation.
-
-- On REST API versioning: anticipate the "what do you do when breaking changes are needed" follow-up — have an answer ready: deprecation headers (`Deprecation: true`, `Sunset: <date>`), versioned changelog, backward-compatible changes preferred (adding fields is safe; removing fields requires a new version).
-
-- On pagination: mention that you chose cursor pagination for Smart360's data service because the underlying dataset had frequent inserts and offset pagination would return inconsistent pages. This shows you thought about the data access pattern, not just the API pattern.
-
-- On system design: when presenting the URL shortener, proactively say: "I want to flag the read-your-writes consistency issue: if we write the URL and the cache is populated asynchronously, a user who clicks their own shortened link within milliseconds of creation might miss. The fix is to populate the cache synchronously on write, accepting a tiny write-path latency increase." Catching your own design's edge cases before being asked = senior signal.
-
-**Soft skills**
-
-- In every behavioral answer, end with what you'd do differently. "I'd do it the same way" is a growth signal killer.
-- When an interviewer says "interesting, can you say more about X" — that means X is the thing they care about. Slow down, give depth, don't rush to close the answer.
-- Before answering any system design question: spend 2 minutes asking clarifying questions about scale, SLAs, and constraints. Interviewers mark you up for this even if you then design the wrong thing.
+1. **Tie DP to real engineering.** "Coin Change is the same class as our LLM provider routing — greedy fails on non-linear cost-latency trade-offs, but full DP would be too slow for real-time, so we used heuristic scoring. Knowing when DP is *overkill* matters as much as knowing when to use it."
+2. **Rate limiting beyond the happy path.** "We chose token bucket over sliding window log because traffic was bursty — analytics users fire 10 queries then idle. Token bucket allows the burst while enforcing sustained rate; the log would reject queries even when the system was idle."
+3. **Resilience4j failure modes.** "We had a Half-Open thundering-herd — two pods probed a partially-recovered downstream simultaneously, both failed, both reopened. Fix: `permittedNumberOfCallsInHalfOpenState=1` + a health-check poller."
+4. **Lead with CAP in design.** "Before drawing — for two users editing the same dataset I'm choosing AP with optimistic locking + CRDT merge over distributed locks, which would be CP but hurt availability under partition."
+5. **Sharding precision.** "Consistent hashing over hash-mod-N so adding a node moves 1/k of keys, not a full rehash — Redis Cluster does this with 16,384 hash slots."
+6. **Replication-lag honesty.** "We tracked the write's WAL LSN and routed the subsequent read to the leader if the replica hadn't caught up — read-your-writes without forcing every read to the leader."
 
 ---
 
 ## 📊 End-of-Week Self-Assessment
 
-Score yourself after Sunday. Be honest — this is for your benefit, not for anyone else.
+Rate yourself 1–5. Anything below 3 is a mandatory revisit before Week 5.
 
-| Skill | 1 (shaky) | 2 (can do with hints) | 3 (solid, unaided) | 4 (could teach it) |
-|---|---|---|---|---|
-| Valid Parentheses / Min Stack | | | | |
-| Daily Temperatures (monotonic stack) | | | | |
-| Largest Rectangle in Histogram | | | | |
-| Reverse / Merge Linked Lists | | | | |
-| Linked List Cycle / Reorder List | | | | |
-| LRU Cache (full DLL impl) | | | | |
-| REST resource naming + status codes | | | | |
-| REST idempotency + idempotency keys | | | | |
-| API versioning + pagination trade-offs | | | | |
-| JWT issuance → validation → refresh chain | | | | |
-| OAuth2 grant types (when to use which) | | | | |
-| RBAC implementation (Smart360 context) | | | | |
-| `@ControllerAdvice` + Bean Validation | | | | |
-| URL shortener system design (full doc) | | | | |
+| Skill | Target | Your Score | Notes |
+|---|---|---|---|
+| 1D DP framework (Climbing Stairs, House Robber I/II) | 5 | | |
+| Coin Change I/II + Word Break | 4 | | |
+| LIS (both O(n²) and O(n log n)) | 4 | | |
+| 2D DP: Unique Paths, LCS, Edit Distance | 4 | | |
+| Maximal Square + Longest Palindromic Substring | 4 | | |
+| 0/1 knapsack 1D right-to-left (LC 416, 518) | 4 | | |
+| Greedy: Jump Game I/II + Gas Station | 5 | | |
+| Intervals: Merge/Insert/Non-overlapping + Meeting Rooms II | 5 | | |
+| Heap top-K + two-heap median (LC 215, 295) | 5 | | |
+| Merge-K + custom comparator (LC 23, 373, 692) | 4 | | |
+| Design-DS: GetRandom O(1) + LFU (LC 380, 460) | 4 | | |
+| Rate-limiting algorithms + Redis structures | 4 | | |
+| Resilience4j state machine + bulkhead + wrap order | 4 | | |
+| REST vs gRPC vs messaging (five dimensions) | 4 | | |
+| API Gateway vs BFF + Spring Cloud Gateway filters | 4 | | |
+| Sharding (range/hash/consistent) + failure modes | 5 | | |
+| Leader-follower lag + 3 mitigations | 4 | | |
+| CAP (precise) + place 4 systems | 5 | | |
+| PACELC + place DynamoDB/Spanner | 4 | | |
+| Consistency models (strong/RYW/eventual/causal) | 4 | | |
+| Docker multi-stage + BuildKit details | 4 | | |
+| K8s rolling update + probe mechanics | 4 | | |
+| GitLab DAG + 57% CI/CD cut (specific mechanisms) | 4 | | |
 
-**Threshold for Phase 2 readiness**: no more than 2 skills at level 1. If you have ≥3 at level 1, spend one extra day before starting Week 5.
+**Score interpretation:**
+- 4–5 on all DSA items and no system-design item below 3: ready for Week 5.
+- 3 on 1–2 items: revisit in Week 5's daily review slot.
+- Below 3 on any DSA item: re-drill it Monday of Week 5 before mocks — DP/heap patterns compound.
 
-**Write here before closing this file:**
-- My 3 weakest areas this week: ______, ______, ______
-- Phase 2 first priority: ______
-- Confidence level 1–10 going into system design week: ______
+**Bonus check:** Can you tie the rate-limiting, circuit-breaker, sharding, and CAP choices to specific decisions in Smart360 / Deep Fathom / WebX? If yes on 80%+ of rows, you are an extraordinary candidate, not just a prepared one.
 
 ---
 
-*Week 4 of the 2026 interview prep plan. Build on: interview-qa.md (JWT/RBAC, Spring, microservices Q&A already covered — don't re-drill what you scored 3–4 on). Phase 2 starts Week 5.*
+*Week 4 of 12 — next: Week 5 (Mon Jul 27 – Sat Aug 1).*

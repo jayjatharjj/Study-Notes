@@ -1,12 +1,12 @@
-# Week 0 — Java Fundamentals Revision (Jun 18–21, 2026 · 4-day warm-up)
+# Week 0 — Java Fundamentals Refresh (Sun Jun 28, 2026 · 1-day warm-up)
 
-> Before the advanced 13-week plan begins, revise Java from the ground up. Four days, one study module per day, at a relaxed revision pace — the goal is not to learn this material fresh but to refresh it so the harder weekly plan (starting **Mon Jun 22**) builds on solid fundamentals instead of shaky ones. You wrote these modules; now read them back, recall actively, and answer each module's interview questions aloud before peeking at the answers. Sat and Sun add a tiny array warm-up to prime your DSA muscles for Week 1.
+> One fast-refresh day before full-time prep begins. You wrote modules 01–04; the goal today is not to learn them fresh but to skim each module's Quick Reference, re-fix the five gotchas every interview opens with, and run the highest-value interview Q&A aloud. By tonight the fundamentals are warm so **Mon Jun 29** — the first full-time day — builds on solid ground, not shaky recall.
 
 ---
 
 ## 🎯 Warm-up Goal
 
-By Sunday night you can explain, from memory, the core Java mechanics every interview opens with — `==` vs `.equals()`, why `String` is immutable, overloading vs overriding, checked vs unchecked exceptions, and heap vs stack — and you've re-solved two easy array problems to shake off the rust before Week 1's Arrays/Two-Pointers block.
+By tonight you can explain, from memory, in a sentence or two each: `==` vs `.equals()`, why `String` is immutable, overloading vs overriding, checked vs unchecked exceptions, and heap vs stack — and you've skimmed all four foundation modules so nothing in Week 1's Java-internals blocks feels cold.
 
 ---
 
@@ -14,111 +14,37 @@ By Sunday night you can explain, from memory, the core Java mechanics every inte
 
 ---
 
-### Thursday Jun 18 — Module 01: Java Language Basics
+### Sunday Jun 28 — Rapid Refresh: Modules 01–04 (~6 hr)
 
-📌 **Study today:** JDK/JRE/JVM · JVM memory areas · primitives & casting · operators · control flow · arrays (internals, `Arrays` utility) · String (constant pool, immutability, `==` vs `.equals()`) · StringBuilder vs StringBuffer · I/O (Scanner vs BufferedReader)
-⏱ ~2–3 hr (revision pace)
+📌 **Study today:** [01](../01-java-language-basics.md) language basics (JVM, primitives, arrays, String/SCP, I/O) · [02](../02-oop-fundamentals.md) OOP fundamentals (classes, pass-by-value, static, heap vs stack) · [03](../03-oop-advanced.md) advanced OOP (inheritance, polymorphism, `final`, wrappers/autoboxing, interfaces) · [04](../04-exception-handling-and-memory.md) exceptions & memory (hierarchy, try-with-resources, GC, final/finally/finalize)
 
-**Read & active-recall** — [module 01](../01-java-language-basics.md):
+This is a **skim-and-recall pass, not a deep read.** For each of the four modules: read the **Quick Reference blockquote**, scan the section headers, pause on the gotcha below, then close the file and run that module's highest-value interview Q&A aloud (~6–8 questions per module — say the answer first, then check). Budget ~75–90 min per module.
 
-- [ ] Key features of Java; JDK vs JRE vs JVM; program execution flow (`.java` → `.class` → bytecode → JIT)
-- [ ] JVM memory areas (heap, stack, method area/metaspace, PC register, native stack)
-- [ ] Primitive data types (8 total) and primitive vs non-primitive
-- [ ] Operators (arithmetic, unary, relational, logical, assignment, bitwise, ternary)
-- [ ] Type conversion & casting — implicit widening vs explicit narrowing
-- [ ] Control statements — decision making, loops, jump statements
-- [ ] Arrays — internal working, accessing/iterating, `Arrays` utility class, taking input
-- [ ] String — constant pool (SCP), how it works internally, **why String is immutable**, **`==` vs `.equals()`**, hashcode & identityHashCode
-- [ ] StringBuffer vs StringBuilder — mutability, thread-safety, when to use which
-- [ ] Input/output — standard streams, BufferedReader/InputStreamReader, Scanner, Scanner vs BufferedReader
+**Block A — Module [01](../01-java-language-basics.md): Language Basics (~75 min)**
 
-**Self-test:** Close the file and answer the module's **Interview Q&A (~23 questions)** aloud — *say the answer first, then scroll down to check it.* Flag any you fumble for a quick re-read.
+- Read the Quick Reference; skim JDK/JRE/JVM, the JVM memory areas, primitives & casting (widening vs narrowing), control flow, the `Arrays` utility.
+- **Gotcha to re-fix — String immutability + `==` vs `.equals()`:** every "modification" (`+`, `replace`, `substring`) returns a *new* `String`; the original is untouched. Immutability is why the string constant pool (interning) is safe, why `String` is the ideal `HashMap` key, and why it's shareable across threads without synchronization. `==` compares *references*; `.equals()` compares *content*. `new String("x") == "x"` is `false`; `.equals` is `true`. Build strings in loops with `StringBuilder`, never `+` (O(n) throwaway objects).
+- **Fast Q&A:** why is String immutable · `==` vs `.equals()` · StringBuilder vs StringBuffer · Scanner vs BufferedReader · what is the string constant pool · widening vs narrowing casts.
 
----
+**Block B — Module [02](../02-oop-fundamentals.md): OOP Fundamentals (~75 min)**
 
-### Friday Jun 19 — Module 02: OOP Fundamentals
+- Read the Quick Reference; skim object-creation internals, variable types (instance/local/static), constructors & chaining, the `static` keyword.
+- **Gotcha to re-fix — heap vs stack:** the **heap** holds objects, is shared across threads, and is GC-managed. The **stack** holds per-thread method frames, local variables, and references — automatically freed when a method returns. This is the memory mental model behind Week 1's Java-internals deep dive.
+- Also re-fix **pass-by-value:** Java is always pass-by-value — for objects, the *reference value* is copied (you can mutate the object, not reseat the caller's variable).
+- **Fast Q&A:** is Java pass-by-value or by-reference · static vs instance members · what happens behind the scenes on object creation · can a constructor be private · `this` keyword uses · encapsulation benefits.
 
-📌 **Study today:** classes & objects · object creation internals · variable types (instance/local/static) · methods & pass-by-value · immutable objects · instance/static blocks & methods · access modifiers · composition · `this` keyword · constructors (types, chaining, private) · `static` keyword · heap vs stack deep dive
-⏱ ~2–3 hr (revision pace)
+**Block C — Module [03](../03-oop-advanced.md): Advanced OOP (~90 min)**
 
-**Read & active-recall** — [module 02](../02-oop-fundamentals.md):
+- Read the Quick Reference; skim inheritance & constructor execution order, `this`/`super`, `final`, upcasting vs downcasting, interfaces (default methods, marker/functional/nested), inner classes, composition over inheritance.
+- **Gotcha to re-fix — overloading vs overriding:** **overloading** is compile-time, same class, *same name + different parameters* (static dispatch). **Overriding** is runtime, subclass, *same signature* (dynamic dispatch via the actual object type). This one comes up in nearly every interview — nail it.
+- Quick autoboxing reminder (it returns Wed of Week 1): `Integer` is cached −128…127, so `Integer a=127,b=127; a==b` is `true` but at 128 it's `false`. Always `.equals()` for wrapper comparison.
+- **Fast Q&A:** overloading vs overriding · abstract class vs interface · why composition over inheritance · upcasting vs downcasting safety · what are wrapper classes / autoboxing · method hiding vs overriding.
 
-- [ ] What is OOP and why use it; Class; Object — what happens behind the scenes on object creation; the `Object` class
-- [ ] Types of variables — instance vs local vs static (and the comparison table)
-- [ ] Methods — return type, calling methods, **pass by value**
-- [ ] Immutable objects — building a fully immutable class with defensive copies; the `record` equivalent
-- [ ] Instance block, instance methods, static block, static methods
-- [ ] Access modifiers (public/protected/default/private)
-- [ ] Composition (HAS-A) and OOP design principles
-- [ ] JVM structure — **heap vs stack memory deep dive**, full Java execution flow
-- [ ] Encapsulation — definition, benefits
-- [ ] `this` keyword — resolve name conflict, constructor chaining, pass current object
-- [ ] Constructors — types, overloading, constructor vs method, can a constructor be private
-- [ ] `static` keyword — variable, method, block, accessing static members, static vs instance
+**Block D — Module [04](../04-exception-handling-and-memory.md): Exceptions & Memory (~75 min)**
 
-**Self-test:** Close the file and answer the module's **Interview Q&A (~20 questions)** aloud before reading the answers. Pay special attention to pass-by-value and static vs instance — common stumbling points.
-
----
-
-### Saturday Jun 20 — Module 03: Advanced OOP
-
-📌 **Study today:** inheritance (constructor execution, `this`/`super`) · polymorphism (overloading vs overriding, dynamic dispatch) · `final` · `Object` class methods · upcasting/downcasting · wrapper classes & autoboxing · abstraction (abstract class) · interfaces (default methods, types) · loose coupling · inner classes · encapsulation vs composition · method hiding
-⏱ ~2–3 hr (revision pace)
-
-**Read & active-recall** — [module 03](../03-oop-advanced.md):
-
-- [ ] Inheritance — types, what is NOT inherited, constructor execution order, parent ref can't call child-only methods, static members & inheritance
-- [ ] `this` and `super` keywords in inheritance
-- [ ] Polymorphism — **compile-time (overloading) vs runtime (overriding)**, dynamic method dispatch, why constructor overriding isn't possible
-- [ ] `final` keyword (variable/method/class)
-- [ ] `Object` class methods; object typecasting — upcasting (safe) vs downcasting (may fail)
-- [ ] Wrapper classes; autoboxing and unboxing
-- [ ] Abstraction — abstract class
-- [ ] Interfaces — default methods (Java 8+), class↔interface relationships, abstract class vs interface
-- [ ] Interface types — normal, functional, marker, nested
-- [ ] Loose coupling using interfaces
-- [ ] Inner classes — non-static, static, method-local, anonymous
-- [ ] Encapsulation vs composition; why composition over inheritance; method hiding vs overriding
-
-**Self-test:** Close the file and answer the module's **Interview Q&A (~23 questions)** aloud before checking. Nail **overloading vs overriding** — it comes up almost every interview.
-
-**☀️ Optional warm-up (DSA primer, ~15 min):** ease back into arrays with **Two Sum (LC 1)**. Know both the brute-force O(n²) and the HashMap O(n) one-pass solution. This is the exact warm-up problem Week 1 opens with on Mon — getting it cold today means Monday starts on momentum.
-
----
-
-### Sunday Jun 21 — Module 04: Exception Handling & Memory
-
-📌 **Study today:** exception hierarchy · checked vs unchecked vs errors · try-catch-finally · throw vs throws · try-with-resources · custom exceptions · `@ControllerAdvice` global handler · garbage collection (generations, algorithms) · final vs finally vs finalize
-⏱ ~2–3 hr (revision pace)
-
-**Read & active-recall** — [module 04](../04-exception-handling-and-memory.md):
-
-- [ ] What is an exception; the exception hierarchy (`Throwable` → `Error`/`Exception` → `RuntimeException`)
-- [ ] Types — **checked (compile-time) vs unchecked (runtime) vs errors**
-- [ ] `try-catch-finally`
-- [ ] **`throw` vs `throws`**
-- [ ] try-with-resources (Java 7+) and `AutoCloseable`
-- [ ] Custom exceptions — why create them, custom checked vs custom unchecked, using them in a Spring Boot service
-- [ ] Global exception handler — `@ControllerAdvice`; real business use cases for custom exceptions
-- [ ] Garbage collection — what it is, how it works, GC generations, GC algorithms
-- [ ] **`final` vs `finally` vs `finalize()`** (and the summary table)
-
-**Self-test:** Close the file and answer the module's **Interview Q&A (~15 questions)** aloud before reading the answers. Make sure checked vs unchecked and final/finally/finalize are crisp.
-
-**☀️ Optional warm-up (DSA primer, ~15 min):** solve **Best Time to Buy & Sell Stock (LC 121)** — track the running minimum price and the best profit so far in a single O(n), O(1) pass. This "track a running minimum" pattern returns in Week 1's Friday block.
-
----
-
-### 🌉 Bridge to Week 1
-
-**Mon Jun 22** opens Week 1 with **Arrays & Two Pointers** plus the **`equals`/`hashCode` contract**. You've just revised exactly what both rest on:
-
-- **Arrays** (Module 01) — internals, iteration, the `Arrays` utility — the substrate for every two-pointer/sliding-window problem.
-- **The `Object` class methods** (Modules 02 & 03) — `equals`, `hashCode`, `toString` — the contract Week 1 derives from first principles and breaks live in a `HashSet`.
-- **String immutability and `==` vs `.equals()`** (Module 01) — why `String` is the ideal HashMap key and why reference equality bites.
-- **Heap vs stack** (Module 02) — the memory mental model behind Week 1's Sunday Java-internals deep dive.
-
-You're not starting cold on Monday — you're continuing.
+- Read the Quick Reference; skim the `Throwable` hierarchy, `try-catch-finally`, `throw` vs `throws`, try-with-resources/`AutoCloseable`, custom exceptions + `@ControllerAdvice`, GC generations & algorithms.
+- **Gotcha to re-fix — checked vs unchecked:** **checked** (compile-time enforced, recoverable — `IOException`, `SQLException`) must be declared or caught. **Unchecked** (`RuntimeException` subclasses — `NullPointerException`, `IllegalArgumentException`) signal programming errors and aren't enforced by the compiler. **Errors** (`OutOfMemoryError`) are unrecoverable JVM-level problems.
+- **Fast Q&A:** checked vs unchecked vs error · `throw` vs `throws` · `final` vs `finally` vs `finalize()` · try-with-resources & `AutoCloseable` · why write custom exceptions · how garbage collection works (generational hypothesis, young/old gen).
 
 ---
 
@@ -132,8 +58,21 @@ Can you explain, from memory, in a sentence or two each:
 - [ ] Checked vs unchecked exceptions (compile-time enforced & recoverable — vs runtime & programming errors)
 - [ ] Heap vs stack (shared object storage, GC-managed — vs per-thread method frames & locals)
 
-If any answer is shaky, re-skim that subsection before Monday. No score, no gate — just don't carry a known gap into Week 1.
+If any answer is shaky, re-skim that subsection now. No score, no gate — just don't carry a known gap into Monday.
 
 ---
 
-*Warm-up complete — next: Week 1 (Mon Jun 22 – Sun Jun 28), Arrays/Two-Pointers/Sliding-Window + Java internals.*
+## 🌉 Bridge to Week 1
+
+**Mon Jun 29** opens full-time Week 1 with **Arrays & Two Pointers** plus the **`equals`/`hashCode` contract** — and you've just refreshed exactly what both rest on:
+
+- **Arrays** (Module 01) — internals, iteration, the `Arrays` utility — the substrate for every two-pointer/sliding-window problem.
+- **The `Object` class methods** (Modules 02 & 03) — `equals`, `hashCode`, `toString` — the contract Week 1 derives from first principles and breaks live in a `HashSet`.
+- **String immutability and `==` vs `.equals()`** (Module 01) — why `String` is the ideal HashMap key and why reference equality bites.
+- **Heap vs stack** (Module 02) — the memory mental model behind Week 1's Java-internals (JVM memory model, GC, `volatile`) block.
+
+You're not starting cold on Monday — you're continuing.
+
+---
+
+*Refresh done — next: Week 1 (Mon Jun 29 – Sat Jul 4), full-time.*

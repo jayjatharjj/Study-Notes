@@ -1,456 +1,343 @@
-# Week 1 — Foundations (Jun 22–28, 2026)
+# Week 1 — Foundations (Jun 29–Jul 4, 2026)
 
-> Lock in the two skills every product-company interview tests first: pattern-recognition on arrays/pointers/windows, and fluent Java internals tied to your own shipped code.
->
-> **Full Mon–Sun foundations week.** Mon–Fri are normal weekday DSA + core blocks; **Sat–Sun are lighter weekend days (~4 hr each)** for the resume rewrite, project deep-dive docs, deep Java internals, and the full mock. This week assumes the **Jun 18–21 Week 0 basics revision** is already done — it precedes and feeds directly into the array/Java work here.
+> The first full-time foundations week (≈36 hr; Mon–Sat, Sun rest). Lock in the two skills every product-company interview tests first: pattern-recognition on arrays / pointers / windows / hashing / bits, and fluent Java internals tied to your own shipped code (equals/hashCode, HashMap, generics, the Collections framework). This week is **heads-down study — it does NOT include applications**; the application engine starts later. Assumes the **Sun Jun 28 Week 0 basics refresh** is done and feeds directly into the Java-internals blocks here.
 
 ---
 
 ## 🎯 Week Goal
 
-By Friday you can solve any Easy and most Medium array/two-pointer/sliding-window problems in ≤20 min with a clean Big-O analysis. By Sunday your resume has hard numbers on every bullet and you can narrate all three projects (Smart360, Deep Fathom, WebX) as architecture stories with explicit trade-off reasoning.
+By Saturday you can solve any Easy and most Medium array / two-pointer / sliding-window / hashing / string / bit problems in ≤20 min with a clean Big-O analysis, derive the `equals`/`hashCode` contract and HashMap internals from memory, reason about the Collections framework from first principles (not just "what" but "why the data structure was designed that way"), and whiteboard Smart360's 5-microservice topology with sharp articulation of every architectural decision. Your resume rewrite and project deep-dive docs are started.
 
 ---
 
-## ✅ By Sunday you can...
+## ✅ By Saturday you can...
 
-- Solve Trapping Rain Water and 3Sum from scratch, explain time/space complexity, and articulate the exact *why* behind each pointer move.
-- Derive `equals`/`hashCode` contract from first principles and explain what breaks in a `HashSet` when you violate it — with a live code example.
-- Explain HashMap's internal structure (array of buckets, linked list → red-black tree at threshold 8, load factor 0.75, rehashing) without looking anything up.
-- Walk through Smart360's query optimization (60s → 2–3s) naming exactly which Hibernate anti-patterns you fixed and which indexes you added.
-- Recite 3 quantified bullets per project that will survive recruiter screening *and* deep technical drill-down.
-- Explain why `autoboxing` `Integer` in a `HashMap` key is safe but `==` comparison is not, and why this matters in production cache code.
-
----
-
-## 📅 Daily Checklist
+- Solve Trapping Rain Water, 3Sum, Minimum Window Substring, Group Anagrams, Top K Frequent, and Longest Consecutive Sequence from scratch with correct time/space complexity, articulating the exact *why* behind each pointer move or hash key.
+- Derive the `equals`/`hashCode` contract from first principles and explain what breaks in a `HashSet` when you violate it — with a live code example.
+- Explain HashMap's internal structure (buckets, linked list → red-black tree at threshold 8 with capacity ≥ 64, load factor 0.75, the `(h ^ (h >>> 16))` bit-spread, resize split) without looking anything up.
+- Distinguish fail-fast vs fail-safe iterators, compare `ConcurrentHashMap` (CAS + per-bucket `synchronized`) vs `Hashtable` (full-map lock), and choose between `ArrayList`/`LinkedList`/`ArrayDeque` with the CPU-cache argument.
+- Explain `Comparable` vs `Comparator`, the `BigDecimal`-vs-`equals` consistency gotcha, generics/type-erasure, and the autoboxing 128-cache boundary — and why each matters in production.
+- Recite 3 quantified bullets per project (Smart360, Deep Fathom, WebX) that survive recruiter screening *and* deep technical drill-down, and whiteboard the Smart360 5-service diagram with failure boundaries.
 
 ---
 
-### Monday Jun 22 — Arrays & Two Pointers: Classic Patterns
+## 📅 Daily Checklist (Mon–Sat; Sun rest)
 
-📌 **Study today:** Two Pointers — opposite ends converging (LC 1 · 125 · 11 · 42) · Java `equals`/`hashCode` contract
+Each weekday runs **3 blocks**: **Block A** — DSA (~2.5 h, primary pattern set), **Block B** — core Java/system topic (~2 h), **Block C** — second DSA set or deep-dive (~1.5 h).
 
-**DSA (Block A, ~50 min):**
+---
 
-Pattern: **Two Pointers — opposite ends converging**. The invariant is always "what does it mean for this pair/triplet to be valid?" Once you see it, the pointer-move direction becomes mechanical.
+### Monday Jun 29 — Two Pointers + equals/hashCode
 
-Problems (in order):
-1. **Two Sum** (LC 1) — warm-up; know both the brute-force O(n²) and HashMap O(n) solutions. Interviewers ask follow-ups: "what if the array is sorted?" → two pointers, no extra space.
-2. **Valid Palindrome** (LC 125) — classic two-pointer convergence; handle `Character.isAlphanumeric` edge cases.
-3. **Container With Most Water** (LC 11) — key insight: always move the *shorter* pointer inward. If you move the taller one you can only lose area. Prove this to yourself before coding.
-4. **Trapping Rain Water** (LC 42) — hardest of the day. Two approaches: (a) prefix/suffix max arrays O(n) space, then (b) two-pointer O(1) space. The O(1) version: `water += min(maxL, maxR) - height[i]`. If `maxL ≤ maxR`, advance left pointer; water at left is constrained by `maxL`. Drill the *why* until it's intuitive.
+📌 **Study today:** Two Pointers — opposite ends converging (LC 1 · 125 · 11 · 42 · 167) · Java `equals`/`hashCode` contract · Two-Sum variants + prefix-sum intro
 
-Time check: if you finish all 4 in <40 min, attempt **LC 167 Two Sum II** (sorted array variant) and **LC 15 3Sum** (save full solution for Wednesday).
+**Block A (~2.5 h) — Two Pointers, opposite ends converging:**
 
-**Core Topic (Block B, ~50 min) — Java `equals`/`hashCode` contract:**
+The invariant is always "what does it mean for this pair/triplet to be valid?" Once you see it, the pointer-move direction becomes mechanical.
 
-- The contract: if `a.equals(b)` is true, then `a.hashCode() == b.hashCode()` MUST be true. The converse is NOT required (hash collisions are fine).
-- Violation consequence: store an object in a `HashSet`, then mutate a field used in `hashCode` → the set can no longer find the object even though it's there. This is a real Smart360 bug class — mutable JPA entities used as Map keys.
-- Implement `equals`/`hashCode` by hand for a `User(Long id, String email)` class. Use `Objects.equals` and `Objects.hash`. Then show what `Lombok @EqualsAndHashCode` generates and when `@EqualsAndHashCode(onlyExplicitlyIncluded = true)` is necessary for JPA entities (use only the database PK).
-- JPA-specific rule: never include mutable collection fields or lazy-loaded associations in `hashCode` — triggers unintended DB queries and breaks hibernate session caching.
-- Write a 10-line test that demonstrates the broken `HashSet` lookup when contract is violated. You will be able to live-code this in an interview.
+1. **Two Sum** (LC 1) — warm-up; know both brute-force O(n²) and HashMap O(n). Follow-up: "what if sorted?" → two pointers, no extra space.
+2. **Valid Palindrome** (LC 125) — classic convergence; handle `Character.isLetterOrDigit` edge cases. Curveball: Unicode/emoji → `Character.codePointAt()` + `Character.isLetterOrDigit(codePoint)`. Follow-up LC 680 (one deletion allowed).
+3. **Container With Most Water** (LC 11) — key insight: always move the *shorter* pointer inward; moving the taller one can only lose area. Prove it before coding.
+4. **Trapping Rain Water** (LC 42) — hardest of the day. (a) prefix/suffix max arrays O(n) space, then (b) two-pointer O(1) space: `water += min(maxL, maxR) - height[i]`; if `maxL ≤ maxR` advance left. Drill the *why*.
+5. **Two Sum II — sorted** (LC 167) — the sorted variant that proves two-pointer beats HashMap here (O(1) space).
+
+**Block B (~2 h) — Java `equals`/`hashCode` contract:**
+
+- The contract: if `a.equals(b)` then `a.hashCode() == b.hashCode()` MUST hold. The converse is NOT required (collisions are fine).
+- Violation: store an object in a `HashSet`, mutate a field used in `hashCode` → the set can no longer find it though it's there. This is a real Smart360 bug class — mutable JPA entities as Map keys.
+- Implement `equals`/`hashCode` by hand for `User(Long id, String email)` with `Objects.equals`/`Objects.hash`. Show what Lombok `@EqualsAndHashCode` generates and when `@EqualsAndHashCode(onlyExplicitlyIncluded = true)` is needed for JPA (use only the PK).
+- JPA rule: never include mutable collections or lazy associations in `hashCode` — triggers unintended queries and breaks session caching. For entities, use a constant `hashCode` (`getClass().hashCode()`) + `id`-based `equals` with the transient (null-id) case handled.
+- Write a 10-line test demonstrating the broken `HashSet` lookup when the contract is violated — you'll live-code this in an interview.
+
+**Block C (~1.5 h) — Two-Sum variants + prefix-sum intro:**
+
+- Re-solve Two Sum as a *stream* (no fixed size): for each `x`, check `target - x` in a `HashSet` before adding `x` — O(n)/O(n).
+- **Prefix sum intro:** `prefixSum[i] = sum of nums[0..i-1]`; subarray `i..j = prefixSum[j+1] - prefixSum[i]`. This sets up Wednesday's Subarray-Sum-Equals-K. Code a "running prefix sum array" helper and a "sum of range [i,j]" query.
 
 **Self-check:**
-1. Given a sorted array, why does two-pointer beat HashMap for Two Sum II? (Answer: O(1) space, O(n) time, no hash overhead — and sorted order is the invariant that guarantees correctness.)
-2. What happens in a `HashSet<User>` if you change a user's `id` after inserting it? (Answer: the set now looks in the wrong bucket; `contains` returns false; the element is "ghost-present".)
+1. Given a sorted array, why does two-pointer beat HashMap for Two Sum II? (O(1) space, O(n) time, sorted order is the correctness invariant.)
+2. What happens in a `HashSet<User>` if you change a user's `id` after inserting it? (Wrong bucket; `contains` returns false; element is "ghost-present".)
 
 ---
 
-### Tuesday Jun 23 — Sliding Window + HashMap Internals
+### Tuesday Jun 30 — Sliding Window + HashMap Internals
 
-📌 **Study today:** Sliding Window — variable size (LC 3 · 643 · 209 · 424) · HashMap Internals
+📌 **Study today:** Sliding Window — variable size (LC 3 · 209 · 424 · 643) · HashMap internals · subarray-sum + advanced sliding window
 
-**DSA (Block A, ~50 min):**
+**Block A (~2.5 h) — Sliding Window, variable size:**
 
-Pattern: **Sliding Window — variable size**. The window expands by moving `right`, shrinks by moving `left` when an invariant is violated. Always ask: "what invariant does my window maintain?"
+The window expands by moving `right`, shrinks by moving `left` when an invariant is violated. Always ask: "what invariant does my window maintain?"
 
-Problems (in order):
-1. **Longest Substring Without Repeating Characters** (LC 3) — use `HashMap<Character, Integer>` storing last-seen index. When duplicate found, jump `left` to `max(left, lastSeen[c] + 1)`. Don't just increment left — you'll re-process characters.
-2. **Maximum Average Subarray I** (LC 643) — fixed-size window warm-up. Practice the pattern before variable size.
-3. **Minimum Size Subarray Sum** (LC 209) — variable window, shrink when `sum >= target`. Track minimum length. Time O(n) despite two loops because each element enters and exits the window exactly once.
-4. **Longest Repeating Character Replacement** (LC 424) — harder. Window invariant: `(windowSize - maxFreq) ≤ k`. You only need to track `maxFreq` — never decrease it (even if stale) because you only care about a *longer* valid window.
+1. **Maximum Average Subarray I** (LC 643) — fixed-size window warm-up; practice the template before variable size.
+2. **Longest Substring Without Repeating Characters** (LC 3) — `HashMap<Character,Integer>` of last-seen index; on duplicate jump `left = max(left, lastSeen[c] + 1)`. Don't just increment left — you'll re-process characters.
+3. **Minimum Size Subarray Sum** (LC 209) — variable window, shrink when `sum >= target`, track min length. O(n) despite two loops (each element enters/exits once).
+4. **Longest Repeating Character Replacement** (LC 424) — invariant: `(windowSize - maxFreq) ≤ k`. Track `maxFreq` but never shrink it (you only care about a *longer* valid window).
 
-**Core Topic (Block B, ~50 min) — HashMap Internals:**
+**Block B (~2 h) — HashMap internals:**
 
-- Internal structure: `Node<K,V>[] table` (array of buckets). Bucket index = `(n-1) & hash(key)`. Default initial capacity 16, load factor 0.75 → resize at 12 entries.
-- Collision handling: linked list per bucket. When a bucket's list length hits **8** AND total capacity ≥ 64 → list converts to **red-black tree** (TreeNode). Why? O(n) → O(log n) lookup per bucket under heavy collision.
-- `hash(key)` in Java: `key.hashCode() ^ (h >>> 16)`. The XOR with the high bits reduces collisions when capacity is small (low-order bits dominate the bucket index).
-- Rehashing: doubles capacity, recomputes all bucket indices. Expensive — O(n). If you know size upfront, use `new HashMap<>(expectedSize / 0.75 + 1)` to avoid rehashing.
-- Thread safety: `HashMap` is not thread-safe. `ConcurrentHashMap` uses segment-level locking (Java 7) → CAS + synchronized per-bucket (Java 8+). Never use `Collections.synchronizedMap(new HashMap<>())` in high-throughput code — it's a global lock.
-- Tie to Smart360: your Redis caching layer uses string keys. Knowing how `String.hashCode()` works (polynomial rolling hash, cached after first call) explains why `String` is the ideal HashMap key.
+- Structure: `Node<K,V>[] table` (array of buckets). Bucket index = `(n-1) & hash(key)`; default capacity 16, load factor 0.75 → resize at 12.
+- `hash(key) = key.hashCode() ^ (h >>> 16)` — the bit-spread XORs high bits into low so they influence the index in small tables.
+- Collisions: linked list per bucket → converts to **red-black tree** when bucket length hits **8 AND table capacity ≥ 64** (else it resizes instead). O(n) → O(log n) per bucket under heavy collision. Untreeify at 6 (hysteresis band).
+- Resize: double capacity; Java 8+ split trick — `hash & oldCapacity` is 0 (stay) or 1 (move to `oldIndex + oldCapacity`), avoiding a full rehash. Pre-size with `new HashMap<>(expected/0.75 + 1)` rounded to next power of 2 to dodge resizes.
+- Thread safety: `HashMap` is not safe; `ConcurrentHashMap` uses CAS + per-bucket `synchronized` (Java 8+). Avoid `Collections.synchronizedMap(...)` in hot paths — global lock.
+- Tie to Smart360: Redis cache uses string keys; `String.hashCode()` (polynomial rolling hash, cached after first call) is why `String` is the ideal HashMap key.
+
+**Block C (~1.5 h) — subarray-sum + advanced sliding window:**
+
+- **Subarray Sum Equals K** (LC 560) — prefix sum + HashMap: look for `prefixSum - k` in the map; seed `map.put(0, 1)` before the loop (else you miss subarrays starting at index 0). This bridges Monday's prefix-sum intro into Wednesday's set.
+- Stretch: **Minimum Window Substring** (LC 76) preview — two frequency maps + the "have vs need" counter trick; expand right until covered, shrink left while still valid, record min window. (Full timed attempt Saturday.)
 
 **Self-check:**
-1. Two HashMap lookups return different results for the same key object — what's the most likely cause? (Answer: `hashCode` is based on mutable fields that changed between inserts; object is in a different bucket now.)
-2. At what point does Java convert a HashMap bucket's linked list to a tree, and what does that improve? (Answer: threshold 8, with table capacity ≥ 64; improves worst-case bucket lookup from O(n) to O(log n).)
+1. Two HashMap lookups return different results for the same key object — most likely cause? (`hashCode` based on mutable fields that changed; object now in a different bucket.)
+2. When does Java treeify a bucket and what does it improve? (Length 8 with capacity ≥ 64; worst-case bucket lookup O(n) → O(log n).)
 
 ---
 
-### Wednesday Jun 24 — Multi-pointer (3Sum) + Prefix Sum + Generics & Autoboxing
+### Wednesday Jul 1 — 3Sum / Prefix Sum + Generics & Autoboxing
 
-📌 **Study today:** Multi-pointer 3Sum family + Prefix Sum (LC 121 · 53 · 15 · 560) · Generics, Type Erasure & Autoboxing
+📌 **Study today:** Multi-pointer 3Sum family + prefix sum (LC 15 · 560 · 238 · 189) · Generics, type erasure & autoboxing · hashing (LC 242 · 49)
 
-**DSA (Block A, ~50 min):**
+**Block A (~2.5 h) — Multi-pointer (3Sum family) + prefix/array tricks:**
 
-Pattern: **Two Pointers — multi-pointer (3Sum family)**. The trick is reduce-to-two-pointer: sort, fix one element, run two-pointer on the rest. Skip duplicates explicitly.
+The 3Sum trick is reduce-to-two-pointer: sort, fix one element, run two-pointer on the rest, skip duplicates explicitly.
 
-Problems (in order):
-1. **Best Time to Buy and Sell Stock** (LC 121) — sliding window disguised as DP. Track `minPrice` so far, compute `price - minPrice` each day. O(n), O(1). Classic "track a running minimum" pattern.
-2. **Maximum Subarray (Kadane's Algorithm)** (LC 53) — `currentSum = max(num, currentSum + num)`. If the running sum goes negative, restart. This is also the foundation for DP — interviewers may ask you to reconstruct the actual subarray (track `start`, `tempStart`, `end` indices).
-3. **3Sum** (LC 15) — sort first O(n log n). Fix `nums[i]`, run two pointers on `[i+1, n-1]`. Skip duplicates at both the outer loop and inner pointers. Common bug: forgetting to skip duplicates after finding a valid triplet.
-4. **Subarray Sum Equals K** (LC 560) — prefix sum + HashMap. `prefixSum[j] - prefixSum[i] = k` → look for `prefixSum - k` in the map. Important: initialize `map.put(0, 1)` before the loop.
+1. **3Sum** (LC 15) — sort O(n log n); fix `nums[i]`, two pointers on `[i+1, n-1]`; skip duplicates at the outer loop AND both inner pointers (common bug: forgetting to skip after a valid triplet).
+2. **Subarray Sum Equals K** (LC 560) — re-solidify the prefix-sum + HashMap pattern; explain the `{0:1}` seed. Curveball: count subarrays with sum *divisible* by K (LC 974 — `prefix % k` as key).
+3. **Product of Array Except Self** (LC 238) — no division; prefix-product then suffix-product pass. O(n) time, O(1) extra (output array excluded). Famous Meta/Google question — know it cold.
+4. **Rotate Array** (LC 189) — three-reversal trick: reverse all, reverse first k, reverse last n−k. O(n)/O(1). Visualize indices to see why it works.
 
-**Core Topic (Block B, ~50 min) — Generics & Autoboxing Pitfalls:**
+**Block B (~2 h) — Generics, type erasure & autoboxing:**
 
-- **Type erasure**: generics exist at compile time only. At runtime, `List<String>` and `List<Integer>` are both `List`. This means: no `instanceof` with generic types, no `new T[]`, no overloading `method(List<String>)` vs `method(List<Integer>)` — they have the same erasure.
-- **Bounded wildcards**: `? extends T` (producer — read-only, covariant), `? super T` (consumer — write-only, contravariant). The PECS rule: **P**roducer **E**xtends, **C**onsumer **S**uper. Example: `Collections.copy(List<? super T> dest, List<? extends T> src)`.
-- **Autoboxing pitfalls** (these cause real production bugs):
-  - `Integer a = 127; Integer b = 127; a == b` → `true` (cached). `Integer a = 128; Integer b = 128; a == b` → `false` (different objects). Always use `.equals()`.
-  - `Long sum = 0L; for (int i : list) sum += i;` → each `i` is autoboxed to `Integer`, then unboxed, then the result is autoboxed to `Long` — 2× object creation per iteration. In tight loops this is measurable GC pressure.
-  - Null unboxing: `Integer x = null; int y = x;` → NullPointerException at unboxing. Insidious in JPA entities where nullable DB columns map to `Integer` fields.
-  - HashMap with autoboxed keys: `map.get(new Long(id))` misses if keys were inserted as `long` (autoboxed to `Long`). In Smart360's caching layer, always use explicit `Long` boxing and `.equals()` for cache key lookups.
-- **Practical rule**: use primitive types in performance-critical paths. Use wrapper types only when null is semantically meaningful (nullable DB columns, Optional internals).
+- **Type erasure**: generics are compile-time only; at runtime `List<String>` and `List<Integer>` are both `List`. So: no `instanceof` with generic types, no `new T[]`, no overload on erasure-equal signatures.
+- **Bounded wildcards / PECS**: `? extends T` (producer, read-only, covariant), `? super T` (consumer, write-only, contravariant). `Collections.copy(List<? super T> dest, List<? extends T> src)`.
+- **Autoboxing pitfalls (real production bugs):**
+  - `Integer` cached −128…127 → `a == b` true at 127, false at 128. Always `.equals()`.
+  - `Long sum = 0L; for (int i : list) sum += i;` → box/unbox per iteration = GC pressure in tight loops. Prefer primitives / `IntStream.sum()`.
+  - Null unboxing: `Integer x = null; int y = x;` → NPE. Insidious with nullable DB columns mapped to `Integer`.
+  - HashMap key boxing: `map.get(new Long(id))` misses if keys were inserted as autoboxed `long`. Use explicit `Long` + `.equals()` in cache lookups.
+- Practical rule: primitives in hot paths; wrappers only when null is semantically meaningful.
+
+**Block C (~1.5 h) — Hashing (frequency maps & canonical keys):**
+
+1. **Valid Anagram** (LC 242) — `int[26]` increment/decrement → all-zero check, O(n)/O(1). Curveball: Unicode → `HashMap<Character,Integer>`.
+2. **Group Anagrams** (LC 49) — HashMap with canonical key: sorted string, or `int[26]` count → `Arrays.toString(count)` (O(26) per word, avoids the O(k log k) sort). `Map<String, List<String>>`. Tie to Smart360: role/permission dedup uses the same canonical-key pattern.
 
 **Self-check:**
-1. Why does `List<Dog>` not satisfy `List<Animal>` even though `Dog extends Animal`? (Answer: type erasure + covariance would break type safety — you could insert a `Cat` into a `List<Dog>` reference typed as `List<Animal>`; Java uses wildcards instead.)
-2. You have a nullable `Integer` column from the DB. Write the safe null-check before unboxing. (Answer: `if (entity.getCount() != null) { int c = entity.getCount(); }` — or use `Objects.requireNonNullElse`.)
+1. Why does `List<Dog>` not satisfy `List<Animal>` though `Dog extends Animal`? (Covariance would let you insert a `Cat`; Java uses wildcards instead.)
+2. You have a nullable `Integer` DB column — write the safe null-check before unboxing. (`if (e.getCount() != null) { int c = e.getCount(); }` or `Objects.requireNonNullElse`.)
 
 ---
 
-### Thursday Jun 25 — Mixed Array-Pattern Recognition + OOP SOLID
+### Thursday Jul 2 — Hashing/Top-K + Collections Deep-Dive + Bits
 
-📌 **Study today:** Mixed-pattern recognition drill — sliding window / prefix product / array rotation (LC 438 · 1493 · 238 · 189) · OOP SOLID + Inheritance vs Composition
+📌 **Study today:** Hashing / Top-K (LC 347 · 128) · Collections deep-dive (ArrayList/LinkedList, ConcurrentHashMap, fail-fast) · bit manipulation (LC 136 · 191 · 338 · 268)
 
-**DSA Block A (~50 min):**
+**Block A (~2.5 h) — Top-K & frequency patterns:**
 
-Pattern: **Recognition drill — given a problem, identify the pattern before coding**. Today's goal is speed and accuracy of pattern identification, not just solving.
+1. **Top K Frequent Elements** (LC 347) — (A) bucket sort O(n): count in HashMap, `List<Integer>[]` indexed by frequency, scan high→low; (B) min-heap O(n log k): `PriorityQueue` of size k. Bucket sort when k ≈ n; heap when k ≪ n. Code the bucket-sort version — it impresses (O(n) vs the obvious O(n log n)). Tie to Smart360 Analytics top-K accessed reports.
+2. **Longest Consecutive Sequence** (LC 128) — HashSet, O(n) NOT sorting. For each `num`, only start counting if `num-1` ∉ set (it's a sequence start), then count `num+1, num+2…`. Interviewers specifically ask for O(n).
 
-Problems (in order):
-1. **Find All Anagrams in a String** (LC 438) — sliding window + frequency array comparison. Fixed window size = `p.length()`. Compare char counts, not sorted strings (O(26) compare, not O(k log k)).
-2. **Longest Subarray of 1s After Deleting One Element** (LC 1493) — sliding window where invariant is "at most one 0 in window." When you remove a `1`, shrink from left until at most one `0` remains.
-3. **Product of Array Except Self** (LC 238) — no division allowed. Prefix product array, then suffix product in a second pass. O(n) time, O(1) extra space if output array counts. This is a famous Meta/Google question — know it cold.
-4. **Rotate Array** (LC 189) — three-reversal trick. Reverse all, reverse first k, reverse last n-k. O(n) time, O(1) space. Know why this works by visualizing indices.
+**Block B (~2 h) — Collections deep-dive:**
 
-**Core Block B (~50 min) — OOP: SOLID + Inheritance vs Composition:**
+- **ArrayList**: `Object[] elementData`, default capacity 10, growth `oldCap + (oldCap >> 1)` (50%, vs Vector's 100% — less wasted memory). `add(index,e)` = `System.arraycopy` (O(n) but cache-friendly/vectorizable). `trimToSize()` after bulk load.
+- **LinkedList**: doubly-linked `Node{item,next,prev}`; ~48 B/node vs ~8 B array slot. `add(0,e)` O(1) rewire; `get(i)` O(n) (iterates from nearer end). For lists of ~1000, ArrayList `add(0,e)` beats LinkedList due to cache effects. **Rule: default ArrayList; ArrayDeque for queue/stack; LinkedList only if profiled.**
+- **ConcurrentHashMap (Java 8+)**: empty bucket → CAS insert (lock-free); non-empty → `synchronized` on the bin head only; reads lock-free (`volatile`); cooperative resize via `ForwardingNode`; `size()` uses `LongAdder`-style striped counters; null keys/values forbidden (sentinel ambiguity + TOCTOU). Java 5–7 trivia: `Segment[]` striped locks. vs `Hashtable` = single full-map lock (throughput bottleneck).
+- **Fail-fast vs fail-safe**: fail-fast (`ArrayList`/`HashMap`/`TreeMap`) snapshot `modCount` at iterator creation; `next()` throws `ConcurrentModificationException` if it changed (best-effort, single-thread misuse detection). Note `set()` does NOT bump `modCount`. Fail-safe (`CopyOnWriteArrayList` snapshot, `ConcurrentHashMap` weakly-consistent). Trick: `for (s : list) list.remove(s)` always throws — fix with `Iterator.remove()` / `removeIf()`.
 
-- **Single Responsibility**: your `AuthorizationService` in Smart360 had one job — token validation + role resolution. When it started handling user management events, it violated SRP. That's why you extracted it (the strangler-fig migration story).
-- **Open/Closed**: your LLM provider router in WebX is a good example — adding a new provider means implementing a `LLMProvider` interface, not modifying the router. Explain this concretely.
-- **Liskov Substitution**: if `PremiumUser extends User`, then any method that works correctly with `User` must work with `PremiumUser`. Common violation: overriding a method to throw `UnsupportedOperationException` (e.g., `ReadOnlyList.add()`).
-- **Interface Segregation**: in your microservices, a `UserService` interface with 20 methods means every consumer depends on methods it doesn't use. Split into `UserReader`, `UserWriter`, `UserAuthenticator`.
-- **Dependency Inversion**: Spring's entire DI container is the practical implementation. Your services depend on interfaces (`UserRepository`), not `UserRepositoryImpl`. Spring injects the concrete class.
-- **Inheritance vs Composition**: prefer composition. Inheritance creates tight coupling and fragile base class problems — if the parent changes, all children are affected. Use inheritance only for true IS-A relationships. Example: `PostgreSQLUserRepository implements UserRepository` (composition via interface). NOT `PostgreSQLUserRepository extends BaseRepository extends AbstractRepository`.
-- **Abstract class vs Interface**: interface = contract (can implement many); abstract class = partial implementation (single inheritance). Java 8+ default methods blur the line but the semantic distinction remains.
+**Block C (~1.5 h) — Bit manipulation (4 canonical Easy):**
+
+The week's hash internals lean on bit tricks (`h ^ (h >>> 16)`, `(n-1) & hash`, `hash & oldCapacity`) — same muscle. Drill these cold (~10 min each):
+
+1. **Single Number** (LC 136) — XOR cancels pairs (`a^a=0`, `a^0=a`); fold with `result ^= num`. O(n)/O(1).
+2. **Number of 1 Bits** (LC 191) — `n &= (n-1)` drops the lowest set bit; loops once per set bit. (`Integer.bitCount()` is the intrinsic.)
+3. **Counting Bits** (LC 338) — DP on bits: `bits[i] = bits[i>>1] + (i&1)`. Whole 0..n table in O(n).
+4. **Missing Number** (LC 268) — XOR all indices with values then `^= n`; the missing index survives. (Gauss `n(n+1)/2 - sum` alternative, but XOR avoids overflow.)
 
 **Self-check:**
-1. In Product of Array Except Self, why is the output array not counted as extra space? (Answer: the problem says output array doesn't count; the O(1) claim is about *auxiliary* space beyond input and output.)
-2. Name one real violation of LSP in Java's standard library. (Answer: `java.util.Stack extends Vector` — Stack IS NOT a general-purpose Vector, yet it inherits all Vector methods; `Stack.add(0, element)` breaks stack semantics.)
+1. Why does ArrayList beat LinkedList on small lists even for insertions? (Contiguous memory → CPU prefetch/cache hits dominate pointer-chasing.)
+2. Show the `modCount` fail-fast mechanism in a snippet; does `set()` throw? (No — `set()` is content, not structural, change.)
 
 ---
 
-### Friday Jun 26 — Stretch DSA + Behavioral STAR
+### Friday Jul 3 — Strings + Comparable/Comparator + Weak-Spot Review
 
-📌 **Study today:** Stretch timed mock — hardest sliding window + Kadane extension (LC 76 · 152) · Behavioral STAR story refinement (+ String-immutability recap)
+📌 **Study today:** Strings (LC 5 · 271 · 680) · Comparable vs Comparator (TreeMap/TreeSet sorting) · mixed-pattern review / weak spots
 
-> Quick String-immutability recap (bridging from the Jun 18–21 Week 0 basics revision):
-> - `String` is immutable — every "modification" (`+`, `replace`, `substring`) returns a new object; the original is untouched. This is what makes `String` safe as a `HashMap` key and shareable across threads without synchronization.
-> - The string pool (interning) only works because of immutability — two `"hello"` literals can safely share one backing object.
-> - Build strings in loops with `StringBuilder`, not `+` — `+` in a loop creates O(n) throwaway objects (real GC pressure in hot paths).
+> Quick String-immutability recap (bridging from Sun Jun 28 Week 0 refresh): every "modification" returns a new object; interning works only because of immutability; build in loops with `StringBuilder`, not `+`.
 
-**DSA Block A — timed mock (25 min each, no hints):**
+**Block A (~2.5 h) — String patterns:**
 
-1. **Minimum Window Substring** (LC 76) — the hardest sliding window. Two pointers + two frequency maps. Expand right until all chars covered, then shrink left while still valid, record minimum window. Practice the "have" vs "need" counter trick: only increment `have` when a char's frequency exactly matches `need[c]`.
-2. **Maximum Product Subarray** (LC 152) — extension of Kadane. Track both `maxSoFar` and `minSoFar` because a negative × negative = positive. At each step: `newMax = max(num, maxSoFar*num, minSoFar*num)`.
+1. **Longest Palindromic Substring** (LC 5) — expand-around-center: for each index try odd (one center) and even (two centers) expansion; track best. O(n²)/O(1). (Mention Manacher's O(n) exists.)
+2. **Encode and Decode Strings** (LC 271) — length-prefix encoding: each string → `len + "#" + s` (e.g. `"4#lint4#code"`). Decode by reading digits to `#`, parse length, extract exactly that many chars. The length (not just `#`) makes it unambiguous when strings contain `#`. Tie to Deep Fathom's LLM-proxy framing protocol.
+3. **Valid Palindrome II** (LC 680) — one deletion allowed; two pointers, on mismatch try skipping left OR right and check remainder.
 
-After each problem: write out the pattern name, time complexity, space complexity, and one follow-up question the interviewer might ask. This is interview muscle memory.
+**Block B (~2 h) — Comparable vs Comparator + TreeMap/TreeSet:**
 
-**Core Block B (~45 min) — Behavioral Stories + STAR Refinement:**
+- **Comparable** (`java.lang`, `int compareTo(T)`): natural ordering, implemented on the class; used automatically by `Arrays.sort`, `Collections.sort`, `TreeSet`/`TreeMap`. Must be consistent with `equals()`.
+- **Comparator** (`java.util`, `int compare(T,T)`): external/ad-hoc ordering; define many per class. Java 8 `Comparator.comparing(...).thenComparing(...).reversed()`. Use for multiple/ runtime-chosen sort criteria, third-party classes, one-liner lambda sorts.
+- **TreeMap/TreeSet gotcha**: no Comparator + key not `Comparable` → `ClassCastException` at runtime. And the **`BigDecimal` consistency bite**: `new BigDecimal("1.0").compareTo("1.00") == 0` but `.equals()` is false → `TreeSet` keeps one, `HashSet` keeps both.
 
-For each story below, recite it aloud (not in your head) against a timer (2 min max per story). Tighten the numbers.
+**Block C (~1.5 h) — Mixed-pattern recognition / weak spots:**
 
-- **Performance story (Smart360)**: Situation → 60s query latency causing timeouts (SLA breach). Task → optimize without schema changes. Action → profiled with `spring.jpa.show-sql=true` + Hibernate statistics, identified N+1 on `User → Roles → Permissions` (3 queries per user × 200 users = 600 queries per request), rewrote with `@EntityGraph(attributePaths = {"roles", "roles.permissions"})` reducing to 1 query, added composite index on `(tenant_id, user_id)`, added Redis cache for S3 pre-signed URLs with TTL=55min (URL expiry=60min). Result → 2–3s latency, 80% S3 reduction.
-- **Architecture decision story (Deep Fathom)**: Situation → multi-tenant SaaS, 50+ tables needing isolation, 3-person team. Task → implement tenant isolation without application-layer risk. Action → PostgreSQL RLS policies (`tenant_id = current_setting('app.tenant_id')`) — security enforced at DB layer even if app has a bug; Bicep IaC for reproducible Azure environments. Result → FedRAMP-compatible isolation, reproduced in GovCloud from same Bicep modules.
-- **Leadership/initiative story (CI/CD 57% cut)**: Situation → 23-min pipeline blocking developer velocity. Task → reduce without breaking existing tests. Action → analyzed GitLab pipeline DAG, identified sequential bottleneck in Docker build + test stages, enabled BuildKit parallel builds with `--cache-from` registry image, configured Turbo monorepo caching for unchanged packages, restructured GitLab `needs:` to parallelize test matrix. Result → 10 min pipeline, ~13 min saved per run × ~15 runs/day = ~3 hours/day developer time reclaimed.
+Rank confidence Mon–Thu; re-solve your two lowest-confidence problems clean, no notes, ≤15 min each. Plus a recognition drill — identify the pattern *before* coding:
+
+- **Find All Anagrams in a String** (LC 438) — sliding window + `int[26]` frequency compare (not sorted strings).
+- **Maximum Subarray / Kadane** (LC 53) — `currentSum = max(num, currentSum + num)`; foundation for "max sum of length exactly k" (that's fixed-window, not Kadane — know which to apply).
 
 **Self-check:**
-1. In Minimum Window Substring, what is the time complexity and why? (Answer: O(n + m) where n = len(s), m = len(t). Each character enters and exits the window at most once.)
-2. If an interviewer says "tell me about a failure," use the CI/CD story in reverse — the initial failure was accepting slow pipelines for months. What did you learn? What would you do differently?
+1. Chain three Comparators with `.thenComparing()` in 30 seconds.
+2. What happens to a TreeSet if you insert objects where `compareTo` returns 0 but `equals` returns false? (Treated as duplicates — only one stored.)
 
 ---
 
-### Saturday Jun 27 — Resume Rewrite + Project Deep-Dive Docs (~4 hr)
+### Saturday Jul 4 — Timed Mixed DSA + SOLID/System-Design + Resume & Deep-Dive Docs
 
-📌 **Study today:** Impact-first resume rewrite (Smart360 · Deep Fathom · WebX) · one-page project deep-dive architecture docs
+📌 **Study today:** Timed mixed DSA set (LC 76 · 152 · 239 · 452) · SOLID + system-design primer · resume rewrite start + project deep-dive docs · (self-study: JVM memory model + concurrency basics)
 
-**Block A (90 min) — Resume Rewrite: Impact-First Format**
+**Block A (~2.5 h) — Timed mixed DSA (25 min each, no hints):**
 
-Every bullet must answer: "So what? How much? How do I know?" Remove all bullets that don't have a number or a named technology decision.
+1. **Minimum Window Substring** (LC 76) — hardest sliding window: two frequency maps, "have vs need" counter; expand right until covered, shrink left while valid, record min window. O(n + m).
+2. **Maximum Product Subarray** (LC 152) — Kadane extension: track `maxSoFar` AND `minSoFar` (neg × neg = pos); `newMax = max(num, maxSoFar*num, minSoFar*num)`.
+3. **Sliding Window Maximum** (LC 239) — monotonic deque holding indices in decreasing value order; front is always the window max.
+4. **Minimum Number of Arrows to Burst Balloons** (LC 452) — greedy/interval: sort by end, shoot at the first balloon's end. Intro to next week's interval pattern.
 
-**Smart360 rewrites (before → after):**
-- Before: "Developed a microservices architecture with 5 services"
-- After: "Designed and shipped a 5-microservice platform (API Gateway, Auth, Data, Visualization, Notification) on Spring Cloud + Eureka; reduced sign-in latency 60% by migrating session validation to stateless JWT, eliminating per-request DB roundtrips"
-- Before: "Improved query performance"
-- After: "Cut data retrieval latency 96% (60s → 2–3s) by eliminating N+1 Hibernate queries via EntityGraph, adding composite indexes, and caching S3 pre-signed URLs in Redis (80% S3 call reduction)"
-- Before: "Implemented RBAC"
-- After: "Built fine-grained RBAC at repository/table/permission granularity using Spring Security + JWT claims; enforced across 5 services via shared auth filter in Spring Cloud Gateway"
+After each: write pattern name, time/space complexity, and one interviewer follow-up.
 
-**Deep Fathom rewrites:**
-- "Deployed on Azure Container Apps + AKS with Bicep IaC across 30+ resources; provisioned identical staging and FedRAMP GovCloud environments from a single Bicep codebase"
-- "Implemented PostgreSQL Row-Level Security on 50+ tables; tenant isolation enforced at DB layer, eliminating app-layer bypass risk in a multi-tenant SaaS"
-- "Reduced CI/CD pipeline runtime 57% (23 min → 10 min) via BuildKit parallel builds, registry layer caching, and GitLab DAG restructuring"
+**Block B (~2 h) — SOLID + system-design primer:**
 
-**WebX rewrites:**
-- "Designed async job architecture for 2–20 min LLM operations: 202 Accepted + jobId pattern with SSE push on completion; supports 5+ LLM providers via unified proxy interface for cost/capability routing"
-- "Integrated LLM-powered features with graceful degradation — circuit breaker pattern ensures provider outages don't degrade core product"
+**SOLID (with your own code):**
+- **SRP** — Smart360 `AuthorizationService` did token validation + role resolution; when it began handling user-management events it broke SRP → the strangler-fig extraction story.
+- **OCP** — WebX LLM provider router: a new provider means implementing `LLMProvider`, not editing the router.
+- **LSP** — `PremiumUser extends User` must work anywhere `User` does. Violation: overriding to throw `UnsupportedOperationException` (e.g. `java.util.Stack extends Vector` — `Stack.add(0,e)` breaks stack semantics).
+- **ISP** — split a 20-method `UserService` into `UserReader`/`UserWriter`/`UserAuthenticator`.
+- **DIP** — Spring DI: depend on `UserRepository`, not `UserRepositoryImpl`.
+- **Inheritance vs Composition**: prefer composition (interface) — inheritance creates tight coupling / fragile base class. Inheritance only for true IS-A.
 
-**Block B (90 min) — Project Deep-Dive Doc: One Page Per Project**
+**System-design primer:**
+- **Latency vs throughput**, and the numbers: L1 ~1ns, L2 ~4ns, RAM ~100ns, SSD random read ~100µs, same-DC network ~500µs, cross-region ~150ms.
+- **Caching**: cache-aside (lazy, most common in Smart360), write-through, write-behind; LRU/LFU/TTL eviction; **cache stampede** fix (probabilistic early expiry, single-flight). **CDN**: edge cache, pull vs push, fingerprinted URLs over purge.
+- **Load balancing**: L4 (TCP) vs L7 (HTTP); round-robin / least-connections / consistent hashing; sticky sessions are an anti-pattern (use JWT). **Horizontal vs vertical scaling** (Smart360 on Azure Container Apps + KEDA, scale-to-zero).
+- **CAP**: during a partition choose C or A. PostgreSQL = CP; Cassandra/DynamoDB = AP.
+- **Smart360 5-service whiteboard exercise** — redraw from memory; for each service state (1) single responsibility, (2) data owned, (3) sync vs async calls, (4) failure mode:
+  1. **API Gateway** (Spring Cloud Gateway) — JWT validation, rate limiting (Redis), routing; stateless; SPOF → run replicas.
+  2. **Authorization** — auth, JWT issuance, RBAC; owns `users/roles/permissions`; publishes `UserCreated/Updated`.
+  3. **Data** — core CRUD + the 60s→2s query fix; owns `reports/s3_file_metadata/organizations`; Redis pre-signed-URL cache, EntityGraph to kill N+1; degrades to cached reads.
+  4. **Visualization** — aggregations/chart data (CQRS read side); scales independently so heavy aggregations don't choke OLTP.
+  5. **Notification** (event-driven) — subscribes to events; async/fire-and-forget so failures never block registration. Cross-cutting: Eureka/K8s DNS discovery, Micrometer tracing, Config, PostgreSQL RLS. Practice saying it in <3 min.
 
-Write these in a notebook or separate doc — they are your verbal interview cheat sheet.
+**Block C (~1.5 h) — Resume rewrite start + project deep-dive docs:**
 
-**Smart360 Architecture Story:**
-```
-What: Multi-tenant 360-degree performance review platform
-Scale: [insert user count or tenant count if known]
-Architecture: API Gateway (Spring Cloud Gateway) → Auth Service → Data Service → Visualization Service → Notification Service
-Key decisions:
-  - Spring Cloud Gateway for JWT validation at edge (not per-service) — single policy update point
-  - Eureka for service discovery over K8s native discovery — team familiarity at the time (trade-off: extra infra component)
-  - Redis for two purposes: (1) token blacklist for JWT revocation, (2) S3 URL cache
-  - EventDriven notification via messaging — decoupled from Auth so notification failures don't block auth flows
-Hardest problem: N+1 query on role-permission graph per authenticated request; 600 queries per single API call
-Fix: EntityGraph eager-loads roles.permissions in 1 JOIN query
-Numbers: 60s → 2-3s, 80% S3 reduction, 60% sign-in latency cut
-What I'd do differently: Start with K8s service discovery instead of Eureka; use Postgres advisory locks instead of Redis for simpler token blacklist
-```
+Every bullet answers "So what? How much? How do I know?" — kill any bullet without a number or a named tech decision.
 
-**Deep Fathom Architecture Story:**
-```
-What: Multi-tenant B2B SaaS on Azure (industry: [your domain])
-Scale: 50+ DB tables, multiple tenants, FedRAMP GovCloud requirement
-Architecture: Azure Container Apps + AKS, PostgreSQL Flexible Server, Redis, Azure Front Door, Key Vault
-Key decisions:
-  - PostgreSQL RLS over app-layer filtering: security guaranteed even with application bugs; trade-off is DB connection must set tenant context per request (use connection pool advisor)
-  - Bicep IaC over Terraform: native Azure, no state file management, first-class VS Code support; trade-off is Azure-only (Terraform is multi-cloud)
-  - Azure Container Apps for most services (scales to zero), AKS only for services needing custom K8s operators
-Hardest problem: FedRAMP compliance required identical environments — Bicep modules parameterized for GovCloud regions solved this
-Numbers: 57% CI/CD reduction, multi-tenant on 50+ tables
-What I'd do differently: Introduce Debezium outbox pattern earlier for event publishing instead of polling
-```
+- **Smart360**: "Cut data retrieval latency 96% (60s → 2–3s) by eliminating N+1 Hibernate queries via EntityGraph, composite indexes, and caching S3 pre-signed URLs in Redis (80% S3 reduction)"; "Reduced sign-in latency 60% migrating session validation to stateless JWT"; "Built fine-grained RBAC via Spring Security + JWT claims across 5 services."
+- **Deep Fathom**: "PostgreSQL Row-Level Security on 50+ tables — tenant isolation at the DB layer"; "Reduced CI/CD runtime 57% (23 → 10 min) via BuildKit parallel builds, registry layer caching, GitLab DAG restructuring"; "Bicep IaC across 30+ resources, identical staging + FedRAMP GovCloud from one codebase."
+- **WebX**: "Async job architecture for 2–20 min LLM ops: 202 + jobId + SSE on completion; 5+ providers via unified proxy"; "Circuit-breaker graceful degradation on provider outages."
+- **One-page deep-dive doc per project** (your verbal cheat sheet): What / Scale / Architecture / Key decisions (with trade-offs) / Hardest problem + fix / Numbers / What I'd do differently. E.g. Smart360 "would-do-differently": K8s-native discovery instead of Eureka; Postgres advisory locks instead of Redis for the token blacklist.
 
-**WebX Architecture Story:**
-```
-What: LLM-integrated product (document analysis / [your actual use case])
-Architecture: Spring Boot backend, async job queue, 5+ LLM provider proxy, Vue.js / React frontend
-Key decisions:
-  - 202 Accepted + polling/SSE over synchronous: LLM calls 2-20 min, HTTP timeouts at ~30s for most load balancers
-  - Unified provider interface: abstract LLM calls behind a common API; route by cost (GPT-4o expensive, Haiku cheap for classification tasks) or capability
-  - Async job persistence: job state in PostgreSQL, not in-memory, so pod restarts don't lose jobs
-Hardest problem: Streaming responses from LLM providers have different formats (OpenAI SSE vs Anthropic streaming) — abstracted into a common reactive stream
-Numbers: [your actual metrics — response time, job throughput, provider cost reduction]
-What I'd do differently: Use a proper job queue (AWS SQS or RabbitMQ) instead of DB polling for better backpressure
-```
-
-**Block C (60 min) — Mock Behavioral Questions (speak aloud):**
-- "Walk me through your most complex technical project." → Use Deep Fathom RLS story.
-- "Tell me about a time you disagreed with a technical decision." → Prepare one — find a real moment.
-- "Why are you leaving your current company?" → Frame as growth/scope/compensation, never negative.
-- "Where do you see yourself in 3 years?" → Technical leadership track, driving architecture decisions, mentoring.
-
----
-
-### Sunday Jun 28 — Deep Java Internals + Full Mock Interview (~4 hr)
-
-📌 **Study today:** JVM memory model + concurrency basics · Week 1 gap LeetCode (LC 239 · 452) · full mock interview (DSA + system design + behavioral)
-
-**Block A (90 min) — Java Memory Model + Concurrency Basics:**
-
-These questions trip up 2–3 YOE candidates who have used Spring but haven't thought about what happens at the JVM level.
-
-- **JVM Memory areas**: Heap (objects, GC managed), Stack (method frames, local variables, per-thread), Metaspace (class metadata, replaced PermGen in Java 8), Code Cache (JIT compiled code), Direct Memory (NIO ByteBuffer).
-- **Garbage Collection**: G1GC is default from Java 9+. Key concept: generational hypothesis (most objects die young). Young gen (Eden + 2 Survivor spaces) → full objects promoted to Old gen → G1 collects in "regions" rather than full heap scans. In production Spring Boot apps, tune `-XX:MaxGCPauseMillis=200` (G1 target). Know what a GC pause is and why it matters for latency-sensitive services.
-- **String Pool**: `String s = "hello"` → interned in the string pool (Metaspace). `String s = new String("hello")` → creates a new heap object every time. `s.intern()` returns the pooled reference. In Smart360, using `String.valueOf(id)` as a cache key is fine; `new String(...)` in a tight loop is wasteful.
-- **`volatile` keyword**: guarantees visibility (changes visible to all threads immediately) but NOT atomicity. `volatile int count; count++` is still a race condition (read-modify-write is 3 ops). Use `AtomicInteger` for thread-safe counters.
-- **`synchronized` vs `ReentrantLock`**: `synchronized` is JVM-level, auto-releases on exception, no try-lock capability. `ReentrantLock` is explicit, supports `tryLock(timeout)`, `lockInterruptibly()`, and fair/unfair modes. In high-contention scenarios, `ReentrantLock` with fair mode prevents starvation.
-- **ThreadLocal**: per-thread storage, no synchronization needed. Spring's `SecurityContextHolder` uses `ThreadLocal` to store the current authentication — this is why the security context is available anywhere in the call stack without passing it explicitly. Warning: in thread pools, `ThreadLocal` values leak across requests unless `SecurityContextHolder.clearContext()` is called.
-- **`CompletableFuture`**: used in WebX for orchestrating async LLM calls. Know `thenApply` (sync transform), `thenCompose` (async chain, avoids nested futures), `allOf` (wait for all), `exceptionally` (error handler). Know which methods use the ForkJoinPool by default and when to provide your own executor.
-
-**Block B (60 min) — Additional LeetCode: Week 1 Gaps:**
-
-Identify your 2 weakest problems from Mon–Sat. Redo them without looking at your solutions. If you pass both in <20 min each, attempt:
-- **Sliding Window Maximum** (LC 239) — deque-based, hard. Window keeps indices in decreasing order of value. Front of deque is always the max.
-- **Minimum Number of Arrows to Burst Balloons** (LC 452) — greedy + interval thinking. Sort by end point, greedily shoot at the end of the first balloon. Introduction to the interval pattern for next week.
-
-**Block C (90 min) — Full Mock Interview (conduct this seriously):**
-
-Use a timer. Treat it as real. No looking at notes during the problem.
-
-Round 1 (45 min):
-- 5 min: "Tell me about yourself" — practice your 90-second pitch ending with "which is why I'm excited about this opportunity."
-- 20 min: Interviewer asks "Two Sum" → you solve it, then they follow up: "Now the array is sorted" → "Now there can be duplicates and you want all pairs" → "Now k numbers instead of 2."
-- 20 min: "Explain how you optimized the 60-second query" → dive deep, expect follow-ups: "What's an EntityGraph?" "Why not just use `@Fetch(FetchType.EAGER)`?" "How did you verify the improvement?"
-
-Round 2 (45 min):
-- 25 min: Design question — "Design the async job system in WebX." Draw it: Client → POST /jobs → 202 + jobId → Job persisted in DB → Worker polls DB (or queue) → LLM provider call → Update job status → Client polls GET /jobs/{id} or SSE push. Discuss trade-offs: DB polling vs message queue (RabbitMQ/SQS), at-least-once delivery, idempotency.
-- 20 min: Behavioral — "Tell me about your biggest technical mistake." Prepare one honest answer where you own it, explain the fix, and name the learning.
+**Self-study note (woven from the old W1 full-mock day — read/skim ~30 min, no separate block):** keep the **JVM memory model + concurrency basics** warm — Heap/Stack/Metaspace/Code Cache/Direct Memory; G1GC generational hypothesis + `-XX:MaxGCPauseMillis`; string pool & `intern()`; `volatile` (visibility, not atomicity) vs `AtomicInteger`; `synchronized` vs `ReentrantLock` (`tryLock`, fairness); `ThreadLocal` (Spring `SecurityContextHolder`, pool-leak risk); `CompletableFuture` (`thenApply`/`thenCompose`/`allOf`/`exceptionally`, executor choice). These return for real in Week 3's concurrency block — today just don't let them go cold.
 
 **Self-check (pass/fail for the week):**
-1. Can you solve Container With Most Water and explain the pointer-move invariant in 90 seconds? (Target: yes)
-2. Can you draw HashMap's internal structure (buckets, linked list, tree) from memory? (Target: yes)
+1. Solve Container With Most Water and explain the pointer-move invariant in 90 seconds? (Target: yes)
+2. Draw HashMap's internal structure (buckets, list, tree) from memory? (Target: yes)
 3. Do all three project stories have at least 3 numbers each? (Target: yes)
 
 ---
 
-## 🧠 Concepts to Master This Week (with depth — the "why", gotchas, follow-up angles)
+### Sunday Jul 5 — Rest
 
-### Arrays, Two Pointers, Sliding Window
-
-**The mental model**: arrays are the simplest data structure but the richest source of patterns. Almost every array problem is one of: scan once (prefix/suffix), two ends converging, or a variable window.
-
-**Two-pointer invariant discipline**: Before writing a single line of code, state the invariant. For Container With Most Water: "the water volume is `min(h[l], h[r]) * (r - l)`; we move the shorter pointer inward because keeping the taller pointer can only decrease width while the shorter pointer is already the bottleneck." Write this in an interview — it signals senior-level thinking.
-
-**Sliding window template** (memorize this):
-```java
-int left = 0, result = 0;
-Map<Character, Integer> window = new HashMap<>();
-for (int right = 0; right < s.length(); right++) {
-    char c = s.charAt(right);
-    window.merge(c, 1, Integer::sum); // add right element
-    while (/* invariant violated */) {
-        char d = s.charAt(left);
-        window.merge(d, -1, Integer::sum);
-        if (window.get(d) == 0) window.remove(d);
-        left++;
-    }
-    result = Math.max(result, right - left + 1); // or collect result
-}
-```
-
-**Kadane's gotcha**: when the problem asks for a non-empty subarray, `currentSum = max(num, currentSum + num)` handles it correctly — choosing `num` alone restarts the subarray. If an empty subarray is allowed, initialize differently.
-
-**Prefix sum pattern**: for subarray sum problems, `prefixSum[i] = sum of nums[0..i-1]`. Subarray sum from `i` to `j` = `prefixSum[j+1] - prefixSum[i]`. The HashMap trick (store prefix sums seen so far) enables O(n) solutions for "number of subarrays with sum = k."
+No study. Rest, recover, and let the week consolidate. Optional: glance Saturday's self-assessment so Monday of Week 2 starts on target.
 
 ---
 
-### Java `equals`/`hashCode` Contract
+## 🧠 Concepts to Master This Week (depth — the "why", gotchas, follow-up angles)
 
-**Why it matters in your codebase**: JPA entities are often stored in `Set` collections (e.g., `Set<Role>` on a `User`). If you use the default `Object.equals` (identity), two `Role` objects fetched in different Hibernate sessions representing the same DB row will be treated as different — breaking `contains` checks and causing duplicate data in sets.
+### Arrays, Two Pointers, Sliding Window, Prefix Sum
 
-**JPA-specific best practice**: implement `equals`/`hashCode` on the business key (natural identifier like `email`, `code`) or on the database PK only — and handle the null PK case for transient entities (entities not yet persisted have `id == null`; two new entities should not be considered equal even if all fields match, because they might get different IDs):
-```java
-@Override
-public boolean equals(Object o) {
-    if (this == o) return true;
-    if (!(o instanceof User)) return false;
-    User user = (User) o;
-    return id != null && id.equals(user.id);
-}
-@Override
-public int hashCode() { return getClass().hashCode(); } // constant — safe for JPA
-```
-The constant `hashCode` means all entities land in the same bucket — O(n) lookup in sets — but it's safe. The alternative (using `id`) breaks if you insert a transient entity before persisting it.
+Almost every array problem is one of: scan once (prefix/suffix), two ends converging, or a variable window. **State the invariant before coding** — for Container With Most Water: "volume is `min(h[l],h[r])*(r-l)`; move the shorter pointer because it's the bottleneck and keeping the taller one only shrinks width." Memorize the sliding-window template (expand `right`, shrink `left` while invariant violated, collect result). **Kadane gotcha**: `currentSum = max(num, currentSum+num)` handles the non-empty-subarray case by restarting. **Prefix-sum HashMap trick** enables O(n) "number of subarrays with sum = k" (seed `{0:1}`).
 
-**Follow-up interviewers love**: "What happens in a `HashMap` if two keys have the same hashCode but `equals` returns false?" → They go into the same bucket as a linked list node (collision). The map is still correct, just slower.
+### `equals`/`hashCode` Contract
 
----
+JPA entities stored in `Set<Role>` break with default identity `equals` when fetched in different Hibernate sessions. Best practice: `equals` on the business key or PK with the transient null-id case handled; a constant `hashCode` is safe (all in one bucket, O(n) set lookup, but never lost). Follow-up: "two keys, same hashCode, `equals` false?" → same bucket as a collision chain node; correct, just slower.
 
 ### HashMap Internals
 
-**The treeification trigger detail**: treeification only occurs when BOTH `bucket.size >= 8` AND `table.length >= 64`. If `table.length < 64`, Java resizes the entire map instead. This prevents premature treeification when the map is small.
-
-**Why load factor 0.75?** It's a space-time trade-off backed by Poisson distribution math. At 0.75 load, the expected number of elements per bucket follows a Poisson(0.5) distribution — the probability of a bucket having 8+ elements (triggering tree) is less than 1 in 10 million. Below 0.75, you waste space; above, collision probability rises sharply.
-
-**Curveball**: "Can two different `String` objects with the same content be the same HashMap key?" → Yes. `HashMap` uses `equals` for key comparison (after hash bucket lookup), and `String.equals` compares content. So `new String("hello")` and `"hello"` are equal as keys. But `==` would return false — never use `==` for String keys.
-
----
+Treeify needs BOTH bucket ≥ 8 AND capacity ≥ 64 (else resize). Load factor 0.75 is a Poisson-backed space-time sweet spot (P(bucket ≥ 8) < 1e-7). Resize split uses one bit (`hash & oldCapacity`). Curveball: "capacity 16, 10 entries — resize?" → no, threshold is 12; 13th insert doubles to 32. "Initial capacity for 1000 entries?" → 2048 (next power of 2 above 1000/0.75).
 
 ### Generics, Type Erasure, Autoboxing
 
-**Type erasure practical consequence in Spring**: `@Autowired List<UserRepository>` — Spring can inject all beans of type `UserRepository` because the generic parameter is erased at runtime, but Spring's bean factory knows the concrete types at registration time. This is how `@Primary` and `@Qualifier` interact with generic collections.
+Erasure lets Spring inject `@Autowired List<UserRepository>` (param erased; factory knows concrete types). `IntStream`/`LongStream` avoid boxing — measurably faster in numeric-heavy code. The 128 cache boundary is interview gold (configurable via `-XX:AutoBoxCacheMax`, defaults 127).
 
-**Autoboxing and Streams**: `IntStream` exists specifically to avoid boxing. `stream().mapToInt(...).sum()` uses `int` primitives throughout. `stream().map(...).reduce(0, Integer::sum)` boxes every element. For numeric-heavy code in your data visualization service, `IntStream`/`LongStream` is measurably faster.
+### Collections Framework
 
-**The 128 boundary gotcha is interview gold**: ask any developer and half will get it wrong. Memorize: Java caches `Integer` values from -128 to 127. The specific number 128 isn't random — it's configurable via `-XX:AutoBoxCacheMax=<size>` at JVM startup, but defaults to 127.
+ArrayList 1.5× growth (vs Vector 2×) wastes less memory; arraycopy is cache-friendly. ConcurrentHashMap forbids null because in a concurrent context `get()==null` is ambiguous (key absent vs mapped-to-null) and `containsKey` disambiguation is a TOCTOU race. `modCount` is bumped by structural changes only (`set()` doesn't). `BigDecimal` in `TreeSet` vs `HashSet` differs because `compareTo` ignores scale but `equals` doesn't. `Comparable` must be consistent with `equals`.
+
+### Sliding Window — "don't shrink maxFreq"
+
+In LC 424, recomputing `maxFreq` on shrink makes it O(26n). You search for the LONGEST window, so the answer only ever grows; a smaller `maxFreq` would only yield a shorter window you don't care about. Track the historical max only.
 
 ---
 
-## 🎤 Sample Interview Questions (incl. curveballs) — 8–15 Qs with brief answer pointers
+## 🎤 Sample Interview Questions (incl. curveballs)
 
 **DSA:**
-
-1. **"Solve Two Sum, then what if the input were a data stream with no fixed size?"** → Two-pointer doesn't work (unsorted stream). Use a `HashSet` — for each number `x`, check if `target - x` is in the set before adding `x`. O(n) time, O(n) space.
-
-2. **"You solved Maximum Subarray with Kadane's. Now find the maximum sum subarray of length exactly k."** → Sliding window (fixed size), not Kadane. `sum of window = prefix[i+k] - prefix[i]`. This tests whether you know WHICH pattern to apply.
-
-3. **[Curveball] "In your sliding window solution, you used a HashMap. What's its worst-case time complexity and when does it degrade?"** → HashMap operations are O(1) average but O(n) worst case if all keys hash to the same bucket. For `char` keys (26 or 128 possible values), use a `int[128]` array instead — truly O(1), no collision.
+1. "Solve Two Sum, now as an unbounded data stream." → HashSet: check `target - x` before adding `x`. O(n)/O(n).
+2. "Max sum subarray of length exactly k." → fixed-size sliding window (NOT Kadane); `prefix[i+k] - prefix[i]`. Tests pattern selection.
+3. [Curveball] "Your sliding-window HashMap — worst-case complexity?" → O(n) if all keys collide; for `char` keys use `int[128]` for true O(1).
+4. "Walk through `hashMap.put("name","Jay")`." → hashCode → bit-spread → bucket → walk chain via `equals` → insert/update → resize check (+ treeify condition).
+5. [Curveball] "`for (s : list) list.remove(s)` throws CME — three fixes." → `removeIf`, `Iterator.remove()`, collect-then-`removeAll`, or stream-filter to a new list.
+6. "BigDecimal in TreeSet vs HashSet?" → TreeSet stores one (`compareTo` equal), HashSet stores both (`equals` considers scale).
 
 **Java/Spring:**
-
-4. **"You use `@Transactional` on a service method. Another method in the same class calls it. What happens?"** → The transaction is bypassed. The call is a direct Java call, not through the proxy. Fix: inject `self` via `@Autowired` or use `AopContext.currentProxy()`. Tie to real bug risk in your Smart360 auth service.
-
-5. **"Your Spring Boot app has two beans of type `UserRepository`. How does Spring decide which to inject?"** → Ambiguity error at startup. Resolve with `@Primary` (global preference) or `@Qualifier("beanName")` at injection point. For a list, `@Autowired List<UserRepository>` injects all of them.
-
-6. **"What's the difference between `BeanFactory` and `ApplicationContext`?"** → `ApplicationContext` extends `BeanFactory` and adds: event publishing (`ApplicationEventPublisher`), internationalization (`MessageSource`), AOP support, resource loading. `BeanFactory` is lazy (creates beans on first request); `ApplicationContext` is eager (creates singletons on startup). In practice, always use `ApplicationContext`.
-
-7. **[Curveball] "Your HashMap started with capacity 16. You insert 10 elements. What's the current load factor and will it resize?"** → Load factor = 10/16 = 0.625 < 0.75. No resize yet. Resize triggers at 0.75 × 16 = 12 elements. At the 13th insert, it doubles to capacity 32 and rehashes.
-
-8. **[Curveball] "You used Redis to cache S3 pre-signed URLs in Smart360. What happens if Redis goes down? Walk me through the failure mode."** → Cache miss fallback: every request hits S3 for a new URL. This is acceptable (graceful degradation) IF the code has a proper try-catch around the Redis call and falls through to S3. If the code throws instead, all requests fail. Answer: implement cache-aside pattern with null-check + catch Redis exceptions, never let cache failure propagate to the user.
+7. "`@Transactional` method called from another method in the same class?" → self-invocation bypasses the proxy; no transaction. Fix: inject self or `AopContext.currentProxy()`.
+8. "Two `UserRepository` beans — which is injected?" → ambiguity error; resolve with `@Primary` or `@Qualifier`; `List<UserRepository>` injects all.
+9. "Why no null keys in ConcurrentHashMap?" → sentinel ambiguity + TOCTOU between `get` and `containsKey`.
+10. "ArrayList growth — why 1.5× not 2×?" → less average wasted memory; resizes are amortized O(1) anyway.
 
 **Architecture/Design:**
-
-9. **"Why did you use PostgreSQL RLS instead of application-layer tenant filtering in Deep Fathom?"** → Application-layer filtering can be bypassed by a code bug (e.g., a developer forgets to add the `WHERE tenant_id = ?` clause to a new query). RLS is enforced by the database regardless — even raw SQL through pgAdmin respects the policy. The trade-off: you must set the tenant context on every DB connection (use a `DataSourceConnectionInterceptor`), and you can't see cross-tenant data without disabling RLS via a superuser connection.
-
-10. **"How would you test the RLS policies in Deep Fathom?"** → Write integration tests that: (1) insert data for tenant A and tenant B, (2) set `app.tenant_id = A` on the connection, (3) assert that only tenant A's data is visible. Use `@DataJpaTest` with a real PostgreSQL (via Testcontainers) since H2 doesn't support RLS.
-
-11. **"Your LLM job takes 20 minutes. A user closes their browser. What happens to the job?"** → The job is persisted in PostgreSQL, not tied to the HTTP request. The worker continues. When the user reopens the browser, they can poll `GET /jobs/{id}` to get the result. The SSE connection would have dropped, but the job result is durable. This is why you never run long jobs synchronously in the web request thread.
-
-12. **[Curveball] "If you had to add rate limiting per user per LLM provider in WebX, how would you do it?"** → Use Spring Cloud Gateway's `RequestRateLimiter` filter backed by Redis (token bucket algorithm). Key = `user_id:provider_id`. Redis `INCR` + `EXPIRE` for a simple counter, or Resilience4j `RateLimiter` at the service level. The gateway approach is better because it stops requests before they reach your service.
-
-13. **"You mentioned you cut CI/CD from 23 to 10 minutes. What would you do to get it to 5 minutes?"** → Aggressive caching (Docker layer, test results), test impact analysis (run only tests for changed modules — Turbo/Nx supports this), build artifact caching between branches, parallelizing across more runners, and moving slow integration tests to a nightly run instead of every PR.
-
-14. **[Behavioral curveball] "Tell me about a technical decision you regret."** → Prepared answer: choosing Eureka for service discovery in Smart360 early on. The team already had Kubernetes in mind. When we moved to K8s, Eureka became redundant infrastructure to maintain. I'd start with K8s-native service discovery (Spring Cloud Kubernetes) from day one. The learning: don't add infrastructure components that duplicate what your platform already provides.
-
-15. **"Where do microservices fail most often in practice, and have you seen this firsthand?"** → Distributed transactions and data consistency. Every time you need an operation to span two services atomically, you pay the complexity tax (sagas, outbox pattern, eventual consistency). In Smart360, the user creation flow spans Auth and Notification — a failure in Notification after Auth commits means the user exists but never got their welcome email. We addressed it with the outbox pattern, but the debugging took days because the failure was silent.
+11. "Why PostgreSQL RLS over app-layer tenant filtering?" → enforced by the DB even with an app bug; trade-off is setting tenant context per connection. Test with Testcontainers (H2 lacks RLS).
+12. "LLM job runs 20 min, user closes browser?" → job persisted in PostgreSQL, worker continues, user re-polls `GET /jobs/{id}`; SSE drops but result is durable.
+13. "Cut CI/CD 23→10 min — how to reach 5?" → aggressive Docker/test caching, test-impact analysis, more parallel runners, move slow integration tests to nightly.
+14. [Behavioral] "A technical decision you regret." → Eureka over K8s-native discovery in Smart360 — redundant infra once K8s arrived; learning: don't duplicate what the platform provides.
 
 ---
 
-## 🌟 Extraordinary-Candidate Edge (2–4 specific differentiators)
+## 🌟 Extraordinary-Candidate Edge
 
-**1. You narrate trade-offs, not just decisions.**
-Most candidates describe *what* they built. You describe *why* you chose it over the alternatives and what you'd do differently today. In the RLS story: "I chose DB-layer enforcement over app-layer filtering. Here's why, here's the operational cost (setting tenant context per connection), and here's what I'd architect differently for a global multi-region deployment." This is senior-engineer vocabulary at 2.5 YOE.
-
-**2. You connect algorithms to production code.**
-When you solve a sliding window problem, you mention: "This exact pattern appears in our rate limiter — we maintain a window of requests per second per user." When you explain HashMap internals, you connect it to your Redis key design. Interviewers at product companies are evaluating whether you can bridge CS fundamentals to engineering judgment. Almost no candidate does this.
-
-**3. You understand failure modes, not just happy paths.**
-Redis goes down → your S3 cache miss degrades gracefully. Kafka consumer falls behind → your LLM job queue backs up but doesn't drop jobs (exactly-once semantics). The circuit breaker trips → your LLM router falls back to a cheaper provider. When you discuss your systems, proactively mention the failure mode and how you handle it. This signals production experience, not just feature development.
-
-**4. You have prepared numbers and they're specific.**
-"96% latency reduction (60s → 2–3s)" is remembered. "I improved performance significantly" is forgotten in 30 seconds. Every project story ends with a number. The numbers you give this week in your resume rewrite will be recalled verbatim by the hiring manager in the debrief.
+1. **Narrate trade-offs, not just decisions** — "I chose DB-layer RLS over app filtering; here's the operational cost and what I'd change for multi-region." Senior vocabulary at 2.5 YOE.
+2. **Connect algorithms to production** — sliding window → your rate limiter; HashMap internals → your Redis key design; prefix sum → PostgreSQL window functions (`SUM() OVER (...)`) pushed to the DB.
+3. **Lead with failure modes** — Redis down → S3 cache-miss degrades gracefully; circuit breaker → cheaper-provider fallback. Signals production experience.
+4. **Specific, prepared numbers** — "96% latency reduction (60s → 2–3s)" is remembered; "improved performance" is forgotten in 30 seconds.
+5. **Go beyond the obvious in collections** — mention the bit-spread AND that capacity must be a power of 2 for `(n-1) & hash` to act as modulo; size caches to the next power of 2 above `expected/0.75`.
 
 ---
 
 ## 📊 End-of-Week Self-Assessment (pass/fail gates)
 
-Complete these checks on Sunday evening. Honest pass/fail only — no partial credit.
+Complete on Saturday evening. Honest pass/fail only — no partial credit.
 
 | Gate | Check | Pass Criteria |
 |------|-------|--------------|
-| DSA-1 | Solve Container With Most Water cold | ≤ 15 min, correct O(n) solution |
-| DSA-2 | Solve Minimum Size Subarray Sum cold | ≤ 15 min, correct sliding window |
-| DSA-3 | Solve 3Sum cold | ≤ 25 min, handles duplicates correctly |
-| DSA-4 | Explain Kadane's algorithm in 60 sec | Can state invariant, handle all-negative case |
-| Java-1 | Derive `equals`/`hashCode` contract | Can state it, code it, name 1 JPA pitfall |
-| Java-2 | Draw HashMap internals from memory | Buckets, list, tree threshold, load factor |
-| Java-3 | Explain autoboxing 128 cache boundary | Correct, can give code example |
-| Java-4 | Name 3 `@Transactional` pitfalls | Self-invocation, checked exceptions, private methods |
-| Resume | All 3 projects have 3+ numbers each | Count them right now |
-| Stories | Smart360 story under 2 min aloud | Time yourself speaking it |
-| Stories | Deep Fathom RLS story under 2 min | Time yourself |
-| Stories | Can answer "why are you leaving?" | Prepared, positive, concise |
+| DSA-1 | Container With Most Water cold | ≤ 15 min, correct O(n) |
+| DSA-2 | Minimum Size Subarray Sum cold | ≤ 15 min, correct sliding window |
+| DSA-3 | 3Sum cold | ≤ 25 min, handles duplicates |
+| DSA-4 | Explain Kadane in 60 sec | States invariant, all-negative case |
+| DSA-5 | Top K Frequent with bucket sort (no heap) | ≤ 20 min, O(n) |
+| DSA-6 | Longest Consecutive Sequence O(n) HashSet | ≤ 15 min, no sorting |
+| DSA-7 | Subarray Sum = K, `{0:1}` seed explained | ≤ 10 min |
+| Bits | 4 bit problems (136/191/338/268) | each ≤ 10 min, "why XOR" articulated |
+| Java-1 | Derive `equals`/`hashCode` contract | State + code + 1 JPA pitfall |
+| Java-2 | Draw HashMap internals from memory | Buckets, list, tree threshold, load factor, resize split |
+| Java-3 | Autoboxing 128 cache boundary | Correct + code example |
+| Java-4 | ConcurrentHashMap CAS vs synchronized + null reason | Explained without "segment" |
+| Java-5 | Fail-fast `modCount` (incl. `set()` edge case) | Code snippet, `set()` doesn't throw |
+| Java-6 | Comparable vs Comparator + BigDecimal gotcha | Both + the consistency bite |
+| SD | Smart360 5-service diagram from memory | Sync/async arrows + failure modes |
+| Resume | All 3 projects have 3+ numbers each | Count them now |
 
-**Score: 12/12 = ready to proceed to Week 2**
-**Score: 9–11 = identify gaps, spend 30 extra min Monday on the failed gates**
-**Score: < 9 = repeat the weakest day before moving on — do not skip to Week 2**
+**Score: 16/16 = ready to proceed to Week 2**
+**Score: 12–15 = identify gaps, spend 30 extra min Monday on the failed gates**
+**Score: < 12 = repeat the weakest day before moving on — do not skip to Week 2**
 
 ---
 
-*Week 1 of 13 — next: Week 2 (Mon Jun 29 – Sun Jul 5) covers Hashing/Strings + the Collections framework deep-dive + a system design primer.*
+*Week 1 of 12 — next: Week 2 (Mon Jul 6 – Sat Jul 11).*

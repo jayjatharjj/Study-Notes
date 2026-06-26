@@ -1,601 +1,464 @@
-# Week 2 — Foundations (Jun 29–Jul 5, 2026)
+# Week 2 — Foundations (Jul 6–11, 2026)
 
-> Hash the strings, understand the collections internals, and sketch your own architecture on a whiteboard.
+> Master the bedrock every Java interview tests first: binary search and its on-answer variant, recursion/backtracking, the linear structures (stacks, queues, linked lists), and the Spring internals + concurrency model behind your own shipped code.
+>
+> **Full-time, heads-down study week — Mon–Sat (6 study days), Sun rest.** Three blocks per day: **Block A** (DSA, ~2.5 hr), **Block B** (core/system knowledge, ~2 hr), **Block C** (a second DSA set or deep-dive, ~1.5 hr). No applications this week — pure skill build.
 
 ---
 
 ## 🎯 Week Goal
 
-By Sunday you will have drilled Hashing + Strings patterns cold (8 canonical problems, 2 per day), internalized Java Collections from first principles — not just "what" but "why the data structure was designed that way" — and be able to whiteboard Smart360's 5-microservice topology with a sharp articulation of every architectural decision.
+Walk into any interview and answer cold questions on Spring IoC/DI, `@Transactional`, bean lifecycle, auto-configuration, the full request lifecycle, and Java concurrency without hesitation. Solve any binary-search, backtracking, stack/monotonic-stack, or linked-list medium cold in ≤25 min. Implement an LRU cache and binary-search-on-answer under time pressure. Explain REST/JWT/OAuth2 production knowledge and articulate the concurrency and transaction decisions you made in WebX and Smart360 at senior-engineer depth.
 
 ---
 
-## ✅ By Sunday you can...
+## ✅ By Saturday you can...
 
-- [ ] Solve Group Anagrams, Valid Anagram, Top K Frequent Elements, Longest Consecutive Sequence, Valid Palindrome, Encode/Decode Strings, Longest Repeating Character Replacement, Subarray Sum Equals K from memory with correct time/space complexity
-- [ ] Explain HashMap's internal resizing threshold (0.75f load factor), treeification trigger (8 entries), and the bit-spread formula `(h ^ (h >>> 16))` and WHY each constant was chosen
-- [ ] Distinguish fail-fast vs fail-safe iterators with a live code example and name which collections fall in each camp
-- [ ] Compare `ConcurrentHashMap` internal locking (CAS on empty buckets, `synchronized` on head node) vs `Hashtable` (full-map lock) with throughput implications
-- [ ] Explain `Comparable` vs `Comparator` and name 3 real scenarios where you'd choose each
-- [ ] Whiteboard Smart360 5-service diagram with request flow, data ownership, failure boundaries, and one sentence on why each service is a separate process
-
----
-
-## 📅 Daily Checklist (Mon–Sun)
-
----
-
-### Monday, Jun 29 — Hashing Foundations
-
-📌 **Study today:** Hashing — frequency maps & canonical keys (LC 242, 49) · HashMap internals deep-dive
-
-**DSA Block A (40 min)**
-
-- **Problem 1 — Valid Anagram** (LC 242 · Easy)
-  - Pattern: Character frequency map / sorting
-  - Method A: `int[26]` array increment for s, decrement for t, check all zeros — O(n) time, O(1) space
-  - Method B: sort both strings, compare — O(n log n)
-  - Why it matters: foundation for Group Anagrams; interviewers follow up with "Unicode strings?" → use `HashMap<Character, Integer>` instead of `int[26]`
-  - Curveball follow-up: "What if strings can contain Unicode characters beyond ASCII?" Answer: replace `int[26]` with `HashMap<Character, Integer>`
-
-- **Problem 2 — Group Anagrams** (LC 49 · Medium)
-  - Pattern: HashMap with canonical key
-  - Key insight: sorted string as map key — all anagrams share the same sorted form
-  - Implementation: `Map<String, List<String>>` — `Arrays.sort(word.toCharArray())` as key
-  - Alternative key (no sorting, O(26) per word): `int[26]` array → `Arrays.toString(count)` as key — avoids O(k log k) sort
-  - Time: O(n · k log k) where k = max word length; Space: O(n·k)
-  - Tie to resume: token/permission deduplication logic in Smart360 Authorization service uses the same "canonical key" pattern for grouping roles
-
-**Core Topic Block B (50 min) — HashMap Internals Deep Dive**
-
-1. **Internal Structure**: `Node<K,V>[] table` — array of linked list heads (or TreeNode heads)
-2. **`hashCode()` + bit-spread**: `(h = key.hashCode()) ^ (h >>> 16)` — XORs high bits into low bits to reduce collisions in small tables. Without this, strings differing only in high bits would all land in the same few buckets.
-3. **Bucket index formula**: `(n - 1) & hash` where n = table capacity (always a power of 2) — bitwise AND is cheaper than modulo
-4. **Load factor 0.75**: empirical sweet spot — below 0.75 the table is spacious enough that chains stay short; above 0.75 collision rate rises disproportionately. Space/time tradeoff.
-5. **Treeification at 8 entries**: based on Poisson distribution — with load factor 0.75, probability of a bin having ≥8 entries is ~0.00000006. If it DOES happen, it's a sign of a bad `hashCode()`; the tree prevents O(n) worst case.
-6. **Untreeification at 6 entries**: hysteresis band (8 → tree, 6 → list) prevents thrashing when elements are repeatedly added/removed near the threshold
-7. **Resize (rehash)**: when `size > capacity * loadFactor`, double the table. In Java 8+, each entry either stays at same index OR moves to `oldIndex + oldCapacity` — split by checking the new bit (`hash & oldCapacity`). Avoids full rehash.
-8. **`putIfAbsent`, `computeIfAbsent`, `merge`**: essential for Smart360-style caching patterns
-
-**Self-Check**
-
-- [ ] Can you explain the bit-spread formula without notes?
-- [ ] Can you state when treeification triggers and what data structure replaces the linked list?
-- [ ] Can you code Valid Anagram two ways in <5 min?
+- Implement iterative and recursive binary search from scratch and explain the off-by-one logic (`left <= right` vs `left < right`)
+- Solve Search in Rotated Sorted Array, Koko Eating Bananas, and Search a 2D Matrix correctly on first attempt
+- Explain binary-search-on-answer and identify when a problem needs it (Koko, Ship Packages, Split Array Largest Sum)
+- Generate Subsets, Permutations, and Combination Sum via backtracking with correct state-restore and de-duplication
+- Solve Valid Parentheses, Min Stack, Daily Temperatures, Next Greater Element (I/II), Online Stock Span, and Largest Rectangle in Histogram with the monotonic-stack model
+- Solve Reverse/Merge Linked List, Floyd's cycle detection, Reorder List, Remove Nth from End; implement an LRU cache (HashMap + DLL) cold
+- Whiteboard the full Spring request lifecycle: Servlet container → DispatcherServlet → HandlerMapping → Interceptors → Controller → Service (proxy) → Repository → back
+- Explain `@Transactional` proxy mechanics, propagations, and the self-invocation pitfall with a fix
+- Distinguish ApplicationContext vs BeanFactory and all 8 bean-lifecycle steps (incl. where AOP proxies appear)
+- Explain auto-configuration: `AutoConfiguration.imports`, `@ConditionalOnClass`, `@ConditionalOnMissingBean`, and how to debug what fired
+- Explain REST versioning, pagination (offset vs cursor), and idempotency keys; write a `@ControllerAdvice` from memory
+- Describe JWT issuance → validation → refresh → RBAC and the OAuth2 grant types end-to-end
+- Compare `synchronized` vs `ReentrantLock`, explain `volatile`, write and prevent a deadlock, and connect `CompletableFuture`/`ThreadLocal` to WebX
 
 ---
 
-### Tuesday, Jun 30 — Top K & Frequency Patterns
-
-📌 **Study today:** Top-K & frequency — bucket sort / heap + HashSet (LC 347, 128) · ArrayList vs LinkedList internals
-
-**DSA Block A (40 min)**
-
-- **Problem 3 — Top K Frequent Elements** (LC 347 · Medium)
-  - Pattern: HashMap + bucket sort OR HashMap + min-heap
-  - Method A (bucket sort — O(n)): count frequencies in HashMap; create `List<Integer>[]` of size n+1 indexed by frequency; fill buckets; scan from high to low collecting top k
-  - Method B (min-heap — O(n log k)): count frequencies; maintain a `PriorityQueue<Integer>` of size k ordered by frequency ascending; scan map entries, add to heap, poll when size > k
-  - Which to use: bucket sort when k is unspecified or k ≈ n; heap when k << n and memory matters
-  - Code the bucket sort version — it impresses interviewers with O(n) vs the obvious O(n log n)
-  - Tie to Smart360: "In the Analytics service, finding the top-K accessed reports by a user — same bucket sort pattern"
-
-- **Problem 4 — Longest Consecutive Sequence** (LC 128 · Medium)
-  - Pattern: HashSet — O(n) time, NOT sorting
-  - Key insight: for each number n, only start counting if `n-1` is NOT in the set (n is the start of a sequence)
-  - Common mistake: using a sorted structure or sorting — that's O(n log n). Interviewers specifically ask for O(n).
-  - Build `HashSet<Integer>` from array. For each num: if `set.contains(num-1)` → skip (not the start). Otherwise count consecutive `num+1, num+2...` while present in set.
-  - Time: O(n), Space: O(n)
-
-**Core Topic Block B (50 min) — ArrayList vs LinkedList Internals + When Each Wins**
-
-**ArrayList deep dive:**
-- Backing: `Object[] elementData` — contiguous memory
-- Initial capacity: 10 (default constructor). `new ArrayList<>(0)` starts at 0, grows lazily
-- Growth formula: `int newCapacity = oldCapacity + (oldCapacity >> 1)` → 50% growth
-- `add(index, element)`: calls `System.arraycopy()` — O(n) shift but extremely cache-friendly in practice. The JVM/JIT can vectorize arraycopy.
-- Memory layout advantage: CPU prefetcher can anticipate next element → L1/L2 cache hits
-- `trimToSize()`: shrinks backing array to exact size — useful after bulk-loading a stable list
-
-**LinkedList deep dive:**
-- Backing: `Node<E>` — `{E item; Node<E> next; Node<E> prev;}` — doubly linked
-- Each node: ~48 bytes (object header 16B + 3 references × 8B each + padding) vs ArrayList element: ~8 bytes (reference in array)
-- `add(0, e)`: O(1) pointer rewire — `node.prev = null; head = node`
-- `get(i)`: `if i < size/2` iterate from head, else from tail — still O(n)
-- Real winner scenario: deque operations (`addFirst`, `removeFirst`, `addLast`, `removeLast`) with LinkedList as `Deque` — but `ArrayDeque` beats even LinkedList here due to cache
-
-**Benchmark reality (know for interviews):**
-- For lists of ~1000 elements, ArrayList `add(0, e)` is FASTER than LinkedList due to cache effects
-- LinkedList only wins with millions of elements + very frequent mid-insertions + elements are large objects (pointer-chasing overhead shrinks relative to object fetch time)
-- **Rule of thumb**: default to `ArrayList`. Switch to `ArrayDeque` for queue/stack. Use `LinkedList` only if you've profiled.
-
-**Self-Check**
-
-- [ ] Can you code Top K Frequent with bucket sort (no heap)?
-- [ ] Can you explain why `ArrayList` beats `LinkedList` on small lists even for insertions?
-- [ ] What is the ArrayList initial capacity and growth formula from memory?
+## 📅 Daily Checklist
 
 ---
 
-### Wednesday, Jul 1 — Concurrent Collections + Fail-Fast/Fail-Safe
+### Monday Jul 6 — Binary Search + Search-on-Answer
 
-📌 **Study today:** Two pointers & length-prefix encoding (LC 125, 271) · ConcurrentHashMap internals + fail-fast vs fail-safe
+📌 **Study today:** Binary search — standard + rotated + 2D (LC 704, 33, 153, 74) · Spring bean lifecycle + IoC/DI · binary-search-on-answer (LC 875, 1011, 410)
 
-**DSA Block A (40 min)**
+**DSA (Block A, ~2.5 hr) — Binary Search Fundamentals:**
 
-- **Problem 5 — Valid Palindrome** (LC 125 · Easy — but has curveballs)
-  - Pattern: Two pointers
-  - Implementation: two pointers l=0, r=len-1; skip non-alphanumeric with `Character.isLetterOrDigit()`; compare `Character.toLowerCase(c1) == Character.toLowerCase(c2)`; O(n) time, O(1) space
-  - Curveball: "What about Unicode? What about emojis?" → `Character.isLetterOrDigit()` handles basic Unicode; supplementary code points (emoji) need `Character.codePointAt()` + `Character.isLetterOrDigit(codePoint)` — know this exists even if you don't need to code it
-  - Follow-up: LC 680 "Valid Palindrome II" — one deletion allowed. Use the same two-pointer approach; when mismatch found, try skipping left OR right, check if remainder is palindrome.
+Pattern: **Binary search**. Memorize the invariant before coding: `while (left <= right)` for exact search, `mid = left + (right - left) / 2`, shrink with `left = mid + 1` / `right = mid - 1`. Use `left + (right - left) / 2` (not `(left + right) / 2`) to avoid integer overflow when `left + right > Integer.MAX_VALUE` — mention this in interviews.
 
-- **Problem 6 — Encode and Decode Strings** (LC 271 / LintCode 659 · Medium)
-  - Pattern: Length-prefix encoding
-  - Encode: for each string, prepend `len(s) + "#" + s` — e.g., `["lint","code"]` → `"4#lint4#code"`
-  - Decode: read digits until `#`, parse length, extract exactly that many chars, advance pointer
-  - Why `#` delimiter? Not enough — need the length to handle strings that contain `#`. The length makes it unambiguous.
-  - Tie to resume: LLM proxy in Deep Fathom used a similar framing protocol to pack multiple prompts into a single API call
+Problems (in order):
+1. **Binary Search** (LC 704) — implement iteratively from scratch, no looking up. Test even/odd length arrays and target-not-found. Target: <5 min.
+2. **Search in Rotated Sorted Array** (LC 33) — work both cases: pivot left of mid, pivot right of mid. Key insight: one of the two halves is always sorted — compare `nums[mid]` to `nums[left]`/`nums[right]` to decide which half holds the target in an O(1) decision.
+3. **Find Minimum in Rotated Sorted Array** (LC 153) — no target, find the inflection point. Invariant: `nums[mid] > nums[right]` means the pivot is in the right half.
+4. **Search a 2D Matrix** (LC 74) — row-sorted, each row starts > previous row's end → treat as one flat sorted array. `mid` maps to `(mid / cols, mid % cols)`. Target: <10 min.
 
-**Core Topic Block B (50 min) — ConcurrentHashMap Internals + Fail-Fast vs Fail-Safe**
+**Core Topic (Block B, ~2 hr) — Spring Bean Lifecycle + IoC/DI:**
 
-**ConcurrentHashMap Java 8+ internals (NOT the old segment/striped-lock design from Java 5–7):**
-- **Empty bucket → CAS insert**: if the target bucket is null, use `Unsafe.compareAndSwapObject()` to insert atomically — no lock at all
-- **Non-empty bucket → `synchronized(bin head)`**: locks only the first node of that bucket's chain. Other buckets are fully accessible concurrently.
-- **Read (get)**: fully lock-free — `volatile` reads on nodes
-- **Resize**: cooperative "forwarding" — threads helping with resize find `ForwardingNode` at old bucket and cooperatively copy
-- **`size()`**: uses `LongAdder`-style striped counters (`counterCells`) — avoids single shared counter becoming a bottleneck
-- **`null` keys/values forbidden**: because `null` is used as a sentinel to indicate "not present" — a `null` value in a concurrent context makes `containsKey` vs `get` return values ambiguous
+- **ApplicationContext vs BeanFactory**: `BeanFactory` = lazy init by default, minimal. `ApplicationContext` extends it and adds eager singleton init, event propagation (`ApplicationEventPublisher`), i18n (`MessageSource`), AOP proxy post-processing, `@Async`/`@Scheduled` support. Always use `ApplicationContext` in practice. Hierarchy: `BeanFactory` → `ListableBeanFactory` → `ApplicationContext` → `ConfigurableApplicationContext` → `AnnotationConfigApplicationContext`/`GenericWebApplicationContext`.
+- **DI modes**: constructor (recommended — immutable, easy to test, surfaces cycles at startup), setter (optional deps), field (`@Autowired` on field — avoid: hides dependencies, breaks in non-Spring tests).
+- **`@Primary` vs `@Qualifier`**: `@Primary` sets a default for ambiguity; `@Qualifier("beanName")` is explicit. Use `@Qualifier` for multiple intentional implementations (e.g., two `DataSource` beans for primary/replica routing in Smart360).
+- **The 8-step bean lifecycle** — whiteboard all phases. Crucial precision: AOP proxies are created at step 6 (`BeanPostProcessor.postProcessAfterInitialization`) by `AnnotationAwareAspectJAutoProxyCreator` (itself a `BeanPostProcessor`). After step 6 the bean in the context IS the proxy — the original is wrapped, not replaced.
+- **Init hooks and order**: `@PostConstruct` → `InitializingBean.afterPropertiesSet()` → `init-method`. The `BeanPostProcessor` wraps around all of them.
+- **Circular dependency**: constructor injection fails fast at startup; field/setter resolves lazily (partial bean). Constructor injection is safer — surfaces cycles at boot. Best fix: redesign to remove the cycle. `@Lazy` delays instantiation until first use (last-resort cycle break; trade-off: first-call latency, hidden init failures).
 
-**ConcurrentHashMap Java 5–7 (know for trivia):**
-- Used `Segment[]` — 16 segments by default, each a mini `ReentrantLock`-backed hash table
-- Maximum concurrency = number of segments
+**DSA (Block C, ~1.5 hr) — Binary-Search-on-Answer:**
 
-**Fail-Fast vs Fail-Safe — the real mechanism:**
-- Fail-fast (`ArrayList`, `HashMap`, `HashSet`, `TreeMap`): maintain `int modCount` field. Every structural modification increments `modCount`. The iterator snapshot the `modCount` at creation time (`expectedModCount`). Every `next()` call checks `if modCount != expectedModCount → throw ConcurrentModificationException`. This is BEST-EFFORT — not a guarantee under concurrent access (only for single-thread misuse detection).
-- Fail-safe (`ConcurrentHashMap`, `CopyOnWriteArrayList`): either iterate over a snapshot copy (COWAL) or use weakly consistent traversal (`ConcurrentHashMap` iterator reflects state at or after creation — may or may not show concurrent insertions)
-- Interview trick: `for (String s : list) { list.remove(s); }` — always `ConcurrentModificationException`. Fix: use `Iterator.remove()` or `removeIf()` or collect-then-remove.
-
-**Self-Check**
-
-- [ ] Can you explain CAS insert in ConcurrentHashMap without using the word "segment"?
-- [ ] Can you show the `modCount` fail-fast mechanism in a code snippet?
-- [ ] Valid Palindrome coded with `Character.isLetterOrDigit()` in <4 min?
-
----
-
-### Thursday, Jul 2 — Comparable vs Comparator + String Patterns
-
-📌 **Study today:** Sliding window & prefix sum + HashMap (LC 424, 560) · Comparable vs Comparator, TreeMap/TreeSet sorting
-
-**DSA Block A (40 min)**
-
-- **Problem 7 — Longest Repeating Character Replacement** (LC 424 · Medium)
-  - Pattern: Sliding window + character frequency map
-  - Key invariant: window is valid if `(windowLength - maxFrequency) <= k`
-  - Why: the characters we "replace" = window size minus the count of the most frequent character in the window. If that count ≤ k, we can make the whole window one character with k replacements.
-  - Important nuance: you never need to SHRINK `maxFreq` when shrinking the window — you only care about the global max found so far (because you're looking for the LONGEST valid window, not checking every window)
-  - Time: O(26·n) → O(n), Space: O(26) → O(1)
-  - Tie to resume: sliding window is the same mental model as Smart360's Redis TTL window for rate limiting
-
-- **Problem 8 — Subarray Sum Equals K** (LC 560 · Medium)
-  - Pattern: Prefix sum + HashMap
-  - Key insight: `sum[i..j] = prefixSum[j] - prefixSum[i-1]`. We want `prefixSum[j] - prefixSum[i-1] = k`, i.e., look for `prefixSum[j] - k` in the map.
-  - Implementation: `Map<Integer, Integer> prefixCount = new HashMap<>()` seeded with `{0: 1}` (empty subarray). For each element: update `currentSum`, check `prefixCount.get(currentSum - k)`, then increment `prefixCount[currentSum]`.
-  - Common mistake: forgetting to seed `{0: 1}` — causes missed subarrays starting at index 0
-  - Time: O(n), Space: O(n)
-  - Why `{0: 1}`? The subarray `[0..j]` itself has sum k when `prefixSum[j] - k = 0`. Without seeding, this case is missed.
-
-**Core Topic Block B (50 min) — Comparable vs Comparator, TreeMap/TreeSet, Sorting Deep Dive**
-
-**Comparable (`java.lang`):**
-- `int compareTo(T o)` — defines the object's NATURAL ordering
-- Implemented ON the class itself — the class "knows" how it should be sorted
-- `Arrays.sort()`, `Collections.sort()`, `TreeSet`/`TreeMap` use it automatically
-- Return convention: negative → this < o, zero → equal, positive → this > o
-- Must be consistent with `equals()` — violating this breaks `TreeSet` behavior (treats unequal objects as equal if `compareTo` returns 0)
-
-```java
-// Smart360 example: User sorted by creation date by default
-public class User implements Comparable<User> {
-    private LocalDateTime createdAt;
-    
-    @Override
-    public int compareTo(User other) {
-        return this.createdAt.compareTo(other.createdAt); // natural order: oldest first
-    }
-}
+When the answer space is a monotonic range and you can write a feasibility function `feasible(mid)`, binary-search the answer itself, not an array index. Template:
 ```
-
-**Comparator (`java.util`):**
-- `int compare(T o1, T o2)` — defines EXTERNAL, ad-hoc ordering
-- Separate from the class — you can define multiple Comparators for the same class
-- Java 8+: `Comparator.comparing()`, `.thenComparing()`, `.reversed()` chain idioms
-
-```java
-// Multiple sort orders for the same Report entity
-Comparator<Report> byDate    = Comparator.comparing(Report::getCreatedAt).reversed();
-Comparator<Report> byOwner   = Comparator.comparing(Report::getOwnerName);
-Comparator<Report> byDateThenOwner = byDate.thenComparing(byOwner);
-
-reports.sort(byDateThenOwner);
+left = min_possible_answer
+right = max_possible_answer
+while left < right:
+    mid = left + (right - left) / 2
+    if feasible(mid):
+        right = mid        // or left = mid + 1 depending on direction
+    else:
+        left = mid + 1
+return left
 ```
+1. **Koko Eating Bananas** (LC 875) — `canEat(speed)` = can Koko finish all piles in `h` hours? Answer space `[1, max(piles)]`. Target: <15 min.
+2. **Ship Packages Within D Days** (LC 1011) — same pattern; feasibility = can all packages ship within `D` days at this capacity? Answer space `[max(weights), sum(weights)]`.
+3. **Split Array Largest Sum** (LC 410) — minimize the largest subarray sum across `k` splits; feasibility = can we split into ≤ k subarrays each ≤ mid?
 
-**When Comparable:**
-- Core domain objects with ONE obvious natural order (User by ID, Product by price, Report by date)
-- Used as TreeMap/TreeSet keys where you don't pass a Comparator
-
-**When Comparator:**
-- Multiple sort criteria on the same type
-- Sorting third-party classes you can't modify
-- Sort order changes at runtime (user picks "sort by name" vs "sort by date")
-- Lambda/method reference — one-liner sorts without a full class
-
-**TreeMap/TreeSet gotcha**: if you use them without a Comparator and the key type doesn't implement Comparable → `ClassCastException` at runtime, not compile time.
-
-**Self-Check**
-
-- [ ] Can you code Subarray Sum = K with prefix sums in <7 min including the seed `{0:1}`?
-- [ ] Can you chain three Comparators with `.thenComparing()` in 30 seconds?
-- [ ] What happens to a TreeSet if you insert objects with `compareTo` returning 0 but `equals` returning false?
+**Self-check:**
+1. Can you identify which half is sorted in a rotated array as an O(1) decision? If not, re-code before Tuesday.
+2. Typical phrasings that signal binary-search-on-answer? (Answer: "minimum maximum", "maximum minimum", "largest X such that Y", "fewest/most X to achieve Y".)
 
 ---
 
-### Friday, Jul 3 — Review + Weak Spots + Collections Synthesis
+### Tuesday Jul 7 — Recursion / Backtracking
 
-📌 **Study today:** Bit manipulation — XOR & `n&(n-1)` tricks (LC 136, 191, 338, 268) · Collections framework synthesis
+📌 **Study today:** Backtracking — choose/recurse/un-choose (LC 39, 40, 46, 78) · `@Transactional` internals (propagation, isolation, self-invocation, proxy) · more backtracking (LC 79, 51, 90)
 
-**DSA Block A (40 min) — Re-attempt the 2 hardest problems from Mon–Thu without notes**
+**DSA (Block A, ~2.5 hr) — Backtracking Core:**
 
-Rank your confidence from Mon–Thu. Pick your two lowest-confidence problems. Re-solve them clean on paper or in an editor with no notes. Time yourself. Target: each solved in ≤15 min.
+Pattern: **Backtracking — choose → recurse → un-choose**. The un-choose (state restore) step distinguishes backtracking from naive recursion; forget it and you corrupt the path for sibling branches.
+```
+backtrack(path, choices):
+    if base case: add copy of path to results; return
+    for each choice:
+        path.add(choice)        // choose
+        backtrack(path, ...)     // recurse
+        path.remove(last)        // un-choose (RESTORE)
+```
+Problems (in order):
+1. **Subsets** (LC 78) — at each index choose include/exclude, recurse, pop. Trace the tree for `[1,2,3]` on paper: leaves = 2³ = 8. Complexity O(2ⁿ × n).
+2. **Permutations** (LC 46) — backtracking with a `used[]` boolean array or by swapping; practice both. Complexity O(n! × n) — n! permutations, each length n.
+3. **Combination Sum** (LC 39) — same element reusable; pass a `start` index (recurse with `i`, not `i+1`) to allow reuse while preventing duplicate combinations. Sort first; if `candidates[i] > target`, break the inner loop (pruning).
+4. **Combination Sum II** (LC 40) — each candidate used once; add the dedup guard `if (i > start && candidates[i] == candidates[i-1]) continue;`.
 
-Common weak spots to watch:
-- Group Anagrams: forgetting the alternative O(n) key (int[26] count array vs sort)
-- Longest Consecutive Sequence: accidentally using a sorted set instead of HashSet
-- Subarray Sum: forgetting the `{0:1}` seed
-- Longest Repeating: forgetting why you don't shrink maxFreq on window contraction
+**Core Topic (Block B, ~2 hr) — `@Transactional` Internals:**
 
-**DSA Block A2 (40 min) — Bit Manipulation Micro-Block (4 canonical Easy, ~10 min each)**
+- **Proxy mechanics**: CGLIB subclass proxy for classes (requires non-final class, non-private methods); JDK dynamic proxy for interfaces. Spring Boot 2.x+ defaults to CGLIB even for interface-based beans. Calling `getClass()` on an injected `@Transactional` service returns the CGLIB subclass name.
+- **Propagation** — know cold: `REQUIRED` (default — join or start; 95% of cases); `REQUIRES_NEW` (suspend outer, start fresh, commit independently — audit logs, idempotency tables, outbox); `NESTED` (savepoint inside outer tx); `NOT_SUPPORTED` (suspend, run without tx); `NEVER` (throw if a tx exists).
+- **Isolation**: `READ_COMMITTED` (default in Postgres), `REPEATABLE_READ`, `SERIALIZABLE` — know the anomalies each prevents (dirty / non-repeatable / phantom reads).
+- **Self-invocation pitfall** — must be able to demo:
+  ```java
+  @Service
+  public class OrderService {
+      public void placeOrder() {
+          this.processPayment();  // 'this' = raw bean, not the proxy → NO transaction
+      }
+      @Transactional
+      public void processPayment() { ... }
+  }
+  ```
+  Fixes: (1) inject self (`@Autowired private OrderService self;`); (2) `applicationContext.getBean(OrderService.class)`; (3) move `processPayment` to a separate `@Service` (cleanest).
+- **Three more pitfalls to mention unprompted**: private methods → annotation silently ignored; default `rollbackFor` = `RuntimeException` only (use `rollbackFor = Exception.class` for checked exceptions); long transactions holding DB connections — never call external HTTP/LLM APIs inside a `@Transactional` method (you held a Postgres connection for a 20s LLM call in WebX → fix: do the LLM call outside the tx boundary).
+- **`@Transactional(readOnly = true)`**: Hibernate skips dirty checking at flush; Spring hints `Connection.setReadOnly(true)` (HikariCP may route to a replica); Postgres skips read-only overhead — a real Smart360 latency win on a 500-entity report query.
+- **TransactionSynchronizationManager** uses a `ThreadLocal<Map<Object,Object>>` to store the current connection per thread — this is why `@Transactional` is inherently thread-local and cannot span an HTTP thread and an `@Async` thread.
 
-The week's hash internals lean on bit tricks (the `(h ^ (h >>> 16))` bit-spread, `(n-1) & hash` index, `hash & oldCapacity` resize split) — bit manipulation is the same muscle. These four show up in screens and warm-ups; drill them cold.
+**DSA (Block C, ~1.5 hr) — Backtracking Variations:**
 
-- **Problem 9 — Single Number** (LC 136 · Easy)
-  - Pattern: XOR cancels pairs — `a ^ a == 0`, `a ^ 0 == a`, XOR is commutative
-  - Fold the array with `result ^= num`; every duplicate cancels, the lone element survives — O(n) time, O(1) space (beats the obvious HashSet)
+1. **Word Search** (LC 79) — grid DFS + backtracking; mark a cell visited, recurse 4 directions, then restore. Common bug: forgetting to restore the cell.
+2. **N-Queens** (LC 51) — the canonical hard backtracking; track occupied columns and both diagonals (`r+c` and `r-c`) for O(1) conflict checks.
+3. **Subsets II** (LC 90) — duplicates in input; sort, then skip `if (i > start && nums[i] == nums[i-1]) continue;`.
 
-- **Problem 10 — Number of 1 Bits** (LC 191 · Easy)
-  - Pattern: `n & (n-1)` drops the lowest set bit
-  - Loop `while (n != 0) { n &= (n - 1); count++; }` — runs once per set bit, not 32 times. Mention `Integer.bitCount()` as the JDK intrinsic but know the trick.
-
-- **Problem 11 — Counting Bits** (LC 338 · Easy)
-  - Pattern: DP on bits — `bits[i] = bits[i >> 1] + (i & 1)`
-  - `i >> 1` is `i` with the lowest bit shaved; add back `(i & 1)` for that bit. Builds the whole 0..n table in O(n) — a clean DP-meets-bits answer.
-
-- **Problem 12 — Missing Number** (LC 268 · Easy)
-  - Pattern: XOR all indices with all values, or Gauss sum
-  - XOR: `result ^= i ^ nums[i]` over the loop, then `^= n` — paired index/value cancel, the missing index remains. Gauss alternative: `n*(n+1)/2 - sum(nums)` (watch overflow). XOR avoids overflow and is the preferred answer.
-
-Self-check: each in ≤10 min, and be ready to articulate "why XOR" (self-inverse, associative) vs the HashSet/sum approaches.
-
-**Core Topic Block B (50 min) — Collections Framework Synthesis + Interview Stress Test**
-
-Synthesis exercise — answer these WITHOUT looking at notes:
-
-1. You have a multi-threaded Spring Boot service tracking request counts per IP address. Which collection? Why not `HashMap`? Why not `Hashtable`? → `ConcurrentHashMap<String, AtomicLong>` or use `merge()`. HashMap: race condition on concurrent puts. Hashtable: full-map lock → serialized access, throughput bottleneck.
-
-2. You need a list of event listeners. Reads happen on every request (100/sec). Writes happen when an admin adds a listener (once per hour). → `CopyOnWriteArrayList` — reads lock-free, writes rare so copy cost is acceptable.
-
-3. A method needs to return both a unique set of tag names AND maintain the order they were first seen. → `LinkedHashSet<String>`.
-
-4. You're building a priority retry queue — failed API calls retried by priority. → `PriorityBlockingQueue<RetryTask>` with Comparable or Comparator on priority field.
-
-5. You have an `EnumMap<Permission, List<User>>` vs a `HashMap<Permission, List<User>>`. Why choose EnumMap? → O(1) all ops backed by array indexed by ordinal, more memory-efficient, iteration in declaration order.
-
-**Self-Check**
-
-- [ ] Can you articulate the resizing flow for a HashMap loaded to 75% capacity, step by step?
-- [ ] Can you name the 4 rejection policies of `ThreadPoolExecutor` and when to use `CallerRunsPolicy`?
+**Self-check:**
+1. Why does a `start` index (not `used[]`) prevent duplicate *combinations* but `used[]` is needed for *permutations*? (Answer: combinations are order-insensitive — `start` enforces a forward-only choice; permutations are order-sensitive — every position is a fresh choice.)
+2. Draw the proxy call stack on paper: caller → CGLIB proxy → `TransactionInterceptor` → actual bean method.
 
 ---
 
-### Saturday, Jul 4 — System Design Primer (4 hr)
+### Wednesday Jul 8 — Stacks + Monotonic Stack
 
-📌 **Study today:** System design foundations — caching, CDN, load balancing, CAP · Smart360 5-microservice architecture exercise
+📌 **Study today:** Stacks + monotonic stack (LC 20, 155, 739, 496, 503, 901, 84) · Spring Boot auto-config + full request lifecycle · queues / stack drills
 
-**Morning: Foundations (2 hr)**
+**DSA (Block A, ~2.5 hr) — Stacks & Monotonic Stack:**
 
-**Client–Server model:**
-- Client initiates request over TCP/HTTP; server responds
-- Every Spring Boot microservice is a server; it's also a client when calling downstream services
-- HTTP 1.1 vs HTTP/2: multiplexing (multiple streams on one TCP connection) — relevant to API Gateway → downstream calls under load
+Pattern: **Monotonic stack** — maintain elements (usually indices) in increasing/decreasing order; pop and resolve when the current element breaks monotonicity. Used for next-greater-element, span, and histogram problems. Back the stack with `Deque<Integer> stack = new ArrayDeque<>()` — never the legacy synchronized `Stack` class.
 
-**Latency vs Throughput:**
-- Latency: time for one request (milliseconds) — optimize with caching, fewer hops, faster algorithms
-- Throughput: requests per second — optimize with horizontal scaling, async processing, batch ops
-- They are in tension: adding redundancy (replication) improves throughput but may add latency (consistency checks)
-- Know numbers: L1 cache ~1ns, L2 ~4ns, RAM ~100ns, SSD random read ~100µs, network same DC ~500µs, cross-region ~150ms
+Problems (in order):
+1. **Valid Parentheses** (LC 20) — push openers, match on closers. Edge: closer on an empty stack → invalid. Target: ≤10 min.
+2. **Min Stack** (LC 155) — two stacks (or value+min pairs); O(1) `getMin` by pushing the running min alongside.
+3. **Daily Temperatures** (LC 739) — monotonic decreasing stack of indices; trace `[73,74,75,71,69,72,76,73]` by hand before coding.
+4. **Next Greater Element I** (LC 496) — one monotonic-stack pass over `nums2` into a `Map<value, nextGreater>`, then O(1) lookups for `nums1`. The base case of the family.
+5. **Next Greater Element II** (LC 503) — **circular** array; iterate `2n` indices using `i % n`; only push during the first pass.
+6. **Online Stock Span** (LC 901) — the canonical **span** problem; stack of `(price, span)` pairs. On each new price, pop while top price ≤ current, accumulating spans — amortized O(1) per call.
+7. **Largest Rectangle in Histogram** (LC 84, Hard) — the flagship. For each bar find the leftmost/rightmost bar ≥ its height via an index stack. Trace `[2,1,5,6,2,3]` → 10. Common mistake: not draining the stack after the loop — push a dummy 0-height sentinel at the end.
 
-**Caching:**
-- Where to cache: in-process (Caffeine — sub-ms), distributed (Redis — 1–2ms), CDN (static assets, ~10ms globally)
-- Cache-aside (lazy loading): app checks cache, on miss loads from DB and populates cache — most common pattern in Smart360
-- Write-through: write to cache AND DB simultaneously — consistent but slower writes
-- Write-behind (write-back): write to cache immediately, async flush to DB — fast writes, risk of data loss
-- Eviction policies: LRU (most common), LFU (penalizes bursty access), TTL-based
-- Cache stampede / thundering herd: on cold start, 1000 concurrent requests all miss cache and hammer DB. Fix: probabilistic early expiry, single-flight (only one request populates, others wait)
+**Core Topic (Block B, ~2 hr) — Auto-Configuration + Full Request Lifecycle:**
 
-**CDN (concept note):**
-- A CDN is a geographically distributed cache layer at the edge (PoPs near users) — the third tier after in-process and distributed cache, serving content from the closest location to cut RTT
-- **Push vs pull**: pull (origin-pull) — CDN fetches from origin on first miss, caches per TTL, lazy and self-maintaining (the default); push — you proactively upload assets to the CDN, used for large/predictable files where you don't want a first-request miss
-- **Edge caching + TTL/invalidation**: edge nodes cache by TTL (`Cache-Control: max-age`); invalidate before TTL via explicit purge (slow, global propagation lag) or — better — versioned/fingerprinted URLs (`app.a1b2c3.js`) so a new deploy is a new key and the old one just ages out. Prefer cache-busting URLs over purge.
-- **What belongs at the edge**: static assets (JS/CSS/images), and crucially in Smart360's case the pre-signed-S3-URL *responses* and other immutable, cacheable read responses. Do NOT edge-cache per-user/authenticated dynamic responses unless keyed correctly.
-- **Cache-key design**: default key is the URL; widen it deliberately (vary on `Accept-Encoding`, a version query param, or a tenant header) and strip volatile query params (tracking tokens) so they don't fragment the cache and tank the hit rate
+- **Auto-configuration mechanics**: Boot 3.x uses `META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports` (replaces `spring.factories`). Spring loads all listed classes but `@Conditional*` annotations gate each. Key conditionals: `@ConditionalOnClass(DataSource.class)`, `@ConditionalOnMissingBean(DataSource.class)`, `@ConditionalOnProperty("spring.datasource.url")`.
+- **Debugging**: set `logging.level.org.springframework.boot.autoconfigure=DEBUG` (or `debug=true`) → "CONDITIONS EVALUATION REPORT" shows which auto-configs matched, which were skipped, and why. Interviewers love this.
+- **Disabling one**: `@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)` — used in test slices / WebX unit tests to avoid a real DB.
+- **`@SpringBootApplication` is composed**: `@Configuration` + `@EnableAutoConfiguration` + `@ComponentScan`.
+- **Custom auto-configuration**: a class annotated `@AutoConfiguration` + `@ConditionalOn*`, registered in `AutoConfiguration.imports` — this is how every starter (e.g., `spring-boot-starter-data-redis`) works.
+- **Full request lifecycle** — whiteboard without notes:
+  ```
+  Client → HTTP request
+  Tomcat (Servlet container) — assigns a thread from its pool
+  → SecurityFilterChain (servlet Filter — JWT validation runs HERE, before DispatcherServlet)
+  → DispatcherServlet.doDispatch()
+  → HandlerMapping — URL → @RequestMapping method (HandlerExecutionChain)
+  → HandlerInterceptor.preHandle()
+  → HandlerAdapter — resolves @RequestBody (HttpMessageConverter/Jackson), @PathVariable, @RequestParam
+  → @RestController method
+  → @Service — CGLIB proxy checks @Transactional, starts tx
+  → @Repository / Spring Data JPA — Hibernate session, SQL
+  → response builds back up: postHandle() → HttpMessageConverter serialises JSON → afterCompletion()
+  → HTTP response
+  ```
+  Follow-up: "Where does `@ControllerAdvice`/`@ExceptionHandler` intercept?" → `DispatcherServlet` catches the handler exception and delegates to `HandlerExceptionResolver` → `ExceptionHandlerExceptionResolver` → `@ExceptionHandler`. Not a filter, not a servlet — runs after the controller throws. `@PreAuthorize` is AOP on the service method (inside the service call).
 
-**Load Balancing:**
-- Layer 4 (TCP): route by IP/port — fast, no content inspection (AWS NLB)
-- Layer 7 (HTTP): route by path, header, cookie — smarter, enables A/B testing (AWS ALB, NGINX, Spring Cloud Gateway)
-- Algorithms: round robin, weighted round robin, least connections, consistent hashing (for stateful backends like cache sharding)
-- Sticky sessions: route same user to same server — needed for in-memory session state (anti-pattern in microservices; avoid with JWT)
+**DSA (Block C, ~1.5 hr) — Queues + Stack Consolidation:**
 
-**Horizontal vs Vertical Scaling:**
-- Vertical (scale-up): bigger machine — limit is the biggest machine AWS offers; single point of failure
-- Horizontal (scale-out): more machines — requires stateless services, distributed coordination, load balancer. The default choice in microservices.
-- Smart360 on Azure Container Apps: horizontal scaling via KEDA (Kubernetes Event Driven Autoscaler) — scale to zero when idle, scale out on HTTP traffic.
+- **Queue/Deque model**: `ArrayDeque` as queue (`addLast()`/`pollFirst()`); a monotonic deque underlies Sliding Window Maximum (LC 239 — preview for later weeks). `ArrayDeque` beats `LinkedList` (array-backed, no node allocation).
+- Re-solve **Daily Temperatures** (LC 739) without looking at the morning's solution — target ≤18 min.
+- Write time/space complexity for all the day's stack problems in your notes.
 
-**CAP Theorem (intro):**
-- Consistency: every read gets the most recent write
-- Availability: every request gets a response (not necessarily latest data)
-- Partition tolerance: system works despite network splits
-- During a partition, choose C or A. PostgreSQL chooses CP. Cassandra/DynamoDB choose AP.
-
-**Afternoon: Smart360 Architecture Exercise (2 hr)**
-
-**Task: Redraw Smart360's 5-microservice architecture from memory. For each service, answer:**
-1. What is its single responsibility?
-2. What data does it OWN (its DB tables / schemas)?
-3. What does it call synchronously vs asynchronously?
-4. What happens if it goes down — what degrades gracefully vs what fails hard?
-
-**The 5 services (reconstruct from resume):**
-
-**1. API Gateway (Spring Cloud Gateway)**
-- Responsibility: Single entry point. JWT validation (pre-filter), rate limiting (Redis-backed RequestRateLimiter), routing to downstream services, CORS, request logging
-- Data owned: none (stateless) — Redis for rate limit counters
-- Sync calls: routes to Authorization, Data, Visualization services
-- Failure mode: if down, entire system is unreachable. This is the blast radius concern. Mitigate with multiple replicas + health checks.
-- Why separate? Cross-cutting concerns shouldn't pollute business services. Changing rate limiting logic shouldn't require redeploying the Data service.
-
-**2. Authorization Service**
-- Responsibility: User authentication, JWT issuance, RBAC — repository/table/permission level enforcement
-- Data owned: `users`, `roles`, `permissions`, `role_permissions` tables
-- Sync calls: called by API Gateway for JWT validation (or Gateway validates signature locally — know both options)
-- Async: publishes `UserCreated`, `UserUpdated` events for downstream consumption
-- Why separate? Security surface is isolated. A vulnerability in the Data service doesn't give attacker access to auth logic. Independent deployment of security patches.
-
-**3. Data Service**
-- Responsibility: Core business data CRUD, query optimization, the 60s→2s query fix lives here
-- Data owned: main business entities — `reports`, `s3_file_metadata`, `organizations`
-- Sync calls: S3 (pre-signed URL generation), downstream Visualization service
-- Optimization: Redis caching of pre-signed URLs (TTL < S3 URL expiry), JOIN FETCH / EntityGraph to kill N+1
-- Failure mode: graceful degradation — return cached data; queue writes for retry via outbox pattern
-
-**4. Visualization Service**
-- Responsibility: Rendering/generating visualization data (chart data, aggregations)
-- Data owned: pre-aggregated read models (CQRS read side), possibly a separate read DB or materialized views in PostgreSQL
-- Sync calls: queries from frontend via API Gateway; reads from Data Service on demand
-- Why separate? Aggregation queries are CPU-heavy — scaling this service independently prevents it from choking the OLTP Data service
-
-**5. Notification Service (event-driven)**
-- Responsibility: Email/in-app notifications for user events
-- Data owned: `notification_log`, `notification_preferences`
-- Async: subscribes to events from Authorization service (`UserCreated` → welcome email) and Data service (`ReportReady` → notify owner)
-- Why async? Notification failure should NEVER fail a user registration or report generation. Fire-and-forget. Decoupled.
-- Why separate? Notification logic (templates, channels, preferences) changes frequently without affecting core auth or data logic.
-
-**Cross-cutting: what ties them together**
-- Eureka (dev) or Kubernetes DNS (prod) for service discovery
-- Micrometer Tracing with `traceId` propagated via `traceparent` header across all service calls
-- Spring Cloud Config for shared configuration
-- Azure Container Apps for runtime; Bicep IaC for provisioning
-- PostgreSQL row-level security for multi-tenant isolation at DB layer
-
-**Practice saying this out loud in under 3 minutes.** Record yourself and play it back.
-
-**Self-Check**
-
-- [ ] Can you sketch the 5-service diagram on paper from memory with arrows showing sync vs async calls?
-- [ ] Can you explain why Notification is async and what would break if it were sync?
-- [ ] Can you define CAP theorem and say which side PostgreSQL picks?
+**Self-check:**
+1. Explain monotonic stack in one sentence.
+2. Difference between 401 and 403? Between 409 and 422? (Bridges to Thursday's REST block.)
 
 ---
 
-### Sunday, Jul 5 — Mock Interview Day (4 hr)
+### Thursday Jul 9 — Linked Lists + LRU Cache
 
-📌 **Study today:** Mock DSA (Group Anagrams, Subarray Sum = K) · URL shortener system design + behavioral STAR drill
+📌 **Study today:** Linked lists — reversal, dummy head, Floyd's, two-pointer (LC 206, 21, 141, 142, 19, 143) · REST versioning + pagination + idempotency · LRU cache (LC 146)
 
-**Morning: Mock DSA Session (1.5 hr)**
+**DSA (Block A, ~2.5 hr) — Linked Lists:**
 
-Simulate a real interview. Use a blank editor (no autocomplete hints). Timer running.
+Patterns: **dummy head** (eliminates head-is-null special cases), **two-pointer** (slow/fast for cycle and midpoint, fixed-gap for nth-from-end), and **reversal** (3 pointers: prev/curr/next). Draw boxes-and-arrows for a 3-node example on every problem.
 
-Round 1 (45 min):
-- Problem: **Group Anagrams** — code it, analyze complexity, discuss follow-ups
-- Curveball: "Now the input has 10 million strings. What changes?" → streaming approach, distributed grouping (MapReduce-style), external sort for memory constraints
+Problems (in order):
+1. **Reverse Linked List** (LC 206) — iterative (`prev=null, curr=head`, walk swapping pointers) AND recursive (base `head.next == null`); know both cold.
+2. **Merge Two Sorted Lists** (LC 21) — dummy head to avoid head-special-case bugs.
+3. **Linked List Cycle** (LC 141) — Floyd's tortoise/hare; slow +1, fast +2; meet iff a cycle exists.
+4. **Linked List Cycle II** (LC 142) — find the cycle start: after meeting, reset one pointer to head, advance both at +1; they meet at the cycle entry.
+5. **Remove Nth Node From End** (LC 19) — advance fast `n` steps, then move both until `fast.next == null`; dummy head handles removing the head.
+6. **Reorder List** (LC 143) — three steps: find middle (slow/fast) → reverse second half → merge by interleaving. Most candidates skip step 2 — dry-run first.
 
-Round 2 (45 min):
-- Problem: **Subarray Sum Equals K** — code it, then: "What if K can be negative?" (same algorithm works), "What if the array contains only positives?" (sliding window works — know the tradeoff)
-- Curveball: "Extend to find the number of subarrays with sum divisible by K" (LC 974 — `prefix % k` as key)
+**Core Topic (Block B, ~2 hr) — REST Versioning, Pagination, Idempotency:**
 
-**Afternoon: Mock System Design + Behavioral (2.5 hr)**
+- **Resource naming**: nouns not verbs (`/users/{id}`, not `/getUser`), plurals for collections, sub-resources (`/users/{id}/orders`).
+- **Status codes cold**: 200, 201, 204, 400, 401, 403, 404, 409, 422, 429, 500, 502, 503.
+- **Versioning strategies**: URI path (`/v1/users` — most common/visible, breaks bookmarks); header (`Accept: application/vnd.app.v2+json` — clean URIs, less discoverable); query param (`?version=2` — easy to test, not purist). URI for public APIs (gateway routing); header for internal services. Breaking-change follow-up: `Deprecation: true` + `Sunset: <date>` headers; prefer additive (backward-compatible) changes.
+- **Pagination**: offset (`?page=2&size=20` — simple, slow on large offsets since Postgres scans skipped rows); cursor/keyset (`?after=<base64 last-seen id>` — O(log n), stable under inserts/deletes; use for feeds/infinite scroll). Return total count, next cursor, `Link` headers (RFC 5988). Smart360 chose cursor for the data service because frequent inserts made offset pages inconsistent.
+- **Idempotency**: an op is idempotent if N calls = same effect as one. GET ✓, PUT ✓, DELETE ✓ (404 or 204 on second call — both idempotent), POST ✗, PATCH ✗ (debated; `{increment: 5}` is not idempotent). Make POST safe with an `Idempotency-Key: <uuid>` header — server stores key → response in Redis with TTL; a duplicate request returns the cached result without re-executing (the bank-transfer retry pattern).
 
-**System Design Mock (1 hr):**
+**DSA (Block C, ~1.5 hr) — LRU Cache:**
 
-Prompt: "Design a URL shortener (like bit.ly) for 100M URLs, 1B reads/day."
+1. **LRU Cache** (LC 146) — a design problem disguised as DSA.
+   - Interview-acceptable quick form: `LinkedHashMap` in access-order mode.
+   - **Preferred full implementation**: `HashMap<Integer, Node>` + doubly-linked list. HashMap → O(1) lookup; DLL with MRU at head, LRU at tail; on `get`/`put` move the node to head; on capacity evict the tail. Sentinel head/tail nodes eliminate null checks.
+   - Write the full version cold; target ≤30 min. Mention the production analogue: Redis with `EXPIRE` + `LFU`/`LRU` eviction.
 
-Walk through the standard framework but inject your real experience:
-1. Requirements: short URL generation, redirect, analytics (optional)
-2. Capacity: 1B reads/day = ~11,600 req/sec. Write: 100M URLs total, ~100 new/day = negligible
-3. Core algorithm: base62 encode a counter OR md5 hash with collision handling. Discuss tradeoffs (sequential IDs leak volume, hash needs collision detection)
-4. DB: write once, read many → cache aggressively. PostgreSQL for storage, Redis for hot URLs (80/20 rule: cache top 20% serving 80% of traffic)
-5. Scaling: stateless redirect service behind load balancer; Redis cluster with consistent hashing; read replicas for DB
-6. What you'd do differently from Smart360: Smart360 used Redis for S3 URL caching — same pattern as short URL cache
-
-**Behavioral Mock (1 hr):**
-
-Answer these out loud, timed, with the STAR structure:
-
-1. "Walk me through the most complex technical problem you've solved." → 60s→2s query performance story
-2. "Tell me about a time you disagreed with a technical decision." → prepare a story; if none, adapt the synchronous→event-driven migration debate
-3. "How do you handle a production incident at 2 AM?" → tie to Azure Monitor alerts, runbook, postmortem culture
-4. "Why are you leaving your current company?" → frame around growth ceiling, wanting to work at product scale, bigger comp opportunity; NEVER disparage current employer
-5. "What's a technical concept you learned recently that changed how you think?" → LLM async job queue pattern? K8s KEDA event-driven scaling? Row-level security in PostgreSQL?
-
-**End-of-Day Review (30 min):**
-- Update this checklist with actual completion status
-- Write 3 sentences on what you got wrong today and the exact fix
-- Add any new curveball questions you encountered to `interview-qa.md`
-
-**Self-Check**
-
-- [ ] URL shortener design explained coherently in <12 minutes?
-- [ ] All 5 behavioral questions answered with specific numbers and outcomes?
-- [ ] All 8 DSA problems solved at least once without notes this week?
+**Self-check:**
+1. Reverse `1→2→3→4→null` in your head → `4→3→2→1→null`. Draw the pointer diagram.
+2. Trade-offs of cursor vs offset pagination on a 10M-row table?
 
 ---
 
-## 🧠 Concepts to Master This Week (Depth, Gotchas, Follow-ups)
+### Friday Jul 10 — Mixed DSA Review + Auth/Errors
 
-### HashMap Resizing — the full picture
+📌 **Study today:** Mixed DSA review (re-attempt week's hardest cold) · JWT lifecycle + OAuth2 + global exception handling (`@ControllerAdvice`) · weak-spot drills
 
-When `size > capacity * 0.75`, a new table of `2 * capacity` is allocated. Every entry is re-hashed. In Java 8+, the trick: `hash & oldCapacity` is either 0 (entry stays at `oldIndex`) or 1 (entry moves to `oldIndex + oldCapacity`). This elegant bit trick halves the rehash work — you only check ONE new bit per entry.
+**DSA (Block A, ~2.5 hr) — Mixed Review (timed, no hints):**
 
-**Gotcha**: `HashMap` is NOT thread-safe during resize. Two threads resizing simultaneously can create infinite loops in the linked list (Java 7 bug — Java 8 tail insertion fixed this, but concurrent modification is still undefined behavior).
+Re-attempt this week's hardest problems cold, 20–25 min each, talking aloud as if in a live interview:
+- **Search in Rotated Sorted Array** (LC 33) and **Koko Eating Bananas** (LC 875) — target ≤10 min each.
+- **Largest Rectangle in Histogram** (LC 84) — re-derive the stack invariant.
+- **Reorder List** (LC 143) — the three-step pattern.
+- For any you get wrong or slow on: write down exactly where you got stuck — it becomes a weak-spot drill in Block C.
 
-**Follow-up interviewers ask**: "What initial capacity would you use for a HashMap storing exactly 1000 entries?" → `new HashMap<>(2048)` — the next power of 2 above `1000 / 0.75 = 1334`. This avoids a resize.
+**Core Topic (Block B, ~2 hr) — JWT + OAuth2 + Global Exception Handling:**
 
-### ConcurrentHashMap — the `null` question
+- **Token issuance**: POST credentials → `AuthService` validates (BCrypt) → build claims (`sub`, `roles`, `tenantId`, `iat`, `exp` ≈ 15 min) → sign with `HS256` (shared secret) or `RS256` (RSA private key, multi-service verify) → return `{accessToken, refreshToken, expiresIn}`; refresh token stored hashed in DB/Redis with a `tokenFamily` for rotation.
+- **Validation** (every protected request): `JwtAuthenticationFilter extends OncePerRequestFilter` → extract Bearer token → validate signature locally (no DB call — the 60% latency win in Smart360) → check `exp` → check Redis blacklist (O(1)) → set `SecurityContextHolder` with roles.
+- **Refresh**: POST refresh token → validate (DB lookup) → issue a new access token + rotate the refresh token (token-family rotation detects theft if the old one is replayed).
+- **RBAC at three levels**: API (`@PreAuthorize("hasAuthority('READ_REPORTS')")`), service (defense-in-depth), database (Postgres RLS — `findByIdAndTenantId`, tenant isolation in queries). What breaks if only one level: a bug bypasses API-level; service-level is defense-in-depth; DB RLS means even a compromised service can't leak cross-tenant data.
+- **OAuth2 grant types**: Authorization Code + PKCE (user-facing web/mobile — most secure, PKCE prevents code interception); Client Credentials (service-to-service, no user); Implicit (deprecated — never recommend); Resource Owner Password (legacy — avoid).
+- **Token storage**: access token in-memory JS (not localStorage — XSS); refresh token in HttpOnly, Secure, SameSite=Strict cookie. **Algorithm confusion attack**: always pin the algorithm in the parser — never trust the token's `alg` header.
+- **Logout on stateless JWT**: can't un-issue; add `jti` to a Redis blacklist with TTL = remaining lifetime; delete the refresh token. Filter-chain order: `SecurityContextPersistenceFilter` → `UsernamePasswordAuthenticationFilter` → custom `JwtAuthenticationFilter` → `ExceptionTranslationFilter` → `FilterSecurityInterceptor`.
+- **Global exception handler** — write from memory:
+  ```java
+  @RestControllerAdvice
+  public class GlobalExceptionHandler {
+      @ExceptionHandler(ResourceNotFoundException.class)
+      public ResponseEntity<ErrorResponse> handleNotFound(ResourceNotFoundException ex) {
+          return ResponseEntity.status(HttpStatus.NOT_FOUND)
+              .body(new ErrorResponse("NOT_FOUND", ex.getMessage()));
+      }
+      @ExceptionHandler(MethodArgumentNotValidException.class)
+      public ResponseEntity<ErrorResponse> handleValidation(MethodArgumentNotValidException ex) {
+          List<String> errors = ex.getBindingResult().getFieldErrors().stream()
+              .map(fe -> fe.getField() + ": " + fe.getDefaultMessage()).toList();
+          return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+              .body(new ErrorResponse("VALIDATION_ERROR", errors.toString()));
+      }
+      @ExceptionHandler(AccessDeniedException.class)
+      public ResponseEntity<ErrorResponse> handleForbidden(AccessDeniedException ex) {
+          return ResponseEntity.status(HttpStatus.FORBIDDEN)
+              .body(new ErrorResponse("FORBIDDEN", "Insufficient permissions"));
+      }
+      @ExceptionHandler(Exception.class)
+      public ResponseEntity<ErrorResponse> handleGeneric(Exception ex) {
+          // log ex fully — never expose stack trace to the client
+          return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+              .body(new ErrorResponse("INTERNAL_ERROR", "An unexpected error occurred"));
+      }
+  }
+  ```
+- **Bean Validation**: `@NotNull`, `@NotBlank`, `@NotEmpty`, `@Size`, `@Min/@Max`, `@Email`, `@Pattern`, `@Valid` (cascade trigger), `@Validated` (groups). `@Valid` on a parameter triggers MVC validation before the body runs; the `MethodArgumentNotValidException` is automatic. Custom validator: `@Constraint(validatedBy = MyValidator.class)` implementing `ConstraintValidator`.
 
-Interviewers love asking: "Why doesn't ConcurrentHashMap allow null keys?" The real answer: in a concurrent context, `map.get(key)` returning `null` is ambiguous — does the key not exist, or does it map to null? You'd need `containsKey()` to disambiguate. But between `get()` and `containsKey()`, another thread could remove the key. This TOCTOU race makes null keys/values semantically dangerous. HashMap can get away with it because it's single-threaded.
+**DSA (Block C, ~1.5 hr) — Weak-Spot Drills:**
 
-### Fail-Fast Internals — `modCount` details
+- Drill the specific stuck points captured in Block A. Re-solve each from scratch.
+- If clean, attempt **Spiral Matrix** (LC 54) as a bonus (useful for Amazon/Google rounds).
 
-`ArrayList.modCount` is incremented by: `add()`, `remove()`, `clear()`, `set()` (no, `set()` does NOT modify modCount — it's structural vs content), and `ensureCapacity()`. Interviewers sometimes ask "does `set()` throw ConcurrentModificationException?" — no, because `set()` doesn't change modCount.
-
-### `Comparable` vs `Comparator` — the consistency contract
-
-`compareTo()` MUST be consistent with `equals()`: `(x.compareTo(y) == 0) == (x.equals(y))`. `BigDecimal` famously violates this: `new BigDecimal("1.0").compareTo(new BigDecimal("1.00")) == 0` but `new BigDecimal("1.0").equals(new BigDecimal("1.00")) == false`. This causes `TreeSet<BigDecimal>` to treat them as equal (only one stored) while `HashSet<BigDecimal>` stores both. Know this example.
-
-### Treeification details
-
-The linked list → Red-Black Tree conversion in HashMap requires NOT just > 8 entries in the bucket, but ALSO the total table capacity ≥ 64. If capacity < 64, HashMap prefers to resize the table rather than treeify (spreading entries reduces collisions more efficiently). This matters: with a small initial capacity HashMap, you'll see resizes, not trees.
-
-### Sliding Window — the "don't shrink maxFreq" insight
-
-In Longest Repeating Character Replacement, many solutions incorrectly recompute `maxFreq` when shrinking the window, making it O(26n). The insight: you never need to decrease `maxFreq` because you're searching for the MAXIMUM window size. Once you've found a valid window of length L, you look for L+1 or larger. A smaller maxFreq would only yield a window ≤ L, which you don't care about.
+**Self-check:**
+1. What status should a validation failure return — 422 or 400? Have an opinion and defend it.
+2. Why must the generic `Exception` handler never return the exception message to the client?
 
 ---
 
-## 🎤 Sample Interview Questions (Curveballs Included)
+### Saturday Jul 11 — Timed DSA + Concurrency Deep-Dive + LLD Primer
 
-**1. "Walk me through exactly what happens when you call `hashMap.put("name", "Jay")`."**
-Pointer: `hashCode("name")` → bit-spread → bucket index → walk bucket chain checking `equals()` → insert new `Node` or update existing value → check `size > threshold` → resize if needed. Mention treeification condition.
+📌 **Study today:** Timed DSA set (2 cold problems) · concurrency deep-dive (synchronized/locks/volatile/CompletableFuture/ThreadLocal/deadlock) + LLD primer (parking lot + SOLID) · consolidation
 
-**2. "I see you used `ConcurrentHashMap` in Smart360 for rate limiting. Why not a `synchronized HashMap`? Why not `Hashtable`?"**
-Pointer: `synchronized HashMap` requires external synchronization — easy to miss. `Hashtable` acquires a single lock on the entire map — one thread blocks all others. `ConcurrentHashMap` allows concurrent reads and parallel writes to different buckets. Under load (hundreds of requests/sec to the API Gateway), the throughput difference is significant.
+**DSA (Block A, ~2.5 hr) — Timed Set:**
 
-**3. "What's the difference between `HashMap` and `TreeMap`? When would you use TreeMap in a microservice?"**
-Pointer: HashMap O(1) avg, no order; TreeMap O(log n), sorted. In a microservice: use TreeMap for storing time-bucketed metrics (sorted by timestamp), building a sorted index of API endpoint access counts, or anywhere you need `subMap(start, end)` range queries. In Smart360 specifically: storing ordered configuration properties where you need to find all settings with a prefix range.
+Treat this like a real interview — timer running, no hints, clean whiteboard-quality code.
+- **Problem A** (20 min): re-solve **Koko Eating Bananas** (LC 875) or **Search a 2D Matrix** (LC 74) cold.
+- **Problem B** (25 min): re-solve **Subsets** (LC 78) or **Daily Temperatures** (LC 739) cold.
+- Score yourself: Did you state the approach before coding? Handle edge cases unprompted? Finish in time? Was the code compilable without fixes? Write what you'd do differently.
 
-**4. "Curveball: You have a `List<User>` and you're iterating it with `forEach` to remove users matching a condition. This throws ConcurrentModificationException. Name three ways to fix it."**
-Pointer: (1) `list.removeIf(u -> condition)` — Java 8, uses iterator internally correctly; (2) Collect to-remove items then `list.removeAll(toRemove)` after iteration; (3) Use `Iterator<User> it = list.iterator()` explicitly and call `it.remove()`; (4) `list.stream().filter(u -> !condition).collect(Collectors.toList())` — returns new list.
+**Core Topic (Block B, ~2 hr) — Concurrency Deep-Dive + LLD Primer:**
 
-**5. "What is ArrayList's growth strategy and why 50%? Why not double like Vector?"**
-Pointer: 50% growth (1.5x) vs Vector's 100% (2x) wastes less memory on average — important for large lists. Doubling can suddenly allocate double the memory even when only one element pushes the boundary. The 1.5x was chosen as a compromise: frequent small resizes are O(n) amortized anyway because each element is moved at most O(log n) times.
+**`synchronized` vs `ReentrantLock`:** `synchronized` is a JVM keyword — automatic acquire/release even on exception. `ReentrantLock` is explicit — you MUST `unlock()` in `finally` or leak the lock. `ReentrantLock` advantages: `tryLock(timeout)` (deadlock avoidance — e.g., timeout on the WebX LLM provider slots and return 503 instead of blocking forever), `lockInterruptibly()`, fairness (`new ReentrantLock(true)`), multiple condition variables. `ReentrantReadWriteLock` — many readers OR one writer; perfect for a read-heavy in-memory config map (the WebX provider routing table).
 
-**6. "Curveball: BigDecimal in a TreeSet vs HashSet — describe the behavior difference and why."**
-Pointer: TreeSet uses `compareTo()` — `new BigDecimal("1.0")` and `new BigDecimal("1.00")` compare as equal (same mathematical value), so TreeSet stores only one. HashSet uses `hashCode()` + `equals()` — `BigDecimal.equals()` considers scale, so they're unequal, and HashSet stores both. This is the `Comparable` inconsistency with `equals()` bite.
+**`volatile`:** guarantees visibility + ordering, NOT atomicity. Valid: a `volatile boolean running` flag (single write/read). Invalid: `volatile int counter; counter++` (read-modify-write race — use `AtomicInteger`). JMM: a `volatile` write happens-before all subsequent `volatile` reads of the same variable.
 
-**7. "Subarray Sum = K but now the constraint is: only contiguous subarrays of length between `minLen` and `maxLen` are valid." How would you adapt?"**
-Pointer: The prefix sum approach still works, but for each `j`, you look in the map for `prefixSum[j] - k` where the stored indices satisfy `j - index >= minLen && j - index <= maxLen`. Use a deque or sliding window on the map to restrict valid indices. This is a harder variant — the point is showing you understand the underlying invariant well enough to adapt it.
+**`CompletableFuture` (WebX async LLM jobs):** `thenApply` (transform), `thenCompose` (flat-map, avoids nested futures), `thenCombine` (combine two), `allOf`/`anyOf`, `exceptionally`/`handle`. Default `supplyAsync` uses `ForkJoinPool.commonPool()` — always pass an explicit `Executor` in production (a slow LLM call starves the shared pool). WebX pattern: each job as a `CompletableFuture` in `ConcurrentHashMap<jobId, CompletableFuture<LLMResult>>`; poll `isDone()`; `complete(result)` when the LLM responds. `join()` (unchecked `CompletionException`) is preferred over `get()` (checked) in lambda chains.
 
-**8. "How do you handle the thundering herd / cache stampede problem in Smart360 when Redis is restarted and all caches are cold?"**
-Pointer: Short answer used in practice: (1) probabilistic early expiry (Fetch PER algorithm) — recalculate cache before it expires with probability proportional to remaining TTL; (2) single-flight / mutex — first thread populates cache, others wait for it (Caffeine's `get()` with a loading function; Redisson `RLock`); (3) gradual warm-up at startup via `ApplicationReadyEvent`; (4) Redis persistence (`AOF` or `RDB`) so restart reloads data.
+**`ThreadLocal` (Tomcat/Spring gotcha):** each thread gets an isolated copy. Tomcat = one thread per request → Spring Security's `SecurityContextHolder` stores `Authentication` in a `ThreadLocal`. CRITICAL: Tomcat reuses threads — if you store a value and forget `remove()`, the next request on that thread inherits stale state (cross-tenant data leak + memory leak). Spring Security calls `clearContext()` in its filter; always do the same for custom `ThreadLocal`s. `ThreadLocal` does NOT propagate across `@Async` boundaries — pass the value explicitly (cleanest) rather than relying on `InheritableThreadLocal`.
 
-**9. "Curveball: You're given a HashMap that's been populated with 100,000 entries. An interviewer says the performance is bad. Without changing the data structure, what would you check first?"**
-Pointer: Check `hashCode()` implementation of the key class. A bad `hashCode()` (constant, or collides frequently) causes all entries to land in one bucket → O(n) lookup. Use `HashMap.entrySet()` with a stream to analyze bucket distribution, or instrument with `System.identityHashCode()`. Second: check if keys are mutable objects and their `hashCode()` changed after insertion — this loses entries forever (the key is in the wrong bucket for its current hashCode).
+**Deadlock:** write from memory —
+```
+// Thread 1                 // Thread 2
+synchronized(lockA) {       synchronized(lockB) {
+    synchronized(lockB){}       synchronized(lockA){}
+}                           }
+// T1 holds A waits B; T2 holds B waits A
+```
+Four Coffman conditions: mutual exclusion, hold-and-wait, no preemption, circular wait. Most practical fix: eliminate circular wait — always acquire locks in a global order (sort resources by ID before locking).
 
-**10. "In your Longest Repeating Character Replacement solution, you said you don't need to shrink `maxFreq`. Prove it."**
-Pointer: Mathematical argument — we want the LONGEST valid window. If the current window of size `windowSize` used `maxFreq` as the most frequent count, then any valid window ≤ `windowSize` is uninteresting. When we shrink, we're just maintaining window size parity (looking for something bigger), not trying to find a SHORTER valid window. Formally: the answer can only increase or stay the same, never decrease. So `maxFreq` only needs to track the historical maximum.
+**LLD Primer — "Design a Parking Lot" (the canonical OOD prompt).** Keep your 02/03 OOP notes open for SOLID. It's not about the right answer — it's clean responsibilities, interfaces over concretions, and naming which principle each choice serves.
+- **Entities & responsibilities**: `ParkingLot` (orchestration only — `parkVehicle`/`unpark`), `Level` (owns its `Spot`s, knows availability), `Spot` (`{id, SpotType, occupied}`, `canFit(Vehicle)` lives here), `Vehicle` hierarchy (abstract → `Car`/`Truck`/`Motorcycle`/`ElectricCar`), `Ticket` (`{id, Spot, Vehicle, entryTime, exitTime}`).
+- **Interfaces / seams**: `ParkingStrategy` (`Spot findSpot(...)` — `NearestFirst`/`BestFit`), `PricingStrategy` (`BigDecimal price(Ticket)` — `FlatHourly`/`TieredByVehicleType`/`WeekendSurge`); inject both into `ParkingLot`.
+- **Call out the SOLID letter for each choice (this scores points)**: OCP — a new `SpotType`/`Vehicle`/strategy means a new subclass, no edits to existing classes; DIP — `ParkingLot` depends on the strategy *interfaces* (constructor-injected, same pattern as Spring DI); SRP — pricing isn't in `Ticket`, spot-finding isn't in `ParkingLot`; LSP — any `Vehicle` subtype is substitutable; ISP — separate small `ParkingStrategy`/`PricingStrategy` interfaces, not one fat manager.
+- **Curveballs to rehearse**: add EV charging (new `SpotType` + `canFit` rule); weekend pricing (new `PricingStrategy`); concurrent gates (per-`Level` lock or `ConcurrentHashMap` of availability — ties to the concurrency block, NOT one lot-wide `synchronized`).
+- **Other LLD sketches (name entities + the key strategy interface)**: Elevator (`SchedulingStrategy`), Vending machine (State pattern), Library (`PricingStrategy` for fines), Rate limiter (`TokenBucket`/`SlidingWindow` — the OO form of your Smart360 gateway Redis logic), Splitwise (`Split` hierarchy: equal/percent/exact).
 
-**11. "What's the time complexity of `ConcurrentHashMap.size()` in Java 8?"**
-Pointer: NOT O(1). It sums `LongAdder`-style `CounterCell[]` arrays — O(number of cells) which is bounded by parallelism level. Contrast with Java 7's `Segment`-based CHM where `size()` held locks on all segments. In practice it's near O(1) but technically O(parallelism). Interviewers appreciate knowing this nuance.
+**Block C (~1.5 hr) — Consolidation:**
 
-**12. "Curveball: Design the Authorization Service's JWT validation decision: should it validate at the Gateway or let downstream services validate independently?"**
-Pointer: Trade-off. Gateway validation: one place to enforce security, downstream services trust the Gateway, simpler (no crypto in each service). Downstream validation: defense in depth, services work if Gateway is bypassed (internal calls), but adds latency (crypto) and key distribution complexity. Smart360 answer: Gateway validates signature and extracts claims, passes claims as signed request headers downstream. Downstream services trust the claims (not re-validating signature) but can check claim contents. Best of both.
+- Write, without notes, the 8-step bean lifecycle and the three init hooks in order; check against your notes.
+- Connect each concept to one line of code in Smart360/WebX/API Gateway:
+  - **Smart360**: `@Transactional(propagation = REQUIRES_NEW)` for audit-log writes; custom `ThreadPoolExecutor` for parallel S3 URL caching; N+1 fix via `@EntityGraph` inside a `REQUIRED` tx; `@Transactional(readOnly = true)` to skip dirty checking.
+  - **WebX**: `@Async` with a bounded `ThreadPoolTaskExecutor`; `CompletableFuture` multi-provider fan-out; `volatile boolean` shutdown flag; `ThreadLocal` tenant ID cleared after each job.
+  - **API Gateway**: `@ConditionalOnProperty` to toggle the circuit breaker per environment; CGLIB proxy on filter beans.
+- Open any Spring Boot app, add `debug=true`, run it, read the CONDITIONS EVALUATION REPORT; note 3 auto-configs that matched and 3 that didn't, and why.
 
-**13. "Top K Frequent Elements — what if K changes dynamically per request? Can you still use bucket sort?"**
-Pointer: Bucket sort requires knowing the value range (0 to n) in advance, and `n` depends on the input. For dynamic K across different inputs, the bucket sort approach still works — just rebuild per request. For a streaming scenario where the input is a continuous stream and K changes: maintain a `ConcurrentHashMap<T, AtomicLong>` for counts, and use a `TreeMap<Long, List<T>>` as a sorted frequency index with a `ConcurrentSkipListMap` for thread safety. Top-K then walks from the end of the TreeMap.
+**Self-check:**
+1. Tomcat gets 1000 concurrent requests — describe exactly what happens at the thread-pool level. (Default `server.tomcat.threads.max=200`, `min-spare=10`; overflow queues in `accept-count` (default 100); beyond that, connections refused.)
+2. Difference between `future.get()` and `future.join()`? (`get()` throws checked `ExecutionException`/`InterruptedException`; `join()` throws unchecked `CompletionException`.)
+
+---
+
+### Sunday Jul 12 — Rest
+
+No study blocks. Let the week's material consolidate. Optionally skim the self-check answers you got wrong — but do not start new material.
+
+---
+
+## 🧠 Concepts to Master This Week (depth, gotchas, follow-ups)
+
+### Binary Search
+- **Invariant choice**: `left <= right` for exact search (use `right = mid - 1` — `mid` is eliminated when `nums[mid] != target`); `left < right` for boundary-finding (use `right = mid` — `mid` is still a candidate). Mixing them → off-by-one or infinite loop (TLE).
+- **Rotated array**: compare `nums[mid]` to `nums[left]`/`nums[right]` to find the sorted half; the unsorted half holds the inflection point. Duplicates (LC 81): when `nums[left]==nums[mid]==nums[right]` you can't decide — `left++; right--`, degrading to O(n).
+- **Binary-search-on-answer**: any monotonic answer with an O(n) feasibility test — Koko (875), Ship Packages (1011), Split Array Largest Sum (410).
+
+### Backtracking
+- **Contract**: choose → recurse → un-choose; the un-choose is what makes it backtracking.
+- **Complexity**: Subsets O(2ⁿ × n); Permutations O(n! × n); Combination Sum O(2^(target/min) × …). State it in interviews.
+- **Pruning**: sort, then break the inner loop when `candidates[i] > target`.
+- **Duplicates**: Subsets II (90), Combination Sum II (40), Permutations II (47) all use `if (i > start && a[i]==a[i-1]) continue;`.
+
+### Data Structures
+- **Stack**: monotonic stack for next-greater/span/histogram; back with `ArrayDeque`, never the legacy `Stack`.
+- **Queue/Deque**: monotonic deque → sliding-window max; `ArrayDeque` faster than `LinkedList`.
+- **Linked List**: dummy head removes special cases; slow/fast for cycle and midpoint; iterative + recursive reversal; DLL + HashMap = LRU.
+
+### Spring IoC/DI & Lifecycle
+- ApplicationContext is a superset of BeanFactory (eager singletons, events, i18n, AOP). Production always uses ApplicationContext.
+- AOP proxy created at step 6 of the lifecycle; the injected bean IS the proxy.
+- `@Autowired` (Spring) vs `@Inject` (JSR-330) vs `@Resource` (JSR-250, name-match).
+
+### @Transactional Internals
+- Proxy created at lifecycle step 6, not at call time — `getClass()` on the injected service returns the CGLIB subclass.
+- `TransactionSynchronizationManager` stores the connection in a `ThreadLocal` → tx is per-thread; cannot cross HTTP ↔ `@Async` threads.
+- `@Transactional(readOnly = true)` disables Hibernate dirty checking, hints `Connection.setReadOnly(true)` (HikariCP can route to a replica) — a real Smart360 latency win.
+
+### Auto-Configuration
+- `debug=true` → CONDITIONS EVALUATION REPORT (the interviewer-favorite debug technique).
+- Custom starter: `@AutoConfiguration` + `@ConditionalOn*` + an entry in `AutoConfiguration.imports`.
+
+### REST / JWT / OAuth2
+- Idempotency per method; idempotency keys make POST safe.
+- JWT structure `header.payload.signature` — only the signature is secure; the payload is readable. `RS256` (private sign / public verify) for multi-service.
+- Spring Security `SecurityContextHolder` is ThreadLocal-based — breaks in WebFlux; use `ReactiveSecurityContextHolder` (a Reactor `Context` on the `Mono`/`Flux` chain).
+
+### Concurrency
+- `volatile` (visibility+ordering, no atomicity, zero contention) vs `synchronized`/`ReentrantLock` (mutual exclusion, blocking) vs `Atomic*` (CAS, lock-free) vs `ConcurrentHashMap` (lock-free reads, CAS/bucket-lock writes — never `Collections.synchronizedMap`).
+- `ForkJoinPool` (work-stealing, good for divide-and-conquer; default for `CompletableFuture`) vs a dedicated `ThreadPoolExecutor` for blocking I/O (LLM calls).
+
+---
+
+## 🎤 Sample Interview Questions (incl. curveballs)
+
+1. **Implement binary search; now for a rotated array; now with duplicates.** → LC 704 → 33 → 81. With duplicates, `nums[left]==nums[mid]==nums[right]` forces `left++; right--`, worst case O(n) — state the trade-off.
+2. **What is binary-search-on-answer? A real example from your work?** → Monotonic feasibility on the answer space. WebX: "minimum thread count such that p99 < 2s" — load-test feasibility, answer space `[1, maxThreads]`. Textbook form: Koko.
+3. **Spring bean lifecycle — where are AOP proxies created?** → Step 6 by `AnnotationAwareAspectJAutoProxyCreator`; after it, the context holds the proxy.
+4. **Your `@Transactional` method isn't rolling back — debug it.** → Checked vs runtime exception (`rollbackFor`); self-invocation via `this`; private method; try-catch swallowing the exception; wrong `PlatformTransactionManager`. Tool: `logging.level.org.springframework.transaction=TRACE`.
+5. **Why can't you start a new `@Transactional` op inside an `@Async` method when the caller had a tx?** → `@Async` runs on another thread; the ThreadLocal-based `TransactionSynchronizationManager` has no value there. WebX commits the `jobId` before dispatch; the worker fetches by ID in a fresh tx.
+6. **(Curveball) "Just put `@Transactional` on everything to be safe."** → Push back: long txs starve the pool (worse with HTTP/LLM calls mid-tx), unintended REQUIRED joins, wasted locks on reads. Annotate at the service boundary; `readOnly = true` for queries.
+7. **`volatile` vs `synchronized` — when is `volatile` enough?** → One writer + no compound op (e.g., a shutdown flag). Not for counters / check-then-act.
+8. **Implement Min Stack with O(1) getMin.** → Auxiliary min-stack pushed alongside; pop both together.
+9. **(Curveball) Implement LRU without `LinkedHashMap`.** → Node(key,val,prev,next) + sentinels + `moveToHead`/`removeTail` + HashMap.
+10. **DELETE /orders/123 called twice — 404 or 204?** → Both defensible (idempotency = same server state); return 204 for a cleaner client experience.
+11. **Make POST /transfers safe to retry.** → `Idempotency-Key` header; store key→result in Redis with TTL; replay returns the stored result without re-charging.
+12. **Logout invalidating a stateless JWT?** → Add `jti` to a Redis blacklist with TTL = remaining lifetime; delete the refresh token; check the blacklist (O(1)) per request.
+13. **(Curveball) ReentrantLock vs synchronized — when did you use ReentrantLock?** → `tryLock(5, SECONDS)` on WebX LLM provider slots to return 503 instead of blocking forever.
+14. **Tomcat handling 1000 concurrent requests — what when all threads are busy?** → 200 worker threads (default), then `accept-count` queue (100), then connection refused; scale replicas horizontally before this.
+15. **(Curveball) RBAC at API/service/DB levels — what breaks with only one?** → API-level alone is bypassed by a bug; service-level adds defense-in-depth; DB RLS protects even a compromised service from cross-tenant leaks.
 
 ---
 
 ## 🌟 Extraordinary-Candidate Edge
 
-**Go beyond the obvious in collections questions:**
-
-When asked about `HashMap`, every candidate mentions load factor. An extraordinary candidate mentions the bit-spread formula AND explains that `capacity` must be a power of 2 to make the bitwise AND work as modulo. Then says: "In my Smart360 Data Service, we initialized our session cache `HashMap` with a capacity of `(int)(expectedSessions / 0.75) + 1` rounded up to the next power of 2 to avoid the first resize under load — this is a micro-optimization but shows you understand when initial sizing matters at scale."
-
-**On `Comparable` vs `Comparator`, mention the `BigDecimal` gotcha** (question 6 above). Say you discovered this in a code review on a teammates' code that stored prices in a `TreeSet<BigDecimal>`. This shows you read the Java docs critically, not just tutorials.
-
-**On the architecture exercise**, articulate FAILURE MODES unprompted: "The Notification Service failing doesn't fail a user registration because the event is fire-and-forget. The Data Service failing can return stale cached data for read-only operations. The API Gateway is our single point of failure — this is why we run 3 replicas with a rolling update strategy." Showing you think about failure as a first-class concern makes you sound like a senior engineer.
-
-**On DSA**, when you solve a problem, proactively discuss the FOLLOW-UP before the interviewer asks: "I solved this in O(n log k) with a heap. There's also an O(n) bucket sort approach — want me to code that too?" This demonstrates you've thought deeply about the problem, not just reached for the first working solution.
-
-**Connect DSA to production**: after solving Subarray Sum = K, say: "This prefix sum pattern is the same idea behind database cumulative sum window functions — `SUM() OVER (ORDER BY date ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)`. When I needed running totals in the Smart360 Visualization Service, I used a PostgreSQL window function rather than computing it in Java — same math, pushed to the DB layer."
-
-**Research the target company's tech stack before every interview.** If interviewing at a product company using Kafka + Flink, say: "In Smart360 I used Spring events for async notification — if I were building this at scale I'd use Kafka for durability and Flink for stateful stream processing on the notification analytics side." This shows ambition beyond your current scope.
+1. **Name the proxy type unprompted.** "Spring Boot 2.x+ defaults to CGLIB even for interface-based beans — so a `@Transactional` class can't be `final` and transactional methods can't be `private`." Most candidates don't know this changed.
+2. **Quote the CONDITIONS EVALUATION REPORT.** "I set `debug=true` to read which auto-config matched and the exact gating condition — it's how I found a custom `DataSource` wasn't picked up in one environment."
+3. **Connect `ThreadLocal` to security.** `SecurityContextHolder` is ThreadLocal-backed; we used the same for `TenantContext` but always `remove()`d in a `finally` in our filter — missing it is a cross-tenant data leak (it bit us once when a super-admin auth bled into the next request on the same pooled thread).
+4. **Size thread pools with math (Little's Law).** LLM jobs at ~5 req/min × 8-min latency → 40 concurrent; `corePoolSize=40, maxPoolSize=60`, bounded queue 100, plus an `executor.active` metric to alert on saturation.
+5. **LRU beyond the trick.** Implement the DLL version, then: "In production I'd use Redis `EXPIRE` + `LFU` eviction — understanding the structure helps me reason about Redis's own eviction."
 
 ---
 
 ## 📊 End-of-Week Self-Assessment
 
-Rate each item 1–5 (1 = can barely explain, 5 = can explain + code + handle curveballs cold).
+Rate yourself 1–5. Anything below 3 is a mandatory revisit before Week 3.
 
-### DSA
+| Skill | Target | Your Score | Notes |
+|---|---|---|---|
+| Binary search — standard, from scratch | 5 | | |
+| Search in Rotated Sorted Array (LC 33), first attempt | 4 | | |
+| Koko / binary-search-on-answer — identify independently | 4 | | |
+| Subsets / Permutations / Combination Sum — state-restore + dedup | 4 | | |
+| Valid Parentheses / Min Stack | 4 | | |
+| Daily Temperatures / Next Greater (monotonic stack) | 4 | | |
+| Largest Rectangle in Histogram | 4 | | |
+| Reverse / Merge / Cycle (Floyd's) linked lists | 4 | | |
+| Reorder List / Remove Nth from End | 4 | | |
+| LRU Cache (full HashMap + DLL) | 4 | | |
+| Spring bean lifecycle — all 8 steps without notes | 5 | | |
+| @Transactional: proxy type, self-invocation, propagations | 5 | | |
+| ApplicationContext vs BeanFactory — 3+ real differences | 4 | | |
+| Auto-configuration: conditionals + how to debug | 4 | | |
+| Full request lifecycle whiteboard (DispatcherServlet → repo) | 4 | | |
+| REST versioning + pagination + idempotency keys | 4 | | |
+| JWT issuance → validation → refresh → RBAC | 4 | | |
+| OAuth2 grant types (when to use which) | 4 | | |
+| @ControllerAdvice + Bean Validation from memory | 4 | | |
+| synchronized vs ReentrantLock — when to use each | 4 | | |
+| volatile — guarantees, limits, correct use | 4 | | |
+| CompletableFuture — chaining, executor choice, WebX link | 4 | | |
+| ThreadLocal — Tomcat pool-reuse gotcha, Security usage | 4 | | |
+| Deadlock — scenario, 4 Coffman conditions, prevention | 4 | | |
+| LLD: Parking Lot classes + a SOLID letter per decision | 4 | | |
 
-| Problem | Your Score | Target |
-|---|---|---|
-| Valid Anagram (Unicode variant included) | __ /5 | 5 |
-| Group Anagrams (both key strategies) | __ /5 | 5 |
-| Top K Frequent (bucket sort, not just heap) | __ /5 | 5 |
-| Longest Consecutive Sequence (O(n) HashSet) | __ /5 | 5 |
-| Valid Palindrome (+ 680 follow-up) | __ /5 | 4 |
-| Encode/Decode Strings (length-prefix) | __ /5 | 4 |
-| Longest Repeating Char Replacement (maxFreq insight) | __ /5 | 5 |
-| Subarray Sum = K (seed `{0:1}` explained) | __ /5 | 5 |
+**Score interpretation:**
+- 4–5 on all: ready for any Spring/concurrency/foundation-DSA question.
+- 3 on 1–2 items: revisit in Week 3's daily review slot.
+- Below 3 on any item: schedule a focused 45-min re-drill before the topic compounds.
 
-### Collections Framework
-
-| Concept | Your Score | Target |
-|---|---|---|
-| HashMap internal structure (bit-spread, treeification, resize) | __ /5 | 5 |
-| ArrayList vs LinkedList internals + CPU cache argument | __ /5 | 5 |
-| ConcurrentHashMap CAS vs synchronized + null reason | __ /5 | 5 |
-| Fail-fast `modCount` mechanism (including `set()` edge case) | __ /5 | 5 |
-| Comparable vs Comparator + BigDecimal gotcha | __ /5 | 4 |
-| When to use: `CopyOnWriteArrayList` / `LinkedHashSet` / `EnumMap` / `PriorityBlockingQueue` | __ /5 | 4 |
-
-### System Design
-
-| Concept | Your Score | Target |
-|---|---|---|
-| Latency numbers (L1 → network) from memory | __ /5 | 3 |
-| Caching strategies (cache-aside, write-through, write-behind, stampede fix) | __ /5 | 4 |
-| Load balancing L4 vs L7, consistent hashing use case | __ /5 | 4 |
-| Smart360 5-service diagram from memory with failure modes | __ /5 | 5 |
-| URL shortener design in <12 minutes | __ /5 | 3 |
-
-### Minimum to proceed to Week 3
-
-All DSA problems ≥ 4/5. Collections topics ≥ 4/5. System design concepts ≥ 3/5.
-
-If any DSA problem is ≤ 3, schedule 20 min at the start of Week 3 Day 1 to re-drill it before moving to new material.
+**Bonus check:** Can you connect every concept above to at least one specific line of code or decision in Smart360, WebX, or your API Gateway? 80%+ → you are an extraordinary candidate, not just a prepared one.
 
 ---
 
-*Week 2 — generated 2026-06-12, schedule revised 2026-06-23. Next: Week 3 (Jul 6–12) — Advanced Java (Generics, Streams deep dive, Optional, Records) + DSA: Binary Search patterns.*
+*Week 2 of 12 — next: Week 3 (Mon Jul 13 – Sat Jul 18).*

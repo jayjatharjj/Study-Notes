@@ -1,610 +1,399 @@
-# Week 10 — Peak + Active Applications (Aug 24–30, 2026)
+# Week 10 — Offers + Negotiation (Aug 31–Sep 6, 2026)
 
-> Interviews are live. Every hour matters. You are not studying anymore — you are performing. DSA is maintenance, not learning. Behavioral stories are your secret weapon. Applications are a pipeline, not a lottery. By Friday you have STAR stories written and rehearsed for every major behavioral category. By Sunday you have done a full end-to-end mock interview and can tell your story as a confident, numbers-backed narrative.
+> You've stopped performing and started converting. Every conversation is now a business negotiation — and you have more leverage than you think, especially because you can join immediately. The goal is not to get *an* offer. It's to get the *best* offer, evaluated on the right numbers, with every lever pulled. This week you build your numbers, master the CTC deflection, and run the competing-offer leverage call.
 
-> 📨 **Apps & referrals this week:** 12–15 applications + follow up ALL Week 9 apps + 8–10 new referral asks. See the [cadence & tracker](applications-and-referrals.md).
+> 📨 **Apps & referrals this week:** No new applications — convert the pipeline; compress decisions into a tight window for leverage. See the [cadence & tracker](applications-and-referrals.md).
 
 ---
 
 ## 🎯 Week Goal
 
-1. Complete 10–15 targeted applications to tier-1 product companies and GCCs; follow up on all Week 9 applications with a personalised message (≤ 3 sentences, reference a specific project or team detail).
-2. Write and rehearse 6 polished STAR stories (performance win, conflict/disagreement, ownership/leadership, biggest failure, why leaving, tell me about yourself) — each under 2 minutes when spoken aloud.
-3. Close DSA weak patterns: plug any gap from Week 9's self-assessment score < 4 — specifically Graphs (BFS/DFS, union-find), Backtracking (combinations/subsets), and any company-tagged problems for your applied companies.
-4. Walk out of Sunday's full mock interview feeling unshakeable: technical, behavioral, and system design all coherent.
+1. Receive, evaluate, and respond to at least one concrete offer without leaving money on the table — aim for ₹18–25 LPA (GCC) or ₹16–20 LPA (product company), a 40–70% jump minimum over current CTC.
+2. Use any first offer as active leverage to accelerate decisions at every other company still in your pipeline — compress the timeline so multiple decisions land within a 5–7 day window.
+3. Evaluate every offer on **in-hand monthly + guaranteed cash**, not headline CTC — and know which of the five levers to pull on each one.
 
 ---
 
 ## ✅ By Sunday you can...
 
-- Write and speak your 90-second "tell me about yourself" pitch perfectly — specific, quantified, no filler.
-- Deliver any of the 6 STAR stories fluently under 2 minutes, with a specific number in every answer.
-- Solve company-tagged Medium/Hard problems for Atlassian, Walmart, Goldman Sachs, Flipkart (or whichever 3 companies you applied to in Weeks 8–9) in ≤ 20 min.
-- Explain the difference between BFS-on-a-graph vs BFS-on-a-tree, and why union-find beats repeated BFS for connectivity problems.
-- Solve LC 200 (Number of Islands), LC 207 (Course Schedule), LC 695 (Max Area of Island), LC 78 (Subsets), LC 90 (Subsets II) from a blank editor.
-- Answer "tell me about a time you were wrong" with a story that shows self-awareness and a concrete lesson, not a humble-brag.
-- Answer "how do you handle ambiguity" with a specific example, not a platitude.
-- Articulate "why this company" for at least 3 companies on your active list — specific to each company's tech or product.
+- Recite your compensation floor, target, and stretch number without hesitation — and explain the market data behind each in one sentence.
+- Deflect the "current CTC / expected CTC" question using two techniques depending on timing (before vs. after receiving an offer), and handle a mandatory numeric CTC field.
+- Evaluate two same-headline-CTC offers and say which actually pays more (in-hand + guaranteed cash).
+- Deliver a competing-offer leverage call in under 3 minutes — respectful, assertive, specific, non-ultimatum.
+- Ask for a joining bonus and/or ESOP sweetener without it feeling awkward.
+- Use **immediate availability** as a closing lever — most candidates carry a 60–90 day notice; you can start now, which is genuine value to a hiring team under headcount pressure.
 
 ---
 
-## 📅 Daily Checklist (Mon–Sun, Aug 24–30)
+## 📅 Daily Checklist (Mon–Sun)
 
 ---
 
-### Monday, Aug 24 — DSA Weak Pattern: Graphs (BFS/DFS) + STAR Story #1
+### Monday, Aug 31 — Offer Evaluation Framework + Pipeline Compression
 
-📌 **Study today:** Graphs — DFS/BFS flood-fill (LC 200, 695) · STAR story #1 (performance win — 60s→3s, N+1 + Redis)
+📌 **Study today:** Build floor/target/stretch numbers (₹16/20–22/24–25 LPA) + decompose total comp into 5 levers · evaluate on in-hand + guaranteed cash · pipeline compression calls
 
-**DSA (45 min)**
-- [ ] **LC 200 – Number of Islands** (Medium). DFS/BFS flood-fill: mark visited cells in-place (set to '0') or with a visited array. Time O(m×n), space O(m×n) recursion stack worst case. Know both DFS and BFS implementations — interviewers often ask for the other one after you pick one.
-- [ ] **LC 695 – Max Area of Island** (Medium). Same flood-fill; return count of cells, not just boolean. Adds an accumulator to the DFS. Practice returning the count cleanly — a common mistake is double-counting.
-- [ ] After solving: write on paper the 4-directional `int[][] dirs = {{0,1},{0,-1},{1,0},{-1,0}}` pattern. You will use this for every 2D grid graph problem — hardcode it in muscle memory.
+**Morning: Build Your Numbers (45 min)**
+- [ ] Write down — on paper, not just in your head — your three compensation thresholds:
+  - **Floor** (minimum acceptable, below which you decline): ₹16 LPA (product co) / ₹18 LPA (GCC). Any offer below this is a "no" regardless of brand. Do not negotiate below it.
+  - **Target** (what you ask for, anchored on market data): ₹20–22 LPA. The number you name when asked "what are you expecting?"
+  - **Stretch** (what you'd feel great about): ₹24–25 LPA. GCCs with strong pedigree (Walmart Global Tech, Barclays Tech, SAP Labs, Bosch, Societe Generale) land here at 2.5 YOE.
+- [ ] Decompose total comp into components so you can negotiate each lever separately:
+  - **Fixed (base)**: most important — it compounds into future raises and forms the base for your *next* jump. Fight hardest here.
+  - **Variable pay / bonus**: typically 10–20% of CTC. Ask the realistic historical payout rate.
+  - **Joining bonus / sign-on**: one-time, fully negotiable.
+  - **ESOPs / RSUs / LTI**: ask vesting schedule (4yr / 1yr cliff typical at product cos; rare at GCCs but some have LTI). Ask explicitly.
+  - **Designation / band**: affects all future raises and internal mobility.
+- [ ] For *each active pipeline company*, research and log the CTC range from the last 5 Glassdoor/Levels.fyi/AmbitionBox entries for "SDE 2 / Senior Engineer / Software Engineer II" at 2–3 YOE. This is your negotiation intelligence.
+- [ ] **Evaluate offers on in-hand monthly + guaranteed cash — not headline CTC.** Two offers with the same ₹22 LPA "CTC" differ wildly in what lands in your account: one might be 90% fixed base, the other 65% base + 20% variable (paid only if targets hit) + 15% ESOP (paper money for years). For each offer compute: **(a) monthly in-hand** (after base/variable split + statutory deductions) and **(b) guaranteed annual cash** = base + any fixed/contractual component, excluding variable and ESOP. Rank on those two, not the headline.
 
-**Core Block — STAR Story #1: Performance Win (30 min)**
-- [ ] This story already has a skeleton in interview-qa.md. Now make it air-tight and rehearse it out loud.
-  - **Situation**: Smart360 data retrieval taking 60 seconds — causing HTTP timeout errors for end users attempting to load dashboards. The team had accepted it as a known issue for months.
-  - **Task**: You volunteered (or were assigned) to own the fix. No change to the data model was allowed (other services depended on it).
-  - **Action** (be specific, step-by-step):
-    1. Enabled Hibernate statistics logging (`hibernate.generate_statistics=true`) to count queries per request — found 47 queries firing for a single dashboard load (N+1).
-    2. Identified the exact `@OneToMany` relationships triggering the extra queries.
-    3. Rewrote JPQL with `JOIN FETCH` and used `@EntityGraph` on repository methods that needed controlled eager loading.
-    4. Added composite indexes on the most-filtered columns (`(tenant_id, created_at)`, `(user_id, status)`).
-    5. Integrated Redis caching for repeated read queries with 5-minute TTL.
-    6. Cached S3 pre-signed URLs in Redis with TTL = (URL expiry − 30s buffer).
-  - **Result**: P95 latency dropped from 60 s → 2–3 s (96% reduction). S3 API calls dropped by 80%. Zero DB schema changes.
-- [ ] Time yourself speaking this story aloud. Target: 90 seconds, under 2 minutes. Every sentence must have a specific detail — no vague "we improved things."
+**Midday: Pipeline Compression Calls (1 hr)**
+- [ ] For every company where you completed the final round but have no offer yet: send a status-check email today. It (a) signals you're active and (b) surfaces their timeline.
+  - Template: *"Hi [Name], I wanted to check in on the status of my candidacy following [interview date]. I'm currently evaluating a few opportunities and hoping to make a decision by [date ~1 week away]. I remain very interested in [Company] specifically because [one genuine reason]. Could you share where things stand?"*
+- [ ] For mid-funnel companies (post-onsite, awaiting HR): same note, lighter urgency — "I'm keen to keep moving forward."
+- [ ] **Use immediate availability as a nudge:** *"One thing that may help your planning — I'm able to start immediately, so there's no notice-period lag on my side once we align."* This is a real differentiator that can move you to the front of a slow queue.
+- [ ] Log every response, expected decision date, and recruiter name. Colour-code: green (offer in hand), yellow (decision this week), orange (>1 week out).
 
-**Self-Check**
-- [ ] Can you solve Number of Islands in both DFS and BFS in under 15 min?
-- [ ] Can you tell the performance story without notes, under 2 minutes, with the number "96%" spoken naturally?
-
----
-
-### Tuesday, Aug 25 — DSA: Graphs (Cycle Detection / Topological Sort) + STAR Story #2
-
-📌 **Study today:** Graphs — cycle detection / topological sort (LC 207, 210) · STAR story #2 (conflict / disagreement) · application follow-ups
-
-**DSA (45 min)**
-- [ ] **LC 207 – Course Schedule** (Medium). Directed graph cycle detection via DFS with coloring (white=unvisited, gray=in-stack, black=done) OR Kahn's BFS topological sort (track in-degrees; add nodes with in-degree 0 to queue; if processed count < n, cycle exists). Know BOTH approaches — interviewers ask "now do it without recursion" and Kahn's is the answer.
-- [ ] **LC 210 – Course Schedule II** (Medium). Same as 207 but return the actual topological order. With Kahn's: the BFS processing order IS the topological order. With DFS: push to result list on post-order (when node becomes black), then reverse.
-- [ ] Know the connection: topological sort only exists on a DAG (directed acyclic graph). If there's a cycle, no valid ordering exists. This directly maps to dependency resolution in build systems, microservice startup ordering, and package management — mention this when describing your solution.
-
-**Core Block — STAR Story #2: Conflict / Disagreement (30 min)**
-- [ ] Write this story from scratch. It must be a REAL disagreement, not a manufactured one.
-  - Possible scaffold (adapt to what actually happened):
-    - **Situation**: During Smart360 or Deep Fathom, there was a design disagreement — perhaps over how to handle authentication (JWT vs session), or whether to use event-driven async vs synchronous REST for the user management migration, or whether to use Bicep vs an existing Terraform module.
-    - **Task**: The decision mattered for the project. You had a strong technical opinion backed by data. The other party (senior dev, team lead, or stakeholder) disagreed.
-    - **Action**:
-      1. You documented both approaches with explicit trade-offs (don't just argue — bring evidence).
-      2. You proposed a time-boxed proof-of-concept or a decision matrix.
-      3. You listened to their concern and found the kernel of validity in it.
-      4. You either reached consensus OR escalated to a third party with both options clearly framed.
-    - **Result**: The decision was made without damaging the relationship. Quantify if possible: "we shipped on time," "the chosen approach had X outcome."
-  - **Curveball version**: "Tell me about a time you disagreed with your manager." Same structure — key is to show you can push back professionally WITH data, not just comply.
-- [ ] Speak it aloud. Time it. Keep it under 2 minutes.
-
-**Application Block (20 min)**
-- [ ] Pull up your Week 9 application tracking sheet. For every application sent 5+ days ago with no response:
-  - [ ] Find the recruiter or hiring manager on LinkedIn.
-  - [ ] Send a 3-sentence follow-up message: (1) reference your application date + role, (2) add one specific line about why that company, (3) offer to connect for a quick chat.
-- [ ] Log follow-up date in the tracking sheet.
-
-**Self-Check**
-- [ ] Can you explain Kahn's algorithm step-by-step without notes?
-- [ ] Is your conflict story written down (even rough draft) in a note or document?
+**Evening: Self-Check**
+- [ ] Have you written down floor/target/stretch on paper? (Negotiating from memory is how you get anchored.)
+- [ ] Have you sent follow-ups to all companies where you've completed final rounds?
 
 ---
 
-### Wednesday, Aug 26 — DSA: Union-Find + STAR Story #3
+### Tuesday, Sep 1 — The "Current CTC / Expected CTC" Question + First Offer Response
 
-📌 **Study today:** Union-Find / DSU (LC 684, 323/547) · STAR story #3 (ownership / leadership)
+📌 **Study today:** Master CTC deflection (before vs after an offer; numeric-field guidance) · first-offer response protocol + offer evaluation checklist
 
-**DSA (45 min)**
-- [ ] **LC 684 – Redundant Connection** (Medium). Union-Find (Disjoint Set Union): for each edge, if both endpoints are already in the same set → this edge creates the cycle → return it. Union by rank + path compression → near O(1) amortized per operation.
-  - Implement cleanly: `find(x)` with path compression (recursive: `parent[x] = find(parent[x])`), `union(x, y)` with rank. Know this implementation cold — it's reusable across all connectivity problems.
-- [ ] **LC 323 – Number of Connected Components in Undirected Graph** (Medium, Premium — use LC 547 Friend Circles instead if no Premium). Union-Find: for each edge, union the two nodes. Count distinct roots at end. Alternative: BFS/DFS flood-fill, count starts. Union-Find is faster in practice and uses less stack space.
-- [ ] **Key insight to articulate**: "Union-Find beats repeated BFS for problems that ask ONLY about connectivity (not path), because it processes each edge once in near-constant time. BFS/DFS is better when you need the actual path or per-component information (like max area)."
+**Morning: Master the CTC Deflection (30 min)**
 
-**Core Block — STAR Story #3: Ownership / Leadership (30 min)**
-- [ ] Write this story. Ownership means you took responsibility beyond your explicit role.
-  - **Scaffold**:
-    - **Situation**: A task or problem existed that nobody owned — or someone owned it but wasn't driving it. Maybe the CI/CD pipeline was slow and everyone complained but nobody fixed it. Maybe the Bicep IaC didn't exist and infrastructure was provisioned manually.
-    - **Task**: You decided to own it. You didn't wait to be asked.
-    - **Action** (very specific):
-      - You assessed the scope: "Pipeline was at 23 min; I profiled it with GitLab pipeline trace and identified 3 bottlenecks."
-      - You proposed a plan to your manager/team: "I estimated 2 days to implement parallel stages + BuildKit caching."
-      - You executed it: built the DAG pipeline structure, added BuildKit, set up registry-backed cache.
-      - You measured the outcome and reported it.
-    - **Result**: "Pipeline dropped from 23 to 10 min (57% faster). Developer feedback: faster iteration loops. This change landed before a deadline-critical sprint."
-  - The meta-message: you identify problems proactively, quantify them, propose solutions, execute independently, and measure impact. That is the definition of a senior engineer mindset at 2.5 YOE — this is your extraordinary-candidate signal.
-- [ ] Speak it aloud. Under 2 minutes.
+This question is the single highest-value negotiation moment. Most engineers answer honestly and immediately — setting a low anchor that costs ₹3–5 LPA. Practice until natural.
 
-**Self-Check**
-- [ ] Can you implement union-find with path compression + rank from scratch in < 10 min?
-- [ ] Is the ownership story specific enough that it sounds like a diary entry, not a job description?
+**If asked before an offer (screening, HR intro call):**
+- [ ] Technique 1 — Redirect to market: *"I'd prefer to focus on the total opportunity and what's right for this role. For Senior Java / Spring Boot engineers with my background in Bangalore/Pune, the market is around ₹18–24 LPA. I'm confident we can find a number that works for both sides once I understand the full scope."* Do NOT give a number; hold this as long as possible.
+- [ ] Technique 2 — Conditional anchor (if pushed hard): *"I'm currently at X, but to be transparent — I'm not moving for a flat switch. I'm looking for a meaningful step-up reflecting the product-company shift and scope expansion. I'd expect at least [target] as a floor."*
+- [ ] Never volunteer your current CTC. If a form requires it, enter your *full* CTC (base + variable + employer PF + benefits value) — always higher than base alone.
+- [ ] **Written / numeric CTC fields (no room to deflect).** Indian portals (Naukri, company ATS) often make current CTC a **mandatory numeric field**. For "current CTC," enter your **full** CTC inclusive of all components — the recruiter benchmarks their offer against this number. For "expected CTC," enter your **researched target band number** (₹20–22 LPA), not your current number and not a lowball "negotiable." The numeric field is itself an anchor — treat it with the same care as a spoken answer.
 
----
+**If asked after an offer is in hand:**
+- [ ] Now you hold the anchor: *"I've received an offer from another company in my pipeline for a competitive package. I'd like to evaluate [this company's] offer on its own merits, but I want to make sure we're in the same ballpark."*
 
-### Thursday, Aug 27 — DSA: Backtracking + STAR Story #4
+**Midday: First Offer Response Protocol (45 min)**
+- [ ] When an offer arrives — even a great one — never accept on the spot. It normalises immediate acceptance and removes future flexibility. Use: *"Thank you so much — I'm genuinely excited. I'd like to review everything carefully. Can I get back to you by [specific date, 3–5 business days out]?"* Every legitimate company says yes.
+- [ ] Evaluate against this checklist:
+  - Is the fixed component at or above your floor?
+  - Variable/bonus structure and historical payout rate?
+  - Joining bonus? If not, can you ask for one?
+  - ESOP / LTI / RSU component and vesting?
+  - Growth trajectory — band structure, promotion cycle?
+  - Location / hybrid / remote flexibility?
+  - **Start date — confirm they know you can join immediately** (your leverage; see Wednesday).
+  - Background check requirements (Form 16, prior offer letters, salary slips)?
+- [ ] Do NOT evaluate on prestige alone. A ₹22 LPA offer at an unknown product company beats an ₹18 LPA GCC offer for your *next* jump's base.
 
-📌 **Study today:** Backtracking — subsets/permutations (LC 78, 90, 46) · STAR story #4 (biggest failure & lesson) · 5 new applications
-
-**DSA (45 min)**
-- [ ] **LC 78 – Subsets** (Medium). Backtracking: at each step, choose to include or exclude the current element. Build the recursion tree. Result: 2^n subsets. Time O(n × 2^n), space O(n) call stack. Also know the iterative bit-mask approach: for mask from 0 to 2^n-1, include element i if bit i is set.
-- [ ] **LC 90 – Subsets II** (Medium). Same as LC 78 but with duplicates. Sort first, then skip duplicates at the same recursion level: `if (i > start && nums[i] == nums[i-1]) continue;`. This skip-duplicate pattern appears in Combination Sum II (LC 40) and Permutations II (LC 47) — learn the pattern, not just this problem.
-- [ ] **LC 46 – Permutations** (Medium) if time allows. Swap-based backtracking: for position i, swap each element from i to n-1 into position i, recurse, swap back. Time O(n × n!). Know this because system-design follow-up often involves "enumerate all orderings" for small inputs.
-
-**Core Block — STAR Story #4: Biggest Failure & Lesson (30 min)**
-- [ ] This is the hardest story to tell well. Interviewers distinguish genuine self-awareness from performance.
-  - **What NOT to do**: "My biggest failure was working too hard" or "I was TOO detail-oriented." These are transparent non-answers and make you look evasive.
-  - **What to do**: Pick something real where YOU made a mistake that had a measurable negative consequence, and where you learned something specific.
-  - **Scaffold**:
-    - **Situation**: [A real project moment where you misjudged something — scope, technical approach, timeline, communication.]
-    - **Task**: What were you trying to achieve?
-    - **Action that led to failure**: "I assumed X without validating it. / I didn't communicate Y to the team. / I optimised for Z when the real constraint was W."
-    - **Consequence**: Be honest. "This caused a 2-day delay / broke the staging environment / required a hotfix / frustrated a stakeholder."
-    - **Lesson**: Specific and actionable. "Since then, I always do X before starting Y. / I added a validation step to my workflow. / I now set up alerts for Z before deploying."
-    - **Follow-through**: "I applied this lesson in [subsequent project] — here's what changed."
-  - Example failure angle (adapt): "During the LLM proxy routing feature, I assumed provider A would have sufficient uptime SLA and didn't build a retry+fallback until after we had a production incident. I learned to design for failure first, not as an afterthought."
-- [ ] Speak it aloud. This one should be UNDER 90 seconds — brevity signals confidence and acceptance of the mistake.
-
-**Application Block (20 min)**
-- [ ] Research and apply to 5 new target companies. Focus specifically on:
-  - GCCs with Java/Spring Boot stacks: Goldman Sachs (Bengaluru), JPMorgan Chase Tech, Walmart Global Tech, Target, Atlassian, Booking.com India, PhonePe, Razorpay, CRED, Zepto, Meesho.
-  - For each: read the JD, identify the 2–3 skills they emphasize most, write a tailored 3-sentence application note referencing those skills and one specific achievement from your resume.
-- [ ] Log in tracking sheet. Running total should be approaching 20+ applications.
-
-**Self-Check**
-- [ ] Can you write the subset-with-duplicates skip pattern from memory?
-- [ ] Is your failure story honest enough to feel slightly uncomfortable? (If it doesn't, it's not genuine enough.)
+**Evening: Self-Check**
+- [ ] Can you deflect the CTC question smoothly, without hesitation, without sounding evasive?
+- [ ] Have you written your offer evaluation checklist and applied it to any live offer?
 
 ---
 
-### Friday, Aug 28 — DSA: Company-Tagged Review + STAR Stories #5 & #6
+### Wednesday, Sep 2 — Competing-Offer Leverage Call + Immediate-Availability Lever
 
-📌 **Study today:** Company-tagged review (LC 56, 33, 76, 105 etc.) · STAR story #5 (why leaving) · STAR story #6 (tell me about a time you were wrong)
+📌 **Study today:** Draft + rehearse the competing-offer leverage call (5 negotiable levers) · using immediate availability as a closing lever
 
-**DSA (45 min)**
-- [ ] Pull up LeetCode's company tags for the 3 companies you have the most active applications at (check your tracking sheet). Look at their Medium/Hard tagged problems. Prioritize:
-  - **Atlassian**: Graph problems, String manipulation, Interval problems — commonly tagged: LC 56 (Merge Intervals), LC 57 (Insert Interval), LC 253 (Meeting Rooms II, Premium → use Greedy sort by start+end), LC 1293 (Shortest Path in Grid with Obstacles).
-  - **Goldman Sachs / JPMorgan**: Array/String/Matrix, Binary Search variants — LC 33 (Search in Rotated Array), LC 74 (Search a 2D Matrix), LC 4 (Median of Two Sorted Arrays — know the binary search approach even if you only explain it).
-  - **Walmart Global Tech / Target**: Sliding window, Two pointers, Trees — LC 76 (Minimum Window Substring), LC 239 (Sliding Window Maximum), LC 105 (Construct Binary Tree from Preorder+Inorder).
-- [ ] Solve 2–3 of the tagged problems most relevant to your scheduled/pending interviews. Time yourself: 20 min max per problem.
+**Morning: The Competing-Offer Leverage Call (45 min)**
+- [ ] This is the most powerful lever at this salary band. If you have two offers — or one offer + another company's verbal interest — use it.
+- [ ] Script: *"Hi [Recruiter], I wanted to be transparent because [Company] is genuinely my preference. I'm in the final stages with another company and expect a formal offer by [date]. Before I decide, I wanted to give [Company] the first opportunity to move. Is there any flexibility on [specific component — base, joining bonus]?"*
+- [ ] If they say "we can't move on salary": immediately pivot — *"I understand. Could we look at a joining bonus? Or any flexibility on the variable target?"* Never walk away from a single "no" — there are five negotiable levers.
+- [ ] If they ask to see the competing offer in writing: *"I'd rather not share a competitor's formal offer — that crosses a line in professional courtesy to them. But I can tell you it's a real offer and the number is [₹X]."* You're never obligated to show an offer letter. If they insist as a hard requirement, that's a red flag about their negotiation culture.
 
-**Core Block — STAR Stories #5 & #6 (45 min)**
+**Midday: The Immediate-Availability Lever (30 min)**
+- [ ] Most candidates in this market carry a 60–90 day notice period. You can join immediately — that is genuine, quantifiable value to a hiring team filling an open req under deadline pressure. Use it deliberately as a negotiating chip, not just a logistics footnote.
+- [ ] Frame it as value you're providing, then ask for value back: *"One advantage on my side — I'm available to start immediately, so you fill this seat now rather than waiting two-plus months. Given that, I'd like to make sure the base reflects the value I'm bringing on day one — could we get to ₹[target]?"*
+- [ ] Use it to break a tie or compress a timeline: *"I can start right away, which I know helps your Q-end staffing. In return, I'd love to close this quickly — is there any movement on [lever] so I can commit?"*
+- [ ] Note for evaluation: because you can join immediately, there is **no income gap to bridge** — so unlike a 60-day-notice candidate, you don't *need* a joining bonus to cover a salary gap. That means you can deploy the joining-bonus ask purely as upside, or trade it against a higher base. Decide which you value more before the call.
 
-*Story #5: Why are you leaving your current role?*
-- [ ] This is NOT a STAR story technically, but it needs the same preparation rigor. It will be asked in every first-round screen.
-  - **The honest answer** (frame it as ambition, not escape):
-    - "I've been extremely fortunate to build production experience across the full stack — Java microservices, cloud infra, LLM integration, and DevOps. In two and a half years I went from implementing features to owning the architecture of an entire platform. I'm proud of that.
-    - What I'm looking for now is scale — working on systems that serve millions of users, a strong engineering culture with code reviews, architecture discussions, and senior engineers to learn from, and a compensation package that reflects the level I'm operating at.
-    - Product companies and GCCs represent that combination. I want to solve harder problems at bigger scale."
-  - What you must NEVER say: "my current company is bad / chaotic / underpaying / the manager is difficult." Even if true — it makes you sound like a complainer, not an ambitious engineer.
-  - Speak this answer aloud 3× until it sounds natural, not rehearsed.
+**Afternoon: The Five Negotiable Levers (15 min)**
+- [ ] Memorise them in order of impact: (1) **fixed base** — fight hardest; (2) **joining bonus** — one-time, easy for HR to approve outside the band; (3) **variable target %** — negotiate the percentage and clarify historical payout; (4) **ESOP / RSU / LTI** — ask accelerated vesting if cliff is far; (5) **designation / band** — "SDE 2" vs "Senior SDE" can be a 2–3 LPA difference and affects all future raises.
 
-*Story #6: Behavioral Curveball — "Tell me about a time you were wrong"*
-- [ ] This is the conflict story's harder cousin. It requires genuine intellectual humility.
-  - **Scaffold**:
-    - **Situation**: A technical decision or assumption you made confidently that turned out to be incorrect.
-    - **What you said/believed**: Be specific. "I argued that synchronous REST calls would be fine for the user management migration because our current load was under X requests/sec."
-    - **How you discovered you were wrong**: "After the migration, we saw cascading failures during peak load — the downstream service's latency spiked and our synchronous calls queued up. I had not accounted for bursty traffic patterns."
-    - **What you did**: "I immediately acknowledged the misjudgement to the team. We implemented a circuit breaker + moved to async event-driven communication — the same change I had initially dismissed as over-engineering."
-    - **Lesson**: "I now simulate bursty load in load tests before signing off on any synchronous integration. Steady-state benchmarks don't reveal queueing behaviour."
-  - Key: the story must show you change your mind based on evidence, not stubbornness. That is a high-signal answer for senior roles.
-- [ ] Speak story #6 aloud. Time it: 75–90 seconds.
-
-**Self-Check**
-- [ ] Do you have all 6 stories written in a notes doc (or index cards) you can review before interviews?
-- [ ] Did you solve at least 2 company-tagged problems for your most-prioritized active application?
+**Evening: Practice**
+- [ ] Role-play the competing-offer call out loud, alone, timed at 3 minutes. Record it. Listen for filler words, hesitation, apology-framing. Sound confident, not apologetic — you're calibrating the market, not asking for charity.
 
 ---
 
-### Saturday, Aug 29 — Full Mock Interview + Spring/Java Deep-Dive Drill
+### Thursday, Sep 3 — Asking for Joining Bonus / ESOP + Counter Anatomy
 
-📌 **Study today:** Timed graph/backtracking mock (LC 127, 130, 417, 79, 131, 51) · Spring/Java rapid-fire drill (auto-config, bean lifecycle, @Transactional, Resilience4j, JWT, RLS) · applications
+📌 **Study today:** Joining-bonus / ESOP sweetener scripts · anatomy of a clean counter (specific number, one reason, no ultimatum)
 
-**DSA (60 min)**
-- [ ] Timed mock: open a fresh LeetCode session. Pick problems RANDOMLY from this list (don't cherry-pick):
-  - LC 127 – Word Ladder (Hard, BFS)
-  - LC 130 – Surrounded Regions (Medium, DFS/Union-Find)
-  - LC 417 – Pacific Atlantic Water Flow (Medium, BFS/DFS)
-  - LC 79 – Word Search (Medium, Backtracking)
-  - LC 131 – Palindrome Partitioning (Medium, Backtracking + DP)
-  - LC 51 – N-Queens (Hard, Backtracking)
-- [ ] Pick 2, solve them in 30 min each, no hints. After each: analyze time/space complexity aloud, then check your solution against the editorial. Note the gap.
+**Morning: Asking for a Joining Bonus / ESOP (30 min)**
+- [ ] When the base band is capped, pivot to a one-time joining bonus — it's logistically easier for HR to approve because it doesn't touch the salary band.
+- [ ] Script (immediate-joiner framing — upside, not gap-filling): *"I appreciate the constraints on the base band. Since I'm able to join immediately and there's no notice-period lag on my side, I'd love to see if we can recognise that with a one-time joining bonus — something in the range of ₹[amount, ~1–2 months' salary equivalent]. It would help me commit quickly."*
+- [ ] For ESOP/RSU: *"Could we look at the equity component — either a larger grant or accelerated vesting on the first cliff? I'm thinking long-term about my contribution here."* At GCCs, ask about LTI programs explicitly.
 
-**Spring/Java Deep-Dive Drill (90 min)**
+**Midday: Anatomy of a Clean Counter (45 min)**
+- [ ] If an offer is in hand and below target, write the counter script before picking up the phone. Do not improvise. Structure:
+  1. Express genuine enthusiasm (one sentence).
+  2. Affirm you want to join specifically (one real reason).
+  3. Name the gap specifically; anchor to market or competing offer.
+  4. Make a specific ask — a number, not a range.
+  5. Express confidence it can be resolved.
+  - Template: *"I'm genuinely excited about [Company] — [product/team/challenge] is exactly the space I want to grow into. I've reviewed the offer and want to be straightforward: the base is slightly below what I need to make this move. Based on market data and a competing offer I'm evaluating, I was expecting around ₹[target]. Could you revisit the base to bring it to ₹[target]? I'm confident we can close this quickly — [Company] is my first choice."*
+- [ ] Key principles: ask a specific number (a range "₹20–22" is always heard as ₹20); give only ONE reason (multiple dilute each other); no deadline ultimatum on the first counter; frame as a solvable problem, not a confrontation.
 
-This session revisits the interview-qa.md topics as a rapid-fire drill — you answer each Q aloud in < 90 seconds before checking your notes. Track which ones you hesitate on.
-
-*Group A — Spring Internals (20 min, answer aloud before checking)*
-- [ ] "How does Spring Boot auto-configuration work?" (answer: conditional scanning of AutoConfiguration.imports, @ConditionalOnClass, etc.)
-- [ ] "What is the bean lifecycle?" (answer: 8-step sequence from instantiation through @PostConstruct to @PreDestroy)
-- [ ] "@Transactional self-invocation — what happens and how do you fix it?"
-- [ ] "What is the proxy ordering issue with @Transactional + @Cacheable?"
-
-*Group B — Spring Cloud / Microservices (20 min)*
-- [ ] "How does circuit breaker work in Resilience4j? Three states, config properties."
-- [ ] "Outbox pattern — why, and what are the two delivery mechanisms?"
-- [ ] "CQRS — when is it worth the complexity?"
-- [ ] "Saga — choreography vs orchestration — give a real use case for each."
-
-*Group C — Security (15 min)*
-- [ ] "How did you cut sign-in latency by 60%?" (answer: stateless JWT validation, eliminated DB roundtrip per request)
-- [ ] "JWT risks — name 3 and the mitigation for each."
-- [ ] "What is the difference between RBAC and ABAC?" (RBAC: roles; ABAC: attribute-based policy — e.g., user.department == resource.department — more granular but harder to audit)
-
-*Group D — Database/Observability (15 min)*
-- [ ] "Row-level security in PostgreSQL — how did you use it in Deep Fathom?"
-- [ ] "How does distributed tracing work with Micrometer Tracing in Spring Boot 3.x?"
-- [ ] "Name the 5 most useful Actuator endpoints in production and why."
-
-*Group E — Testing (10 min)*
-- [ ] "@SpringBootTest vs @WebMvcTest vs @DataJpaTest — when to use each?"
-- [ ] "How do you test a Feign client without hitting the real service?"
-
-*Group F — Curveball wrap-up (10 min)*
-- [ ] "If a pod passes liveness but fails readiness permanently — what exactly happens?"
-- [ ] "Deployment vs StatefulSet — when would Spring Boot ever use a StatefulSet?"
-- [ ] "Migrate from Azure to AWS — what changes, what doesn't?"
-
-**Applications (30 min)**
-- [ ] Submit 3–5 more applications. Running total by end of Saturday: aim for 20–25 total applications since Week 8.
-- [ ] For any company that reached out for a screen: confirm the time, research the interviewer on LinkedIn, add prep notes in the tracking sheet (tech stack, product, recent engineering blog posts).
-
-**Self-Check**
-- [ ] Which Spring/Java group had the most hesitations? Schedule a 30-min review for that group Sunday morning.
-- [ ] Is your STAR stories doc complete with all 6 stories written out?
+**Evening: Self-Check**
+- [ ] Can you deliver the joining-bonus ask without it feeling awkward?
+- [ ] Did your counter draft ask for a specific number and give exactly one reason?
 
 ---
 
-### Sunday, Aug 30 — Full End-to-End Mock Interview + Week 11 Planning
+### Friday, Sep 4 — Offer Comparison Table + Decision Discipline
 
-📌 **Study today:** Full end-to-end mock — behavioral + News Feed/Timeline HLD (fan-out write/read/hybrid, cursor pagination, ranking) + coding · Week 11 planning
+📌 **Study today:** Build the weighted offer comparison table · in-hand vs CTC recompute · negotiation mindset (BATNA, silence rule, anchoring)
 
-**Morning: Targeted Weak-Area Review (60 min)**
-- [ ] Take the group with the most hesitations from Saturday's drill. Re-read the relevant interview-qa.md section, then answer the same questions aloud again — measure improvement.
-- [ ] Solve 1 DSA problem from a pattern you rated < 4 in your Week 9 self-assessment. No hints, timed.
+**Morning: Build the Offer Comparison Table (45 min)**
+- [ ] If you have (or expect) multiple offers, build a scoring table in your tracker:
 
-**Full Mock Interview (90 min)**
+  | Criteria | Company A | Company B | Company C |
+  |---|---|---|---|
+  | Fixed base (LPA) | | | |
+  | Variable / bonus (%) | | | |
+  | Joining bonus | | | |
+  | ESOP / LTI | | | |
+  | Guaranteed Y1 cash | | | |
+  | Monthly in-hand (est.) | | | |
+  | Total Y1 CTC (est.) | | | |
+  | Growth / band clarity | | | |
+  | Tech stack relevance | | | |
+  | WFH / hybrid terms | | | |
+  | Start-date fit (immediate = plus) | | | |
+  | Gut feel / team quality | | | |
+  | **TOTAL SCORE** | | | |
 
-Simulate a real first-round + technical interview from a GCC (45 min behavioral + system design, 45 min coding). Record yourself on your phone or use a friend.
+- [ ] Weight it: fixed base × 2 (it compounds), tech relevance × 1.5 (affects your *next* jump), gut feel × 1 (you'll spend 2,000+ hours/year with these people). Don't ignore gut feel.
 
-*Behavioral segment (20 min)*
-- [ ] Interviewer: "Tell me about yourself." → Deliver your 90-second pitch.
-- [ ] Interviewer: "Tell me about your most impactful technical achievement." → Performance win story.
-- [ ] Interviewer: "Tell me about a disagreement with a teammate." → Conflict story.
-- [ ] Interviewer: "Tell me about a time you failed." → Failure story.
-- [ ] Interviewer: "Why are you looking to leave?" → Why-leaving answer.
-- [ ] Interviewer: "Why this company?" → [Research 1 real company on your list and give a specific answer.]
+**Midday: Negotiation Mindset (45 min)**
+- [ ] **Service → Product is your strongest lever.** You're changing trajectories, not just jobs. The market prices the risk premium — don't let recruiters frame it as a "lateral with a small bump."
+- [ ] **BATNA (Best Alternative To Negotiated Agreement).** Your BATNA is your current job. A strong competing offer weakens that BATNA's pull and lets you ask for more. Know your BATNA at every moment. With zero competing offers, your position is weaker — be honest and don't overplay it.
+- [ ] **The Silence Rule.** After you make an ask, stop talking. The first to speak after a proposal loses ground. Count to 5 mentally. Their silence is calculation, not rejection.
+- [ ] **Anchoring.** First number named sets the psychological anchor. If they offer first, negotiate up from it. If they ask "what are you expecting," your number is the anchor — always anchor above target (₹22 when target is ₹20); negotiations converge toward the middle.
+- [ ] **Never negotiate against yourself.** If you ask ₹22 and they say "we'll get back to you," do not add "but I could do ₹20." Wait. Do not pre-concede.
 
-*System Design segment (25 min)*
-- [ ] Design a "notification service" for a product like Flipkart that sends email, SMS, and push notifications. Cover:
-  - High-level components: API, queue (Kafka/SQS), per-channel workers, retry logic, deduplication.
-  - Tie to your experience: "In Deep Fathom I moved to event-driven communication to decouple the notification service from the authorization service — same pattern here."
-  - Failure modes first: what if the email provider goes down? (dead-letter queue + fallback provider)
-  - Scale numbers: 10 million notifications/day = ~116/sec average, ~1000/sec peak. Single Kafka partition handles ~10k msg/sec — easily covered.
-  - Database schema: `notifications(id, user_id, channel, payload, status, created_at, sent_at, retries)`.
-
-*System Design segment — Driven HLD: Design a News Feed / Timeline (45 min)*
-
-This is the single highest-frequency HLD prompt at product companies and GCCs — drive it end-to-end, do not wait for prompts. Whiteboard it on paper, narrate aloud. Prompt: *"Design the home timeline / news feed for a social product — 100M users, a user follows up to a few thousand accounts, feed must load in under 200ms."*
-
-- [ ] **Requirements + scale (5 min):** read-heavy (feed views ≫ posts), ~100M DAU, avg user follows ~500, reads at ~10:1 vs writes. The defining tension is **write amplification vs read amplification** — state it up front, it frames the whole design.
-- [ ] **The core decision — fan-out-on-write vs fan-out-on-read:**
-  - *Fan-out-on-write (push):* when a user posts, write that post's id into every follower's precomputed feed (a per-user feed cache, e.g. a Redis sorted set keyed by user, scored by timestamp/rank). Reads are O(1) — just slice the cache. Cost: a post by someone with 1M followers triggers 1M writes (write amplification explodes for high-follower accounts).
-  - *Fan-out-on-read (pull):* store posts once; at read time, fetch the posts of everyone the user follows and merge-sort them. Writes are cheap; reads are expensive (gather + merge across hundreds of authors on every feed load — read amplification).
-- [ ] **The hybrid (this is the answer interviewers want):** push for normal users; for celebrity / high-follower accounts (above a follower threshold), do NOT fan out on write — instead pull their recent posts at read time and merge them into the precomputed feed. This caps write amplification (one Justin-Bieber post no longer does 100M writes) while keeping reads fast for the 99% case. Name the threshold as a tunable knob.
-- [ ] **Feed cache:** per-user feed stored as a Redis sorted set (post_id → score). Cap it (e.g. top ~800 entries) — nobody scrolls infinitely; older history is regenerated on demand from the posts store. Cold/inactive users: don't maintain a live feed at all, generate lazily on next login (avoids fanning out to dormant accounts).
-- [ ] **Cursor-based pagination:** never `OFFSET/LIMIT` (skips/dupes when new posts arrive mid-scroll). Use an opaque cursor = `(score, post_id)` of the last item seen; the next page is "items with score < cursor." Stable under concurrent writes — this is the correct pattern and a clean signal.
-- [ ] **Ranking signals:** chronological is the baseline; ranked feed scores each candidate post by recency, author affinity (interaction history), engagement velocity (likes/comments rate), and content type. Separate **candidate generation** (fan-out gives the candidate set) from **ranking** (a scorer orders them) — naming this two-stage split is the senior signal.
-- [ ] **Tie to your work:** "The fan-out-on-write step is exactly the outbox/Kafka pattern I know from Deep Fathom — the post-creation transaction emits a `PostCreated` event to Kafka, and feed-builder workers consume it to update follower feed caches asynchronously. Decoupling the write path from fan-out via a queue is the same decoupling I did for the notification service." Also tie the per-user feed cache to your Smart360 Redis caching work.
-- [ ] **Self-critique rubric:** Did I open with the write/read amplification trade-off, explicitly justify the hybrid for celebrity accounts, choose cursor (not offset) pagination, separate candidate-generation from ranking, and name at least one failure mode (e.g. fan-out worker lag → feed staleness, mitigated by also pulling the author's very latest posts at read time)? If any of these was missing or prompted, mark it for a redo.
-
-*Coding segment (45 min)*
-- [ ] Pick a random Medium from a company tag. 45 min, simulate no-hints.
-- [ ] After coding: explain time and space complexity unprompted. Mention an alternative approach. Ask the interviewer "Is there a follow-up you'd like to explore?" — this is an extraordinary-candidate move.
-
-**Review Mock (15 min)**
-- [ ] Watch back the recording (if made) or reflect:
-  - Were there filler words ("um", "like", "so basically") — these undermine perceived confidence. Note specific points to tighten.
-  - Did you state numbers in every behavioral answer?
-  - Did the system design have explicit failure modes and scaling estimates?
-  - Did you explain DSA complexity unprompted?
-
-**Week 11 Planning (30 min)**
-- [ ] Update tracking sheet: any new interview invitations? Schedule prep sessions.
-- [ ] Rate yourself on this week's self-assessment table (below).
-- [ ] Identify the top 3 gaps → write them as Day 1–2 tasks for Week 11.
-- [ ] Write 2–3 things you learned this week that you couldn't have articulated last Sunday.
+**Evening: Self-Check**
+- [ ] Is the comparison table built with in-hand + guaranteed cash rows (not just headline CTC)?
+- [ ] Can you state your BATNA and your anchor number for each live company?
 
 ---
 
-## 🧠 Concepts to Master This Week
+### Saturday, Sep 5 — Live Negotiation Execution + Lever Drilling
 
-### Graph Patterns — Decision Tree
+📌 **Study today:** Execute any live counter / leverage call · drill all five levers out loud · pipeline review + status nudges
 
-```
-Is the graph a GRID (2D matrix)?
-  → DFS/BFS flood-fill. Use int[][] dirs = {{0,1},{0,-1},{1,0},{-1,0}}.
+**Morning: Execute Live (as applicable)**
+- [ ] If you have a live offer below target: make the counter call today using Thursday's script. Specific number, one reason, then silence.
+- [ ] If you have a competing offer: make the leverage call using Wednesday's script — give the preferred company the first move.
+- [ ] After every call: log the response, any revised number, and the new decision date in the tracker.
 
-Does the problem ask for SHORTEST PATH (unweighted)?
-  → BFS (layer-by-layer expansion guarantees shortest path).
-  → Dijkstra if weighted edges.
+**Midday: Lever-by-Lever Drill (45 min)**
+- [ ] For each of the five levers, rehearse the ask out loud once: base counter, joining bonus, variable target %, ESOP/vesting, designation/band. You should be able to pivot from any "no" to the next lever without a pause.
+- [ ] Pair each with the immediate-availability framing where it strengthens the ask.
 
-Does the problem ask about CONNECTIVITY ONLY (are X and Y connected)?
-  → Union-Find. Faster than BFS for repeated connectivity queries. Near O(1) per query.
+**Afternoon: Pipeline Review + Nudges (30 min)**
+- [ ] Review every row. Any company gone quiet 5+ business days after a round: polite follow-up today.
+- [ ] For preferred-but-slower companies, push proactively: *"I've received an offer with a decision window of about a week, and I'm able to start immediately. [Company] is genuinely my preference — is there any way to accelerate the remaining steps?"*
 
-Does the problem involve ORDERING with DEPENDENCIES (course prereqs, build order)?
-  → Topological Sort. Use Kahn's (BFS with in-degrees) for iterative, DFS post-order for recursive.
-  → If cycle detection is the goal: DFS with 3-color marking OR Kahn's count check.
-
-Does the problem involve CYCLE DETECTION in undirected graph?
-  → Union-Find: if union(u,v) finds they're already in same set → cycle exists.
-```
-
-**Union-Find Template (memorise this exactly):**
-```java
-int[] parent, rank;
-
-void init(int n) {
-    parent = new int[n];
-    rank = new int[n];
-    for (int i = 0; i < n; i++) parent[i] = i;
-}
-
-int find(int x) {
-    if (parent[x] != x) parent[x] = find(parent[x]); // path compression
-    return parent[x];
-}
-
-boolean union(int x, int y) {
-    int px = find(x), py = find(y);
-    if (px == py) return false; // already connected — cycle if called on edge
-    if (rank[px] < rank[py]) { int t = px; px = py; py = t; }
-    parent[py] = px;
-    if (rank[px] == rank[py]) rank[px]++;
-    return true;
-}
-```
-
-**Backtracking Template — the 3-part structure:**
-```java
-void backtrack(int start, List<Integer> current, int[] nums, List<List<Integer>> result) {
-    result.add(new ArrayList<>(current));        // 1. Record (or check exit condition)
-    for (int i = start; i < nums.length; i++) {
-        if (i > start && nums[i] == nums[i-1]) continue; // 2. Skip duplicates (if needed, array must be sorted)
-        current.add(nums[i]);                    // 3. Choose
-        backtrack(i + 1, current, nums, result); // 4. Recurse
-        current.remove(current.size() - 1);      // 5. Undo (backtrack)
-    }
-}
-```
-Know this pattern cold. It is the skeleton of LC 78, LC 90, LC 39, LC 40, LC 46, LC 131, LC 51.
-
-### Behavioral Prep — The 10 STAR Stories (6 core + 4 bar-raiser)
-
-Rows 1–6 are the core stories drilled Mon–Fri; rows 7–10 are the bar-raiser / values-round scaffolds detailed below (write them as real anecdotes).
-
-| # | Story Type | Must Include | Common Curveball Version |
-|---|---|---|---|
-| 1 | Performance win | 96% latency reduction numbers, specific technical steps (N+1 diagnosis, JOIN FETCH, EntityGraph, index, Redis) | "Walk me through the query profiling — what tool did you use?" |
-| 2 | Conflict / disagreement | A specific disagreement, your counter-evidence, the outcome, relationship intact | "Tell me about a time you disagreed with your manager specifically." |
-| 3 | Ownership / leadership | Proactive identification, no one asked you to fix it, metric outcome | "How do you handle a situation where the fix is outside your scope?" |
-| 4 | Biggest failure | A REAL failure, specific consequence, specific lesson with follow-through | "Tell me about a time you were wrong about a technical decision." |
-| 5 | Why leaving | Ambition framing, no negativity, growth + scale + compensation | "Were there things you tried to change but couldn't?" |
-| 6 | Tell me about yourself | 90-second pitch: current role → key achievements (numbers) → what you're looking for | "If I called your current manager right now, what would they say about you?" |
-| 7 | Mentorship / helping a teammate | Taught the *why* (didn't just fix it), left a runbook/doc, followed up; quantified ramp/outcome | "Tell me about a time you helped someone grow." |
-| 8 | Receiving tough feedback | Someone told you something hard; no defensiveness; a concrete visible change; closed the loop | "What's the most useful piece of feedback you've ever received?" |
-| 9 | Deadline / prioritization under pressure | Explicit must-have vs nice-to-have; cut by reversibility & user impact; communicated it; hit the date | "How do you decide what to work on when everything is urgent?" |
-| 10 | Customer / stakeholder impact | User/business value first, engineering metric second; started from user pain; validated against the user outcome | "Tell me about a time you went above and beyond for a customer." |
-
-**The 90-second "Tell Me About Yourself" Script (fill in real details, practise until natural):**
-
-> "I'm a full-stack software engineer with two and a half years of experience building Java-based microservices and cloud infrastructure at scale. At [current company], I've led or contributed to two main products: Smart360, where I reduced data retrieval latency from 60 seconds to under 3 seconds by fixing N+1 query patterns and adding a Redis caching layer — and Deep Fathom, an LLM-powered platform where I designed the multi-service architecture on Azure, wrote the Bicep IaC for 30-plus resources, cut CI/CD pipeline time by 57%, and built the async job queue that handles long-running LLM calls across five different AI providers.
->
-> My stack is Java 17, Spring Boot, Spring Cloud, PostgreSQL, Redis, Docker, Kubernetes, and Azure — with hands-on AWS experience from Smart360. I also integrated JWT and OAuth2 authentication, reducing sign-in latency by 60% by moving to stateless token validation.
->
-> I'm looking to take that foundation into a product company or GCC where I can work at larger scale, contribute to a strong engineering culture, and keep growing as an engineer. That's why I'm excited about the work your team is doing on [specific thing]."
-
-### Behavioral Prep — Bar-Raiser STAR Scaffolds (4 high-frequency stories most candidates skip)
-
-The 6 stories above cover the core. These 4 are the bar-raiser / values rounds — especially at product companies that test "customer obsession," "earns trust," and "develops others." Write each as a real anecdote; the scaffold below is a frame, not a script. **Mark each `[INSERT REAL ANECDOTE]` honestly — a fabricated story collapses under one follow-up question.**
-
-*Story #7: Mentorship / Helping a Teammate*
-- [ ] Signal being tested: do you make the people around you better (a senior-track signal at 2.5 YOE)?
-  - **Situation**: `[INSERT REAL ANECDOTE — e.g., a junior dev or new joiner onboarded onto Smart360 was blocked for days on the multi-tenant data flow / N+1 debugging / the Bicep IaC setup.]`
-  - **Task**: Get them productive without simply taking the work over yourself.
-  - **Action**: (1) Sat with them and reproduced the problem together rather than handing a fix. (2) Walked them through the *why* — e.g., how tenant isolation flows through the request, or how to read Hibernate statistics to spot N+1 themselves. (3) Wrote a short runbook / README section so the next joiner wouldn't hit the same wall. (4) Did a follow-up check-in a few days later, not a one-and-done.
-  - **Result**: Quantify — "they shipped their first feature within `[X days]` instead of staying blocked; the onboarding doc cut ramp time for the next hire" or "they later handled `[similar task]` independently." Teaching-to-fish beats fixing — say that explicitly.
-  - **Curveball version**: "Tell me about a time you helped someone grow." Same structure; emphasise the lasting capability you left behind, not the single unblock.
-
-*Story #8: Receiving Tough / Critical Feedback*
-- [ ] Signal being tested: are you coachable? (Distinct from "a time you were wrong" — there you caught your own mistake; here *someone told you* something hard and you acted on it.)
-  - **Situation**: `[INSERT REAL ANECDOTE — e.g., in a code review or 1:1, a senior engineer or lead told you your PRs were too large to review safely / you over-engineered the LLM routing abstraction / you weren't communicating blockers early enough.]`
-  - **Task**: Take the feedback seriously without getting defensive, and actually change.
-  - **Action**: (1) Listened fully and asked a clarifying question to make sure you understood the *specific* behaviour, not a vague impression. (2) Acknowledged it openly rather than justifying. (3) Made a concrete, visible change — "I started splitting work into PRs under ~400 lines and posting a daily blocker note in standup." (4) Closed the loop: checked back with the person to confirm the change landed.
-  - **Result**: "Review turnaround on my PRs dropped from `[X]` to `[Y]`" or "the lead noted the improvement in my next 1:1." The lesson must show you treat feedback as data, not criticism.
-  - **Curveball version**: "What's the most useful piece of feedback you've ever received?" — pick the same moment, lead with the change it produced.
-
-*Story #9: Deadline / Prioritization Under Pressure*
-- [ ] Signal being tested: judgement under constraints — can you cut scope deliberately rather than blindly grinding or shipping everything half-done?
-  - **Situation**: `[INSERT REAL ANECDOTE — e.g., a Deep Fathom release / demo with a hard date and two competing must-dos: the async LLM job queue had to be stable AND the CI/CD migration was mid-flight, with not enough time for both at full polish.]`
-  - **Task**: Hit the date without shipping something broken.
-  - **Action**: (1) Made the trade-off explicit instead of silently choosing — listed what was must-have for the date vs nice-to-have. (2) Negotiated with `[lead/stakeholder]` on what could slip: "I proposed shipping the job queue with a single-provider fallback now and deferring the multi-provider routing polish by one sprint." (3) Cut the deferred work cleanly (feature-flagged / documented as a known follow-up) rather than leaving it half-wired. (4) Communicated the decision and the reasoning to everyone affected.
-  - **Result**: "Shipped on the date with the critical path stable; the deferred item landed the following sprint with zero customer impact." Name the *principle*: cut by reversibility and user impact, not by what's easiest to drop.
-  - **Curveball version**: "How do you decide what to work on when everything is urgent?" — describe the must-have/nice-to-have + reversibility framing as your default, then ground it in this story.
-
-*Story #10: Customer / Stakeholder Impact*
-- [ ] Signal being tested: customer obsession — do you connect engineering work to end-user or business value, not just internal metrics? (This is the highest-weight signal at product companies.)
-  - **Situation**: `[INSERT REAL ANECDOTE — e.g., Smart360 end users (reviewers/tenants) were abandoning dashboards because they timed out at 60s, OR a Deep Fathom B2B customer flagged that long-running LLM jobs appeared to "hang" with no feedback.]`
-  - **Task**: Solve it framed around the *user's* experience, not just the technical symptom.
-  - **Action**: (1) Started from the user's pain, not the stack trace — "I sat with the support tickets / talked to `[stakeholder]` to understand what 'slow' actually cost them." (2) Translated it to the technical fix (the N+1 + Redis caching work, or surfacing async job status so the UI showed progress instead of a spinner). (3) Validated the fix against the user-facing outcome, not just the server metric.
-  - **Result**: Lead with the *user/business* number — "dashboards that were timing out now load in under 3 seconds, and `[the abandonment / support-ticket volume / customer escalation]` dropped" — then back it with the engineering metric (96% latency reduction, 80% fewer S3 calls). The order matters: customer impact first, engineering detail second.
-  - **Curveball version**: "Tell me about a time you went above and beyond for a customer." — emphasise that you chose to dig into the user's actual workflow rather than closing the ticket at the minimum bar.
-
-### Spring/Java — Curveball Answers Synthesised From interview-qa.md
-
-**"@Transactional + @Cacheable — what can go wrong?"**
-Both are AOP proxies. Default proxy order: `@Cacheable` wraps `@Transactional`. If cache is populated inside the transaction, a rolled-back transaction can leave stale cache entries. Fix: use `@TransactionalEventListener(phase = AFTER_COMMIT)` to populate or evict cache only after successful commit.
-
-**"Why can't you put @Transactional on a private method?"**
-Spring AOP uses a proxy (JDK dynamic proxy or CGLIB subclass). The proxy intercepts calls at the class boundary. Private methods are not part of the proxy's overridable surface — calls go directly to the real object. Spring silently ignores `@Transactional` on private methods. Same reason self-invocation bypasses the proxy.
-
-**"What is the difference between RBAC and ABAC?"**
-RBAC: user has roles; roles have permissions. Simple, auditable, good for most enterprise apps. ABAC: access policy is a function of user attributes + resource attributes + environment (time, IP, etc.). More granular — e.g., "a user can edit a document only if user.department == document.department AND time is business hours." More powerful but harder to audit. In Spring, RBAC via `@PreAuthorize("hasRole('ADMIN')")`. ABAC via SpEL expressions in `@PreAuthorize` or a custom `PermissionEvaluator`.
-
-**"How does @Async work and what's the common mistake?"**
-`@Async` wraps the method call in a proxy that submits the task to a `TaskExecutor` (thread pool). Common mistakes: (1) calling an `@Async` method from the same class — proxy bypassed, runs synchronously. (2) Not configuring a custom executor — defaults to `SimpleAsyncTaskExecutor` which creates a new thread per call (no pooling). (3) Not handling `Future`/`CompletableFuture` return properly — exceptions swallowed if not explicitly handled.
+**Evening: Self-Check**
+- [ ] Did you execute (or fully rehearse) at least one counter or leverage call this week?
+- [ ] Can you move from a "no" on one lever to an ask on the next without hesitation?
 
 ---
 
-## 🎤 Sample Interview Questions (incl. Curveballs) — 17 Qs + Pointers
+### Sunday, Sep 6 — Decision Setup + Week 11 Plan
 
-### Behavioral
+📌 **Study today:** Light DSA warm-up (one fresh medium) · consolidate offer table + decision criteria · Week 11 plan (convert + accept)
 
-**1. "Tell me about yourself."**
-- Pointer: Use the 90-second script above. Do not recite your CV chronologically — that's what weak candidates do. Lead with the biggest outcomes (60s→3s, 57% CI/CD cut), then your stack, then what you're looking for. End with a bridge to this company specifically. Never exceed 2 minutes.
+**DSA Maintenance (20 min)**
+- [ ] One fresh medium, clean solve, full narration. Keep the edge — final technical rounds may still be pending for some companies.
 
-**2. "Tell me about a time you significantly improved system performance."**
-- Pointer: Story #1. Lead with the outcome: "I reduced a 60-second data retrieval down to under 3 seconds." Then walk through the diagnosis (Hibernate statistics → N+1 found → specific fix per layer). Mention each layer: query rewrite, index, Redis caching, S3 URL caching. Use "I" not "we" for actions you personally took.
+**Consolidate the Decision (60 min)**
+- [ ] Finalise the weighted comparison table with the latest (post-negotiation) numbers for every live offer.
+- [ ] Identify your current leading offer and the single biggest open question on each offer (a number still pending? a start date to confirm? a lever still being negotiated?).
+- [ ] For any offer with a deadline: note the exact date and whether it overlaps with other companies' expected decision dates. The goal next week is to get offers to overlap so you can choose, not be forced.
 
-**3. "Tell me about a time you disagreed with someone on your team."**
-- Pointer: Story #2. Key: show you disagree with data, not opinion. "I prepared a comparison doc with two approaches, load test numbers, and maintenance implications." Show you can be wrong gracefully too — "They raised a valid point about X that I hadn't considered, which changed my view on Y."
+**Pipeline Sheet Review (20 min)**
+- [ ] Update every row's stage, next action, and next-action date. Close any zombie rows. Confirm every live company has a clear next step.
 
-**4. Curveball: "Tell me about a time you had to make a decision without enough information."**
-- Pointer: Frame it as structured ambiguity resolution. "I broke the unknown into what I could learn quickly vs what I'd have to assume, documented my assumptions explicitly, chose the most reversible option, and set a checkpoint to revisit after we had more data." Tie to the LLM proxy routing project — routing logic decisions under uncertainty about provider uptime SLAs.
+**Week 11 Planning (20 min)**
+- [ ] Write down: which offers are live, which are pending, what each needs to convert, and the realistic decision window.
+- [ ] Note the one negotiation behaviour to sharpen next week (e.g., holding silence longer, pivoting levers faster).
 
-**5. Curveball: "How do you handle a situation where you're asked to do something you don't agree with technically?"**
-- Pointer: Two-part answer. Part 1: "I raise my concern once, clearly, with a specific technical reason and evidence." Part 2: "If the decision is still made to proceed, I commit fully and execute the plan — but I document my concern and propose a checkpoint to evaluate the outcome." This shows both backbone and professionalism. Never say "I just do what I'm told."
+---
 
-**6. "Why do you want to work at [Company]?"**
-- Pointer: This is the most underprepared question by most candidates. Research BEFORE the interview: the company's engineering blog, recent tech stack decisions (from job posts or GitHub), product direction. Then make it specific: "I noticed your team recently open-sourced X / wrote about migrating to Y / is building in the Z space. That aligns with [what I built] and I'd contribute by [specific thing]." Generic answers ("great culture, innovative products") are filtered out. Specificity is the signal.
+## 🧠 Concepts to Master This Week (Salary Negotiation Tactics)
 
-**6a. "What is your greatest strength, and what is your greatest weakness?"**
-- Pointer: For strength, pick ONE that maps to a story you can prove with a number — "I'm strongest at turning a vague performance problem into a measured fix" → bridge straight into the 60s→3s story. Don't list five strengths; depth over breadth. For weakness, the trap is the fake weakness ("I work too hard", "I'm a perfectionist") — interviewers hear it as evasion. Give a REAL, low-blast-radius weakness with active remediation: e.g., "I used to delay asking for help because I wanted to solve things myself — which once turned a half-day blocker into two days. I now timebox to 45 minutes before pulling in a teammate, and I post blockers in standup the same morning." The structure is: real weakness → the concrete cost it once had → the specific system you put in place so it doesn't recur. A weakness you've actively engineered around is a strength signal.
+### The Negotiation Mindset Shift
 
-**6b. Curveball: "Why two companies / so many projects in just 2.5 years?"**
-- Pointer: This can read as a stability concern — reframe it as breadth and ownership, never as restlessness. The honest framing: "Within `[current company]` I worked across three products — Smart360, a multi-tenant review platform; Deep Fathom, a B2B SaaS on Azure; and WebX, an LLM-integrated product. That wasn't job-hopping — it was the company trusting me with new problems as I delivered. It's why I have hands-on range across the full stack, cloud infra, and LLM integration that a single long-running project wouldn't have given me." Land the close on intent: "What I want next is to go deeper at scale on one product, which is exactly the move I'm making now." If the two companies are literally two employers, frame the first as foundational and the second as the deliberate step up in scope — a trajectory, not churn. Never sound defensive; breadth at 2.5 YOE is an asset when you frame it as range plus the judgement of someone who's seen more than one system end-to-end.
+**Service → Product is your single strongest lever.** This is a career re-platforming, not a lateral move. The market prices the risk premium — you're entitled to ask for it.
 
-### Java / Spring / System Design
+**Immediate availability is your second strongest lever.** A candidate who can start now is worth more to a team with an open req than one starting in two-plus months. Convert that into base or a sign-on — don't give it away as a throwaway logistics line.
 
-**7. "Your circuit breaker opened. Half-Open let one request through and it failed. What happens?"**
-- Pointer: The circuit stays Open (or resets the wait timer depending on config). In Resilience4j, `waitDurationInOpenState` resets and you wait again before the next Half-Open probe. The circuit only closes when a configurable number of probe calls in Half-Open state succeed (`permittedNumberOfCallsInHalfOpenState`). Important: Resilience4j allows you to configure the minimum number of Half-Open calls that must succeed before closing — know this config property (`minimumNumberOfCalls` for half-open). The fallback method executes for ALL calls while Open and for failed Half-Open calls.
+**BATNA.** Your alternative is staying put. Strong competing offers weaken that pull and raise your ceiling. Know it at every moment; don't overplay a weak hand.
 
-**8. "Design a rate limiter for an API gateway. What are the options and their trade-offs?"**
-- Pointer: Three algorithms: (1) Fixed window counter — simple, suffers from boundary burst (100 requests at 11:59 + 100 at 12:01 = 200 in 2 sec despite "100/min" limit). (2) Sliding window log — accurate but memory-intensive (store every request timestamp). (3) Token bucket — tokens accumulate at a rate; request consumes a token; allows controlled bursting. (4) Leaky bucket — queue-based, smooth output rate. In Spring Cloud Gateway: `RequestRateLimiter` filter backed by Redis uses token bucket. Tie to your Deep Fathom API Gateway — "we used RequestRateLimiter with Redis to protect the LLM proxy from token-abuse."
+**The Silence Rule.** After an ask, stop talking. The first to speak loses ground.
 
-**9. Curveball: "You have a @Cacheable method that caches a DB result. Another method updates the DB. How do you keep the cache consistent?"**
-- Pointer: Use `@CacheEvict(value = "users", key = "#user.id")` on the update method — evicts the entry on write. Or `@CachePut` to update the cache entry in place (fetches the new value and puts it). Key consideration: evict is simpler but causes a cache miss on next read (brief DB hit); `@CachePut` keeps cache warm but couples the write method to cache management. For multi-instance deployments: cache eviction on one instance doesn't propagate to others — use Redis (distributed cache) not in-memory (Caffeine) for shared-state caching. This is a real production issue.
+**Anchoring.** The first number sets the anchor. Always anchor above target — negotiations converge toward the middle.
 
-**10. Curveball: "Explain eventual consistency. Give me an example where it's acceptable and one where it's not."**
-- Pointer: Eventual consistency: after a write, replicas converge to the same value eventually, but may return stale data in the interim. Acceptable: social media like count (a few seconds stale is fine), product catalog prices (can tolerate brief inconsistency), notification delivery (delay acceptable). NOT acceptable: financial transactions (double-spend must be impossible), inventory deduction in a flash sale (must be strongly consistent to prevent overselling), authentication token validation after logout (must invalidate immediately). Your Redis token blacklist in Smart360 is an example of adding strong consistency to an otherwise stateless JWT system — mention it.
+**Never negotiate against yourself.** Don't pre-concede after silence.
 
-**11. "How does Kubernetes handle a pod that's consuming too much memory?"**
-- Pointer: If a container exceeds its `resources.limits.memory`, the kernel OOM killer terminates the container process. Kubernetes sees the container exit and restarts it (if `restartPolicy: Always`, the default). The pod stays Running but its restart count increments. If it keeps OOMKilling rapidly, it enters `CrashLoopBackOff` with exponential backoff. Detection: `kubectl describe pod <name>` shows `OOMKilled` in the last State section. Fix: (1) increase memory limit if the workload legitimately needs it, (2) find the memory leak in the app (heap dumps, JVM flags `-Xmx`), (3) enable JVM native memory tracking. For Spring Boot: set `JAVA_OPTS="-Xmx512m -Xms256m"` and configure `resources.limits.memory` slightly above the JVM max heap + non-heap overhead (~50–100 MB overhead).
+### The Five Negotiable Levers (in order of impact)
 
-**12. Curveball: "What is a CompletableFuture and how is it different from a Future in Java?"**
-- Pointer: `Future` is a handle to an async computation — you can check `isDone()` or call `get()` (which blocks). No composition, no callbacks. `CompletableFuture` extends `Future` and adds: `thenApply` (transform result), `thenCompose` (chain async operations), `thenCombine` (merge two futures), `exceptionally` (handle errors), `allOf`/`anyOf` (wait for multiple). Non-blocking composition is the key difference. In the LLM proxy: used `CompletableFuture.supplyAsync(() -> callProvider(req), executor)` to submit LLM calls to a thread pool and chain `.thenApply(response -> processResult(response)).exceptionally(e -> fallbackResult(e))`.
+1. **Fixed base salary** — compounds into future raises and your next negotiation baseline. Fight hardest.
+2. **Joining bonus** — one-time, easy for HR to approve outside the band. For you (immediate joiner) it's pure upside, not gap-filling — so it's freely tradeable against a higher base.
+3. **Variable pay / bonus target** — negotiate the target % and clarify historical payout rates.
+4. **ESOPs / RSUs / LTI** — meaningful at product companies; ask for accelerated vesting. Even at GCCs, ask about LTI.
+5. **Designation / band** — "SDE 2" vs "Senior SDE" can be a 2–3 LPA difference and affects all future raises and internal mobility.
 
-### Graph / Backtracking
+### In-Hand vs CTC — The Number That Actually Matters
 
-**13. "Given a list of prerequisites, find a valid course ordering (topological sort). What if there's a cycle?"**
-- Pointer: Kahn's algorithm. Build in-degree array. Add all 0-in-degree nodes to queue. Process queue: for each node, decrement in-degree of its neighbors; if neighbor's in-degree becomes 0, add to queue. If processed count < n → cycle exists, no valid ordering. Output the processing order. Time O(V+E). Connect to real usage: "Kubernetes pod startup order with init containers is essentially topological sort — init containers must complete before main container starts."
+Two ₹22 LPA offers can pay very differently. Always compute, per offer:
+- **Monthly in-hand**: after base/variable split and statutory deductions.
+- **Guaranteed annual cash**: base + fixed/contractual components, excluding variable and ESOP.
 
-**14. Curveball: "You're solving LC 79 – Word Search (backtracking on a grid). It's too slow. What are the options to speed it up?"**
-- Pointer: Word Search is O(m × n × 4^L) where L = word length. Optimizations: (1) Early termination — if remaining characters in word > remaining unvisited cells, return false. (2) Character frequency pruning — if the grid doesn't contain enough of a required character (e.g., word needs 3 'Z's but grid has only 1), return false immediately. (3) If searching for MULTIPLE words (LC 212 – Word Search II), use a Trie to prune paths that can't match any word — reduces redundant traversal dramatically. This shows you understand problem variations and optimization strategies, not just base solutions.
+Rank on these, not the headline. A high-variable, high-ESOP "₹22 LPA" can pay less guaranteed cash than a ₹20 LPA mostly-fixed offer.
 
-**15. Curveball: "You've built multiple microservices. What would you do differently if you were starting over?"**
-- Pointer: This tests intellectual honesty and maturity. Don't say "nothing." Good candidates say: "I'd invest earlier in contract testing between services (Spring Cloud Contract or Pact) — we discovered integration mismatches in staging that could have been caught at CI time. I'd also define the observability stack (tracing, structured logs, metrics dashboards) before the first service goes to production, not as a retrofit. And I'd be more conservative about the number of services initially — start with 2–3 bounded contexts, not 5+, and split further only when a specific scaling or deployment need justifies it. Splitting too early creates coordination overhead before you understand the domain boundaries well enough."
+### Key Numbers to Know Cold
+
+- Your current total CTC (all components — don't undercount).
+- Your floor / target / stretch (written down Monday).
+- Market range for your profile: ₹14–18 LPA product (mid-size), ₹18–25 LPA GCC (Bangalore/Pune/Hyderabad), per Glassdoor/AmbitionBox/Naukri for Java + Spring Boot + 2–3 YOE.
+- The specific competing-offer number if you have one.
+- Your availability: **immediate** — state it as a plus, every time start date comes up.
+
+---
+
+## 🎤 Sample Negotiation Scripts & Curveball HR Questions + Pointers
+
+### Negotiation Scripts
+
+**Script 1 — First offer response (buy time without losing warmth)**
+> *"Thank you so much — I'm genuinely excited about this role and the team. I want to give this the careful consideration it deserves. Could I have until [date, 3–5 business days] to review the full package? I want to make sure we start on the right foot."*
+
+Pointer: Always a specific date, never "a few days." Never accept on the call.
+
+---
+
+**Script 2 — Counter to a below-target offer (3-minute call)**
+> *"Hi [Recruiter], I've reviewed the offer and want to have a direct conversation. I'm genuinely excited about [Company] — [one specific reason]. That's exactly why I want to close this well. The fixed base is a bit below where I need it. Based on market data and the transition I'm making from a service company to a product environment, I was expecting around ₹[target — specific number]. Is there flexibility to bring the base to ₹[target]?"* *[Stop. Wait.]*
+
+Pointer: One reason, one number, then silence. Don't explain further until they respond.
+
+---
+
+**Script 3 — Competing-offer leverage (with immediate-availability sweetener)**
+> *"I want to be upfront because [Company A] is my preference. I'm also in the late stages with another company and expect a formal offer this week around ₹[number]. I'd rather close with [Company A] than wait — and since I can start immediately, you'd fill this seat now. Is there any way to revisit [base / joining bonus] so we can wrap up quickly?"*
+
+Pointer: Give them the first-mover advantage and pair it with the start-now value. Most companies prefer to close a good, available candidate over a bidding war.
+
+---
+
+**Script 4 — Asking for a joining bonus (immediate-joiner framing)**
+> *"I appreciate the constraints on the base band. Since I can join immediately — no two-month notice lag on my side — I'd love to recognise that with a one-time joining bonus, something around ₹[amount]. It would help me commit quickly."*
+
+Pointer: For you the joining bonus is upside, not gap-filling — frame it as recognising the value of starting now. It's easy for HR to approve because it doesn't touch the band.
+
+---
+
+**Script 5 — Handling "current / expected CTC" early in the process**
+> *"I'd rather not anchor to my current number — I'm making a deliberate move to a product environment and want the comp to reflect the role, not my current trajectory. Market for this profile in Bangalore/Pune is ₹18–24 LPA. I'd want to be in that range. Can you share the band for this role?"*
+
+Pointer: Pivot to the role band. If their band is below your floor, you've saved both of you time now rather than in round 4.
+
+---
+
+### Curveball HR Questions + Pointers
+
+**HR Curveball 1: "Why are you leaving your current job? Is something wrong?"**
+> *"It's a positive move, not reactive. I've grown a lot — query optimisation, LLM proxy, Bicep IaC have been genuinely stretching. But I've reached a natural plateau in product depth and engineering challenge. I'm targeting a product company / GCC where I can own a feature end-to-end and grow into a more senior role. The timing is right — and I'm in a position to start immediately."*
+
+Pointer: Never criticise your current employer. "Product culture" and "scope of impact" are safe, professional, and true.
+
+---
+
+**HR Curveball 2: "We have a freeze on above-band offers. This is the best we can do."**
+> *"I appreciate the transparency. I want to work with you to find something. If the base is truly capped, let's talk joining bonus and variable target — is there flexibility there? Or a higher band I could be evaluated for given my background?"*
+
+Pointer: Never accept "band freeze" as final on the first response. Test all five levers first.
+
+---
+
+**HR Curveball 3: "You only have 2.5 years' experience. We don't usually go above ₹X for this band."**
+> *"I understand the band structure. I'd offer a different frame: those 2.5 years include production microservices, IaC for 30+ Azure resources, K8s zero-downtime deployments, and LLM orchestration at scale — depth that often takes 4–5 years in a traditional environment. I'm not asking to skip a band — I'm asking you to evaluate what I bring, not what year I started."*
+
+Pointer: Lead with specific accomplishments, not generic "I'm more experienced than my YOE."
+
+---
+
+**HR Curveball 4: "Your current CTC is low, so we can't go that high."**
+> *"I appreciate the transparency, but I'd respectfully push back — the right comp for this role should be benchmarked to the role and the market, not my historical trajectory. That's exactly why I'm switching — to reset to market rate."*
+
+Pointer: Neutral, logical, non-defensive. Don't let your past number cap your future one.
+
+---
+
+**HR Curveball 5: "If you're serious, why do you need to think about it?"**
+> *"Because I take the decision seriously — the same energy I'll bring to the job. I've evaluated the role thoroughly through the process. I want a couple of days to review the full package with the same rigour. That's diligence, not hesitation."*
+
+Pointer: Frame the review period as good judgment, not wavering commitment.
 
 ---
 
 ## 🌟 Extraordinary-Candidate Edge
 
-**Behavioral signals that separate top candidates:**
+**In negotiation, the extraordinary candidate does four things differently:**
 
-1. **Every answer has a number.** Not "we improved performance significantly" — "latency dropped from 60 seconds to 2–3 seconds, a 96% reduction, and S3 API calls dropped by 80%." Metrics prove ownership. Vague statements prove you watched someone else do it.
+1. **Market research before the conversation.** "Glassdoor shows ₹19–23 LPA for Senior Java Engineer at GCCs in Bangalore with 2–4 YOE. AmbitionBox shows your company at ₹20–22 LPA median. I'm asking ₹22 — the top of your own reported band." Specificity commands respect; they can't dismiss it.
 
-2. **Failures are specific and honest.** The candidate who says "my biggest failure was not documenting my code well enough" gets an internal eye-roll. The candidate who says "I shipped a synchronous integration without load-testing it under bursty conditions, it caused cascading failures in staging, and I now treat bursty-load simulation as a pre-release checklist item" gets genuine respect.
+2. **Negotiate the total package, not just base.** Not "can you increase the salary?" but "I understand the band constraint on base — can we look at a ₹1.5L joining bonus, move the variable target from 12% to 15%, and confirm when the next review cycle falls?" Demonstrates financial literacy and forces engagement on multiple dimensions.
 
-3. **"Why this company" is researched.** Looking up the company's engineering blog or recent job posts and saying "I noticed you're migrating to X / building in Y / recently wrote about Z" signals a candidate who does homework. It differentiates immediately from the candidates who say "I love your culture and innovation."
+3. **Make it easy to say yes.** Every ask is framed as a solvable problem: "I want to join — here's the one thing in the way. Help me solve it." Companies want to close good candidates; make the approval easy for the recruiter to get signed off.
 
-4. **Technical answers connect back to YOUR experience.** When asked about topological sort, don't just explain the algorithm — say "this is the same pattern as Spring's bean initialization order, which is resolved by the BeanDefinitionRegistry using a dependency graph." When asked about rate limiting, reference your API Gateway work in Deep Fathom. This shows you have application experience, not just textbook knowledge.
-
-5. **Handling curveballs:** When you don't know the answer, say "I haven't hit that exact scenario — let me reason through it." Then reason out loud, systematically. Interviewers care more about HOW you think under uncertainty than whether you have the answer memorised. The worst thing: going silent, or bluffing.
-
-**Depth signals to drop naturally in Week 10 interviews:**
-
-- When discussing Graphs: mention that Union-Find's near-O(1) amortized complexity comes from path compression + union by rank together — either alone is insufficient.
-- When discussing Kubernetes: mention that `terminationGracePeriodSeconds` on the Pod spec must exceed `spring.lifecycle.timeout-per-shutdown-phase` — if it doesn't, K8s kills the process before Spring finishes draining.
-- When discussing caching: mention that `@Cacheable` in a multi-instance deployment requires a distributed cache (Redis, not Caffeine/in-memory) — otherwise each instance has its own stale cache.
-- When discussing `@Transactional`: the proxy is CGLIB by default in Spring Boot (subclass proxy) because the class may not implement an interface — but if it does implement an interface, Spring can use a JDK dynamic proxy. This is a real subtlety that most developers don't articulate.
-- When asked about LLM integration: distinguish between latency-sensitive tasks (streaming SSE, need low TTFB) vs. throughput-sensitive tasks (batch job, optimize for total cost). The routing logic in your LLM proxy should account for this — route to the fastest provider for interactive queries, cheapest for batch.
-
-**What extraordinary looks like in each round:**
-
-| Round | Ordinary | Extraordinary |
-|---|---|---|
-| Phone Screen (HR) | Recites resume chronologically | Leads with 2 impact numbers immediately, asks 1 sharp question about the team's tech stack at the end |
-| Technical Phone | Solves the problem | Solves it, analyses complexity unprompted, suggests a follow-up variant, mentions an edge case they'd add in production |
-| System Design | Draws happy-path architecture | Opens with failure modes and constraints, explicitly names patterns avoided (e.g., "I'm not using 2PC here because..."), quantifies scale estimates |
-| Behavioral | Tells a vague story about teamwork | Specific number in every answer, shows self-awareness in the failure story, connects "lesson learned" to a subsequent decision |
-| Culture Fit | "I love working in teams" | "I noticed your team contributes to [open source project / tech blog / specific tooling] — I spent time exploring that this week and have a question about your approach to X" |
+4. **Lead with immediate availability as value.** Most candidates apologise for a long notice period. You do the opposite: "I can start now, which I know helps your staffing — in return, I'd like the base to reflect that." You turn a logistics fact into negotiating leverage almost no other candidate has.
 
 ---
 
 ## 📊 End-of-Week Self-Assessment
 
-Rate yourself 1–5 after Sunday's mock. Feed gaps directly into Week 11 Day 1–2 makeup blocks.
+Rate yourself 1–5. Feed gaps into Week 11 (Convert + Accept).
 
-| Area | Target | Your Rating | Gap / Next Action |
+| Dimension | Target | Your Rating | Notes |
 |---|---|---|---|
-| LC 200 – Number of Islands (DFS + BFS both) | 5 | | |
-| LC 207 – Course Schedule (Kahn's + DFS) | 5 | | |
-| LC 684 – Redundant Connection (Union-Find) | 5 | | |
-| LC 78/90 – Subsets (with/without duplicates) | 5 | | |
-| LC 46 – Permutations (swap backtracking) | 4 | | |
-| Company-tagged problems for top 3 applied companies | 4 | | |
-| STAR Story #1 – Performance win (fluent, under 2 min) | 5 | | |
-| STAR Story #2 – Conflict / disagreement | 5 | | |
-| STAR Story #3 – Ownership / leadership | 5 | | |
-| STAR Story #4 – Biggest failure (honest, specific) | 5 | | |
-| STAR Story #5 – Why leaving (positive framing) | 5 | | |
-| STAR Story #6 – "Tell me about yourself" 90s pitch | 5 | | |
-| STAR Story #7 – Mentorship / helping a teammate | 4 | | |
-| STAR Story #8 – Receiving tough feedback (coachability) | 4 | | |
-| STAR Story #9 – Prioritization under pressure | 4 | | |
-| STAR Story #10 – Customer / stakeholder impact (user value first) | 4 | | |
-| Curveball: "time you were wrong" | 5 | | |
-| Curveball: "how you handle ambiguity" | 4 | | |
-| "Why this company?" for 3 specific companies | 5 | | |
-| Rate limiter design (3 algorithms + trade-offs) | 4 | | |
-| @Cacheable + @Transactional interaction pitfall | 5 | | |
-| CompletableFuture vs Future — composition API | 4 | | |
-| OOMKilled pod — diagnosis and fix | 4 | | |
-| Topological sort — Kahn's algorithm from scratch | 5 | | |
-| News Feed / Timeline HLD — fan-out (write/read/hybrid), cursor pagination, ranking | 5 | | |
-| 20+ applications submitted + tracking sheet current | 5 | | |
-| Full mock interview completed (recorded) | 5 | | |
+| Can state floor/target/stretch without hesitation | 5 | | |
+| Can deflect "current CTC" question smoothly — two techniques | 5 | | |
+| Handled a mandatory numeric CTC field correctly | 5 | | |
+| Can compute in-hand + guaranteed cash for each live offer | 5 | | |
+| Delivered (or fully rehearsed) a counter to a below-target offer | 5 | | |
+| Used or prepared a competing-offer leverage call | 4 | | |
+| Asked (or rehearsed) a joining-bonus / ESOP sweetener | 4 | | |
+| Used immediate availability as an explicit negotiating lever | 5 | | |
+| Can pivot from a "no" on one lever to the next without pausing | 4 | | |
+| Offer comparison table built with in-hand + guaranteed-cash rows | 5 | | |
+| Pipeline tracker fully updated, decision windows mapped | 5 | | |
+| At least one concrete offer in hand OR final round scheduled | 5 | | |
 
 **Scoring guide:**
-- 5: Cold, whiteboard-pressure, no hesitation.
-- 4: Solid — minor pause on one edge case.
-- 3: Know the concept but stumble under pressure — needs more reps.
-- 2: Shaky — revisit source material.
-- 1: Not ready — block 2 focused hours in Week 11.
+- 5: Done, clean, deliverable under pressure.
+- 4: Done with minor gaps.
+- 3: In progress — complete within 48 hours.
+- 2: Not started — block time this weekend.
+- 1: Blocked — identify the blocker and solve it first.
 
-**Week 10 exit criteria (minimum bar before Week 11):**
-- All 6 core STAR stories written AND spoken aloud at least 3× each, plus the 4 bar-raiser scaffolds (#7–#10) drafted with real anecdotes.
-- Running application total ≥ 20 with tracking sheet current.
-- At least 1 full mock interview completed (self-recorded or with a peer).
-- DSA: Union-Find template memorised; backtracking template memorised; company-tagged problems for top 3 targets attempted.
-- If an interview is already scheduled for next week: research that company's tech stack, read their engineering blog, prepare a "why this company" answer specific to them.
+**Week 10 exit criteria (minimum bar):**
+- Floor/target/stretch written on paper.
+- CTC deflection deliverable in both timings (before/after offer) and for a numeric field.
+- Every live offer evaluated on in-hand + guaranteed cash, not headline CTC.
+- At least one counter or leverage call executed or fully rehearsed.
+- Immediate availability deployed as a lever in at least one conversation.
 
-**If you missed the bar:** Do NOT skip into Week 11 with open gaps on STAR stories — behavioral prep compounds. A missing story costs you the offer, not the DSA problem you didn't solve. Prioritise the stories.
+**If you missed the bar:** Do not accept any offer until you've at least run one counter. The single most common mistake at this stage is accepting the first number out of relief. One well-framed counter typically returns ₹1–3 LPA — worth far more than the discomfort of the ask.
 
 ---
 
-*Week 10 complete → Week 11 (Aug 31–Sep 6): Live interview execution + advanced system design (design a search system, design a payment service) + Heap/Priority Queue problems + follow-up pipeline management.*
+*Week 10 complete → Week 11 (Sep 7–13): Convert + Accept — counter-offer scripts, exploding-offer/lowball handling, the silence rule/BATNA, written/numeric CTC fields, final decision + accept, and join-date negotiation with immediate availability as a plus.*

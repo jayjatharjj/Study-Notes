@@ -1,11 +1,11 @@
 # Study Notes — Java + Interview Prep
 
-Master index for a production/interview-focused Java study set and a 13-week interview-prep plan for a full-stack Java engineer (Java 17 / Spring Boot 3 / microservices / AWS + Azure / K8s) targeting GCC and product-company roles in India.
+Master index for a production/interview-focused Java study set and a full-time interview-prep sprint for a full-stack Java engineer (Java 17 / Spring Boot 3 / microservices / AWS + Azure / K8s) targeting GCC and product-company roles in India.
 
 **Three tracks:**
 1. **Study Modules** (`01`–`08`) — Java fundamentals → advanced → modern, why-focused with production tie-ins.
 2. **Interview references** — a personal Q&A bank and the market-analysis + strategy doc.
-3. **13-Week Prep Plan** (`prep-weeks/`) — day-by-day checklists, DSA + system design + behavioral, with weekly self-assessment gates.
+3. **Full-Time Sprint Plan** (`prep-weeks/`) — day-by-day checklists, DSA + system design + behavioral, with weekly self-assessment gates.
 
 ---
 
@@ -33,28 +33,27 @@ Each module opens with a **Quick Reference** blockquote and ends with **Intervie
 
 ---
 
-## 🗓️ 13-Week Prep Plan
+## 🗓️ Full-Time Sprint — study by Aug 1, apply in August, land by September
 
-Detailed day-by-day checklists live in **[`prep-weeks/`](prep-weeks/README.md)**. Log daily completion in the **[Progress Tracker](PROGRESS.md)**. A 4-day Java-basics revision (Week 0) precedes Week 1. Plan runs **Thu 18 Jun → Sun 20 Sep 2026** (Week 0 is a 4-day warm-up; Week 1 is a full Mon–Sun week; Weeks 2–13 are clean Mon–Sun). Track applications + referrals — the lever that decides offers — in **[Applications & Referrals](prep-weeks/applications-and-referrals.md)**.
+Detailed day-by-day checklists live in **[`prep-weeks/`](prep-weeks/README.md)**. Log daily completion in the **[Progress Tracker](PROGRESS.md)**. A 1-day Java-fundamentals refresh (Week 0, Sun Jun 28) precedes the **full-time intensive**: 5 study weeks (Mon–Sat, ~36 hr/wk) finishing **Sat Aug 1**, then 7 execution weeks of applications + interviews. Candidate is **available to join immediately** (no notice). Plan runs **Sun Jun 28 → Sun Sep 20 2026**. Track applications + referrals — the lever that decides offers — in **[Applications & Referrals](prep-weeks/applications-and-referrals.md)**.
 
 | Week | Dates | Phase | Focus |
 |------|-------|-------|-------|
-| [00](prep-weeks/week-00-basics.md) | Jun 18–21 *(4-day)* | Warm-up | Revise Java fundamentals — modules 01–04 (language basics, OOP, advanced OOP, exceptions+memory) |
-| [01](prep-weeks/week-01.md) | Jun 22–28 | Foundations | Arrays / Two Pointers / Sliding Window · Java internals (equals/hashCode, HashMap) · resume + deep-dive doc |
-| [02](prep-weeks/week-02.md) | Jun 29–Jul 5 | Foundations | Hashing / Strings · bit manipulation · Collections deep-dive · system-design primer |
-| [03](prep-weeks/week-03.md) | Jul 6–12 | Foundations | Recursion / Binary Search · Spring core (IoC, beans, @Transactional) · concurrency · LLD primer |
-| [04](prep-weeks/week-04.md) | Jul 13–19 | Foundations | Stacks / Queues / LinkedList · REST + OAuth2/JWT · estimation drill · **self-assessment checkpoint** |
-| [05](prep-weeks/week-05.md) | Jul 20–26 | Core Build | Trees · caching + indexing + SQL/NoSQL · frontend (Vue 3 / React) · target-company list |
-| [06](prep-weeks/week-06.md) | Jul 27–Aug 2 | Core Build | Graphs + Trie + Dijkstra · messaging/async, Outbox, Saga · GitHub polish |
-| [07](prep-weeks/week-07.md) | Aug 3–9 | Core Build | DP intro · rate limiting, API gateway, circuit breakers + bulkhead · mock system design |
-| [08](prep-weeks/week-08.md) | Aug 10–16 | Core Build | DP + Greedy · cloud/DevOps talking points · **profiles live + warm-up applications** |
-| [09](prep-weeks/week-09.md) | Aug 17–23 | Peak | Heaps + design-DS · design at scale (sharding/CAP) · **hard applications to GCCs/product** |
-| [10](prep-weeks/week-10.md) | Aug 24–30 | Peak | Company-tagged DSA · **10 STAR stories** · News Feed HLD · more applications + first rounds |
-| [11](prep-weeks/week-11.md) | Aug 31–Sep 6 | Peak | DSA maintenance · **interviews cluster** · full-stack consolidation + project rehearsal |
-| [12](prep-weeks/week-12.md) | Sep 7–13 | Close | Light DSA · **interview-loop execution** · per-company tailoring + pipeline tracking |
-| [13](prep-weeks/week-13.md) | Sep 14–20 | Close | **Negotiation & close** · competing-offer leverage · clean resignation + 60-day notice |
+| [00](prep-weeks/week-00-basics.md) | Jun 28 *(1-day)* | Refresh | Fast Java-fundamentals pass — modules 01–04 |
+| [01](prep-weeks/week-01.md) | Jun 29–Jul 4 | Study | Arrays / Two Pointers / Sliding Window · hashing/strings/bit · Java internals (equals/hashCode, HashMap, generics, Collections) |
+| [02](prep-weeks/week-02.md) | Jul 6–11 | Study | Binary search · recursion/backtracking · stacks/queues/LL/LRU · Spring core · concurrency · REST/OAuth2/JWT · exceptions |
+| [03](prep-weeks/week-03.md) | Jul 13–18 | Study | Trees · Graphs+Trie+Dijkstra · caching/indexing/SQL-NoSQL · Kafka/Outbox/Saga · frontend · LLD primer |
+| [04](prep-weeks/week-04.md) | Jul 20–25 | Study | DP · Greedy · Intervals · Heaps · design-DS · rate-limit/gateway/CB/bulkhead · sys-design fundamentals · cloud stories |
+| [05](prep-weeks/week-05.md) | Jul 27–Aug 1 | Study | sys-design mocks · full mocks · **10 STAR stories** · finalize resume/profiles/GitHub · **build target list + referral connections** |
+| [06](prep-weeks/week-06.md) | Aug 3–9 | Apply | **Apply wave 1** (target + safety net) · referral asks · DSA maintenance · OA drills |
+| [07](prep-weeks/week-07.md) | Aug 10–16 | Apply | Apply wave 2 · first rounds · system design under pressure · per-company tailoring |
+| [08](prep-weeks/week-08.md) | Aug 17–23 | Interview | **Interview loops cluster** · project deep-dives · behavioral execution |
+| [09](prep-weeks/week-09.md) | Aug 24–30 | Interview | Loops · coding-mechanics execution · pipeline mgmt · early offers |
+| [10](prep-weeks/week-10.md) | Aug 31–Sep 6 | Close | **Offers + negotiation** · CTC deflection · competing-offer leverage |
+| [11](prep-weeks/week-11.md) | Sep 7–13 | Close | Convert + accept · counter-offers · join-date negotiation |
+| [12](prep-weeks/week-12.md) | Sep 14–20 | Close | Close / buffer · BGV prep · fallback if pipeline thin |
 
-> **After Week 13:** offers realistically cluster late-Sept → late-Oct (loops run ~3–6 weeks + 60-day notice). Accept best offer → 60-day notice → join ~Nov. Target comp ₹14–25 LPA (40–70% jump).
+> **After Week 12:** offers realistically cluster late-Sept → late-Oct (loops run ~3–6 weeks). With **immediate availability** you can accept and start fast — use it as leverage. Target comp ₹14–25 LPA (40–70% jump).
 
 ---
 

@@ -1,439 +1,254 @@
-# Week 7 — Core Build (Aug 3–9, 2026)
+# Week 7 — Apply Wave 2 + First Rounds (Aug 10–16, 2026)
 
-> Theme: **Tame DP, master rate limiting + resilience, and simulate a real design interview — then own every curveball from first principles.**
+> The pipeline you built last week starts firing back. First OA invites and phone screens arrive while a second wave of applications goes out — so this week runs two tracks at once: keep the volume up *and* execute the first live rounds cleanly. DSA stays in maintenance (1–2 problems daily, now leaning toward company-tagged patterns). The new work is per-company tailoring, system-design-under-time pressure, behavioral warm-ups, and disciplined follow-up on every Week 6 application that's gone quiet. A first round you walk into researched and calm is worth more than ten cold applications you fired off in a hurry.
 
-> 📨 **Apps & referrals this week:** Warm 5–8 referral relationships; draft your referral-ask message. See the [cadence & tracker](applications-and-referrals.md).
+> 📨 **Apps & referrals this week:** 15–20 more applications + follow up all Week 6 apps + ~10 referral asks. See the [cadence & tracker](applications-and-referrals.md).
 
 ---
 
 ## 🎯 Week Goal
 
-By Friday you can walk an interviewer through any classic 1D/2D DP problem using a clean state-transition framework, explain rate-limiting algorithms and trade-offs at depth, describe circuit-breaker internals (not just "it has three states"), and tie every answer back to a specific decision you made in Smart360 or Deep Fathom. Saturday you run a timed mock system-design, record it, and score yourself against a rubric.
+1. Submit 15–20 more applications (Wave 2), every one ATS-tailored and per-company researched, and send ~10 more referral asks.
+2. Follow up — once — on every Week 6 application now past the 5-day quiet mark, with a 3-sentence personalised nudge.
+3. Execute your first OA / phone screens researched, calm, and with sharp questions ready — and surface immediate availability when timelines come up.
+4. Run one system-design-under-time mock (45 min, prompt cold) so the first real SD round doesn't catch you flat-footed.
+5. Warm up the core behavioral answers — "tell me about yourself," the performance win, "why are you leaving," "why this company" — so a recruiter screen lands clean.
 
 ---
 
 ## ✅ By Sunday you can...
 
-- Derive the DP recurrence for Climbing Stairs, House Robber I/II, Coin Change, LIS, LCS, 0/1 Knapsack, Word Break, and Unique Paths from scratch — no memorising, just state + transition.
-- Explain token bucket vs leaky bucket vs sliding window counter vs sliding window log: time/space complexity, burst handling, Redis data structure used for each.
-- Walk through Resilience4j circuit breaker state machine (Closed → Open → Half-Open → Closed), bulkhead, retry, and time-limiter — and say *exactly* how you wired them in Smart360's API Gateway.
-- Compare REST, gRPC, and async messaging across five dimensions (coupling, latency, schema evolution, observability, failure modes) and justify which you used and why.
-- Time-box a "design a data-collaboration platform" mock to 45 min, hit every rubric section, and articulate at least three non-obvious trade-offs.
+- Walk into a phone screen having researched the company's product, stack, and one recent engineering detail — with 3 questions ready.
+- Deliver a 90-second "tell me about yourself" and a 2-minute performance-win story without notes.
+- Solve a company-tagged Medium in ≤ 20 min in a shared editor under observation.
+- Drive a system-design prompt end-to-end in 45 minutes: requirements → capacity → high-level → 2 deep dives → failure modes → trade-offs.
+- Send a clean 3-sentence follow-up that references the role, adds one specific reason, and offers a quick chat.
+- State "available to join immediately" as a closing advantage in any screen, naturally.
+- Read your funnel after ~35 applications and know whether the callback rate is healthy (≥ 10%).
 
 ---
 
-## 📅 Daily Checklist
-
-### Monday Aug 3 — DP Foundations: 1D Problems
-📌 **Study today:** 1D DP — state + transition framework (LC 70, 198, 213, 322) · Resilience4j circuit breaker state machine
-
-**DSA (60 min)**
-- [ ] Read the "identify state + transition" framework before coding anything:
-  - *State*: what do you need to know to solve a subproblem? Usually `dp[i]` = answer for first `i` elements / target `i`.
-  - *Transition*: how does `dp[i]` depend on `dp[i-1]`, `dp[i-2]`, etc.?
-  - *Base case*: smallest subproblem you can answer directly.
-  - *Direction*: top-down (memoization, recursion + HashMap/array) vs bottom-up (tabulation, loops).
-- [ ] **LC 70 — Climbing Stairs** (Easy): `dp[i] = dp[i-1] + dp[i-2]`. Code both memoization and tabulation. Reduce to O(1) space with two variables.
-- [ ] **LC 198 — House Robber** (Medium): `dp[i] = max(dp[i-1], dp[i-2] + nums[i])`. Justify why you can't rob adjacent houses as a recurrence — not a rule you memorise.
-- [ ] **LC 213 — House Robber II** (Medium): Houses in a circle. Key insight: run House Robber I on `nums[0..n-2]` and `nums[1..n-1]`, take max. *Why does splitting work?* Because house 0 and house n-1 can never both be chosen.
-- [ ] **LC 322 — Coin Change** (Medium): `dp[amount] = min(dp[amount - coin] + 1)` for each coin. This is *unbounded knapsack*. Initialise `dp[0]=0`, everything else `INF`. Note which part of Smart360's LLM cost routing this resembles — greedy fails here, DP is mandatory.
-
-**Core (25 min)**
-- [ ] Read Resilience4j docs section on CircuitBreaker states. Draw the state machine on paper. Annotate *exactly* what `slidingWindowSize`, `failureRateThreshold`, `slowCallRateThreshold`, and `waitDurationInOpenState` do to the state machine edges.
-- [ ] Find your actual `application.yml` or recall the Resilience4j config you used in Smart360. Write it out from memory, then verify.
-
-**Self-check**
-- [ ] Can you code House Robber from scratch in 8 min without looking at notes? Time yourself.
-- [ ] Can you explain to a rubber duck *why* `dp[i] = max(dp[i-1], dp[i-2] + nums[i])` — not just recite it?
+## 📅 Daily Checklist (Mon–Sun)
 
 ---
 
-### Tuesday Aug 4 — DP 1D continued + Resilience4j deep dive
-📌 **Study today:** 1D DP — Word Break & LIS, memo vs tabulation (LC 139, 300) · Resilience4j: bulkhead, retry, time-limiter chain
+### Monday Aug 10 — Wave 2 Batch + Follow-Up Discipline
 
-**DSA (60 min)**
-- [ ] **LC 139 — Word Break** (Medium): `dp[i]` = can the first `i` characters of `s` be segmented? Transition: for each `j < i`, if `dp[j]` is true AND `s[j..i]` is in `wordDict`, then `dp[i] = true`. Time: O(n² × avg_word_len). Work out why BFS/DFS-with-memo is equivalent.
-- [ ] **LC 300 — Longest Increasing Subsequence** (Medium): Classic O(n²) DP: `dp[i] = max(dp[j]+1)` for all `j<i` where `nums[j]<nums[i]`. Then the O(n log n) patience-sort solution with binary search — know both, interviewers often push for the optimal. Link to real world: LIS ≈ longest chain of compatible microservice versions.
-- [ ] Spend 10 min: compare memoization vs tabulation. Know when each wins:
-  - Memoization: easier to write, only computes needed subproblems, but recursion stack overhead.
-  - Tabulation: no stack overflow risk, cache-friendly, easier to optimise space. Prefer for production code.
+📌 **Study today:** DSA maintenance (LC 3, 167) · 4–5 applications (Wave 2) · follow up all quiet Week 6 apps
 
-**Core (30 min)**
-- [ ] Resilience4j — go beyond CircuitBreaker:
-  - **Bulkhead** (semaphore-based vs thread-pool-based): semaphore limits concurrent calls, thread-pool isolates threads per dependency. When would you use thread-pool bulkhead in Smart360? (Isolate slow LLM provider calls from fast data queries.)
-  - **Retry**: `maxAttempts`, `waitDuration`, `exponentialBackoff`, `retryExceptions`. Critical: retrying non-idempotent POSTs is dangerous — add idempotency keys.
-  - **TimeLimiter**: wraps a `CompletableFuture`-based call. Works with `@CircuitBreaker` in a chain — `TimeLimiter` fires first, then counts the timeout as a failure toward the circuit.
-- [ ] Write the full chain annotation from memory: `@CircuitBreaker` + `@Retry` + `@TimeLimiter` on a Feign client method. Know the order of wrapping: TimeLimiter wraps Retry wraps CircuitBreaker.
+**Pre-day check (5 min):**
+- [ ] Open the tracker. Any OA/screen invites land over the weekend? Schedule them immediately and block prep time the evening before each.
 
-**Self-check**
-- [ ] Whiteboard LC 139 Word Break transition diagram — draw the dp array, trace through `s="leetcode"`, `wordDict=["leet","code"]`.
-- [ ] Write a 2-sentence answer to: "In Smart360, how did you prevent one slow downstream service from cascading into a full outage?" (Combine circuit breaker + bulkhead in one answer.)
+**DSA Maintenance (30 min):**
+- [ ] **LC 3 – Longest Substring Without Repeating Characters** (Medium) — sliding window + HashSet. Under 15 min. Appears in nearly every product-company warm-up.
+- [ ] **LC 167 – Two Sum II (Sorted)** (Medium) — two-pointer. Under 10 min. State why two-pointer beats HashMap when the array is sorted.
 
----
+**Applications Block (60 min) — Wave 2 batch:**
+- [ ] **Apply to 4–5** through the ATS routine (paste JD → mirror top ~5 keywords → 3-sentence note ending in immediate availability → log). Lean toward GCC/product this week — the safety net is seeded; now chase the real targets.
 
-### Wednesday Aug 5 — 2D DP + Rate Limiting algorithms
-📌 **Study today:** 2D DP — Unique Paths, LCS, 0/1 knapsack (LC 62, 1143, 416) · rate limiting: token/leaky bucket, sliding window
+**Follow-Up Block (45 min) — chase the quiet Week 6 apps:**
+- [ ] Pull every Week 6 application now **5+ days quiet.** Follow up *once* each:
+  > *"Hi [Name], I applied for [Role] on [Date] and wanted to confirm receipt and reiterate my interest — my background in cloud-native Java/Spring microservices (with a 96% latency win and LLM integration) maps closely to the role, and I'm available to join immediately. Happy to answer any initial questions."*
+- [ ] Log each follow-up date. The rule is *once* — set it, don't nag.
 
-**DSA (65 min)**
-- [ ] **LC 62 — Unique Paths** (Medium): `dp[i][j] = dp[i-1][j] + dp[i][j-1]`. Reduce to 1D array. This is also combinatorics: `C(m+n-2, m-1)` — know both approaches.
-- [ ] **LC 1143 — Longest Common Subsequence** (Medium): Classic 2D. `dp[i][j]` = LCS of first `i` chars of `text1` and first `j` chars of `text2`. Transition: if `text1[i-1]==text2[j-1]` then `dp[i-1][j-1]+1`, else `max(dp[i-1][j], dp[i][j-1])`. Reconstruct the actual subsequence by backtracking through the dp table — interviewers sometimes ask for this.
-- [ ] **0/1 Knapsack** (classic, not on LC directly but appears as LC 416, 494, 1049):
-  - `dp[i][w]` = max value using first `i` items with weight budget `w`.
-  - Transition: `dp[i][w] = max(dp[i-1][w], dp[i-1][w-wt[i]] + val[i])` if `wt[i] <= w`.
-  - Space optimise to 1D by iterating weights *right to left*.
-  - Practice LC 416 (Partition Equal Subset Sum) — it's 0/1 knapsack in disguise.
-
-**Core (25 min)**
-- [ ] Rate limiting algorithms — master all four:
-
-  | Algorithm | How it works | Burst allowed? | Memory | Redis structure |
-  |---|---|---|---|---|
-  | **Token bucket** | Tokens added at fixed rate, consumed per request | Yes (up to bucket size) | O(1) | HASH (tokens + timestamp) |
-  | **Leaky bucket** | Requests queue at fixed output rate | No (smoothed) | O(queue size) | LIST as queue |
-  | **Fixed window counter** | Count resets every window | Yes (at window boundary) | O(1) | STRING with TTL |
-  | **Sliding window log** | Store timestamp of each request | No | O(requests in window) | ZSET (score = timestamp) |
-  | **Sliding window counter** | Interpolate between two fixed windows | Approximately no | O(1) | Two STRINGs |
-
-- [ ] Know the Spring Cloud Gateway `RequestRateLimiter` filter uses the **token bucket** algorithm backed by Redis. Find your Smart360 API Gateway config and recall how you set `redis-rate-limiter.replenishRate` and `burstCapacity`. If you don't have exact values, write plausible ones with justification.
-
-**Self-check**
-- [ ] Code 0/1 Knapsack bottom-up in 12 min, then convert to 1D. Can you explain *why* the inner loop must go right-to-left for 0/1 but left-to-right for unbounded?
-- [ ] Pop quiz: A client sends 10 requests in the last 0.5 s of window 1 and 10 requests in the first 0.5 s of window 2. Fixed window counter allows all 20. How does sliding window counter catch this? (Weighted interpolation of previous window's count.)
+**Self-Check**
+- [ ] Did every quiet Week 6 application get exactly one follow-up?
+- [ ] Are 4–5 new Wave 2 applications logged?
 
 ---
 
-### Thursday Aug 6 — gRPC vs REST vs Messaging + API Gateway deep dive
-📌 **Study today:** DP recurrence review + subset sum / palindrome (LC 416, 5) · REST vs gRPC vs async messaging; API Gateway vs BFF
+### Tuesday Aug 11 — First OA / Phone Screen + Per-Company Tailoring
 
-**DSA (55 min)**
-- [ ] Review all six problems from Mon–Wed: re-derive each recurrence on paper in 2 min max per problem. No peeking. If you stall on any, that's the one to re-solve tonight.
-- [ ] **LC 416 — Partition Equal Subset Sum** (Medium): Reduce to 0/1 knapsack: can we fill a subset summing to `totalSum/2`? `dp[j] |= dp[j - nums[i]]`, inner loop right to left.
-- [ ] **Stretch if time: LC 5 — Longest Palindromic Substring** (Medium): 2D DP or expand-around-center O(n²). Know both; Manacher's is O(n) but rarely required.
+📌 **Study today:** company-tagged DSA (LC 209, 33) · per-company prep routine · first OA/screen execution + 3–4 applications
 
-**Core (35 min)**
-- [ ] Microservice communication comparison — go deep:
+**Pre-day check (5 min):**
+- [ ] Any OA or screen today/tomorrow? Run the per-company prep routine below *now*, before anything else.
 
-  **REST (HTTP/1.1 + JSON)**
-  - Pros: universal tooling, human-readable, stateless, easy load balancing, caching with HTTP semantics.
-  - Cons: chatty for many small fields, no streaming built-in (need SSE/WebSocket), schema looseness (breaking changes silent).
-  - In Smart360: API Gateway → Data/Visualization services. Why REST? Human-debuggable, Vue.js front end consumes it directly, team familiarity.
+**DSA Maintenance (30 min) — company-tagged:**
+- [ ] **LC 209 – Minimum Size Subarray Sum** (Medium) — sliding window, two pointers. Microsoft/Atlassian screens. Under 15 min.
+- [ ] **LC 33 – Search in Rotated Sorted Array** (Medium) — modified binary search. Goldman/JPMC favourite. Under 20 min.
 
-  **gRPC (HTTP/2 + Protobuf)**
-  - Pros: binary (3–10× smaller payloads), multiplexed streams, strong schema contract via `.proto`, built-in code generation, bidirectional streaming.
-  - Cons: not browser-native (need gRPC-Web + proxy), harder to debug (binary), schema evolution requires care (field numbers).
-  - Use when: internal high-throughput service-to-service calls (e.g., if your LLM routing proxy needed sub-5ms overhead between services).
+**Core Block (40 min) — Per-Company Tailoring Routine:**
 
-  **Async messaging (Kafka/RabbitMQ)**
-  - Pros: temporal decoupling, backpressure, fan-out, replay.
-  - Cons: eventual consistency, harder debugging, ordering guarantees complex (Kafka: per-partition; Rabbit: per-queue).
-  - In Smart360: event-driven notification service after user management extraction — publisher doesn't wait for consumer.
+For each company with a live round or strong-signal recruiter call:
+- [ ] Re-read the JD. Highlight 3 tech keywords; map each to a specific resume story (Smart360 perf, Deep Fathom infra, WebX async/LLM).
+- [ ] Research: product, recent news (blog/press/LinkedIn), tech stack (engineering blog + JD clues).
+- [ ] Write 3 questions to ask — at least one specific ("I read your 2024 post on migrating to microservices — what were the biggest operational surprises?").
+- [ ] Check Glassdoor/Blind for recent interview reports; note recurring question types.
+- [ ] Log all of it in the tracker — don't rely on memory.
 
-- [ ] API Gateway pattern vs BFF — revisit from `interview-qa.md` and add: how Spring Cloud Gateway's predicate + filter pipeline maps to Smart360 concerns. Concrete filters you used: `AddRequestHeader`, `StripPrefix`, `RequestRateLimiter`, JWT validation filter (custom `GatewayFilter`).
+**OA / Screen Execution + Applications (75 min):**
+- [ ] **Execute any OA/screen** with the per-company prep done. In a screen, lead with 2 impact numbers, ask 1 sharp question at the end, and **mention immediate availability when timelines come up** — it's a real lever for teams with an urgent backfill.
+- [ ] **Apply to 3–4 more** (Wave 2 continues). Running total across Weeks 6–7 should be climbing past 25.
 
-**Self-check**
-- [ ] A recruiter asks: "Why didn't you just use gRPC everywhere?" Answer in 90 seconds, referencing specific Smart360 constraints.
-- [ ] Write the token bucket rate-limiter config for Spring Cloud Gateway from memory.
+**Self-Check**
+- [ ] Did you complete the full per-company prep before the round (not after)?
+- [ ] Did you surface immediate availability and ask a researched question?
 
 ---
 
-### Friday Aug 7 — Integration + Curveball practice
-📌 **Study today:** Timed DP set (LC 70, 322, 300, 1143, 416) · curveball follow-ups on circuit breaker, distributed txns, CQRS, JWT
+### Wednesday Aug 12 — System-Design-Under-Time Mock + Referral Asks
 
-**DSA (60 min)**
-- [ ] Full timed set — 75 min timer, do not look up anything:
-  - LC 70 Climbing Stairs (10 min)
-  - LC 322 Coin Change (15 min)
-  - LC 300 LIS (15 min — O(n²) first, then O(n log n) if time)
-  - LC 1143 LCS (15 min)
-  - LC 416 Partition Equal Subset Sum (15 min)
-- [ ] After timer: review only the ones you got wrong or slow. Identify *why* (wrong state definition? wrong base case? off-by-one?).
+📌 **Study today:** DSA maintenance (LC 1046, 215) · 45-min SD mock (file storage or notification system) · 5 referral asks
 
-**Core (20 min)**
-- [ ] Re-read your own `interview-qa.md` answers on circuit breaker, distributed transactions, CQRS, and JWT. For each, add one "curveball follow-up" — the question an expert interviewer asks *after* your answer. Write your answer to that follow-up now. Examples:
-  - After circuit breaker: "What if two pods have different circuit breaker states?" → Discuss stateless vs centralised (Redis-backed) circuit breaker state; Resilience4j is in-process, so each pod has independent state — this is usually fine, eventual convergence.
-  - After JWT: "How do you handle token refresh race conditions in a distributed system?" → Single-use refresh tokens + refresh token rotation + Redis lock on the refresh operation.
+**DSA Maintenance (30 min):**
+- [ ] **LC 1046 – Last Stone Weight** (Easy) — max-heap warm-up. Under 10 min.
+- [ ] **LC 215 – Kth Largest Element** (Medium) — min-heap of size k (O(n log k)); mention QuickSelect as the "can you do better?" follow-up. Under 20 min.
 
-**Self-check**
-- [ ] Teach-back: explain DP memoization vs tabulation to an imaginary junior dev in 3 min. Record audio on your phone. Play it back — did you use "um" excessively? Was the explanation logically ordered?
-- [ ] Can you name the five Resilience4j modules and what each solves? (CircuitBreaker, Retry, RateLimiter, TimeLimiter, Bulkhead.)
+**Core Block (45 min) — System Design Under Time (45-min mock):**
 
----
+Pick a prompt cold, set a 45-min timer, whiteboard on paper. Suggested: **"Design a scalable file storage service"** or **"Design a notification system for 10M notifications/day."** Drive it end-to-end — do not wait to be prompted:
+- [ ] **Requirements + capacity (8 min):** clarify file sizes / volume, read:write ratio, consistency needs, global vs regional. Give a rough capacity estimate (e.g., 10M users × 5 GB = 50 TB; 100K uploads/day × 10 MB = 1 TB/day).
+- [ ] **High-level design (10 min):** for file storage — chunked upload via **pre-signed URLs** (data never flows through your servers), metadata service on PostgreSQL, S3/Blob for content, CDN on the read path. Name the pre-signed-URL caching pattern from Smart360.
+- [ ] **Two deep dives (12 min):** metadata sharding (hash on `owner_id`), leader-follower replication + lag handling, or the notification channel abstraction + dedup/idempotency + retry/DLQ.
+- [ ] **Failure modes (10 min):** orphaned chunks (S3 lifecycle cleanup), DB leader failover (CP trade-off), CDN stale-after-delete (invalidation), provider 5xx → exponential-backoff retry → DLQ.
+- [ ] **Trade-offs + observability (5 min):** name CAP/PACELC where relevant, and add one sentence on how you'd *operate* it (golden signals, trace propagation). Tie at least one decision to your real work.
 
-### Saturday Aug 8 — Mock System Design: Data-Collaboration Platform
-📌 **Study today:** Timed mock HLD — data-collaboration platform (CRDT/OT, RLS, CQRS, scale) self-scored on rubric · LIS O(n log n) review
+**Referral Outreach (30 min):**
+- [ ] Send 5 referral asks (toward the ~10 weekly target), prioritising companies where you've applied. Same template, personalised, logged.
 
-**Block 1 (45 min) — Timed mock, record yourself**
-
-Set a 45-min timer. Open a blank doc. Record yourself speaking your design aloud (phone or laptop mic). Follow this structure:
-
-1. **Requirements (5 min)**
-   - Clarify: How many users? (Say: 10K concurrent, 1M registered.) Real-time collaboration or async? (Real-time, like Google Sheets.) Data types? (Tabular + unstructured docs.) Permissions model? (RBAC + row-level.)
-   - Functional: CRUD on datasets, real-time co-editing, version history, sharing/permissions, LLM-powered analysis (ties to Smart360).
-   - Non-functional: 99.9% uptime, <200ms API latency p99, data durability, GDPR compliance.
-
-2. **API Design (5 min)**
-   - `POST /datasets` → `{datasetId}`
-   - `GET /datasets/{id}/records?filter=...&page=...`
-   - `PATCH /datasets/{id}/records/{recordId}` (optimistic locking with `version` field)
-   - `WebSocket /collaborate/{datasetId}` → real-time ops (CRDT or OT)
-   - `POST /datasets/{id}/analysis` → `{jobId}` (async, 202 Accepted — same pattern as your Smart360 LLM jobs)
-
-3. **Data Model (8 min)**
-   - PostgreSQL: `datasets`, `records` (JSONB for flexible schema), `versions` (append-only for history), `permissions` (RBAC — subject, object, action).
-   - Row-Level Security on `records` — same pattern as Deep Fathom's 50-table tenant isolation.
-   - Redis: presence map (who is editing), pub/sub for real-time ops broadcast, rate-limiter state.
-   - S3/Blob: binary attachments, dataset exports.
-
-4. **High-Level Architecture (10 min)**
-   - Client → CDN → API Gateway (rate limiting, JWT auth — mirrors Smart360 API Gateway microservice)
-   - Gateway routes to: Collaboration Service (WebSocket, handles CRDTs), Data Service (CRUD + queries), Analysis Service (async LLM jobs), Notification Service (event-driven).
-   - Kafka: Collaboration Service publishes `record.changed` events → Notification Service, Audit Service.
-   - Separate read replica for analytics queries (CQRS read side).
-
-5. **Scale + Bottlenecks (10 min)**
-   - Real-time: WebSocket sticky sessions via consistent hashing or shared Redis pub/sub (fan-out). At 10K concurrent users, a single WebSocket server handles ~50K connections — need horizontal scale.
-   - Write hot spot: if one dataset has 1K concurrent editors, all writes hit the same partition. Mitigate with CRDT merge (conflict-free) + optimistic locking at DB.
-   - Read scale: read replicas + caching with cache-aside (Redis TTL 60s for dataset metadata).
-   - LLM analysis: queue-backed workers (same architecture as Smart360's 2–20 min jobs), autoscale workers on queue depth.
-
-6. **Trade-offs (7 min)**
-   - CRDT vs OT for collaboration: CRDTs (like Yjs) are peer-to-peer, no server required for merge — simpler ops, but higher memory per document. OT requires server to serialize operations — simpler mental model for tabular data.
-   - PostgreSQL JSONB vs dedicated schema: JSONB enables flexible columns without migrations, but loses type safety and some index performance. Accept the trade-off for MVP, migrate to typed columns for frequently queried fields.
-   - Separate collaboration service vs monolithic: Separate allows independent scaling of WebSocket tier (RAM-intensive) from CRUD tier (CPU/DB-intensive). Adds network hop.
-
-**Block 2 (45 min) — Self-critique and rebuild**
-- [ ] Play back your recording. Score yourself on the rubric below.
-- [ ] For each rubric item you scored < 3, write a 1-paragraph improved answer in your notes.
-- [ ] Re-draw the architecture diagram from scratch without the recording. Is it the same? What did you forget?
-
-**Rubric (score each 1–5)**
-| Area | What 5 looks like |
-|---|---|
-| Requirements elicitation | Clarified scale, CAP choice, real-time vs async before drawing anything |
-| API design | RESTful, versioned, async pattern for long ops, clear request/response |
-| Data model | Tables + schema + indexes named; RLS or tenant isolation addressed |
-| Architecture clarity | Named services, named message queues, named DBs — no hand-waving |
-| Scale reasoning | Quantified: "X req/s needs Y replicas because Z" |
-| Trade-offs | At least 3 genuine trade-offs with *why you'd choose each side* |
-| Tie to experience | Referenced Smart360 / Deep Fathom at least twice naturally |
-
-**DSA (30 min)**
-- [ ] Revisit any problem from the week where you still feel shaky. Re-solve on paper.
-- [ ] Read editorial for LC 300 LIS O(n log n) solution if you haven't fully internalized the patience-sort intuition.
+**Self-Check**
+- [ ] Did the SD mock cover failure modes and a capacity estimate, not just the happy path?
+- [ ] Are 5 referral asks logged?
 
 ---
 
-### Sunday Aug 9 — Consolidation + Weak-spot drills
-📌 **Study today:** Edit Distance & Coin Change II (LC 72, 518, 97) · interview-ready rate-limiting walkthrough; preview Week 8 (Kafka, Saga, K8s)
+### Thursday Aug 13 — Behavioral Warm-Ups + Application Batch
 
-**DSA (60 min)**
-- [ ] **New problem: LC 72 — Edit Distance** (Hard): `dp[i][j]` = min edits to convert `word1[0..i]` to `word2[0..j]`. Three operations → three transitions. This is LCS in disguise — both are 2D string DP. Seeing the connection is the expert move.
-- [ ] **New problem: LC 518 — Coin Change II** (Medium): Count number of ways, not min coins. Unbounded knapsack variant. Note: order of loops (outer = coins, inner = amounts) gives combinations; swapping gives permutations. Know why.
-- [ ] Optional stretch: LC 97 — Interleaving String (Medium) — pure 2D DP, solidifies the pattern.
+📌 **Study today:** DSA maintenance (LC 102, 199) · behavioral warm-ups (TMAY, perf win, why leaving, why company) · 4–5 applications + 5 referral asks
 
-**Core (60 min)**
-- [ ] Write a complete, interview-ready answer to: "Walk me through how you designed the rate-limiting in Smart360's API Gateway." Cover: why rate limiting (protect downstream, fair usage), which algorithm (token bucket), Redis backing (single atomic Lua script for atomicity), config (`replenishRate`, `burstCapacity`), how to handle Redis failure gracefully (fail-open vs fail-closed — know the trade-off), and how you'd extend to per-user limits vs per-IP limits.
-- [ ] Review your mock design recording one more time. Update your architecture notes with anything you'd say differently.
-- [ ] Preview Week 8 topics (spend 10 min only): Kafka internals, Saga pattern implementation, and advanced Kubernetes (HPA, resource limits, pod disruption budgets) — so Monday isn't a cold start.
+**DSA Maintenance (30 min):**
+- [ ] **LC 102 – Binary Tree Level Order Traversal** (Medium) — BFS queue. Under 10 min — a confidence-builder often asked as a warm-up.
+- [ ] **LC 199 – Binary Tree Right Side View** (Medium) — BFS, last node per level. Under 12 min.
 
-**Self-check**
-- [ ] Mock oral: pick any three questions from the Sample Interview Questions below. Answer each aloud, full STAR or technical walkthrough, without notes. Time yourself — aim for 90–120 sec per technical Q, 2 min per behavioral.
+**Core Block (45 min) — Behavioral Warm-Ups (say each aloud, timed):**
+- [ ] **"Tell me about yourself" (90s):** current role → biggest outcomes (60s→2–3s, 57% CI/CD cut, 5-provider LLM proxy) → stack → what you want → bridge to this company. Lead with outcomes, not a chronological CV.
+- [ ] **Performance-win story (2 min):** Smart360 60s→2–3s. Diagnosis (Hibernate statistics → 47 queries → N+1) → fix per layer (JOIN FETCH, EntityGraph, composite indexes, Redis cache, S3-URL caching) → result (96% latency cut, 80% fewer S3 calls). Use "I" for what you personally did.
+- [ ] **"Why are you leaving?" (60–75s):** ambition framing — scale, engineering culture, growth, comp. Never negative about the current employer. **Naturally include availability:** "...and I'm in a position to move immediately."
+- [ ] **"Why this company?" (60s):** research-specific, one real detail per company. Generic answers ("great culture") get filtered.
 
----
+**Applications + Referrals Block (90 min):**
+- [ ] **Apply to 4–5 more** — push toward the **15–20 Wave 2 target.**
+- [ ] **Send 5 more referral asks** — close out the ~10 weekly target.
+- [ ] Triage inbound across all channels; respond to recruiters within hours.
 
-## 🧠 Concepts to Master This Week
-
-### Dynamic Programming
-
-**The universal framework — apply this before writing a single line of code:**
-1. **Define state**: what information uniquely identifies a subproblem? Write it as a sentence: "`dp[i]` = the minimum number of coins needed to make amount `i`."
-2. **Write the recurrence**: how does `dp[i]` depend on smaller subproblems? This is the hard step — draw examples.
-3. **Identify base cases**: `dp[0]`, `dp[1]`, or empty-string/empty-array cases.
-4. **Choose implementation**: memoization (top-down) if the state space is sparse; tabulation (bottom-up) if you need all states anyway.
-5. **Optimise space**: if `dp[i]` only depends on `dp[i-1]` (and maybe `dp[i-2]`), you don't need the full array.
-
-**Problem → Pattern mapping:**
-| Problem | Pattern | Key insight |
-|---|---|---|
-| Climbing Stairs | 1D, 2 prev states | Fibonacci — each step is a small decision |
-| House Robber I | 1D, 2 prev states | At each house: rob (skip prev) or skip |
-| House Robber II | 1D × 2 passes | Circle → two linear subproblems |
-| Coin Change | 1D, unbounded | Inner loop: try every coin denomination |
-| Coin Change II | 1D, unbounded | Outer = coins (avoid permutation counting) |
-| LIS | 1D, O(n²) or O(n log n) | Patience sort for optimal |
-| LCS | 2D, two strings | Match → extend; mismatch → take better of skip either |
-| 0/1 Knapsack | 2D → 1D, right-to-left | Each item used at most once |
-| Unique Paths | 2D grid | Only right + down → sum of paths from adjacent cells |
-| Word Break | 1D, check all splits | Like knapsack: is this prefix "reachable"? |
-| Edit Distance | 2D, three ops | Insert/delete/replace → three transitions |
-
-### Rate Limiting
-
-**Token Bucket** (used in Spring Cloud Gateway):
-- A bucket holds at most `burstCapacity` tokens.
-- Tokens are added at `replenishRate` per second.
-- Each request consumes one token (or more for expensive endpoints).
-- If bucket empty: request rejected (429 Too Many Requests).
-- Redis implementation: a Lua script atomically reads `{tokens, last_refill_time}`, computes tokens to add, clamps to bucket size, decrements by request cost, writes back.
-- **Why Lua?** Redis is single-threaded per command; a Lua script runs as a single atomic operation — no race condition without locks.
-
-**Sliding Window Log** (most accurate):
-- Store timestamp of every request in a Redis ZSET (score = timestamp).
-- On each request: remove timestamps older than `windowSize`, count remaining, if under limit add current timestamp and allow.
-- Accurate but memory-proportional to request volume — not suitable for high-throughput endpoints.
-
-**Sliding Window Counter** (practical balance):
-- Keep two fixed-window counters (current window + previous).
-- Estimate count = `prev_count × (1 - elapsed_fraction) + curr_count`.
-- O(1) memory, approximate (within ~0.003% of true sliding window in practice).
-
-### Circuit Breaker Internals (Resilience4j)
-
-State machine with exact conditions:
-
-```
-CLOSED ──[failure_rate >= threshold OR slow_call_rate >= threshold]──► OPEN
-OPEN ──[after waitDurationInOpenState]──► HALF_OPEN
-HALF_OPEN ──[permittedNumberOfCallsInHalfOpenState calls all succeed]──► CLOSED
-HALF_OPEN ──[any failure]──► OPEN
-```
-
-- `slidingWindowType`: COUNT_BASED (last N calls) or TIME_BASED (last N seconds).
-- `minimumNumberOfCalls`: circuit won't open until at least this many calls have been made (prevents premature opening on startup).
-- `permittedNumberOfCallsInHalfOpenState`: probe calls before deciding.
-- Fallback method must have the same signature + a `Throwable` parameter.
-
-**Multi-instance concern:** Resilience4j state is in-process. Two pods can have different circuit states. This is usually acceptable — eventually both will open/close based on real traffic. If you need global state, use a Redis-backed solution (e.g., Sentinel or a custom adapter). Know this trade-off.
-
-### Bulkhead (Resilience4j)
-
-The plan keeps pairing "bulkhead" with circuit breaker — here's the difference, so you never bluff it. **A circuit breaker stops calls to a failing dependency** (it trips after a failure threshold and short-circuits). **A bulkhead limits how much of your resources any one dependency can consume** — so a slow-but-not-yet-failing dependency can't tie up every thread and take the whole service down with it. Named after a ship's watertight compartments: one floods, the rest stay dry. The classic failure they prevent is *resource exhaustion / cascading failure* — one sluggish downstream (say a 5s LLM provider) accumulates in-flight calls until the shared thread pool is starved and *unrelated* fast endpoints (a quick Postgres read) start timing out too.
-
-Resilience4j gives two flavors:
-- **`Bulkhead` (semaphore isolation)** — a counting semaphore caps the number of *concurrent* calls; the caller's own thread executes the call. Cheap (no extra threads, no context switch), but no timeout isolation — the calling thread blocks until the call returns. Good default for fast, mostly-synchronous dependencies.
-- **`ThreadPoolBulkhead` (thread-pool isolation)** — the call runs in a *dedicated, bounded thread pool* with its own queue. The caller's thread is freed immediately (returns a `CompletableFuture`). Costlier, but it fully contains a slow dependency to its own pool and lets you set a queue/timeout per dependency. Use it for the genuinely slow/risky calls — e.g., isolate the slow LLM-provider calls into their own pool so they can never starve the threads serving fast data queries.
-
-**Bulkhead vs / with circuit breaker:** they're complementary, not either/or. Bulkhead *contains* the blast radius while the dependency is degrading (caps concurrency / isolates threads); the circuit breaker *stops* hammering it once it's clearly failing (trips open). Best practice is to wire both — bulkhead first to bound concurrency, circuit breaker to cut off a dead dependency — alongside `Retry` and `TimeLimiter`. This is the precise, senior version of the Tuesday self-check answer ("how did you stop one slow downstream from cascading into a full outage?"): *bulkhead isolates it, circuit breaker cuts it off.*
-
-### gRPC vs REST vs Async Messaging (five dimensions)
-
-| Dimension | REST | gRPC | Async Messaging |
-|---|---|---|---|
-| **Coupling** | Loose (URL contract) | Tight (`.proto` schema) | Loosest (only message schema) |
-| **Latency** | ~1ms+ (JSON parse) | ~0.3ms (binary) | Milliseconds to seconds (async) |
-| **Schema evolution** | Risky (no enforcement) | Controlled (field numbers) | Risky unless schema registry |
-| **Observability** | Easy (HTTP logs) | Needs gRPC interceptors | Needs correlation IDs in message |
-| **Failure mode** | Synchronous → caller waits | Synchronous → caller waits | Asynchronous → dead-letter queue |
+**Self-Check**
+- [ ] Can you deliver TMAY and the performance-win story without notes, under time?
+- [ ] Is the Wave 2 application count at 12–15?
 
 ---
 
-## 🎤 Sample Interview Questions (incl. curveballs) — 8–15 Qs + pointers
+### Friday Aug 14 — First-Round Debrief + Company-Tagged DSA
 
-**1. "Walk me through the DP solution for Coin Change. Why doesn't greedy work?"**
-> Pointer: Greedy (always pick largest coin) fails when a smaller coin combination sums to less (e.g., coins=[1,3,4], amount=6: greedy picks 4+1+1=3 coins; DP finds 3+3=2 coins). DP guarantees optimal by exploring all sub-amounts. Show `dp` array trace for a small example.
+📌 **Study today:** company-tagged DSA (LC 56, 76) · debrief any rounds done so far · 3–4 applications + inbound triage
 
-**2. "What's the time and space complexity of LCS, and how would you optimise space?"**
-> Pointer: O(m×n) time, O(m×n) space naively. Observe that `dp[i][j]` only uses row `i-1` → reduce to two 1D arrays of size `n`. Only need one array if you process carefully — `prev` variable tracks `dp[i-1][j-1]`.
+**DSA Maintenance (30 min) — company-tagged:**
+- [ ] **LC 56 – Merge Intervals** (Medium) — sort by start, merge. Atlassian-tagged. Under 12 min.
+- [ ] **LC 76 – Minimum Window Substring** (Hard) — sliding window with need-count + formed counter. Walmart/Microsoft-tagged. Under 25 min. The canonical hard sliding window.
 
-**3. "In Smart360, you used Spring Cloud Gateway for rate limiting. A Redis instance goes down. What happens?"**
-> Pointer: Spring Cloud Gateway's `RequestRateLimiter` filter has a `denyEmptyKey` setting and Redis failure behaviour. Default: if Redis is unavailable, requests are allowed (fail-open). This prevents a Redis outage from taking down your entire API, but you temporarily lose rate limiting. Explicitly reason about the trade-off: for an internal platform, fail-open is safer than dropping all traffic; for a billing/abuse-sensitive API, fail-closed might be necessary.
+**Core Block (40 min) — Debrief Any Rounds Done:**
+- [ ] For every OA/screen this week: write down every question asked (while fresh), what went well, what you'd change. Log in the tracker under a "round notes" column.
+- [ ] If a coding round felt slow on a pattern, add it to next week's maintenance list. If a behavioral answer rambled, mark which sentence to cut.
+- [ ] Send a thank-you note within 4 hours of any round that allows it.
 
-**4. "Explain the three Resilience4j states. Now: what if you have 20 pods each with independent circuit breaker state?"**
-> Pointer: Each pod tracks its own failure window. Pod A might trip its circuit while Pod B hasn't. Under round-robin load balancing, roughly half of requests still go to the protected service through Pod B. This is usually fine — eventually all pods converge to Open as failures propagate. True global circuit state requires a centralised store (Redis). Trade-off: centralised adds latency and a new failure point.
+**Applications Block (60 min):**
+- [ ] **Apply to 3–4 more** — finish pushing toward the 15–20 Wave 2 target. Prioritise GCC/product roles still untouched.
+- [ ] **Inbound triage:** check all channels, respond fast, bump Naukri "last active."
 
-**5. "Why did you choose REST over gRPC for Smart360's inter-service communication?"**
-> Pointer: Browser/Vue.js clients consume the API directly, gRPC-Web adds proxy complexity. Team was proficient in REST tooling. JSON payloads are human-debuggable during development. The payload sizes (~KB per response) didn't justify binary encoding. If Smart360 had an internal high-frequency data-streaming service (e.g., real-time sensor ingestion), gRPC would be the right call.
-
-**6. "Curveball: Your rate limiter uses Redis. How do you rate-limit without Redis?"**
-> Pointer: Options: (1) local in-memory token bucket per pod (no cross-pod coordination — different pods have separate counters, so a user can get N × numPods requests through; acceptable for low-security cases). (2) Sticky load balancing so one pod always handles a given client. (3) A lightweight coordination layer (e.g., a shared Hazelcast distributed map). Know the trade-offs of each: local is fast/simple but inaccurate at scale, sticky breaks stateless design, Hazelcast adds a dependency.
-
-**7. "Curveball: How does LCS relate to Edit Distance?"**
-> Pointer: They share the same 2D DP structure over two strings. In LCS, matching characters `extend` the sequence. In Edit Distance, mismatching characters choose the cheapest of three operations. A deletions-only edit distance equals `m + n - 2 × LCS(s1, s2)`. This shows they solve related problems from different angles — demonstrates conceptual depth.
-
-**8. "Design the rate limiter for Smart360's API Gateway at 1M requests/day from 10K users."**
-> Pointer: 1M/day ≈ 11.5 req/s average, but peak might be 10× = 115 req/s. Per-user limit: 10 req/s burst, 5 req/s sustained (token bucket: `replenishRate=5, burstCapacity=10`). Redis single-node handles >100K ops/s — fine. Key by `userId` extracted from JWT claim (not IP, since users may share IPs behind corporate NAT). Handle Redis failure: fail-open with a circuit breaker around the rate limiter call itself. Mention Spring Cloud Gateway's built-in `redis-rate-limiter` configuration.
-
-**9. "Curveball: Your circuit breaker is in Open state, but the downstream service has already recovered. How does your system find out?"**
-> Pointer: `waitDurationInOpenState` expires → circuit transitions to Half-Open → sends `permittedNumberOfCallsInHalfOpenState` probe requests. If probes succeed, closes. This is the only way Resilience4j "probes" recovery — it doesn't actively check health. You could add a health-check-based mechanism: a background thread pings `/actuator/health` of the downstream and calls `circuitBreaker.transitionToHalfOpenState()` programmatically if healthy. Know the API: `CircuitBreaker#transitionToHalfOpenState()`.
-
-**10. "Walk me through the 0/1 Knapsack space optimisation. Why must the inner loop go right to left?"**
-> Pointer: In 2D DP, `dp[i][w] = max(dp[i-1][w], dp[i-1][w-wt])`. When you collapse to 1D, `dp[w]` represents `dp[i-1][w]` before the update. Processing right-to-left ensures you read `dp[w-wt]` before it's overwritten for item `i` — effectively still reading from the `i-1` row. Left-to-right would mean `dp[w-wt]` already incorporates item `i` (unbounded knapsack behaviour — each item usable multiple times).
-
-**11. "In your mock design, how would you handle a user editing a cell that another user deleted simultaneously?"**
-> Pointer: CRDT (Conflict-free Replicated Data Type) resolves this without server coordination. For tabular data, a common approach: tombstone the deleted cell and apply the edit; last-writer-wins at the field level with a vector clock. Alternative: OT (Operational Transform) — server serializes concurrent ops into a consistent order. CRDT is simpler to scale (no central sequencer), but state grows with history (needs GC). This shows familiarity with real-time collaboration systems beyond the surface level.
-
-**12. "How would you add observability to your rate limiter to catch abuse patterns?"**
-> Pointer: Micrometer metrics from Spring Cloud Gateway emit `spring.cloud.gateway.requests` with `outcome=FORWARD` vs `outcome=CLIENT_ERROR` (429). Add a custom metric tag for `userId`. Push to Prometheus + Grafana. Alert on: any single user exceeding 80% of their rate limit consistently (potential bot). Export to ELK for forensic analysis. Mention the Actuator `/actuator/metrics` endpoint for spot-checking.
-
-**13. "Curveball: Climbing Stairs has the same recurrence as Fibonacci. Is it always safe to assume Fibonacci = DP?"**
-> Pointer: Fibonacci is a specific DP problem, but not all DP is Fibonacci. The DP framework is general — state + transition. Fibonacci happens to be 1D with a 2-back recurrence. Many DP problems are 2D, have non-trivial state definitions, or require min/max rather than sum. The Fibonacci intuition is a useful warmup but can mislead you into thinking DP problems are always simple 1D recurrences — they're not (e.g., Edit Distance, Burst Balloons, Matrix Chain Multiplication are much more complex).
-
-**14. "You mentioned async messaging for the notification service. How do you ensure exactly-once delivery?"**
-> Pointer: Exactly-once is expensive. Kafka provides at-least-once by default (idempotent producer gives exactly-once on the producer side with `enable.idempotence=true`). For consumer exactly-once, you need transactional consumption (`isolation.level=read_committed`) AND idempotent consumers (check if event was already processed using a `processed_event_ids` table). In practice, design consumers to be idempotent — handle duplicate events gracefully — rather than fighting for exactly-once at the infrastructure level.
-
-**15. "Curveball: If you had to implement a circuit breaker without Resilience4j, how would you do it?"**
-> Pointer: A minimal circuit breaker needs: (1) an atomic counter of recent failures (ConcurrentHashMap or AtomicInteger), (2) a timestamp of when the circuit opened, (3) state enum (CLOSED, OPEN, HALF_OPEN), (4) a wrapper method that checks state before calling the real method, increments failure count on exception, and flips state based on thresholds. In multi-threaded Java, use `AtomicReference<State>` for lock-free state transitions. This demonstrates you understand the pattern, not just the library.
+**Self-Check**
+- [ ] Are this week's round questions logged while still fresh?
+- [ ] Are you at 15+ Wave 2 applications heading into the weekend?
 
 ---
 
-## 🌟 Extraordinary-Candidate Edge
+### Saturday Aug 15 — Full Mock Day (DSA + System Design) + Quota Close
 
-Most candidates know the *what*. You'll stand out with the *why* and the *I built this*.
+📌 **Study today:** timed DSA mock (2 problems) · full SD mock with debrief · close the weekly application + referral quota
 
-**1. Tie DP to real engineering decisions.** When asked about Coin Change, mention: "This is the same class of problem as our LLM provider routing in Smart360 — greedy (always pick cheapest provider) fails when provider combinations have non-linear cost-latency trade-offs. DP-style exhaustive evaluation would be prohibitively slow for real-time routing, which is why we used heuristic scoring instead. Knowing when DP is overkill is as important as knowing when to use it."
+**DSA Mock (60 min):**
+- [ ] Contest mode: 2 problems you haven't done this week, 30 min each, no hints. Recommended from company tags: **LC 207 – Course Schedule** (topo/cycle) + **LC 146 – LRU Cache** (design — doubly-linked list + HashMap, asked verbatim more than any other design problem).
+- [ ] Score yourself: clean finish? Clear narration? Complexity stated unprompted?
 
-**2. Rate limiting: go beyond the happy path.** Mention: "In Smart360, we specifically chose token bucket over sliding window log because our traffic was bursty — analytics users fire 10 queries in 5 seconds then idle. Token bucket allows that burst while still enforcing sustained rate. Sliding window log would reject those queries even when the system was idle."
+**System Design Mock (60 min):**
+- [ ] Pick a second prompt (rotate from Wednesday) — e.g., "Design a URL shortener" or "Design a real-time notification system." Drive it in 45 min with the same structure, then spend 15 min self-critiquing: requirements clarified? capacity estimated? failure modes named? one decision tied to your real work? observability mentioned?
 
-**3. Resilience4j: show you've read the failure modes.** Most candidates parrot the three states. Distinguish yourself: "We had an incident where our circuit was in Half-Open and two pods simultaneously sent probe requests to the downstream. Both probes failed (downstream was partially recovered), so both pods went back to Open. The fix was `permittedNumberOfCallsInHalfOpenState=1` combined with a health check poller to avoid thundering-herd on the downstream during recovery."
+**Applications + Referrals (2 hr) — close the quota:**
+- [ ] **Close out 15–20 Wave 2 applications** total for the week. Tally and finish if short.
+- [ ] **Close out ~10 referral asks** and confirm all Week 6 follow-ups are sent.
+- [ ] Tracker quality pass: every active row has a next action and a current stage.
+- [ ] Research 2–3 companies for next week — interviews are about to cluster, so quality of prep matters more than raw new volume now.
 
-**4. System design: lead with CAP, not features.** Most candidates jump to boxes and arrows. You start with: "Before I draw anything — for a collaboration platform where two users are editing the same dataset simultaneously, I'm choosing AP (availability + partition tolerance) over strong consistency. I'll use optimistic locking with CRDT merge for conflict resolution rather than distributed locks, which would make the system CP but hurt availability under network partitions." This one move signals senior-level thinking.
+**Self-Check**
+- [ ] Is the weekly application count at 15–20 and referrals at ~10?
+- [ ] Did you complete both a DSA and a system-design mock?
 
-**5. DP: know when NOT to use it.** "DP requires overlapping subproblems. If subproblems don't overlap, memoization just adds overhead — use plain recursion or greedy. I check for overlapping subproblems first by asking: 'Can I reach the same state from multiple paths?' If yes, DP. If no, consider greedy or divide-and-conquer."
+---
 
-**6. Observe your own system design mock objectively.** Most candidates never record themselves. You did. You'll catch that you said "and then we just..." (vague), "it would be fast" (unquantified), or skipped the trade-offs section entirely (the most-weighted section in senior interviews). Correcting these in a week of deliberate practice is a genuine edge over candidates who've been "preparing" for months by reading articles.
+### Sunday Aug 16 — Quota Check + Funnel Read + Week 8 Plan (lighter day)
+
+📌 **Study today:** light DSA review · weekly quota check + funnel read (≥10% callback?) · Week 8 plan
+
+**Light DSA (30 min):**
+- [ ] Re-solve the week's weakest problem from scratch, timed. Update your complexity review card.
+
+**Weekly Quota Check + Funnel Read (45 min):**
+- [ ] Fill the **Tracker 1 weekly quota check.** Tally cumulative applications (Weeks 6–7 should be ~30–40), referral asks, and now — **callbacks.**
+- [ ] **Read the funnel for real this week:** after ~35 applications, is your callback rate **≥ 10%**? If not, the problem is upstream — resume/ATS keywords, positioning, or too few referrals. Fix that *before* sending more volume. Referrals convert ~4–5× cold; if your referred-vs-cold ratio is low, that's the lever.
+- [ ] Confirm every round this week is debriefed and every quiet application has had its one follow-up.
+
+**Week 8 Plan (30 min):**
+- [ ] Week 8 is **interview loops cluster** — scheduled rounds take priority over new volume. Map every confirmed loop onto the calendar and block project-deep-dive rehearsal time before each.
+- [ ] Identify the top 2 gaps from this week's rounds → Day 1–2 makeup in Week 8.
+- [ ] Write 2–3 things you can do now that you couldn't last Sunday (drove an SD prompt under time; ran a live screen; followed up with discipline).
+
+---
+
+## 🧠 This Week's Operating Principles
+
+### Two tracks at once: volume *and* execution
+Week 7 is the overlap week. You're still building the pipeline (Wave 2 + follow-ups + referrals) while the first loops fire. The discipline: scheduled rounds get *prep priority*, but the application engine doesn't stop — a thin pipeline now means a dry Week 9. Block the calendar so neither starves the other.
+
+### Per-company tailoring beats spray-and-pray
+At this stage a researched application + a referral beats five cold applies. For every target-tier company: JD keywords mapped to stories, one specific company detail, 3 questions ready. The candidate who references the company's actual engineering blog is instantly different from the 20 who said "I love your culture."
+
+### Follow-up is a system, not a vibe
+Every application 5+ days quiet gets exactly one 3-sentence nudge — role + one specific reason + immediate availability + offer to chat. Logged. Once. An application with no logged next action is a dropped lead.
+
+### Surface immediate availability at every timeline moment
+Zero notice is a real lever now that timelines are being discussed. Drop it in screens when scheduling comes up, in follow-ups, and in the "why leaving" answer. For a team with an urgent backfill it can be the tiebreaker.
+
+### System design under time — the structure that never changes
+Requirements + capacity → high-level → 2 deep dives → failure modes → trade-offs + observability. Same skeleton every time; only the prompt changes. Drive it; don't wait to be pulled through it.
 
 ---
 
 ## 📊 End-of-Week Self-Assessment
 
-Fill this out on Sunday evening before closing your laptop.
+Fill Sunday. Anything below target is Week 8 Day 1.
 
-**DSA (honest scores 1–5)**
-| Problem | Can derive recurrence from scratch | Coded correctly first try | Can explain the transition intuitively |
+| Area | Target | Your Score | Notes |
 |---|---|---|---|
-| LC 70 Climbing Stairs | | | |
-| LC 198/213 House Robber I/II | | | |
-| LC 322 Coin Change | | | |
-| LC 300 LIS (both solutions) | | | |
-| LC 1143 LCS | | | |
-| LC 62 Unique Paths | | | |
-| LC 139 Word Break | | | |
-| LC 416 Partition Equal Subset Sum | | | |
-| LC 72 Edit Distance | | | |
-| LC 518 Coin Change II | | | |
+| Wave 2 applications submitted (15–20) | 5 | | |
+| All quiet Week 6 apps followed up (once) | 5 | | |
+| Referral asks sent (~10) | 4 | | |
+| First OA/screens executed with per-company prep | 5 | | |
+| System-design-under-time mock completed | 4 | | |
+| Behavioral warm-ups (TMAY, perf win, why leaving, why co) | 4 | | |
+| Company-tagged DSA in ≤ 20 min | 4 | | |
+| DSA maintenance streak (1–2/day) | 4 | | |
+| Immediate availability surfaced in rounds/follow-ups | 5 | | |
+| Every round debriefed + logged | 5 | | |
+| Funnel read done (callback rate ≥ 10%?) | 4 | | |
 
-**System Design**
-| Criterion | Score (1–5) | What I'd improve |
-|---|---|---|
-| Mock design: requirements elicitation | | |
-| Mock design: API design | | |
-| Mock design: data model | | |
-| Mock design: architecture clarity | | |
-| Mock design: scale reasoning | | |
-| Mock design: trade-offs articulation | | |
-| Mock design: tied to own experience | | |
+**Week 7 exit criteria (minimum bar before Week 8):**
+- 15–20 Wave 2 applications submitted and logged; cumulative ~30–40.
+- Every Week 6 application past 5 days quiet followed up once.
+- At least one system-design-under-time mock completed with debrief.
+- Core behavioral answers (TMAY + performance win) deliverable without notes.
+- Every live round this week debriefed in the tracker.
 
-**Core Concepts**
-- [ ] I can explain the four rate-limiting algorithms and name the Redis data structure each uses.
-- [ ] I can draw the Resilience4j state machine from memory with the exact config parameters.
-- [ ] I can compare REST vs gRPC vs messaging across coupling, latency, schema evolution, observability, and failure mode.
-- [ ] I can answer the "two pods, different circuit states" curveball without hesitating.
-- [ ] I can answer the "Redis goes down, what happens to rate limiting" curveball with a concrete trade-off.
-
-**What to carry into Week 8**
-Write 1–3 sentences here on Sunday:
-> _(Your notes here — e.g., "LCS reconstruction still slow — practice once more. Rate limiting answers are solid. Mock design: I skipped CAP analysis entirely, must lead with that next time.")_
+**If you missed the bar:** carry it into Week 8 Day 1 — but remember Week 8 prioritises *scheduled loops over new volume*. A missed follow-up or an unprepped round costs more than a delayed application.
 
 ---
 
-*Week 7 of the 2026 interview prep plan. Preceding material in `/home/jay/jj/Study-Notes/interview-qa.md`.*
+*Week 7 of the execution phase — next: Week 8 (Mon Aug 17 – Sun Aug 23, 2026): Interview Loops Cluster.*
