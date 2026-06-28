@@ -11,6 +11,7 @@
 | Mock interviews done | 0 | 10+ |
 | Applications submitted | 0 | ~50–70 |
 | STAR stories rehearsed | 0 | 10 |
+| Floor / safety-net leads live | 0 | keep ≥ 3 |
 | Current streak / longest | 0 / 0 days | — |
 
 **Window:** Sun 28 Jun → Sun 20 Sep 2026 · 1-day refresh (Jun 28) · **full-time study W1–5 (Mon–Sat, ~36 hr/wk) ends Sat Aug 1** · execution W6–12 (Mon–Sun) · **available to join immediately**.
@@ -24,7 +25,7 @@
 
 ---
 
-## Week 0 — Java Fundamentals Refresh (Sun Jun 28) · 1-day warm-up · [plan](prep-weeks/week-00-basics.md)
+## Week 0 — Java Fundamentals Refresh (Sun Jun 28) · 1-day warm-up · [plan](prep-weeks/week-00-basics/)
 
 | Date | Focus | DSA (#) | Topic ✓ | Time | Conf | Notes |
 |------|-------|---------|---------|------|------|-------|
@@ -32,7 +33,7 @@
 
 ---
 
-## Week 1 — Foundations (Jun 29–Jul 4) · full-time · [plan](prep-weeks/week-01.md)
+## Week 1 — Foundations (Jun 29–Jul 4) · full-time · [plan](prep-weeks/week-01/)
 
 | Date | Focus | DSA (#) | Topic ✓ | Time | Conf | Notes |
 |------|-------|---------|---------|------|------|-------|
@@ -47,7 +48,7 @@
 
 ---
 
-## Week 2 — Foundations (Jul 6–11) · full-time · [plan](prep-weeks/week-02.md)
+## Week 2 — Foundations (Jul 6–11) · full-time · [plan](prep-weeks/week-02/)
 
 | Date | Focus | DSA (#) | Topic ✓ | Time | Conf | Notes |
 |------|-------|---------|---------|------|------|-------|
@@ -62,7 +63,7 @@
 
 ---
 
-## Week 3 — Foundations + Core (Jul 13–18) · full-time · [plan](prep-weeks/week-03.md)
+## Week 3 — Foundations + Core (Jul 13–18) · full-time · [plan](prep-weeks/week-03/)
 
 | Date | Focus | DSA (#) | Topic ✓ | Time | Conf | Notes |
 |------|-------|---------|---------|------|------|-------|
@@ -77,7 +78,7 @@
 
 ---
 
-## Week 4 — Core Build (Jul 20–25) · full-time · [plan](prep-weeks/week-04.md)
+## Week 4 — Core Build (Jul 20–25) · full-time · [plan](prep-weeks/week-04/)
 
 | Date | Focus | DSA (#) | Topic ✓ | Time | Conf | Notes |
 |------|-------|---------|---------|------|------|-------|
@@ -92,7 +93,7 @@
 
 ---
 
-## Week 5 — Consolidation & Apply-Prep (Jul 27–Aug 1) · full-time · [plan](prep-weeks/week-05.md)
+## Week 5 — Consolidation & Apply-Prep (Jul 27–Aug 1) · full-time · [plan](prep-weeks/week-05/)
 
 | Date | Focus | DSA (#) | Topic ✓ | Time | Conf | Notes |
 |------|-------|---------|---------|------|------|-------|
@@ -107,7 +108,7 @@
 
 ---
 
-## Week 6 — Apply Wave 1 (Aug 3–9) · [plan](prep-weeks/week-06.md)
+## Week 6 — Apply Wave 1 (Aug 3–9) · [plan](prep-weeks/week-06/)
 
 📨 Target: 15–20 applications (target + 8–12 safety net) + 10–12 referral asks. Log in [applications-and-referrals.md](prep-weeks/applications-and-referrals.md).
 
@@ -123,7 +124,7 @@
 
 ---
 
-## Week 7 — Apply Wave 2 + First Rounds (Aug 10–16) · [plan](prep-weeks/week-07.md)
+## Week 7 — Apply Wave 2 + First Rounds (Aug 10–16) · [plan](prep-weeks/week-07/)
 
 📨 Target: 15–20 more + follow up all W6 + ~10 asks.
 
@@ -139,7 +140,7 @@
 
 ---
 
-## Week 8 — Interview Loops Cluster (Aug 17–23) · [plan](prep-weeks/week-08.md)
+## Week 8 — Interview Loops Cluster (Aug 17–23) · [plan](prep-weeks/week-08/)
 
 📨 8–12 new + heavy follow-up — scheduled interviews take priority.
 
@@ -155,7 +156,7 @@
 
 ---
 
-## Week 9 — Loops + Early Offers (Aug 24–30) · [plan](prep-weeks/week-09.md)
+## Week 9 — Loops + Early Offers (Aug 24–30) · [plan](prep-weeks/week-09/)
 
 📨 Taper new apps — focus live loops + pipeline-compression nudges.
 
@@ -171,7 +172,7 @@
 
 ---
 
-## Week 10 — Offers + Negotiation (Aug 31–Sep 6) · [plan](prep-weeks/week-10.md)
+## Week 10 — Offers + Negotiation (Aug 31–Sep 6) · [plan](prep-weeks/week-10/)
 
 📨 No new apps — convert; compress decisions for leverage.
 
@@ -187,7 +188,7 @@
 
 ---
 
-## Week 11 — Convert + Accept (Sep 7–13) · [plan](prep-weeks/week-11.md)
+## Week 11 — Convert + Accept (Sep 7–13) · [plan](prep-weeks/week-11/)
 
 📨 Negotiate hard; get offers to overlap; accept the best.
 
@@ -203,7 +204,7 @@
 
 ---
 
-## Week 12 — Close / Buffer (Sep 14–20) · [plan](prep-weeks/week-12.md)
+## Week 12 — Close / Buffer (Sep 14–20) · [plan](prep-weeks/week-12/)
 
 📨 Accept best by ~Sep 20–30; fallback buffer if pipeline thin.
 
