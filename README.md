@@ -29,7 +29,12 @@ Each module opens with a **Quick Reference** blockquote and ends with **Intervie
 ## 🎯 Interview References
 
 - **[Interview Q&A bank](interview-qa.md)** — why-focused Q&A across Java, Spring Boot, databases, and architecture.
-- **[Career Plan 2026](career-plan-2026.md)** — India job-market analysis, comp-tier strategy, and the 13-week timetable at a glance.
+- **[DSA Solutions Bank](prep-weeks/dsa-solutions/)** — ~137 problems with full statements + complete Java 17 solutions (12 pattern files). The offline counterpart to the study weeks' practice sets.
+- **[Cheat-sheets](cheat-sheets/)** — rapid revision: DSA patterns + Big-O · system design (HLD + LLD) · Java/Spring.
+- **[Projects reference](projects-reference.md)** — Smart360 / Deep Fathom / WebX architecture, decisions, metrics (grounds system design + STAR).
+- **[Career Plan 2026](career-plan-2026.md)** — India job-market analysis, comp-tier strategy, and the full sprint timetable.
+
+> **Studying offline? Start at [STUDY-OFFLINE.md](STUDY-OFFLINE.md)** — it maps every folder into a daily path. The whole repo is self-contained: no LeetCode or internet needed.
 
 ---
 

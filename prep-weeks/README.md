@@ -28,6 +28,8 @@ Companion to [`career-plan-2026.md`](../career-plan-2026.md) (market analysis + 
 
 > See **[Applications & Referrals](applications-and-referrals.md)** for the weekly application quotas, the referral cadence + templates, the **Floor / Safety-Net ladder** ("employed no matter what"), and the trackers — this is the lever that most determines whether you get offers, and it starts in Week 5.
 
+**Companion references (offline):** [DSA Solutions Bank](dsa-solutions/) (~137 problems, full Java solutions) · [Cheat-sheets](../cheat-sheets/) · [Projects reference](../projects-reference.md) · [Interview Q&A bank](../interview-qa.md) · each study week has an `interview-answers.md`. New here? Read [STUDY-OFFLINE.md](../STUDY-OFFLINE.md).
+
 ### How to use
 1. Each Monday, open that week's file and skim the goal + self-assessment gate first — that's your target.
 2. Tick the daily checklist; log what you actually did.

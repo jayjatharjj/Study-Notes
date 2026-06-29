@@ -4,19 +4,29 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Overview
 
-This is a documentation-only Java study notes repository — no build system, tests, linters, or dependencies. The content is 8 sequential markdown modules (~5500 lines) covering Java fundamentals through advanced and modern patterns, with a production/interview focus.
+This is a documentation-only Java study + interview-prep repository — no build system, tests, linters, or dependencies. It has two parts: **(1)** 8 sequential Java modules (`01`–`08`) — reference theory; **(2)** a **full-time interview-prep sprint** under `prep-weeks/` — a day-by-day plan with a DSA solutions bank, question banks, cheat-sheets, and trackers. It is designed to be **fully self-contained / offline-usable** (no LeetCode or external lookups needed). Start at [`STUDY-OFFLINE.md`](STUDY-OFFLINE.md).
 
 ```
 Study-Notes/
-├── 01-java-language-basics.md          — JVM, primitives, control flow, Arrays, Strings, I/O
-├── 02-oop-fundamentals.md              — Classes, constructors, encapsulation, static context
-├── 03-oop-advanced.md                  — Inheritance, polymorphism, abstractions, lambdas, Singleton/Factory
-├── 04-exception-handling-and-memory.md — Exception hierarchy, try-with-resources, GC, final/finally/finalize
-├── 05-enums-and-annotations.md         — Enums with methods/fields, built-in and custom annotations
-├── 06-concurrency-and-collections.md   — Thread creation, synchronization, Executor Framework, Future/Callable
-├── 07-collections.md                   — Full Collections API: List/Set/Queue/Map implementations and algorithms
-└── 08-modern-java.md                   — Records, sealed types, switch/pattern matching, text blocks, virtual threads, Jakarta/Spring Boot 3
+├── 01..08-*.md                 — Java theory modules (basics → modern Java + Spring Boot 3)
+├── STUDY-OFFLINE.md            — how to study the whole repo with no internet (the map)
+├── README.md                   — master index
+├── projects-reference.md       — Smart360 / Deep Fathom / WebX (grounds system design + STAR)
+├── interview-qa.md             — why-focused Q&A bank
+├── career-plan-2026.md         — market analysis + full sprint timetable + strategy
+├── PROGRESS.md                 — daily completion tracker
+├── cheat-sheets/               — dsa-patterns · system-design · java-spring (rapid revision)
+└── prep-weeks/
+    ├── README.md               — week index (Week 0 + W1–W12)
+    ├── week-00-basics/         — 1-day refresh + 130-Q interview bank + 76 coding problems
+    ├── week-01/ .. week-05/    — STUDY weeks: deep per-day files (theory + practice + interview Qs)
+    │                             + interview-answers.md per week
+    ├── week-06/ .. week-12/    — EXECUTION weeks: per-day apply/interview/negotiate checklists
+    ├── dsa-solutions/          — ~137 problems, full statements + Java 17 solutions (12 pattern files)
+    └── applications-and-referrals.md — quotas, referral playbook, Floor/Safety-Net ladder, trackers
 ```
+
+The prep calendar runs Sun Jun 28 (1-day refresh) → full-time study W1–5 (Mon Jun 29 – Sat Aug 1) → execution W6–12 (Aug 3 – Sep 20). Each `prep-weeks/week-NN/` is a folder of numbered per-day files (`01-mon-*.md`) + a `README.md` index; dates are real 2026 calendar dates, so edits that shift the schedule must keep weekday/date pairs consistent.
 
 ## Content Patterns
 
