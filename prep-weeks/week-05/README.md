@@ -57,3 +57,10 @@ You are ready to begin applications when **all** of these are true:
 ---
 
 *Study complete — next: [Week 6](../week-06/) (Mon Aug 3 – Sun Aug 9), applications begin.*
+
+---
+
+### 📎 Companion (offline)
+- [Interview answers](interview-answers.md) — written answers to this week's 🎤 prompts.
+- [DSA solutions bank](../dsa-solutions/) — full statements + complete Java solutions for the practice sets.
+- [Cheat-sheets](../../cheat-sheets/) · [Projects reference](../../projects-reference.md) · [Interview Q&A bank](../../interview-qa.md)

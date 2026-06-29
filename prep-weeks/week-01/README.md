@@ -65,3 +65,10 @@ Complete on Saturday evening. Honest pass/fail only — no partial credit. (Full
 ---
 
 *Week 1 of 12 — next: [Week 2](../week-02/) (Mon Jul 6 – Sat Jul 11).*
+
+---
+
+### 📎 Companion (offline)
+- [Interview answers](interview-answers.md) — written answers to this week's 🎤 prompts.
+- [DSA solutions bank](../dsa-solutions/) — full statements + complete Java solutions for the practice sets.
+- [Cheat-sheets](../../cheat-sheets/) · [Projects reference](../../projects-reference.md) · [Interview Q&A bank](../../interview-qa.md)

@@ -84,3 +84,10 @@ Rate yourself 1–5. Anything below 3 is a mandatory revisit before Week 3.
 ---
 
 *Week 2 of 12 — next: [Week 3](../week-03/) (Mon Jul 13 – Sat Jul 18).*
+
+---
+
+### 📎 Companion (offline)
+- [Interview answers](interview-answers.md) — written answers to this week's 🎤 prompts.
+- [DSA solutions bank](../dsa-solutions/) — full statements + complete Java solutions for the practice sets.
+- [Cheat-sheets](../../cheat-sheets/) · [Projects reference](../../projects-reference.md) · [Interview Q&A bank](../../interview-qa.md)
